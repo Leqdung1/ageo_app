@@ -1,0 +1,20 @@
+<svg width="40" height="26" viewBox="0 0 40 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_8_1413)">
+<rect width="40" height="26" rx="2" fill="#012169"/>
+<rect x="-8.9035" y="-7.3576" width="61.959" height="5" transform="rotate(30.5865 -8.9035 -7.3576)" fill="white"/>
+<rect x="-10.9823" y="-6" width="36.2606" height="2" transform="rotate(30.5865 -10.9823 -6)" fill="#C8102E"/>
+<rect x="18.6776" y="10" width="36.2606" height="2" transform="rotate(30.5865 18.6776 10)" fill="#C8102E"/>
+<rect x="47.9505" y="0.310669" width="61.959" height="5" transform="rotate(149.557 47.9505 0.310669)" fill="white"/>
+<rect x="22" y="10.4527" width="40" height="2" transform="rotate(-30.59 22 10.4527)" fill="#C8102E"/>
+<rect x="-11" y="31.4527" width="36.2606" height="2" transform="rotate(-30.59 -11 31.4527)" fill="#C8102E"/>
+<rect x="16" width="9" height="26" fill="white"/>
+<rect y="18" width="9" height="40" transform="rotate(-90 0 18)" fill="white"/>
+<rect y="16" width="5" height="40" transform="rotate(-90 0 16)" fill="#C8102E"/>
+<rect x="18" width="5" height="26" fill="#C8102E"/>
+</g>
+<defs>
+<clipPath id="clip0_8_1413">
+<rect width="40" height="26" rx="2" fill="white"/>
+</clipPath>
+</defs>
+</svg>

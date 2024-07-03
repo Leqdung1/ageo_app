@@ -1,0 +1,35 @@
+name: ageo_app
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  dio: ^5.4.3+1
+  get: ^4.6.6
+  http: ^1.2.1
+  flutter_svg: ^2.0.10+1
+  calendar_date_picker2: ^1.0.2
+  flutter_localizations:
+    sdk: flutter
+  retry: ^3.1.2
+  flutter_secure_storage: ^9.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
