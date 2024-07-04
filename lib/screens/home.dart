@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: const NavigatorDrawer(),
       body: IndexedStack(
@@ -66,8 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BottomNavigationBar(
           currentIndex: currentPageIndex,
           onTap: _onItemTapped,
-          selectedItemColor: const Color.fromRGBO(21, 101, 192, 1),
-          unselectedItemColor: Colors.grey,
           items: [
             BottomNavigationBarItem(
               icon: Column(
