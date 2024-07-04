@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import "package:flutter/widgets.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ageo_app/screens/home.dart';
 import 'package:ageo_app/screens/forgot_password.dart';
@@ -135,11 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
             image: DecorationImage(
               alignment: Alignment.topCenter,
               fit: BoxFit.cover,
-
-              // TODO: repalce image
-              image: AssetImage(
-                "assets/images/img_background.png",
-              ),
+              image: AssetImage("assets/images/background.png"),
             ),
           ),
         ),
@@ -150,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
+                Row( 
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SvgPicture.asset("assets/icons/logo.svg"),
@@ -281,12 +276,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: Text(
                                     "Nhập tên đăng nhập & mật khẩu để truy cập hệ thống",
                                     style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: size.height * 0.02),
+                                const SizedBox(height: 10),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -300,7 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: size.height * 0.04),
+                            SizedBox(height: 15),
                             TextFormField(
                               focusNode: usernameFocus,
                               textInputAction: TextInputAction.next,
