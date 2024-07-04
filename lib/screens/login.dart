@@ -145,10 +145,10 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row( 
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SvgPicture.asset("assets/icons/logo.svg"),
+                    Image.asset('assets/images/logo.png'),
                   ],
                 ),
                 Form(

@@ -33,38 +33,38 @@ Widget buildHeader(BuildContext context) => Container(
         ),
       ),
       padding: EdgeInsets.only(
-        top: MediaQuery.sizeOf(context).height * 0.15,
+        top: MediaQuery.of(context).size.height * 0.15,
       ),
-      child: Center(
-        child: Image.asset('assets/images/logo.png'),
-      ),
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Image.asset('assets/images/logo.png'),
+      ]),
     );
 
 Widget buidMenuItems(BuildContext context) => Container(
       padding: EdgeInsets.only(
-        top: 30,
+        top: 20,
         left: 15,
       ),
       child: Wrap(
-        runSpacing: 10,
+        runSpacing: 5,
         children: [
           ListTile(
               leading: SvgPicture.asset('assets/icons/home_icon.svg'),
               title: const Text(
                 'Home',
                 style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => HomeScreen()))),
           ListTile(
-              leading: SvgPicture.asset('assets/icons/notification.svg'),
+              leading: SvgPicture.asset('assets/icons/notifi.svg'),
               title: const Text(
                 'Notifications',
                 style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
@@ -74,7 +74,7 @@ Widget buidMenuItems(BuildContext context) => Container(
               title: const Text(
                 'Menu',
                 style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
@@ -84,17 +84,17 @@ Widget buidMenuItems(BuildContext context) => Container(
           ),
           const Padding(
             padding: EdgeInsets.only(right: 20, left: 5),
-            child: const Divider(
+            child: Divider(
               color: Colors.grey,
               thickness: 1,
-                          ),
+            ),
           ),
           ListTile(
               leading: SvgPicture.asset('assets/icons/tai_khoan.svg'),
               title: const Text(
                 'Account',
                 style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
