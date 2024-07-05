@@ -124,6 +124,16 @@ class _AccountScreenState extends State<AccountScreen> {
                   height: 1,
                 ),
                 ListTile(
+                    leading: SvgPicture.asset('assets/icons/password.svg'),
+                    title: Text('Đổi mật khẩu', style: style),
+                    trailing: SvgPicture.asset('assets/icons/arrow_right.svg'),
+                    onTap: () {}),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                  color: Color.fromRGBO(236, 236, 236, 1),
+                  height: 1,
+                ),
+                ListTile(
                   leading: SvgPicture.asset('assets/icons/log-out.svg'),
                   title: Text('Đăng xuất', style: style),
                   trailing: SvgPicture.asset('assets/icons/arrow_right.svg'),
