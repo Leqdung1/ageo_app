@@ -46,7 +46,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   child: CalendarDatePicker2(
                     config: CalendarDatePicker2Config(
                       calendarType: CalendarDatePicker2Type.single,
-                      firstDate: DateTime(2024),
+                      firstDate: DateTime(2020),
                       lastDate: DateTime.now(),
                       customModePickerIcon: const Icon(
                         Icons.arrow_drop_down,
@@ -126,7 +126,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       body: Column(
         children: [
           Container(
-            height: MediaQuery.sizeOf(context).height * 0.07,
+            height: MediaQuery.sizeOf(context).height * 0.08,
             margin: const EdgeInsets.symmetric(vertical: 12),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -146,7 +146,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 bool _isSelected = _itemsSelected == index;
                 return Container(
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
                   decoration: BoxDecoration(
                     color: _isSelected
                         ? Color.fromRGBO(42, 98, 154, 1)
