@@ -8,45 +8,28 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
+        backgroundColor: const Color.fromRGBO(21, 101, 192, 1),
         title: Text(
           "Thông báo",
           style: TextStyle(
-              fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
+              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.green),
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-        ),
+        iconTheme: IconThemeData(color: Color.fromRGBO(255, 255, 255, 1)),
       ),
       drawer: const NavigatorDrawer(),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromRGBO(178, 192, 224, 1),
-              Color.fromRGBO(75, 108, 183, 1),
-            ],
-            stops: [38 / 100, 100 / 100],
-          ),
-        ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                'assets/icons/message.svg',
-                height: MediaQuery.of(context).size.height * 0.3,
+              Icon(
+                Icons.message_outlined,
+                color: Colors.lightBlue,
+                size: MediaQuery.sizeOf(context).height * 0.2,
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               Text(
                 'Bạn chưa có thông báo',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),

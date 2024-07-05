@@ -1,5 +1,6 @@
-import 'dart:ffi';
 
+
+import 'package:ageo_app/screens/account.dart';
 import 'package:ageo_app/screens/home.dart';
 import 'package:ageo_app/screens/notifications.dart';
 import 'package:flutter/material.dart';
@@ -179,7 +180,8 @@ class _NavigatorDrawerState extends State<NavigatorDrawer> {
                       color: Colors.black,
                       fontWeight: FontWeight.w500),
                 ),
-                onTap: () {}),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AccountScreen()))),
           ],
         ),
       );

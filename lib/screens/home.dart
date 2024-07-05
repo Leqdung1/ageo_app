@@ -28,13 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(21, 101, 192, 1),
-        title: const Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            'KHE SANH, WARD 10, DA LAT CITY',
-            style: TextStyle(
-                fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+        title: Text(
+          'KHE SANH, WARD 10, DA LAT CITY',
+          style: TextStyle(
+              fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
