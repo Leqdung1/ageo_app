@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: const NavigatorDrawer(),
       body: IndexedStack(
         index: currentPageIndex,
-        children: const [
+        children: [
           ControlPanelScreen(),
           MapScreen(),
           CameraScreen(),
