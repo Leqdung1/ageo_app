@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class WarningScreen extends StatefulWidget {
   const WarningScreen({super.key});
@@ -76,7 +75,7 @@ class _WarningScreenState extends State<WarningScreen> {
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.1),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ],
@@ -84,29 +83,29 @@ class _WarningScreenState extends State<WarningScreen> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              width: size.width * 0.03,
-                            ),
                             Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
+                              margin: EdgeInsets.only(left: 15),
+                              height: 35,
+                              width: 35,
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Color.fromRGBO(21, 101, 192, 1),
                               ),
-                              child: Center(
+                              child: const Align(
+                                alignment: Alignment.center,
                                 child: Icon(
                                   Icons.warning_amber_rounded,
                                   color: Colors.white,
+                                  size: 20,
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 5),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 5),
                               child: TextButton(
                                 onPressed: () {},
-                                child: Text(
+                                child: const Text(
                                   'Warning level 1',
                                   style: TextStyle(
                                       fontSize: 15,
@@ -122,18 +121,18 @@ class _WarningScreenState extends State<WarningScreen> {
                     GestureDetector(
                       onTap: () {},
                       child: Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 29, vertical: 15),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 29, vertical: 15),
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 241, 219, 1),
+                          color: const Color.fromRGBO(255, 241, 219, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(255, 217, 157, 1),
+                            color: const Color.fromRGBO(255, 217, 157, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.1),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ],
@@ -141,35 +140,34 @@ class _WarningScreenState extends State<WarningScreen> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              width: size.width * 0.03,
-                            ),
                             Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
+                              margin: EdgeInsets.only(left: 15),
+                              height: 35,
+                              width: 35,
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Color.fromRGBO(248, 199, 88, 1),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Icon(
                                   Icons.warning_amber_rounded,
                                   color: Colors.white,
+                                  size: 20,
                                 ),
                               ),
                             ),
                             Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Color.fromRGBO(248, 199, 88, 1),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 5),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 5),
                               child: TextButton(
                                 onPressed: () {},
-                                child: Text(
+                                child: const Text(
                                   'Warning level 2',
                                   style: TextStyle(
                                       fontSize: 15,
@@ -185,19 +183,19 @@ class _WarningScreenState extends State<WarningScreen> {
                     GestureDetector(
                       onTap: () {},
                       child: Container(
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                           horizontal: 29,
                         ),
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(253, 237, 237, 1),
+                          color: const Color.fromRGBO(253, 237, 237, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(247, 187, 186, 1),
+                            color: const Color.fromRGBO(247, 187, 186, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.1),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ],
@@ -205,35 +203,34 @@ class _WarningScreenState extends State<WarningScreen> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              width: size.width * 0.03,
-                            ),
                             Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
+                              margin: EdgeInsets.only(left: 15),
+                              height: 35,
+                              width: 35,
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Color.fromRGBO(238, 101, 102, 1),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Icon(
                                   Icons.warning_amber_rounded,
                                   color: Colors.white,
+                                  size: 20,
                                 ),
                               ),
                             ),
                             Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Color.fromRGBO(238, 102, 102, 1),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
                               child: TextButton(
                                 onPressed: () {},
-                                child: Text(
+                                child: const Text(
                                   'Warning level 3',
                                   style: TextStyle(
                                       fontSize: 15,

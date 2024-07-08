@@ -1,4 +1,4 @@
-
+import 'package:ageo_app/screens/homeTest.dart';
 import 'package:ageo_app/screens/login.dart';
 
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         Locale('en', ''), // English
       ],
       locale: Locale('vi', ''),
-      home: LoginScreen(),
+      home: HomeScreen(),
     );
   }
 }

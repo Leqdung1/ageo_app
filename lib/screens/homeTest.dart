@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -38,7 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      drawer: const NavigatorDrawer(),
+      drawer: const NavigatorDrawer(
+        
+      ),
       body: Stack(
         children: [
           Positioned.fill(
@@ -77,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BoxShadow(
             color: Colors.black.withAlpha(16),
             blurRadius: 20,
-            offset: Offset(1, -1),
+            offset: const Offset(1, -1),
           ),
         ],
       ),

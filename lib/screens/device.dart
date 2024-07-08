@@ -1,8 +1,8 @@
-import 'package:ageo_app/screens/device_items/ap_lu_lo_rong.dart';
-import 'package:ageo_app/screens/device_items/gnss.dart';
-import 'package:ageo_app/screens/device_items/nghieng_sau.dart';
-import 'package:ageo_app/screens/device_items/rain_gauge.dart';
-import 'package:ageo_app/screens/device_items/water_level.dart';
+import 'package:ageo_app/screens/device_screen/ap_lu_lo_rong.dart';
+import 'package:ageo_app/screens/device_screen/gnss.dart';
+import 'package:ageo_app/screens/device_screen/nghieng_sau.dart';
+import 'package:ageo_app/screens/device_screen/rain_gauge.dart';
+import 'package:ageo_app/screens/device_screen/water_level.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -198,7 +198,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 14),
+                          padding: const EdgeInsets.only(top: 14),
                           child: TextButton(
                             onPressed: () => _selectDate(context, true),
                             child: Container(
