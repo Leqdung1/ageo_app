@@ -3,6 +3,7 @@ import 'package:ageo_app/screens/camera.dart';
 import 'package:ageo_app/screens/control_panel.dart';
 import 'package:ageo_app/screens/device.dart';
 import 'package:ageo_app/screens/map.dart';
+
 import 'package:ageo_app/screens/warn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,9 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      drawer: const NavigatorDrawer(
-        
-      ),
+      drawer: const NavigatorDrawer(),
       body: Stack(
         children: [
           Positioned.fill(

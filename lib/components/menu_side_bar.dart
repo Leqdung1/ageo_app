@@ -1,7 +1,7 @@
 
 
 import 'package:ageo_app/screens/account.dart';
-import 'package:ageo_app/screens/homeTest.dart';
+import 'package:ageo_app/screens/home.dart';
 import 'package:ageo_app/screens/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
