@@ -149,25 +149,28 @@ class _DeviceScreenState extends State<DeviceScreen> {
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
                   decoration: BoxDecoration(
                     color: _isSelected
-                        ? Color.fromRGBO(42, 98, 154, 1)
-                        : Color.fromRGBO(237, 235, 233, 1),
+                        ? const Color.fromRGBO(42, 98, 154, 1)
+                        : const Color.fromRGBO(237, 235, 233, 1),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _itemsSelected = _isSelected ? null : index;
-                      });
-                    },
-                    child: Text(
-                      items[index],
-                      style: TextStyle(
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _itemsSelected = _isSelected ? null : index;
+                        });
+                      },
+                      child: Text(
+                        items[index],
+                        style: TextStyle(
                           fontSize: 15,
                           color: _isSelected
                               ? Colors.white
-                              : Color.fromRGBO(135, 133, 131, 1),
+                              : const Color.fromRGBO(135, 133, 131, 1),
                           fontWeight:
-                              _isSelected ? FontWeight.bold : FontWeight.w500),
+                              _isSelected ? FontWeight.bold : FontWeight.w400,
+                        ),
+                      ),
                     ),
                   ),
                 );
