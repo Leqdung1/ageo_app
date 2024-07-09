@@ -8,6 +8,7 @@ enum DataSelected {
   Year,
 }
 
+
 extension DataSelectedExtension on DataSelected {
   String get label {
     switch (this) {
@@ -24,6 +25,7 @@ extension DataSelectedExtension on DataSelected {
     }
   }
 }
+
 
 class ApLucLoRongScreen extends StatefulWidget {
   const ApLucLoRongScreen({super.key});
@@ -48,6 +50,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -59,9 +62,12 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
               selectedTrailingIcon: const Icon(Icons.expand_less),
               trailingIcon: const Icon(Icons.expand_more),
               menuStyle: MenuStyle(
-                maximumSize: const WidgetStatePropertyAll(Size.fromHeight(150)),
+                maximumSize: const WidgetStatePropertyAll(
+                  Size.fromHeight(150),
+                ),
                 surfaceTintColor: const WidgetStatePropertyAll(
-                    Color.fromARGB(255, 255, 255, 255)),
+                  Color.fromARGB(255, 255, 255, 255),
+                ),
                 shape: WidgetStatePropertyAll(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -102,9 +108,8 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                 margin: const EdgeInsets.only(left: 15, top: 30),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Container(
-                    width:
-                        1000, 
+                  child: SizedBox(
+                    width: 1000,
                     child: SfCartesianChart(
                       zoomPanBehavior: _zoomPanBehavior,
                       primaryXAxis: const CategoryAxis(
