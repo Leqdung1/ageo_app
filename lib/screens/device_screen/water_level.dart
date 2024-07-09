@@ -1,6 +1,5 @@
+import 'package:flutter/material.dart';
 
-  import 'package:flutter/material.dart';
-
-Widget waterLevelScreen() {
-    return Center(child: Text('Water level Screen'));
-  }
+Widget WaterLevelScreen() {
+  return Center(child: Text('Water level Screen'));
+}
