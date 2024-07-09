@@ -12,6 +12,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Color.fromRGBO(245, 245, 245, 1),
       body: Column(
         children: [
           // TODO: add api

@@ -82,74 +82,13 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 12),
-          width: MediaQuery.sizeOf(context).width,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.45),
-                offset: const Offset(0, 1),
-                blurRadius: 4,
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
-            child: DropdownMenu(
-              textStyle: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.normal,
-              ),
-              selectedTrailingIcon: const Icon(Icons.expand_less),
-              trailingIcon: const Icon(Icons.expand_more),
-              menuStyle: MenuStyle(
-                maximumSize: const WidgetStatePropertyAll(Size.fromHeight(200)),
-                surfaceTintColor: const WidgetStatePropertyAll(
-                    Color.fromARGB(255, 255, 255, 255)),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-              inputDecorationTheme: InputDecorationTheme(
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 10,
-                ),
-                fillColor: const Color.fromARGB(255, 255, 255, 255),
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(
-                    color: Colors.lightBlueAccent,
-                  ),
-                ),
-              ),
-              initialSelection: _selectedMap.name,
-              onSelected: (value) {
-                setState(() {
-                  _selectedMap = MapSelected.values.byName(value as String);
-                });
-              },
-              dropdownMenuEntries: MapSelected.values
-                  .map(
-                    (e) => DropdownMenuEntry(value: e.name, label: e.label),
-                  )
-                  .toList(),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(245, 245, 245, 1),
+      body: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 12),
+            width: MediaQuery.sizeOf(context).width,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.only(
@@ -158,20 +97,85 @@ class _MapScreenState extends State<MapScreen> {
               ),
               boxShadow: [
                 BoxShadow(
-                  offset: const Offset(-1, 1),
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.grey.withOpacity(0.45),
+                  offset: const Offset(0, 1),
                   blurRadius: 4,
                 ),
               ],
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [Container()],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+              child: DropdownMenu(
+                textStyle: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.normal,
+                ),
+                selectedTrailingIcon: const Icon(Icons.expand_less),
+                trailingIcon: const Icon(Icons.expand_more),
+                menuStyle: MenuStyle(
+                  maximumSize:
+                      const WidgetStatePropertyAll(Size.fromHeight(200)),
+                  surfaceTintColor: const WidgetStatePropertyAll(
+                      Color.fromARGB(255, 255, 255, 255)),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                inputDecorationTheme: InputDecorationTheme(
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: 10,
+                  ),
+                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(
+                      color: Colors.lightBlueAccent,
+                    ),
+                  ),
+                ),
+                initialSelection: _selectedMap.name,
+                onSelected: (value) {
+                  setState(() {
+                    _selectedMap = MapSelected.values.byName(value as String);
+                  });
+                },
+                dropdownMenuEntries: MapSelected.values
+                    .map(
+                      (e) => DropdownMenuEntry(value: e.name, label: e.label),
+                    )
+                    .toList(),
               ),
             ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(-1, 1),
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [Container()],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
