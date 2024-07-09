@@ -95,30 +95,37 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                   .toList(),
             ),
           ),
-
           // draw chart
           Column(
             children: [
               Container(
                 margin: const EdgeInsets.only(left: 15, top: 30),
                 child: SingleChildScrollView(
-                  // scrollDirection: Axis.horizontal,
-                  child: SfCartesianChart(
-                    zoomPanBehavior: _zoomPanBehavior,
-                    primaryXAxis: const CategoryAxis(
-                      majorGridLines: MajorGridLines(width: 0),
-                      isVisible: true,
-                      axisLine: AxisLine(
-                        color: Colors.black,
-                        width: 1,
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    width:
+                        1000, 
+                    child: SfCartesianChart(
+                      zoomPanBehavior: _zoomPanBehavior,
+                      primaryXAxis: const CategoryAxis(
+                        majorGridLines: MajorGridLines(width: 0),
+                        isVisible: true,
+                        axisLine: AxisLine(
+                          color: Colors.black,
+                          width: 1,
+                        ),
                       ),
+                      series: _getSeries(),
+                      tooltipBehavior: _tooltipBehavior,
                     ),
-                    series: _getSeries(),
-                    tooltipBehavior: _tooltipBehavior,
                   ),
                 ),
               ),
-              _buildCustomLegend(),
+              SingleChildScrollView(
+                padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
+                scrollDirection: Axis.horizontal,
+                child: _buildCustomLegend(),
+              )
             ],
           ),
         ],
@@ -126,14 +133,39 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
     );
   }
 
-  // style legend
   Widget _buildCustomLegend() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLegendItem('PZ 1-1', Colors.blue),
+        _buildLegendItem(
+          'PZ 1-1',
+          const Color.fromRGBO(84, 112, 198, 1),
+        ),
         const SizedBox(width: 20),
-        _buildLegendItem('PZ 1-2', Colors.green),
+        _buildLegendItem(
+          'PZ 1-2',
+          const Color.fromRGBO(145, 204, 117, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'PZ 2-1',
+          const Color.fromRGBO(250, 200, 88, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'PZ 2-2',
+          const Color.fromRGBO(238, 102, 102, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'PZ 3-1',
+          const Color.fromRGBO(115, 192, 222, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'PZ 3-2',
+          const Color.fromRGBO(59, 162, 114, 1),
+        ),
       ],
     );
   }
@@ -149,7 +181,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         const SizedBox(width: 5),
         Text(
           text,
-          style: TextStyle(color: color),
+          style: const TextStyle(color: Colors.black),
         ),
       ],
     );
@@ -188,7 +220,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
           shape: DataMarkerType.circle,
         ),
         name: 'PZ 1-1',
-        color: Colors.blue,
+        color: const Color.fromRGBO(84, 112, 198, 1),
       ),
       StackedLineSeries<Data, String>(
         dataSource: [
@@ -208,7 +240,87 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
           shape: DataMarkerType.circle,
         ),
         name: 'PZ 1-2',
-        color: Colors.green,
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      StackedLineSeries<Data, String>(
+        dataSource: [
+          Data('00:00', 5),
+          Data('01:00', 10),
+          Data('02:00', 15),
+          Data('03:00', 20),
+          Data('04:00', 25),
+          Data('05:00', 30),
+          Data('06:00', 35),
+          Data('07:00', 40),
+        ],
+        xValueMapper: (Data data, _) => data.day,
+        yValueMapper: (Data data, _) => data.amount,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+      StackedLineSeries<Data, String>(
+        dataSource: [
+          Data('00:00', 5),
+          Data('01:00', 10),
+          Data('02:00', 15),
+          Data('03:00', 20),
+          Data('04:00', 25),
+          Data('05:00', 30),
+          Data('06:00', 35),
+          Data('07:00', 40),
+        ],
+        xValueMapper: (Data data, _) => data.day,
+        yValueMapper: (Data data, _) => data.amount,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-2',
+        color: const Color.fromRGBO(238, 102, 102, 1),
+      ),
+      StackedLineSeries<Data, String>(
+        dataSource: [
+          Data('00:00', 2),
+          Data('01:00', 10),
+          Data('02:00', 8),
+          Data('03:00', 18),
+          Data('04:00', 25),
+          Data('05:00', 25),
+          Data('06:00', 35),
+          Data('07:00', 38),
+        ],
+        xValueMapper: (Data data, _) => data.day,
+        yValueMapper: (Data data, _) => data.amount,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(115, 192, 222, 1),
+      ),
+      StackedLineSeries<Data, String>(
+        dataSource: [
+          Data('00:00', 5),
+          Data('01:00', 15),
+          Data('02:00', 16),
+          Data('03:00', 10),
+          Data('04:00', 5),
+          Data('05:00', 33),
+          Data('06:00', 35),
+          Data('07:00', 40),
+        ],
+        xValueMapper: (Data data, _) => data.day,
+        yValueMapper: (Data data, _) => data.amount,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-2',
+        color: const Color.fromRGBO(59, 162, 114, 1),
       ),
     ];
   }
