@@ -1,5 +1,3 @@
-
-
 import 'package:ageo_app/screens/account.dart';
 import 'package:ageo_app/screens/home.dart';
 import 'package:ageo_app/screens/notifications.dart';

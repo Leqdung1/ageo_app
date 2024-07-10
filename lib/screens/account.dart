@@ -35,7 +35,7 @@ class _AccountScreenState extends State<AccountScreen> {
         children: [
           // TODO: add API user
           Container(
-            height: MediaQuery.sizeOf(context).height * 0.12,
+            height: MediaQuery.sizeOf(context).height * 0.1,
             margin: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 255, 255, 255),

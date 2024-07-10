@@ -118,11 +118,11 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           width: 1,
                         ),
                       ),
-                      primaryYAxis: NumericAxis(
+                      primaryYAxis: const NumericAxis(
                         minimum: 1.484,
                         maximum: 1.48723,
                         interval: 0.001,
-                        majorGridLines: const MajorGridLines(width: 0),
+                        majorGridLines: MajorGridLines(width: 0),
                       ),
                       series: _getSeries(),
                       tooltipBehavior: _tooltipBehavior,

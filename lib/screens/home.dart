@@ -40,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      drawer: const NavigatorDrawer(),
+      drawer:
+       const NavigatorDrawer(),
       body: Stack(
         children: [
           Positioned.fill(
