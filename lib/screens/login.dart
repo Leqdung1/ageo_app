@@ -1,8 +1,10 @@
-import "package:ageo_app/screens/home.dart";
+import "package:Ageo_solutions/screens/forgot_password.dart";
+import "package:Ageo_solutions/screens/home.dart";
+
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ageo_app/screens/forgot_password.dart';
+
 import "package:flutter_svg/svg.dart";
 
 import "../core/api_client.dart";
@@ -180,81 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          if (_checkLastLoggedInData()) ...[
-                            Transform.translate(
-                              offset: const Offset(0, -30),
-                              child: Stack(
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      if (_lastUserAvatar == "")
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                          ),
-                                          child: const Icon(
-                                              Icons.account_circle,
-                                              size: 80),
-                                        ),
-                                      if (_lastUserAvatar != "")
-                                        Container(
-                                          width: 80,
-                                          height: 80,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image:
-                                                  NetworkImage(_lastUserAvatar),
-                                            ),
-                                          ),
-                                        ),
-                                      SizedBox(height: size.height * 0.01),
-                                      Text(
-                                        _lastUserName,
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      SizedBox(height: size.height * 0.0025),
-                                      Text(
-                                        _lastUserPhoneNumber.trim(),
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _lastUserName = "";
-                                            _lastUserAvatar = "";
-                                            _lastUserPhoneNumber = "";
-                                          });
-                                        },
-                                        style: TextButton.styleFrom(
-                                          foregroundColor:
-                                              const Color(0xFF3A9EFC),
-                                        ),
-                                        child: const Text(
-                                          "Đăng nhập tài khoản khác",
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
                           if (!_checkLastLoggedInData()) ...[
                             Column(
                               children: [

@@ -12,7 +12,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(245, 245, 245, 1),
+      backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
       body: Column(
         children: [
           // TODO: add api
@@ -74,7 +74,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ]),
@@ -114,22 +114,22 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                     Container(
                       margin: EdgeInsets.only(
                           left: MediaQuery.sizeOf(context).width * 0.15),
-                      color: Color.fromRGBO(255, 217, 157, 1),
+                      color: const Color.fromRGBO(255, 217, 157, 1),
                       height: 16,
                       width: 2,
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 29),
+                      margin: const EdgeInsets.symmetric(horizontal: 29),
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 241, 219, 1),
+                          color: const Color.fromRGBO(255, 241, 219, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(255, 217, 157, 1),
+                            color: const Color.fromRGBO(255, 217, 157, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ]),
@@ -174,24 +174,24 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                     Container(
                       margin: EdgeInsets.only(
                           left: MediaQuery.sizeOf(context).width * 0.15),
-                      color: Color.fromRGBO(255, 217, 157, 1),
+                      color: const Color.fromRGBO(255, 217, 157, 1),
                       height: 16,
                       width: 2,
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(
+                      margin: const EdgeInsets.symmetric(
                         horizontal: 29,
                       ),
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 241, 219, 1),
+                          color: const Color.fromRGBO(255, 241, 219, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(255, 217, 157, 1),
+                            color: const Color.fromRGBO(255, 217, 157, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ]),
@@ -229,17 +229,18 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 29, top: 18, right: 29),
+                      margin:
+                          const EdgeInsets.only(left: 29, top: 18, right: 29),
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(230, 250, 232, 1),
+                          color: const Color.fromRGBO(230, 250, 232, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(154, 232, 162, 1),
+                            color: const Color.fromRGBO(154, 232, 162, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ]),
@@ -284,22 +285,22 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                     Container(
                       margin: EdgeInsets.only(
                           left: MediaQuery.sizeOf(context).width * 0.15),
-                      color: Color.fromRGBO(154, 232, 162, 1),
+                      color: const Color.fromRGBO(154, 232, 162, 1),
                       height: 16,
                       width: 2,
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 29),
+                      margin: const EdgeInsets.symmetric(horizontal: 29),
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(230, 250, 232, 1),
+                          color: const Color.fromRGBO(230, 250, 232, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(154, 232, 162, 1),
+                            color: const Color.fromRGBO(154, 232, 162, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ]),
@@ -342,17 +343,18 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 29, top: 18, right: 29),
+                      margin:
+                          const EdgeInsets.only(left: 29, top: 18, right: 29),
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(233, 249, 251, 1),
+                          color: const Color.fromRGBO(233, 249, 251, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(185, 235, 245, 1),
+                            color: const Color.fromRGBO(185, 235, 245, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ]),
@@ -397,22 +399,22 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                     Container(
                       margin: EdgeInsets.only(
                           left: MediaQuery.sizeOf(context).width * 0.15),
-                      color: Color.fromRGBO(185, 235, 245, 1),
+                      color: const Color.fromRGBO(185, 235, 245, 1),
                       height: 16,
                       width: 2,
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 29, right: 29),
+                      margin: const EdgeInsets.only(left: 29, right: 29),
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(233, 249, 251, 1),
+                        color: const Color.fromRGBO(233, 249, 251, 1),
                         border: Border.all(
-                          color: Color.fromRGBO(185, 235, 245, 1),
+                          color: const Color.fromRGBO(185, 235, 245, 1),
                         ),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.15),
-                            offset: Offset(0, 1),
+                            offset: const Offset(0, 1),
                             blurRadius: 8,
                           )
                         ],
@@ -458,22 +460,22 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                     Container(
                       margin: EdgeInsets.only(
                           left: MediaQuery.sizeOf(context).width * 0.15),
-                      color: Color.fromRGBO(185, 235, 245, 1),
+                      color: const Color.fromRGBO(185, 235, 245, 1),
                       height: 16,
                       width: 2,
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 29, right: 29),
+                      margin: const EdgeInsets.only(left: 29, right: 29),
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(233, 249, 251, 1),
+                          color: const Color.fromRGBO(233, 249, 251, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(185, 235, 245, 1),
+                            color: const Color.fromRGBO(185, 235, 245, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ]),
@@ -518,24 +520,24 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                     Container(
                       margin: EdgeInsets.only(
                           left: MediaQuery.sizeOf(context).width * 0.15),
-                      color: Color.fromRGBO(185, 235, 245, 1),
+                      color: const Color.fromRGBO(185, 235, 245, 1),
                       height: 16,
                       width: 2,
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(
+                      margin: const EdgeInsets.symmetric(
                         horizontal: 29,
                       ),
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(233, 249, 251, 1),
+                          color: const Color.fromRGBO(233, 249, 251, 1),
                           border: Border.all(
-                            color: Color.fromRGBO(185, 235, 245, 1),
+                            color: const Color.fromRGBO(185, 235, 245, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.15),
-                              offset: Offset(0, 1),
+                              offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
                           ]),
@@ -573,21 +575,22 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                       ),
                     ),
                     Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 29, vertical: 18),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 29, vertical: 18),
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(253, 237, 237, 1),
-                          border: Border.all(
-                            color: Color.fromRGBO(247, 187, 186, 1),
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.15),
-                              offset: Offset(0, 1),
-                              blurRadius: 8,
-                            )
-                          ]),
+                        color: const Color.fromRGBO(253, 237, 237, 1),
+                        border: Border.all(
+                          color: const Color.fromRGBO(247, 187, 186, 1),
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            offset: const Offset(0, 1),
+                            blurRadius: 8,
+                          )
+                        ],
+                      ),
                       child: const Column(
                         children: [
                           Padding(
@@ -621,6 +624,9 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 120,
+                    )
                   ],
                 ),
               ),

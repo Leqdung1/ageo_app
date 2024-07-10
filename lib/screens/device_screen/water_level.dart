@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 enum DataSelected {
+  // ignore: constant_identifier_names
   Hours,
+  // ignore: constant_identifier_names
   Day,
+  // ignore: constant_identifier_names
   Month,
+  // ignore: constant_identifier_names
   Year,
 }
 
@@ -134,7 +138,10 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                 padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
                 scrollDirection: Axis.horizontal,
                 child: _buildCustomLegend(),
-              )
+              ),
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.3,
+              ),
             ],
           ),
         ],

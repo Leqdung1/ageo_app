@@ -1,6 +1,6 @@
+import 'package:Ageo_solutions/components/menu_side_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ageo_app/components/menu_side_bar.dart';
+
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({Key? key});

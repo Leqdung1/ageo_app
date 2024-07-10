@@ -1,6 +1,6 @@
-import 'package:ageo_app/components/menu_side_bar.dart';
-import 'package:ageo_app/screens/login.dart';
-import 'package:ageo_app/screens/notifications.dart';
+import 'package:Ageo_solutions/components/menu_side_bar.dart';
+import 'package:Ageo_solutions/screens/login.dart';
+import 'package:Ageo_solutions/screens/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

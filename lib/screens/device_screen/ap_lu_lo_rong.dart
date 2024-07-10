@@ -8,7 +8,6 @@ enum DataSelected {
   Year,
 }
 
-
 extension DataSelectedExtension on DataSelected {
   String get label {
     switch (this) {
@@ -25,7 +24,6 @@ extension DataSelectedExtension on DataSelected {
     }
   }
 }
-
 
 class ApLucLoRongScreen extends StatefulWidget {
   const ApLucLoRongScreen({super.key});
@@ -130,7 +128,10 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                 padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
                 scrollDirection: Axis.horizontal,
                 child: _buildCustomLegend(),
-              )
+              ),
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.3,
+              ),
             ],
           ),
         ],

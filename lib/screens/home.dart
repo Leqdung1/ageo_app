@@ -1,10 +1,10 @@
-import 'package:ageo_app/components/menu_side_bar.dart';
-import 'package:ageo_app/screens/camera.dart';
-import 'package:ageo_app/screens/control_panel.dart';
-import 'package:ageo_app/screens/device.dart';
-import 'package:ageo_app/screens/map.dart';
+import 'package:Ageo_solutions/components/menu_side_bar.dart';
+import 'package:Ageo_solutions/screens/camera.dart';
+import 'package:Ageo_solutions/screens/control_panel.dart';
+import 'package:Ageo_solutions/screens/device.dart';
+import 'package:Ageo_solutions/screens/map.dart';
+import 'package:Ageo_solutions/screens/warn.dart';
 
-import 'package:ageo_app/screens/warn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(245, 245, 245, 1),
+      backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(21, 101, 192, 1),
         title: const Text(
@@ -40,8 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      drawer:
-       const NavigatorDrawer(),
+      drawer: const NavigatorDrawer(),
       body: Stack(
         children: [
           Positioned.fill(
@@ -78,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(16),
+            color: Colors.black.withAlpha(25),
             blurRadius: 20,
             offset: const Offset(1, -1),
           ),

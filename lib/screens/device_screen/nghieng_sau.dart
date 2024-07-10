@@ -73,66 +73,66 @@ class _nghiengSauScreenState extends State<nghiengSauScreen> {
           Row(
             children: [
               // data selected
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                child: DropdownMenu(
-                  textStyle: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  selectedTrailingIcon: const Icon(Icons.expand_less),
-                  trailingIcon: const Icon(Icons.expand_more),
-                  menuStyle: MenuStyle(
-                    maximumSize: const WidgetStatePropertyAll(
-                      Size.fromHeight(150),
+              Expanded(
+                child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  child: DropdownMenu(
+                    textStyle: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
                     ),
-                    surfaceTintColor: const WidgetStatePropertyAll(
-                      Color.fromARGB(255, 255, 255, 255),
+                    selectedTrailingIcon: const Icon(Icons.expand_less),
+                    trailingIcon: const Icon(Icons.expand_more),
+                    menuStyle: MenuStyle(
+                      maximumSize: const WidgetStatePropertyAll(
+                        Size.fromHeight(150),
+                      ),
+                      surfaceTintColor: const WidgetStatePropertyAll(
+                        Color.fromARGB(255, 255, 255, 255),
+                      ),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
                     ),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
+                    inputDecorationTheme: InputDecorationTheme(
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 10,
+                      ),
+                      fillColor: const Color.fromARGB(255, 255, 255, 255),
+                      filled: true,
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(
+                          color: Colors.lightBlueAccent,
+                        ),
                       ),
                     ),
+                    initialSelection: _dataSelected.name,
+                    onSelected: (value) {
+                      setState(() {
+                        _dataSelected =
+                            DataSelected.values.byName(value as String);
+                      });
+                    },
+                    dropdownMenuEntries: DataSelected.values
+                        .map(
+                          (e) =>
+                              DropdownMenuEntry(value: e.name, label: e.label),
+                        )
+                        .toList(),
                   ),
-                  inputDecorationTheme: InputDecorationTheme(
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 0,
-                      horizontal: 10,
-                    ),
-                    fillColor: const Color.fromARGB(255, 255, 255, 255),
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(
-                        color: Colors.lightBlueAccent,
-                      ),
-                    ),
-                  ),
-                  initialSelection: _dataSelected.name,
-                  onSelected: (value) {
-                    setState(() {
-                      _dataSelected =
-                          DataSelected.values.byName(value as String);
-                    });
-                  },
-                  dropdownMenuEntries: DataSelected.values
-                      .map(
-                        (e) => DropdownMenuEntry(value: e.name, label: e.label),
-                      )
-                      .toList(),
                 ),
-              ),
-              
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.1,
               ),
 
               // IC selected
+
               Container(
                 margin:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
                 child: DropdownMenu(
                   textStyle: const TextStyle(
                     fontSize: 15,
@@ -209,7 +209,10 @@ class _nghiengSauScreenState extends State<nghiengSauScreen> {
                 padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
                 scrollDirection: Axis.horizontal,
                 child: _buildCustomLegend(),
-              )
+              ),
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.3,
+              ),
             ],
           ),
         ],

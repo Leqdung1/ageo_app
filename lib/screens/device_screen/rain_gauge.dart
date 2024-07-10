@@ -121,6 +121,9 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                   ),
                 ),
               ),
+                SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.3,
+              ),
             ],
           ),
         ],

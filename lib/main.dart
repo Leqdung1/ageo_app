@@ -1,5 +1,5 @@
-import 'package:ageo_app/screens/home.dart';
-import 'package:ageo_app/screens/login.dart';
+import 'package:Ageo_solutions/screens/home.dart';
+import 'package:Ageo_solutions/screens/login.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

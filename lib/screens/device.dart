@@ -1,8 +1,9 @@
-import 'package:ageo_app/screens/device_screen/ap_lu_lo_rong.dart';
-import 'package:ageo_app/screens/device_screen/gnss.dart';
-import 'package:ageo_app/screens/device_screen/nghieng_sau.dart';
-import 'package:ageo_app/screens/device_screen/rain_gauge.dart';
-import 'package:ageo_app/screens/device_screen/water_level.dart';
+import 'package:Ageo_solutions/screens/device_screen/ap_lu_lo_rong.dart';
+import 'package:Ageo_solutions/screens/device_screen/gnss.dart';
+import 'package:Ageo_solutions/screens/device_screen/nghieng_sau.dart';
+import 'package:Ageo_solutions/screens/device_screen/rain_gauge.dart';
+import 'package:Ageo_solutions/screens/device_screen/water_level.dart';
+
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -195,149 +196,177 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 child: Column(
                   children: [
                     Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 12),
-            child: Row(
-
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: TextButton(
-                    onPressed: () => _selectDate(context, true),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: const Color.fromRGBO(255, 199, 9, 1),
-                        ),
-                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 12),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                            flex: 3,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: MediaQuery.sizeOf(context).width *
-                                          0.02,
-                                      top: MediaQuery.sizeOf(context).width *
-                                          0.02,
-                                      bottom: MediaQuery.sizeOf(context).width *
-                                          0.005),
-                                  child: const Text(
-                                    'Từ ngày',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color.fromRGBO(244, 129, 32, 1),
+                            flex: 1,
+                            child: TextButton(
+                              onPressed: () => _selectDate(context, true),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color:
+                                        const Color.fromRGBO(210, 221, 238, 1),
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.sizeOf(context)
+                                                        .width *
+                                                    0.02,
+                                                top: MediaQuery.sizeOf(context)
+                                                        .width *
+                                                    0.02,
+                                                bottom:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.005),
+                                            child: const Text(
+                                              'Từ ngày',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color.fromRGBO(
+                                                    21, 101, 192, 1),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.sizeOf(context)
+                                                        .width *
+                                                    0.02,
+                                                bottom:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.02),
+                                            child: Text(
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(_startDate),
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            right: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.02),
+                                        child: SvgPicture.asset(
+                                            'assets/icons/calender.svg',
+                                            height: 20),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: MediaQuery.sizeOf(context).width *
-                                          0.02,
-                                      bottom: MediaQuery.sizeOf(context).width *
-                                          0.02),
-                                  child: Text(
-                                    DateFormat('dd/MM/yyyy').format(_startDate),
-                                    style: const TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                           Expanded(
                             flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  right:
-                                      MediaQuery.sizeOf(context).width * 0.02),
-                              child: SvgPicture.asset(
-                                  'assets/icons/calender.svg',
-                                  height: 20),
+                            child: TextButton(
+                              onPressed: () => _selectDate(context, false),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color:
+                                        const Color.fromRGBO(210, 221, 238, 1),
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.sizeOf(context)
+                                                        .width *
+                                                    0.02,
+                                                top: MediaQuery.sizeOf(context)
+                                                        .width *
+                                                    0.02,
+                                                bottom:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.005),
+                                            child: const Text(
+                                              'Đến ngày',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color.fromRGBO(
+                                                    21, 101, 192, 1),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.sizeOf(context)
+                                                        .width *
+                                                    0.02,
+                                                bottom:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.02),
+                                            child: Text(
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(_endDate),
+                                              style: const TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            right: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.02),
+                                        child: SvgPicture.asset(
+                                            'assets/icons/calender.svg',
+                                            height: 20),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: TextButton(
-                    onPressed: () => _selectDate(context, false),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: const Color.fromRGBO(255, 199, 9, 1),
-                        ),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: MediaQuery.sizeOf(context).width *
-                                          0.02,
-                                      top: MediaQuery.sizeOf(context).width *
-                                          0.02,
-                                      bottom: MediaQuery.sizeOf(context).width *
-                                          0.005),
-                                  child: const Text(
-                                    'Đến ngày',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color.fromRGBO(244, 129, 32, 1),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: MediaQuery.sizeOf(context).width *
-                                          0.02,
-                                      bottom: MediaQuery.sizeOf(context).width *
-                                          0.02),
-                                  child: Text(
-                                    DateFormat('dd/MM/yyyy').format(_endDate),
-                                    style: const TextStyle(
-                                        fontSize: 15, color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  right:
-                                      MediaQuery.sizeOf(context).width * 0.02),
-                              child: SvgPicture.asset(
-                                  'assets/icons/calender.svg',
-                                  height: 20),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
                     Container(
                       margin: const EdgeInsets.only(top: 20),
                       height: 2,
