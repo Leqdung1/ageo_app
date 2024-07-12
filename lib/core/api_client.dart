@@ -1,9 +1,8 @@
-import "package:Ageo_solutions/core/helpers.dart";
-
-import "package:dio/dio.dart";
-import "package:intl/intl.dart";
-import "package:retry/retry.dart";
-
+import 'package:Ageo_solutions/core/helpers.dart';
+import 'package:dio/dio.dart';
+import 'package:retry/retry.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ApiClient {
   final Dio _dio = Dio(BaseOptions(
@@ -12,7 +11,7 @@ class ApiClient {
   ));
   final RetryOptions _r = const RetryOptions(maxAttempts: 4);
   final SecureStorage _ss = SecureStorage();
-  static const String _apiUrl = "https://pumplogapi.petronet.vn";
+  static const String _apiUrl = "http://api.ageo.vn";
 
   Future<Map<String, dynamic>> login(String username, String password) async {
     Map<String, String> details = {
@@ -36,7 +35,6 @@ class ApiClient {
                 e.type == DioExceptionType.receiveTimeout ||
                 e.type == DioExceptionType.connectionTimeout;
           }
-
           return false;
         },
       );
@@ -75,4 +73,30 @@ class ApiClient {
     }
   }
 
-  }
+  // Future<Map<String, dynamic>> fetchMap() async {
+
+  //   const url =
+  //       'https://maps.googleapis.com/$rpc/google.internal.maps.mapsjs.v1.MapsJsInternalService/GetViewportInfo';
+  //   final headers = {
+  //     'Content-Type': 'application/json+protobuf',
+  //     'X-User-Agent': 'grpc-web-javascript/0.1',
+  //     'X-Goog-Api-Key': 'AIzaSyCh9jrIWNsgJ-SsMJp1XizFpGTM0sL1gPI',
+  //   };
+
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse(url),
+  //       headers: headers,
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       return jsonDecode(response.body);
+  //     } else {
+  //       throw Exception(
+  //           'Failed to load viewport info. Status code: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Failed to fetch map data: $e');
+  //   }
+  // }
+}
