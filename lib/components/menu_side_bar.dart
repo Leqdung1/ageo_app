@@ -2,7 +2,6 @@ import 'package:Ageo_solutions/screens/account.dart';
 import 'package:Ageo_solutions/screens/home.dart';
 import 'package:Ageo_solutions/screens/notifications.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -180,8 +179,14 @@ class _NavigatorDrawerState extends State<NavigatorDrawer> {
                       color: Colors.black,
                       fontWeight: FontWeight.w500),
                 ),
-                onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AccountScreen()))),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AccountScreen(
+                              userData: {},
+                              avatar: '',
+                              name: '',
+                            )))),
           ],
         ),
       );

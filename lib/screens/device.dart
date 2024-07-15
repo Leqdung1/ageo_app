@@ -119,6 +119,16 @@ class _DeviceScreenState extends State<DeviceScreen> {
     }
   }
 
+//TODO: fix later
+    // Filter items in list by date picker
+  // List<History1> get _filteredItems {
+  //   return _items.where((item) {
+  //     DateTime itemDate = DateFormat('dd/MM/yyyy').parse(item.date);
+  //     return itemDate.isAfter(_startDate.subtract(const Duration(days: 1))) &&
+  //         itemDate.isBefore(_endDate.add(const Duration(days: 1)));
+  //   }).toList();
+  // }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -126,6 +136,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       backgroundColor: Color.fromRGBO(245, 245, 245, 1),
       body: Column(
         children: [
+          // choose devices screen
           Container(
             height: MediaQuery.sizeOf(context).height * 0.08,
             margin: const EdgeInsets.symmetric(vertical: 12),
@@ -160,6 +171,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         setState(() {
                           _itemsSelected = _isSelected ? null : index;
                         });
+                        debugPrint('Selected index: $_itemsSelected');
                       },
                       child: Text(
                         items[index],
@@ -178,6 +190,8 @@ class _DeviceScreenState extends State<DeviceScreen> {
               },
             ),
           ),
+
+          // calendar
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -271,7 +285,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                         padding: EdgeInsets.only(
                                             right: MediaQuery.sizeOf(context)
                                                     .width *
-                                                0.02),
+                                                0.01),
                                         child: SvgPicture.asset(
                                             'assets/icons/calender.svg',
                                             height: 20),
@@ -353,7 +367,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                                         padding: EdgeInsets.only(
                                             right: MediaQuery.sizeOf(context)
                                                     .width *
-                                                0.02),
+                                                0.01),
                                         child: SvgPicture.asset(
                                             'assets/icons/calender.svg',
                                             height: 20),
@@ -367,21 +381,26 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         ],
                       ),
                     ),
+
+                    // index screen
                     Container(
                       margin: const EdgeInsets.only(top: 20),
                       height: 2,
                       width: size.width * 1,
                       color: Color.fromRGBO(236, 236, 236, 1),
                     ),
-                    IndexedStack(
-                      index: _itemsSelected,
-                      children: [
-                        gnssScreen(),
-                        ApLucLoRongScreen(),
-                        nghiengSauScreen(),
-                        RaingaugeScreen(),
-                        WaterLevelScreen(),
-                      ],
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.75,
+                      child: IndexedStack(
+                        index: _itemsSelected,
+                        children: [
+                          gnssScreen(),
+                          ApLucLoRongScreen(),
+                          nghiengSauScreen(),
+                          RaingaugeScreen(),
+                          WaterLevelScreen(),
+                        ],
+                      ),
                     ),
                   ],
                 ),

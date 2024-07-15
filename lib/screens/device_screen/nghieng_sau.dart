@@ -1,3 +1,4 @@
+import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -51,16 +52,19 @@ class nghiengSauScreen extends StatefulWidget {
   State<nghiengSauScreen> createState() => _nghiengSauScreenState();
 }
 
+// ignore: camel_case_types
 class _nghiengSauScreenState extends State<nghiengSauScreen> {
   DataSelected _dataSelected = DataSelected.Day;
   IcSelected _icSelected = IcSelected.IC1;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
+  Future<Map<String, dynamic>>? _piezometerData;
 
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
     _zoomPanBehavior = ZoomPanBehavior(enableSelectionZooming: true);
+   // _piezometerData = ApiClient().getPiezometerData();
     super.initState();
   }
 
@@ -189,18 +193,38 @@ class _nghiengSauScreenState extends State<nghiengSauScreen> {
                   scrollDirection: Axis.horizontal,
                   child: SizedBox(
                     width: 1000,
-                    child: SfCartesianChart(
-                      zoomPanBehavior: _zoomPanBehavior,
-                      primaryXAxis: const CategoryAxis(
-                        majorGridLines: MajorGridLines(width: 0),
-                        isVisible: true,
-                        axisLine: AxisLine(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      series: _getSeries(),
-                      tooltipBehavior: _tooltipBehavior,
+                    child: FutureBuilder<Map<String, dynamic>>(
+                      future: _piezometerData,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return const Center(
+                              child: Text('Error fetching data'));
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return const Center(child: Text('No data available'));
+                        } else {
+                          final data = (snapshot.data!['data'] as List)
+                              .map((e) => PiezometerData.fromJson(e))
+                              .toList();
+                          return SfCartesianChart(
+                            zoomPanBehavior: _zoomPanBehavior,
+                            primaryXAxis: const CategoryAxis(
+                              majorGridLines: MajorGridLines(width: 0),
+                              isVisible: true,
+                              axisLine: AxisLine(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                            ),
+                            series: _getSeries(data),
+                            tooltipBehavior: _tooltipBehavior,
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -274,10 +298,10 @@ class _nghiengSauScreenState extends State<nghiengSauScreen> {
     );
   }
 
-  List<CartesianSeries<Data, String>> _getSeries() {
+  List<CartesianSeries<Data, String>> _getSeries(List<PiezometerData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:
-        return _getHoursSeries();
+        return _getHoursSeries(data);
       case DataSelected.Month:
         return _getMonthSeries();
       case DataSelected.Year:
@@ -287,218 +311,196 @@ class _nghiengSauScreenState extends State<nghiengSauScreen> {
     }
   }
 
-  List<CartesianSeries<Data, String>> _getHoursSeries() {
+  List<CartesianSeries<Data, String>> _getHoursSeries(
+      List<PiezometerData> data) {
     return [
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 10),
-          Data('01:00', 20),
-          Data('02:00', 30),
-          Data('03:00', 40),
-          Data('04:00', 50),
-          Data('05:00', 60),
-          Data('06:00', 70),
-          Data('07:00', 80),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC1', 0),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 5),
-          Data('01:00', 10),
-          Data('02:00', 15),
-          Data('03:00', 20),
-          Data('04:00', 25),
-          Data('05:00', 30),
-          Data('06:00', 35),
-          Data('07:00', 40),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC1', 1),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 5),
-          Data('01:00', 10),
-          Data('02:00', 15),
-          Data('03:00', 20),
-          Data('04:00', 25),
-          Data('05:00', 30),
-          Data('06:00', 35),
-          Data('07:00', 40),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC2', 0),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 5),
-          Data('01:00', 10),
-          Data('02:00', 15),
-          Data('03:00', 20),
-          Data('04:00', 25),
-          Data('05:00', 30),
-          Data('06:00', 35),
-          Data('07:00', 40),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC2', 1),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 2),
-          Data('01:00', 10),
-          Data('02:00', 8),
-          Data('03:00', 18),
-          Data('04:00', 25),
-          Data('05:00', 25),
-          Data('06:00', 35),
-          Data('07:00', 38),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC3', 0),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 5),
-          Data('01:00', 15),
-          Data('02:00', 16),
-          Data('03:00', 10),
-          Data('04:00', 5),
-          Data('05:00', 33),
-          Data('06:00', 35),
-          Data('07:00', 40),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC3', 1),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
     ];
   }
 
+  List<Data> _getDataSourceForHour(List<PiezometerData> data, String selectedIC,
+      String compareIC, int hourIndex) {
+    final filteredData = data.where((e) => e.id == selectedIC).toList();
+    if (filteredData.isEmpty) {
+      return [];
+    }
+    return [
+      Data(time: '7:00', amount: filteredData[0].ic1Data[hourIndex].value),
+      Data(time: '8:00', amount: filteredData[0].ic2Data[hourIndex].value),
+      Data(time: '9:00', amount: filteredData[0].ic3Data[hourIndex].value),
+      Data(time: '10:00', amount: filteredData[0].ic4Data[hourIndex].value),
+    ];
+  }
+
   List<CartesianSeries<Data, String>> _getMonthSeries() {
     return [
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('Jan', 35),
-          Data('Feb', 28),
-          Data('Mar', 34),
-          Data('Apr', 32),
-          Data('May', 40),
-          Data('Jun', 50),
-          Data('Jul', 60),
-          Data('Aug', 70),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForMonth(_icSelected.label, 'IC1'),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
         name: 'PZ 1-1',
-        color: Colors.blue,
+        color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('Jan', 20),
-          Data('Feb', 24),
-          Data('Mar', 27),
-          Data('Apr', 30),
-          Data('May', 35),
-          Data('Jun', 40),
-          Data('Jul', 45),
-          Data('Aug', 50),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForMonth(_icSelected.label, 'IC2'),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-2',
-        color: Colors.green,
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForMonth(_icSelected.label, 'IC3'),
+        xValueMapper: (Data data, _) => data.time,
+        yValueMapper: (Data data, _) => data.amount,
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+    ];
+  }
+
+  List<Data> _getDataSourceForMonth(String selectedIC, String compareIC) {
+    // Adjust the implementation based on your data structure and requirements
+    return [
+      Data(time: 'Week 1', amount: 10),
+      Data(time: 'Week 2', amount: 15),
+      Data(time: 'Week 3', amount: 25),
+      Data(time: 'Week 4', amount: 20),
     ];
   }
 
   List<CartesianSeries<Data, String>> _getYearSeries() {
     return [
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('2020', 300),
-          Data('2021', 400),
-          Data('2022', 350),
-          Data('2023', 450),
-          Data('2024', 500),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForYear(_icSelected.label, 'IC1'),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
         name: 'PZ 1-1',
-        color: Colors.blue,
+        color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('2020', 250),
-          Data('2021', 300),
-          Data('2022', 320),
-          Data('2023', 400),
-          Data('2024', 450),
-        ],
-        xValueMapper: (Data data, _) => data.day,
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForYear(_icSelected.label, 'IC2'),
+        xValueMapper: (Data data, _) => data.time,
         yValueMapper: (Data data, _) => data.amount,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-2',
-        color: Colors.green,
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
+      LineSeries<Data, String>(
+        dataSource: _getDataSourceForYear(_icSelected.label, 'IC3'),
+        xValueMapper: (Data data, _) => data.time,
+        yValueMapper: (Data data, _) => data.amount,
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+    ];
+  }
+
+  List<Data> _getDataSourceForYear(String selectedIC, String compareIC) {
+    // Adjust the implementation based on your data structure and requirements
+    return [
+      Data(time: 'Jan', amount: 10),
+      Data(time: 'Feb', amount: 15),
+      Data(time: 'Mar', amount: 25),
+      Data(time: 'Apr', amount: 20),
+      Data(time: 'May', amount: 10),
+      Data(time: 'Jun', amount: 15),
+      Data(time: 'Jul', amount: 25),
+      Data(time: 'Aug', amount: 20),
+      Data(time: 'Sep', amount: 10),
+      Data(time: 'Oct', amount: 15),
+      Data(time: 'Nov', amount: 25),
+      Data(time: 'Dec', amount: 20),
     ];
   }
 }
 
 class Data {
-  Data(this.day, this.amount);
-  final String day;
-  final int amount;
+  Data({required this.time, required this.amount});
+
+  final String time;
+  final double amount;
+}
+
+class PiezometerData {
+  final String id;
+  final List<ICData> ic1Data;
+  final List<ICData> ic2Data;
+  final List<ICData> ic3Data;
+  final List<ICData> ic4Data;
+
+  PiezometerData({
+    required this.id,
+    required this.ic1Data,
+    required this.ic2Data,
+    required this.ic3Data,
+    required this.ic4Data,
+  });
+
+  factory PiezometerData.fromJson(Map<String, dynamic> json) {
+    return PiezometerData(
+      id: json['id'],
+      ic1Data:
+          (json['ic1Data'] as List).map((e) => ICData.fromJson(e)).toList(),
+      ic2Data:
+          (json['ic2Data'] as List).map((e) => ICData.fromJson(e)).toList(),
+      ic3Data:
+          (json['ic3Data'] as List).map((e) => ICData.fromJson(e)).toList(),
+      ic4Data:
+          (json['ic4Data'] as List).map((e) => ICData.fromJson(e)).toList(),
+    );
+  }
+}
+
+class ICData {
+  final String time;
+  final double value;
+
+  ICData({required this.time, required this.value});
+
+  factory ICData.fromJson(Map<String, dynamic> json) {
+    return ICData(
+      time: json['time'],
+      value: json['value'],
+    );
+  }
 }

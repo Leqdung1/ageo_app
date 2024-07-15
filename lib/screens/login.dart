@@ -11,7 +11,8 @@ import "../core/api_client.dart";
 import "../core/helpers.dart";
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+
+  const LoginScreen({super.key,});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -21,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   var _username = "";
   var _password = "";
   var _lastUserName = "";
-  var _lastUserAvatar = "";
   var _lastUserPhoneNumber = "";
 
   final _formKey = GlobalKey<FormState>();
@@ -31,7 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordFocus = FocusNode();
 
   var _passwordVisible = false;
-  var flavor = "";
+
+
 
   void _readLastLoggedInData() async {
     final name =
@@ -46,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if (name != null && number != null && username != null) {
       setState(() {
         _lastUserName = name;
-        _lastUserAvatar = avatar ?? "";
         _lastUserPhoneNumber = number;
         _username = username;
       });
@@ -124,11 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    const MethodChannel("flavor")
-        .invokeMethod<String>("getFlavor")
-        .then((String? output) {
-      flavor = output!;
-    });
+   
     return Stack(
       children: [
         Container(
@@ -212,12 +208,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SvgPicture.asset(
-                                        'assets/icons/Vietnam.svg'),
+                                    IconButton(
+                                      onPressed: () {
+                                        //TODO: change language VN
+                               
+                                      },
+                                      icon: SvgPicture.asset(
+                                          'assets/icons/Vietnam.svg'),
+                                    ),
                                     const SizedBox(
                                       width: 32,
                                     ),
-                                    SvgPicture.asset('assets/icons/Us.svg'),
+                                    IconButton(
+                                      onPressed: () {
+                                        //TODO: change language EN
+                                     
+                                      },
+                                      icon: SvgPicture.asset(
+                                          'assets/icons/Us.svg'),
+                                    ),
                                   ],
                                 ),
                               ],

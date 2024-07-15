@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:Ageo_solutions/core/api_client.dart';
 
 enum DataSelected {
   Hours,
@@ -34,176 +36,214 @@ class RaingaugeScreen extends StatefulWidget {
 
 class _RaingaugeScreenState extends State<RaingaugeScreen> {
   DataSelected _dataSelected = DataSelected.Day;
+  late List<RainData> _chartData;
   late TooltipBehavior _tooltipBehavior;
-  late ZoomPanBehavior _zoomPanBehavior;
+  Future<List<RainData>>? _rainDataBuilder;
 
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
-    _zoomPanBehavior = ZoomPanBehavior(enableSelectionZooming: true);
+    _rainDataBuilder = fetchRainData();
     super.initState();
+  }
+
+  Future<List<RainData>> fetchRainData() async {
+    final apiClient = ApiClient();
+    late Map<String, dynamic> response;
+
+    switch (_dataSelected) {
+      case DataSelected.Hours:
+        response = await apiClient.getRainDataByHours('yy/MM/dd HH');
+        break;
+      case DataSelected.Day:
+        response = await apiClient.getRainDataByDay('yy/MM/dd');
+        break;
+      case DataSelected.Month:
+        response = await apiClient.getRainDataByMonth('yy/MM');
+        break;
+      case DataSelected.Year:
+        response = await apiClient.getRainDataByYear('yyyy');
+        break;
+      default:
+        throw Exception('Invalid data selection');
+    }
+
+    if (response['success']) {
+      return (response['data'] as List)
+          .map((data) => RainData.fromJson(data))
+          .toList();
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            child: DropdownMenu(
-              textStyle: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.normal,
-              ),
-              selectedTrailingIcon: const Icon(Icons.expand_less),
-              trailingIcon: const Icon(Icons.expand_more),
-              menuStyle: MenuStyle(
-                maximumSize: const WidgetStatePropertyAll(
-                  Size.fromHeight(150),
-                ),
-                surfaceTintColor: const WidgetStatePropertyAll(
-                  Color.fromARGB(255, 255, 255, 255),
-                ),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: FutureBuilder<List<RainData>>(
+        future: _rainDataBuilder,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No data available'));
+          } else {
+            _chartData = snapshot.data!;
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    child: DropdownMenu(
+                      textStyle: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      selectedTrailingIcon: const Icon(Icons.expand_less),
+                      trailingIcon: const Icon(Icons.expand_more),
+                      menuStyle: MenuStyle(
+                        maximumSize: const WidgetStatePropertyAll(
+                          Size.fromHeight(150),
+                        ),
+                        surfaceTintColor: const WidgetStatePropertyAll(
+                          Color.fromARGB(255, 255, 255, 255),
+                        ),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      inputDecorationTheme: InputDecorationTheme(
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 10,
+                        ),
+                        fillColor: const Color.fromARGB(255, 255, 255, 255),
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Colors.lightBlueAccent,
+                          ),
+                        ),
+                      ),
+                      initialSelection: _dataSelected.name,
+                      onSelected: (value) {
+                        setState(() {
+                          _dataSelected =
+                              DataSelected.values.byName(value as String);
+                        });
+                      },
+                      dropdownMenuEntries: DataSelected.values
+                          .map(
+                            (e) => DropdownMenuEntry(
+                                value: e.name, label: e.label),
+                          )
+                          .toList(),
+                    ),
                   ),
-                ),
-              ),
-              inputDecorationTheme: InputDecorationTheme(
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 10,
-                ),
-                fillColor: const Color.fromARGB(255, 255, 255, 255),
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(
-                    color: Colors.lightBlueAccent,
-                  ),
-                ),
-              ),
-              initialSelection: _dataSelected.name,
-              onSelected: (value) {
-                setState(() {
-                  _dataSelected = DataSelected.values.byName(value as String);
-                });
-              },
-              dropdownMenuEntries: DataSelected.values
-                  .map(
-                    (e) => DropdownMenuEntry(value: e.name, label: e.label),
-                  )
-                  .toList(),
-            ),
-          ),
 
-          // draw chart
-          Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 15, top: 30),
-                child: SingleChildScrollView(
-                  child: SfCartesianChart(
-                    zoomPanBehavior: _zoomPanBehavior,
+                  // draw chart
+                  SfCartesianChart(
                     primaryXAxis: const CategoryAxis(
                       majorGridLines: MajorGridLines(width: 0),
-                      isVisible: true,
                       axisLine: AxisLine(
                         color: Colors.black,
                         width: 1,
                       ),
                     ),
-                    series: _getSeries(),
                     tooltipBehavior: _tooltipBehavior,
+                    series: _getSeries(_chartData),
                   ),
-                ),
+                ],
               ),
-                SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.3,
-              ),
-            ],
-          ),
-        ],
+            );
+          }
+        },
       ),
     );
   }
 
-  List<CartesianSeries<Data, String>> _getSeries() {
+  List<CartesianSeries<RainData, String>> _getSeries(List<RainData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:
-        return _getHoursSeries();
+        return _getHoursSeries(data);
+      case DataSelected.Day:
+        return _getDaySeries(data);
       case DataSelected.Month:
-        return _getMonthSeries();
+        return _getMonthSeries(data);
       case DataSelected.Year:
-        return _getYearSeries();
+        return _getYearSeries(data);
       default:
         return [];
     }
   }
 
-  List<CartesianSeries<Data, String>> _getHoursSeries() {
+  List<CartesianSeries<RainData, String>> _getHoursSeries(List<RainData> data) {
     return [
-      ColumnSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 2),
-          Data('01:00', 10),
-          Data('02:00', 8),
-          Data('03:00', 18),
-          Data('04:00', 25),
-          Data('05:00', 25),
-          Data('06:00', 35),
-          Data('07:00', 38),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
-        color: Color.fromRGBO(21, 101, 192, 1),
+      ColumnSeries<RainData, String>(
+        dataSource: data,
+        xValueMapper: (RainData rain, _) => rain.logTime,
+        yValueMapper: (RainData rain, _) => rain.rainAmount,
+        color: const Color.fromRGBO(21, 101, 192, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<Data, String>> _getMonthSeries() {
+  List<CartesianSeries<RainData, String>> _getDaySeries(List<RainData> data) {
     return [
-      ColumnSeries<Data, String>(
-        dataSource: [
-          Data('Jan', 35),
-          Data('Feb', 28),
-          Data('Mar', 34),
-          Data('Apr', 32),
-          Data('May', 40),
-          Data('Jun', 50),
-          Data('Jul', 60),
-          Data('Aug', 70),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
-        color: Color.fromRGBO(21, 101, 192, 1),
+      ColumnSeries<RainData, String>(
+        dataSource: data,
+        xValueMapper: (RainData rain, _) => rain.logTime,
+        yValueMapper: (RainData rain, _) => rain.rainAmount,
+        color: const Color.fromRGBO(21, 101, 192, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<Data, String>> _getYearSeries() {
+  List<CartesianSeries<RainData, String>> _getMonthSeries(List<RainData> data) {
     return [
-      ColumnSeries<Data, String>(
-        dataSource: [
-          Data('2020', 300),
-          Data('2021', 400),
-          Data('2022', 350),
-          Data('2023', 450),
-          Data('2024', 500),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
-        color: Color.fromRGBO(21, 101, 192, 1),
+      ColumnSeries<RainData, String>(
+        dataSource: data,
+        xValueMapper: (RainData rain, _) => rain.logTime,
+        yValueMapper: (RainData rain, _) => rain.rainAmount,
+        color: const Color.fromRGBO(21, 101, 192, 1),
+      ),
+    ];
+  }
+
+  List<CartesianSeries<RainData, String>> _getYearSeries(List<RainData> data) {
+    return [
+      ColumnSeries<RainData, String>(
+        dataSource: data,
+        xValueMapper: (RainData rain, _) => rain.logTime,
+        yValueMapper: (RainData rain, _) => rain.rainAmount,
+        color: const Color.fromRGBO(21, 101, 192, 1),
       ),
     ];
   }
 }
 
-class Data {
-  Data(this.day, this.amount);
-  final String day;
-  final int amount;
+// Data class
+class RainData {
+  RainData(this.logTime, this.rainAmount);
+
+  final String logTime;
+  final double rainAmount;
+
+  factory RainData.fromJson(Map<String, dynamic> json) => RainData(
+        json["logTime"],
+        (json["rain_mm_Tot"] as num).toDouble(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'logTime': logTime,
+        'rain_mm_Tot': rainAmount,
+      };
 }
