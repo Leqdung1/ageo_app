@@ -1,9 +1,7 @@
 import 'package:Ageo_solutions/screens/device_screen/ap_lu_lo_rong.dart';
 import 'package:Ageo_solutions/screens/device_screen/gnss.dart';
-import 'package:Ageo_solutions/screens/device_screen/nghieng_sau.dart';
 import 'package:Ageo_solutions/screens/device_screen/rain_gauge.dart';
 import 'package:Ageo_solutions/screens/device_screen/water_level.dart';
-
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,6 +11,7 @@ class DeviceScreen extends StatefulWidget {
   const DeviceScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DeviceScreenState createState() => _DeviceScreenState();
 }
 
@@ -38,7 +37,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.4,
             child: Column(
@@ -63,7 +62,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         fontSize: 16,
                       ),
                       selectedDayHighlightColor:
-                          Color.fromRGBO(21, 101, 192, 1),
+                          const Color.fromRGBO(21, 101, 192, 1),
                       lastMonthIcon: const Icon(
                         Icons.arrow_back_ios,
                         color: Color.fromRGBO(21, 101, 192, 1),
@@ -133,7 +132,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(245, 245, 245, 1),
+      backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
       body: Column(
         children: [
           // choose devices screen
@@ -145,7 +144,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  offset: Offset(0, 1),
+                  offset: const Offset(0, 1),
                   blurRadius: 4,
                   color: Colors.black.withOpacity(0.1),
                 ),
@@ -196,11 +195,11 @@ class _DeviceScreenState extends State<DeviceScreen> {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(-1, 1),
+                    offset: const Offset(-1, 1),
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 4,
                   ),

@@ -37,11 +37,18 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
   DataSelected _dataSelected = DataSelected.Hours;
   late List<RainData> _chartData;
   late TooltipBehavior _tooltipBehavior;
+  late ZoomPanBehavior _zoomPanBehavior;
   Future<List<RainData>>? _rainDataBuilder;
 
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
+    _zoomPanBehavior = ZoomPanBehavior(
+      enablePinching: true,
+      enableDoubleTapZooming: true,
+      enablePanning: true,
+      zoomMode: ZoomMode.xy,
+    );
     _rainDataBuilder = fetchRainData();
     super.initState();
   }
@@ -161,6 +168,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                       ),
                     ),
                     tooltipBehavior: _tooltipBehavior,
+                    zoomPanBehavior: _zoomPanBehavior,
                     series: _getSeries(_chartData),
                   ),
                 ],

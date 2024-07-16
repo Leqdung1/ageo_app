@@ -44,7 +44,12 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
-    _zoomPanBehavior = ZoomPanBehavior(enableSelectionZooming: true);
+    _zoomPanBehavior = ZoomPanBehavior(
+      enablePinching: true,
+      enableDoubleTapZooming: true,
+      enablePanning: true,
+      zoomMode: ZoomMode.xy,
+    );
     _piezmometerBuilder = fetchPiezometer();
     super.initState();
   }
@@ -159,7 +164,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                             child: SizedBox(
                               width: 1000,
                               child: SfCartesianChart(
-                                zoomPanBehavior: _zoomPanBehavior,
                                 primaryXAxis: const CategoryAxis(
                                   majorGridLines: MajorGridLines(width: 0),
                                   isVisible: true,
@@ -170,6 +174,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                 ),
                                 series: _getSeries(_chartData),
                                 tooltipBehavior: _tooltipBehavior,
+                                zoomPanBehavior: _zoomPanBehavior,
                               ),
                             ),
                           ),
@@ -266,7 +271,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   List<CartesianSeries<PiezometerData, String>> _getHoursSeries(
       List<PiezometerData> data) {
     return [
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
@@ -277,7 +282,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
@@ -288,7 +293,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
@@ -299,7 +304,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
@@ -310,7 +315,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
@@ -321,7 +326,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
@@ -332,7 +337,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-      // StackedLineSeries<PiezometerData, String>(
+      //  LineSeries<PiezometerData, String>(
       //   dataSource: data,
       //   xValueMapper: (PiezometerData data, _) => data.logTime,
       //   yValueMapper: (PiezometerData data, _) => data.pz7,
@@ -341,7 +346,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
       //     shape: DataMarkerType.circle,
       //   ),
       // ),
-      // StackedLineSeries<PiezometerData, String>(
+      //  LineSeries<PiezometerData, String>(
       //   dataSource: data,
       //   xValueMapper: (PiezometerData data, _) => data.logTime,
       //   yValueMapper: (PiezometerData data, _) => data.pz8,
@@ -356,7 +361,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   List<CartesianSeries<PiezometerData, String>> _getDaySeries(
       List<PiezometerData> data) {
     return [
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
@@ -367,7 +372,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
@@ -378,7 +383,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
@@ -389,7 +394,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
@@ -400,7 +405,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
@@ -411,7 +416,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
@@ -422,7 +427,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-      // StackedLineSeries<PiezometerData, String>(
+      //  LineSeries<PiezometerData, String>(
       //   dataSource: data,
       //   xValueMapper: (PiezometerData data, _) => data.logTime,
       //   yValueMapper: (PiezometerData data, _) => data.pz7,
@@ -431,7 +436,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
       //     shape: DataMarkerType.circle,
       //   ),
       // ),
-      // StackedLineSeries<PiezometerData, String>(
+      //  LineSeries<PiezometerData, String>(
       //   dataSource: data,
       //   xValueMapper: (PiezometerData data, _) => data.logTime,
       //   yValueMapper: (PiezometerData data, _) => data.pz8,
@@ -446,7 +451,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   List<CartesianSeries<PiezometerData, String>> _getMonthSeries(
       List<PiezometerData> data) {
     return [
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
@@ -457,7 +462,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
@@ -468,7 +473,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
@@ -479,7 +484,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
@@ -490,7 +495,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
@@ -501,7 +506,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
@@ -512,7 +517,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-      // StackedLineSeries<PiezometerData, String>(
+      //  LineSeries<PiezometerData, String>(
       //   dataSource: data,
       //   xValueMapper: (PiezometerData data, _) => data.logTime,
       //   yValueMapper: (PiezometerData data, _) => data.pz7,
@@ -521,7 +526,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
       //     shape: DataMarkerType.circle,
       //   ),
       // ),
-      // StackedLineSeries<PiezometerData, String>(
+      //  LineSeries<PiezometerData, String>(
       //   dataSource: data,
       //   xValueMapper: (PiezometerData data, _) => data.logTime,
       //   yValueMapper: (PiezometerData data, _) => data.pz8,
@@ -536,7 +541,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   List<CartesianSeries<PiezometerData, String>> _getYearSeries(
       List<PiezometerData> data) {
     return [
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
@@ -547,7 +552,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
@@ -558,7 +563,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
@@ -569,7 +574,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
@@ -580,7 +585,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
@@ -591,7 +596,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
-      StackedLineSeries<PiezometerData, String>(
+      LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
@@ -602,7 +607,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-      // StackedLineSeries<PiezometerData, String>(
+      //  LineSeries<PiezometerData, String>(
       //   dataSource: data,
       //   xValueMapper: (PiezometerData data, _) => data.logTime,
       //   yValueMapper: (PiezometerData data, _) => data.pz7,
@@ -611,7 +616,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
       //     shape: DataMarkerType.circle,
       //   ),
       // ),
-      // StackedLineSeries<PiezometerData, String>(
+      //  LineSeries<PiezometerData, String>(
       //   dataSource: data,
       //   xValueMapper: (PiezometerData data, _) => data.logTime,
       //   yValueMapper: (PiezometerData data, _) => data.pz8,

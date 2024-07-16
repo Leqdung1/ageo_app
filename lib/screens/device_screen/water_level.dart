@@ -49,7 +49,12 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true, shouldAlwaysShow: true);
-    _zoomPanBehavior = ZoomPanBehavior(enableSelectionZooming: true);
+    _zoomPanBehavior = ZoomPanBehavior(
+      enablePinching: true,
+      enableDoubleTapZooming: true,
+      enablePanning: true,
+      zoomMode: ZoomMode.xy,
+    );
     _waterLevelBuilder = fetchWaterLevelData();
     super.initState();
   }
@@ -166,7 +171,6 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           child: SizedBox(
                             width: 1000,
                             child: SfCartesianChart(
-                              zoomPanBehavior: _zoomPanBehavior,
                               primaryXAxis: const CategoryAxis(
                                 majorGridLines: MajorGridLines(width: 0),
                                 isVisible: true,
@@ -175,14 +179,15 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                   width: 1,
                                 ),
                               ),
-                              primaryYAxis: const NumericAxis(
-                                minimum: 1.484,
-                                maximum: 1.48723,
+                              primaryYAxis: NumericAxis(
+                                maximum:
+                                    getMaxYAxisValue(_chartData).toDouble(),
                                 interval: 0.001,
                                 majorGridLines: MajorGridLines(width: 0),
                               ),
                               series: _getSeries(_chartData),
                               tooltipBehavior: _tooltipBehavior,
+                              zoomPanBehavior: _zoomPanBehavior,
                             ),
                           ),
                         ),
@@ -260,7 +265,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
   List<CartesianSeries<WaterLevelData, String>> _getHoursSeries(
       List<WaterLevelData> data) {
     return [
-      StackedLineSeries<WaterLevelData, String>(
+      LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
@@ -270,7 +275,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<WaterLevelData, String>(
+      LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
@@ -286,7 +291,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
   List<CartesianSeries<WaterLevelData, String>> _getDaySeries(
       List<WaterLevelData> data) {
     return [
-      StackedLineSeries<WaterLevelData, String>(
+      LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
@@ -296,7 +301,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<WaterLevelData, String>(
+      LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
@@ -312,7 +317,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
   List<CartesianSeries<WaterLevelData, String>> _getMonthSeries(
       List<WaterLevelData> data) {
     return [
-      StackedLineSeries<WaterLevelData, String>(
+      LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
@@ -322,7 +327,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<WaterLevelData, String>(
+      LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
@@ -338,7 +343,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
   List<CartesianSeries<WaterLevelData, String>> _getYearSeries(
       List<WaterLevelData> data) {
     return [
-      StackedLineSeries<WaterLevelData, String>(
+      LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
@@ -348,7 +353,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<WaterLevelData, String>(
+      LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
@@ -381,4 +386,11 @@ class WaterLevelData {
         'w1': w1,
         'w2': w2,
       };
+}
+
+double getMaxYAxisValue(List<WaterLevelData> dataSource) {
+  return dataSource.fold(
+    0,
+    (max, current) => max > current.w2 ? max : current.w2,
+  );
 }
