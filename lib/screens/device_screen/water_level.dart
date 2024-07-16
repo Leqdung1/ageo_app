@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -38,6 +41,8 @@ class WaterLevelScreen extends StatefulWidget {
 
 class _WaterLevelScreenState extends State<WaterLevelScreen> {
   DataSelected _dataSelected = DataSelected.Day;
+  Future<List<WaterLevelData>>? _waterLevelBuilder;
+  late List<WaterLevelData> _chartData;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
 
@@ -45,112 +50,163 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true, shouldAlwaysShow: true);
     _zoomPanBehavior = ZoomPanBehavior(enableSelectionZooming: true);
+    _waterLevelBuilder = fetchWaterLevelData();
     super.initState();
+  }
+
+  Future<List<WaterLevelData>> fetchWaterLevelData() async {
+    final apiClient = ApiClient();
+    final Map<String, dynamic> response;
+
+    switch (_dataSelected) {
+      case DataSelected.Hours:
+        response = await apiClient.getWaterLevelByHours('yy/MM/dd HH');
+        break;
+      case DataSelected.Day:
+        response = await apiClient.getWaterLevelByDay('yy/MM/dd');
+        break;
+      case DataSelected.Month:
+        response = await apiClient.getWaterLevelByMonth('yy/MM');
+        break;
+      case DataSelected.Year:
+        response = await apiClient.getWaterLevelByYear('yyyy');
+        break;
+      default:
+        throw Exception('Invalid data selection');
+    }
+
+    if (response['success']) {
+      return (response['data'] as List)
+          .map((data) => WaterLevelData.fromJson(data))
+          .toList();
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            child: DropdownMenu(
-              textStyle: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.normal,
-              ),
-              selectedTrailingIcon: const Icon(Icons.expand_less),
-              trailingIcon: const Icon(Icons.expand_more),
-              menuStyle: MenuStyle(
-                maximumSize: const WidgetStatePropertyAll(
-                  Size.fromHeight(150),
-                ),
-                surfaceTintColor: const WidgetStatePropertyAll(
-                  Color.fromARGB(255, 255, 255, 255),
-                ),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-              inputDecorationTheme: InputDecorationTheme(
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 10,
-                ),
-                fillColor: const Color.fromARGB(255, 255, 255, 255),
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(
-                    color: Colors.lightBlueAccent,
-                  ),
-                ),
-              ),
-              initialSelection: _dataSelected.name,
-              onSelected: (value) {
-                setState(() {
-                  _dataSelected = DataSelected.values.byName(value as String);
-                });
-              },
-              dropdownMenuEntries: DataSelected.values
-                  .map(
-                    (e) => DropdownMenuEntry(value: e.name, label: e.label),
-                  )
-                  .toList(),
-            ),
-          ),
-          // draw chart
-          Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 15, top: 30),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: SizedBox(
-                    width: 1000,
-                    child: SfCartesianChart(
-                      zoomPanBehavior: _zoomPanBehavior,
-                      primaryXAxis: const CategoryAxis(
-                        majorGridLines: MajorGridLines(width: 0),
-                        isVisible: true,
-                        axisLine: AxisLine(
-                          color: Colors.black,
-                          width: 1,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: FutureBuilder<List<WaterLevelData>>(
+        future: _waterLevelBuilder,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No data available'));
+          } else {
+            _chartData = snapshot.data!;
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    child: DropdownMenu(
+                      textStyle: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      selectedTrailingIcon: const Icon(Icons.expand_less),
+                      trailingIcon: const Icon(Icons.expand_more),
+                      menuStyle: MenuStyle(
+                        maximumSize: const WidgetStatePropertyAll(
+                          Size.fromHeight(150),
+                        ),
+                        surfaceTintColor: const WidgetStatePropertyAll(
+                          Color.fromARGB(255, 255, 255, 255),
+                        ),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                       ),
-                      primaryYAxis: const NumericAxis(
-                        minimum: 1.484,
-                        maximum: 1.48723,
-                        interval: 0.001,
-                        majorGridLines: MajorGridLines(width: 0),
+                      inputDecorationTheme: InputDecorationTheme(
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 10,
+                        ),
+                        fillColor: const Color.fromARGB(255, 255, 255, 255),
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Colors.lightBlueAccent,
+                          ),
+                        ),
                       ),
-                      series: _getSeries(),
-                      tooltipBehavior: _tooltipBehavior,
+                      initialSelection: _dataSelected.name,
+                      onSelected: (value) {
+                        setState(() {
+                          _dataSelected =
+                              DataSelected.values.byName(value as String);
+                        });
+                      },
+                      dropdownMenuEntries: DataSelected.values
+                          .map(
+                            (e) => DropdownMenuEntry(
+                                value: e.name, label: e.label),
+                          )
+                          .toList(),
                     ),
                   ),
-                ),
+                  // draw chart
+                  Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 15, top: 30),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: SizedBox(
+                            width: 1000,
+                            child: SfCartesianChart(
+                              zoomPanBehavior: _zoomPanBehavior,
+                              primaryXAxis: const CategoryAxis(
+                                majorGridLines: MajorGridLines(width: 0),
+                                isVisible: true,
+                                axisLine: AxisLine(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                              primaryYAxis: const NumericAxis(
+                                minimum: 1.484,
+                                maximum: 1.48723,
+                                interval: 0.001,
+                                majorGridLines: MajorGridLines(width: 0),
+                              ),
+                              series: _getSeries(_chartData),
+                              tooltipBehavior: _tooltipBehavior,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        padding:
+                            const EdgeInsets.only(top: 15, left: 20, right: 20),
+                        scrollDirection: Axis.horizontal,
+                        child: _buildCustomLegend(),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.3,
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              SingleChildScrollView(
-                padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
-                scrollDirection: Axis.horizontal,
-                child: _buildCustomLegend(),
-              ),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.3,
-              ),
-            ],
-          ),
-        ],
+            );
+          }
+        },
       ),
     );
   }
 
   Widget _buildCustomLegend() {
-    // Add actual values to the legend
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -184,53 +240,39 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
     );
   }
 
-  List<CartesianSeries<Data, String>> _getSeries() {
+  List<CartesianSeries<WaterLevelData, String>> _getSeries(
+      List<WaterLevelData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:
-        return _getHoursSeries();
+        return _getHoursSeries(data);
+      case DataSelected.Day:
+        return _getDaySeries(data);
       case DataSelected.Month:
-        return _getMonthSeries();
+        return _getMonthSeries(data);
       case DataSelected.Year:
-        return _getYearSeries();
+        return _getYearSeries(data);
       default:
         return [];
     }
   }
 
-  List<CartesianSeries<Data, String>> _getHoursSeries() {
+  List<CartesianSeries<WaterLevelData, String>> _getHoursSeries(
+      List<WaterLevelData> data) {
     return [
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 1.48723),
-          Data('01:00', 1.48690),
-          Data('02:00', 1.48710),
-          Data('03:00', 1.48730),
-          Data('04:00', 1.48750),
-          Data('05:00', 1.48770),
-          Data('06:00', 1.48780),
-          Data('07:00', 1.48800),
-        ],
-        xValueMapper: (Data data, _) => data.time,
-        yValueMapper: (Data data, _) => data.level.toDouble(),
+      StackedLineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w1,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 1.48723),
-          Data('01:00', 1.48723),
-          Data('02:00', 1.48723),
-          Data('03:00', 1.48723),
-          Data('04:00', 1.48723),
-          Data('05:00', 1.48723),
-          Data('06:00', 1.48723),
-          Data('07:00', 1.48723),
-        ],
-        xValueMapper: (Data data, _) => data.time,
-        yValueMapper: (Data data, _) => data.level.toDouble(),
+      StackedLineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w2,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -240,40 +282,23 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
     ];
   }
 
-  List<CartesianSeries<Data, String>> _getMonthSeries() {
+  List<CartesianSeries<WaterLevelData, String>> _getDaySeries(
+      List<WaterLevelData> data) {
     return [
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('Jan', 1.48723),
-          Data('Feb', 1.48710),
-          Data('Mar', 1.48700),
-          Data('Apr', 1.48680),
-          Data('May', 1.48690),
-          Data('Jun', 1.48700),
-          Data('Jul', 1.48720),
-          Data('Aug', 1.48730),
-        ],
-        xValueMapper: (Data data, _) => data.time,
-        yValueMapper: (Data data, _) => data.level.toDouble(),
+      StackedLineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w1,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('Jan', 1.48723),
-          Data('Feb', 1.48723),
-          Data('Mar', 1.48723),
-          Data('Apr', 1.48723),
-          Data('May', 1.48723),
-          Data('Jun', 1.48723),
-          Data('Jul', 1.48723),
-          Data('Aug', 1.48723),
-        ],
-        xValueMapper: (Data data, _) => data.time,
-        yValueMapper: (Data data, _) => data.level.toDouble(),
+      StackedLineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w2,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -283,34 +308,49 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
     ];
   }
 
-  List<CartesianSeries<Data, String>> _getYearSeries() {
+  List<CartesianSeries<WaterLevelData, String>> _getMonthSeries(
+      List<WaterLevelData> data) {
     return [
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('2020', 1.4873),
-          Data('2021', 1.48690),
-          Data('2022', 1.48710),
-          Data('2023', 1.48730),
-          Data('2024', 1.48750),
-        ],
-        xValueMapper: (Data data, _) => data.time,
-        yValueMapper: (Data data, _) => data.level.toDouble(),
+      StackedLineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w1,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('2020', 1.48723),
-          Data('2021', 1.48723),
-          Data('2022', 1.48723),
-          Data('2023', 1.48723),
-          Data('2024', 1.48723),
-        ],
-        xValueMapper: (Data data, _) => data.time,
-        yValueMapper: (Data data, _) => data.level.toDouble(),
+      StackedLineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w2,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+    ];
+  }
+
+  List<CartesianSeries<WaterLevelData, String>> _getYearSeries(
+      List<WaterLevelData> data) {
+    return [
+      StackedLineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w1,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      StackedLineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w2,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -321,8 +361,23 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
   }
 }
 
-class Data {
-  Data(this.time, this.level);
-  final String time;
-  final double level;
+class WaterLevelData {
+  WaterLevelData(this.logTime, this.w1, this.w2);
+  final String logTime;
+  final double w1;
+  final double w2;
+
+  factory WaterLevelData.fromJson(Map<String, dynamic> json) {
+    return WaterLevelData(
+      json['logTime'],
+      json['w1'],
+      json['w2'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'logTime': logTime,
+        'w1': w1,
+        'w2': w2,
+      };
 }

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
@@ -49,7 +48,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
 
   Future<List<RainData>> fetchRainData() async {
     final apiClient = ApiClient();
-    late Map<String, dynamic> response;
+    final Map<String, dynamic> response;
 
     switch (_dataSelected) {
       case DataSelected.Hours:
@@ -170,6 +169,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
     );
   }
 
+  // chart corresponding data selected
   List<CartesianSeries<RainData, String>> _getSeries(List<RainData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:

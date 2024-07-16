@@ -1,3 +1,5 @@
+import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -34,108 +36,159 @@ class ApLucLoRongScreen extends StatefulWidget {
 
 class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   DataSelected _dataSelected = DataSelected.Day;
+  late List<PiezometerData> _chartData;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
+  Future<List<PiezometerData>>? _piezmometerBuilder;
 
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
     _zoomPanBehavior = ZoomPanBehavior(enableSelectionZooming: true);
+    _piezmometerBuilder = fetchPiezometer();
     super.initState();
+  }
+
+  Future<List<PiezometerData>> fetchPiezometer() async {
+    final apiClient = ApiClient();
+    final Map<String, dynamic> response;
+
+    switch (_dataSelected) {
+      case DataSelected.Hours:
+        response = await apiClient.getPiezometerbyHours('yy/MM/dd HH');
+        break;
+      case DataSelected.Day:
+        response = await apiClient.getPiezometerbyDay('yy/MM/dd');
+        break;
+      case DataSelected.Month:
+        response = await apiClient.getPiezometerbyMonth('yy/MM');
+        break;
+      case DataSelected.Year:
+        response = await apiClient.getPiezometerbyYear('yyyy');
+    }
+
+    if (response['success']) {
+      return (response['data'] as List)
+          .map((data) => PiezometerData.fromJson(data))
+          .toList();
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            child: DropdownMenu(
-              textStyle: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.normal,
-              ),
-              selectedTrailingIcon: const Icon(Icons.expand_less),
-              trailingIcon: const Icon(Icons.expand_more),
-              menuStyle: MenuStyle(
-                maximumSize: const WidgetStatePropertyAll(
-                  Size.fromHeight(150),
-                ),
-                surfaceTintColor: const WidgetStatePropertyAll(
-                  Color.fromARGB(255, 255, 255, 255),
-                ),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-              inputDecorationTheme: InputDecorationTheme(
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 10,
-                ),
-                fillColor: const Color.fromARGB(255, 255, 255, 255),
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(
-                    color: Colors.lightBlueAccent,
-                  ),
-                ),
-              ),
-              initialSelection: _dataSelected.name,
-              onSelected: (value) {
-                setState(() {
-                  _dataSelected = DataSelected.values.byName(value as String);
-                });
-              },
-              dropdownMenuEntries: DataSelected.values
-                  .map(
-                    (e) => DropdownMenuEntry(value: e.name, label: e.label),
-                  )
-                  .toList(),
-            ),
-          ),
-          // draw chart
-          Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 15, top: 30),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: SizedBox(
-                    width: 1000,
-                    child: SfCartesianChart(
-                      zoomPanBehavior: _zoomPanBehavior,
-                      primaryXAxis: const CategoryAxis(
-                        majorGridLines: MajorGridLines(width: 0),
-                        isVisible: true,
-                        axisLine: AxisLine(
-                          color: Colors.black,
-                          width: 1,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: FutureBuilder(
+          future: _piezmometerBuilder,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('No data available'));
+            } else {
+              _chartData = snapshot.data!;
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 20),
+                      child: DropdownMenu(
+                        textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
                         ),
+                        selectedTrailingIcon: const Icon(Icons.expand_less),
+                        trailingIcon: const Icon(Icons.expand_more),
+                        menuStyle: MenuStyle(
+                          maximumSize: const WidgetStatePropertyAll(
+                            Size.fromHeight(150),
+                          ),
+                          surfaceTintColor: const WidgetStatePropertyAll(
+                            Color.fromARGB(255, 255, 255, 255),
+                          ),
+                          shape: WidgetStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        inputDecorationTheme: InputDecorationTheme(
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 10,
+                          ),
+                          fillColor: const Color.fromARGB(255, 255, 255, 255),
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: const BorderSide(
+                              color: Colors.lightBlueAccent,
+                            ),
+                          ),
+                        ),
+                        initialSelection: _dataSelected.name,
+                        onSelected: (value) {
+                          setState(() {
+                            _dataSelected =
+                                DataSelected.values.byName(value as String);
+                          });
+                        },
+                        dropdownMenuEntries: DataSelected.values
+                            .map(
+                              (e) => DropdownMenuEntry(
+                                  value: e.name, label: e.label),
+                            )
+                            .toList(),
                       ),
-                      series: _getSeries(),
-                      tooltipBehavior: _tooltipBehavior,
                     ),
-                  ),
+
+                    // draw chart
+                    Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 15, top: 30),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: SizedBox(
+                              width: 1000,
+                              child: SfCartesianChart(
+                                zoomPanBehavior: _zoomPanBehavior,
+                                primaryXAxis: const CategoryAxis(
+                                  majorGridLines: MajorGridLines(width: 0),
+                                  isVisible: true,
+                                  axisLine: AxisLine(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                ),
+                                series: _getSeries(_chartData),
+                                tooltipBehavior: _tooltipBehavior,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          padding: const EdgeInsets.only(
+                              top: 15, left: 20, right: 20),
+                          scrollDirection: Axis.horizontal,
+                          child: _buildCustomLegend(),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.3,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-              SingleChildScrollView(
-                padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
-                scrollDirection: Axis.horizontal,
-                child: _buildCustomLegend(),
-              ),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.3,
-              ),
-            ],
-          ),
-        ],
-      ),
+              );
+            }
+          }),
     );
   }
 
@@ -193,34 +246,29 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
     );
   }
 
-  List<CartesianSeries<Data, String>> _getSeries() {
+  List<CartesianSeries<PiezometerData, String>> _getSeries(
+      List<PiezometerData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:
-        return _getHoursSeries();
+        return _getHoursSeries(data);
+      case DataSelected.Day:
+        return _getDaySeries(data);
       case DataSelected.Month:
-        return _getMonthSeries();
+        return _getMonthSeries(data);
       case DataSelected.Year:
-        return _getYearSeries();
+        return _getYearSeries(data);
       default:
         return [];
     }
   }
 
-  List<CartesianSeries<Data, String>> _getHoursSeries() {
+  List<CartesianSeries<PiezometerData, String>> _getHoursSeries(
+      List<PiezometerData> data) {
     return [
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 10),
-          Data('01:00', 20),
-          Data('02:00', 30),
-          Data('03:00', 40),
-          Data('04:00', 50),
-          Data('05:00', 60),
-          Data('06:00', 70),
-          Data('07:00', 80),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz1,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -228,19 +276,10 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 5),
-          Data('01:00', 10),
-          Data('02:00', 15),
-          Data('03:00', 20),
-          Data('04:00', 25),
-          Data('05:00', 30),
-          Data('06:00', 35),
-          Data('07:00', 40),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz2,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -248,19 +287,10 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 5),
-          Data('01:00', 10),
-          Data('02:00', 15),
-          Data('03:00', 20),
-          Data('04:00', 25),
-          Data('05:00', 30),
-          Data('06:00', 35),
-          Data('07:00', 40),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz3,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -268,19 +298,10 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 5),
-          Data('01:00', 10),
-          Data('02:00', 15),
-          Data('03:00', 20),
-          Data('04:00', 25),
-          Data('05:00', 30),
-          Data('06:00', 35),
-          Data('07:00', 40),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz4,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -288,19 +309,10 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 2),
-          Data('01:00', 10),
-          Data('02:00', 8),
-          Data('03:00', 18),
-          Data('04:00', 25),
-          Data('05:00', 25),
-          Data('06:00', 35),
-          Data('07:00', 38),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz5,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -308,19 +320,10 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('00:00', 5),
-          Data('01:00', 15),
-          Data('02:00', 16),
-          Data('03:00', 10),
-          Data('04:00', 5),
-          Data('05:00', 33),
-          Data('06:00', 35),
-          Data('07:00', 40),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz6,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -328,96 +331,333 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
+      // StackedLineSeries<PiezometerData, String>(
+      //   dataSource: data,
+      //   xValueMapper: (PiezometerData data, _) => data.logTime,
+      //   yValueMapper: (PiezometerData data, _) => data.pz7,
+      //   markerSettings: const MarkerSettings(
+      //     isVisible: true,
+      //     shape: DataMarkerType.circle,
+      //   ),
+      // ),
+      // StackedLineSeries<PiezometerData, String>(
+      //   dataSource: data,
+      //   xValueMapper: (PiezometerData data, _) => data.logTime,
+      //   yValueMapper: (PiezometerData data, _) => data.pz8,
+      //   markerSettings: const MarkerSettings(
+      //     isVisible: true,
+      //     shape: DataMarkerType.circle,
+      //   ),
+      // ),
     ];
   }
 
-  List<CartesianSeries<Data, String>> _getMonthSeries() {
+  List<CartesianSeries<PiezometerData, String>> _getDaySeries(
+      List<PiezometerData> data) {
     return [
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('Jan', 35),
-          Data('Feb', 28),
-          Data('Mar', 34),
-          Data('Apr', 32),
-          Data('May', 40),
-          Data('Jun', 50),
-          Data('Jul', 60),
-          Data('Aug', 70),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz1,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
         ),
         name: 'PZ 1-1',
-        color: Colors.blue,
+        color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('Jan', 20),
-          Data('Feb', 24),
-          Data('Mar', 27),
-          Data('Apr', 30),
-          Data('May', 35),
-          Data('Jun', 40),
-          Data('Jul', 45),
-          Data('Aug', 50),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz2,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
         ),
         name: 'PZ 1-2',
-        color: Colors.green,
+        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz3,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz4,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-2',
+        color: const Color.fromRGBO(238, 102, 102, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz5,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(115, 192, 222, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz6,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-2',
+        color: const Color.fromRGBO(59, 162, 114, 1),
+      ),
+      // StackedLineSeries<PiezometerData, String>(
+      //   dataSource: data,
+      //   xValueMapper: (PiezometerData data, _) => data.logTime,
+      //   yValueMapper: (PiezometerData data, _) => data.pz7,
+      //   markerSettings: const MarkerSettings(
+      //     isVisible: true,
+      //     shape: DataMarkerType.circle,
+      //   ),
+      // ),
+      // StackedLineSeries<PiezometerData, String>(
+      //   dataSource: data,
+      //   xValueMapper: (PiezometerData data, _) => data.logTime,
+      //   yValueMapper: (PiezometerData data, _) => data.pz8,
+      //   markerSettings: const MarkerSettings(
+      //     isVisible: true,
+      //     shape: DataMarkerType.circle,
+      //   ),
+      // ),
     ];
   }
 
-  List<CartesianSeries<Data, String>> _getYearSeries() {
+  List<CartesianSeries<PiezometerData, String>> _getMonthSeries(
+      List<PiezometerData> data) {
     return [
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('2020', 300),
-          Data('2021', 400),
-          Data('2022', 350),
-          Data('2023', 450),
-          Data('2024', 500),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz1,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
         ),
         name: 'PZ 1-1',
-        color: Colors.blue,
+        color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      StackedLineSeries<Data, String>(
-        dataSource: [
-          Data('2020', 250),
-          Data('2021', 300),
-          Data('2022', 320),
-          Data('2023', 400),
-          Data('2024', 450),
-        ],
-        xValueMapper: (Data data, _) => data.day,
-        yValueMapper: (Data data, _) => data.amount,
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz2,
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
         ),
         name: 'PZ 1-2',
-        color: Colors.green,
+        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz3,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz4,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-2',
+        color: const Color.fromRGBO(238, 102, 102, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz5,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(115, 192, 222, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz6,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-2',
+        color: const Color.fromRGBO(59, 162, 114, 1),
+      ),
+      // StackedLineSeries<PiezometerData, String>(
+      //   dataSource: data,
+      //   xValueMapper: (PiezometerData data, _) => data.logTime,
+      //   yValueMapper: (PiezometerData data, _) => data.pz7,
+      //   markerSettings: const MarkerSettings(
+      //     isVisible: true,
+      //     shape: DataMarkerType.circle,
+      //   ),
+      // ),
+      // StackedLineSeries<PiezometerData, String>(
+      //   dataSource: data,
+      //   xValueMapper: (PiezometerData data, _) => data.logTime,
+      //   yValueMapper: (PiezometerData data, _) => data.pz8,
+      //   markerSettings: const MarkerSettings(
+      //     isVisible: true,
+      //     shape: DataMarkerType.circle,
+      //   ),
+      // ),
+    ];
+  }
+
+  List<CartesianSeries<PiezometerData, String>> _getYearSeries(
+      List<PiezometerData> data) {
+    return [
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz1,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz2,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz3,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz4,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-2',
+        color: const Color.fromRGBO(238, 102, 102, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz5,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(115, 192, 222, 1),
+      ),
+      StackedLineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz6,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-2',
+        color: const Color.fromRGBO(59, 162, 114, 1),
+      ),
+      // StackedLineSeries<PiezometerData, String>(
+      //   dataSource: data,
+      //   xValueMapper: (PiezometerData data, _) => data.logTime,
+      //   yValueMapper: (PiezometerData data, _) => data.pz7,
+      //   markerSettings: const MarkerSettings(
+      //     isVisible: true,
+      //     shape: DataMarkerType.circle,
+      //   ),
+      // ),
+      // StackedLineSeries<PiezometerData, String>(
+      //   dataSource: data,
+      //   xValueMapper: (PiezometerData data, _) => data.logTime,
+      //   yValueMapper: (PiezometerData data, _) => data.pz8,
+      //   markerSettings: const MarkerSettings(
+      //     isVisible: true,
+      //     shape: DataMarkerType.circle,
+      //   ),
+      // ),
     ];
   }
 }
 
-class Data {
-  Data(this.day, this.amount);
-  final String day;
-  final int amount;
+// Data class
+class PiezometerData {
+  PiezometerData(this.logTime, this.pz1, this.pz2, this.pz3, this.pz4, this.pz5,
+      this.pz6, this.pz7, this.pz8);
+  final String logTime;
+  final double pz1;
+  final double pz2;
+  final double pz3;
+  final double pz4;
+  final double pz5;
+  final double pz6;
+  final double pz7;
+  final double pz8;
+
+  factory PiezometerData.fromJson(Map<String, dynamic> json) => PiezometerData(
+        json["logTime"],
+        json["pz1"],
+        json["pz2"],
+        json["pz3"],
+        json["pz4"],
+        json["pz5"],
+        json["pz6"],
+        json["pz7"],
+        json["pz8"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "logTime": logTime,
+        "pz1": pz1,
+        "pz2": pz2,
+        "pz3": pz3,
+        "pz4": pz4,
+        "pz5": pz5,
+        "pz6": pz6,
+        "pz7": pz7,
+        "pz8": pz8,
+      };
 }

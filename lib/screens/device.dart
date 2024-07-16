@@ -396,7 +396,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         children: [
                           gnssScreen(),
                           ApLucLoRongScreen(),
-                          nghiengSauScreen(),
+                          //nghiengSauScreen(),
                           RaingaugeScreen(),
                           WaterLevelScreen(),
                         ],
