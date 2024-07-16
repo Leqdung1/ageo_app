@@ -34,7 +34,7 @@ class RaingaugeScreen extends StatefulWidget {
 }
 
 class _RaingaugeScreenState extends State<RaingaugeScreen> {
-  DataSelected _dataSelected = DataSelected.Day;
+  DataSelected _dataSelected = DataSelected.Hours;
   late List<RainData> _chartData;
   late TooltipBehavior _tooltipBehavior;
   Future<List<RainData>>? _rainDataBuilder;
@@ -134,10 +134,13 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                       ),
                       initialSelection: _dataSelected.name,
                       onSelected: (value) {
-                        setState(() {
-                          _dataSelected =
-                              DataSelected.values.byName(value as String);
-                        });
+                        setState(
+                          () {
+                            _dataSelected =
+                                DataSelected.values.byName(value as String);
+                            _rainDataBuilder = fetchRainData();
+                          },
+                        );
                       },
                       dropdownMenuEntries: DataSelected.values
                           .map(

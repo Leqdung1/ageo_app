@@ -35,7 +35,7 @@ class ApLucLoRongScreen extends StatefulWidget {
 }
 
 class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
-  DataSelected _dataSelected = DataSelected.Day;
+  DataSelected _dataSelected = DataSelected.Hours;
   late List<PiezometerData> _chartData;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
@@ -137,6 +137,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                           setState(() {
                             _dataSelected =
                                 DataSelected.values.byName(value as String);
+                            _piezmometerBuilder = fetchPiezometer();
                           });
                         },
                         dropdownMenuEntries: DataSelected.values

@@ -40,7 +40,7 @@ class WaterLevelScreen extends StatefulWidget {
 }
 
 class _WaterLevelScreenState extends State<WaterLevelScreen> {
-  DataSelected _dataSelected = DataSelected.Day;
+  DataSelected _dataSelected = DataSelected.Hours;
   Future<List<WaterLevelData>>? _waterLevelBuilder;
   late List<WaterLevelData> _chartData;
   late TooltipBehavior _tooltipBehavior;
@@ -145,6 +145,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                         setState(() {
                           _dataSelected =
                               DataSelected.values.byName(value as String);
+                          _waterLevelBuilder = fetchWaterLevelData();
                         });
                       },
                       dropdownMenuEntries: DataSelected.values
