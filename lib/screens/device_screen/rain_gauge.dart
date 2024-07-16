@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:intl/intl.dart';
 
 enum DataSelected {
   Hours,
@@ -40,6 +43,18 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
   late ZoomPanBehavior _zoomPanBehavior;
   Future<List<RainData>>? _rainDataBuilder;
 
+  DateTime _startDate = DateTime.now().subtract(
+    const Duration(days: 7),
+  );
+
+  DateTime _endDate = DateTime.now();
+
+  final DateTime _startTime = DateTime.now().subtract(
+    const Duration(days: 7),
+  );
+
+  final DateTime _endTime = DateTime.now();
+
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
@@ -49,11 +64,12 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
       enablePanning: true,
       zoomMode: ZoomMode.xy,
     );
-    _rainDataBuilder = fetchRainData();
+    _rainDataBuilder = fetchRainData(startDate: _startDate, endDate: _endDate);
     super.initState();
   }
 
-  Future<List<RainData>> fetchRainData() async {
+  Future<List<RainData>> fetchRainData(
+      {required DateTime startDate, required DateTime endDate}) async {
     final apiClient = ApiClient();
     final Map<String, dynamic> response;
 
@@ -75,11 +91,71 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
     }
 
     if (response['success']) {
-      return (response['data'] as List)
+      List<RainData> data = (response['data'] as List)
           .map((data) => RainData.fromJson(data))
           .toList();
+
+      // Filter data based on the date range
+      return data.where((rainData) {
+        switch (_dataSelected) {
+          case DataSelected.Hours:
+            DateTime logTime =
+                DateFormat('yy/MM/dd HH').parse(rainData.logTime);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+
+          case DataSelected.Day:
+            DateTime logTime = DateFormat('yy/MM/dd').parse(rainData.logTime);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+
+          case DataSelected.Month:
+            DateTime logTime = DateFormat('yy/MM').parse(rainData.logTime);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+
+          case DataSelected.Year:
+            DateTime logTime = DateFormat('yyyy').parse(rainData.logTime);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+        }
+      }).toList();
     } else {
       throw Exception('Failed to load data');
+    }
+  }
+
+  // show date picker
+  Future<void> showDateTime(BuildContext context, bool isStart) async {
+    DateTime? pickedDate = await showOmniDateTimePicker(
+      context: context,
+      theme: ThemeData(
+        hoverColor: Colors.blue,
+        primaryColor: Colors.blue,
+      ),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+      is24HourMode: true,
+      minutesInterval: 1,
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
+      constraints: const BoxConstraints(maxWidth: 350, maxHeight: 650),
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(
+          opacity: anim1.drive(Tween(begin: 0, end: 1)),
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 200),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        if (isStart) {
+          _startDate = pickedDate;
+        } else {
+          _endDate = pickedDate;
+        }
+        // Fetch and filter data based on the new date range
+        _rainDataBuilder =
+            fetchRainData(startDate: _startDate, endDate: _endDate);
+      });
     }
   }
 
@@ -99,69 +175,288 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
           } else {
             _chartData = snapshot.data!;
             return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // pick date
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: TextButton(
+                          onPressed: () => showDateTime(context, true),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color:
+                                      const Color.fromRGBO(210, 221, 238, 1)),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.005),
+                                        child: const Text(
+                                          'Từ ngày',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(_startDate),
+                                              style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black),
+                                            ),
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_startTime),
+                                              style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.01),
+                                    child: SvgPicture.asset(
+                                        'assets/icons/calender.svg',
+                                        height: 20),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: TextButton(
+                          onPressed: () => showDateTime(context, false),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color:
+                                      const Color.fromRGBO(210, 221, 238, 1)),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.005),
+                                        child: const Text(
+                                          'Đến ngày',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(_endDate),
+                                              style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black),
+                                            ),
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_endTime),
+                                              style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.01),
+                                    child: SvgPicture.asset(
+                                        'assets/icons/calender.svg',
+                                        height: 20),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    height: 2,
+                    width: MediaQuery.sizeOf(context).width * 1,
+                    color: const Color.fromRGBO(236, 236, 236, 1),
+                  ),
+
                   Container(
                     margin: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 20),
-                    child: DropdownMenu(
-                      textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      selectedTrailingIcon: const Icon(Icons.expand_less),
-                      trailingIcon: const Icon(Icons.expand_more),
-                      menuStyle: MenuStyle(
-                        maximumSize: const WidgetStatePropertyAll(
-                          Size.fromHeight(150),
-                        ),
-                        surfaceTintColor: const WidgetStatePropertyAll(
-                          Color.fromARGB(255, 255, 255, 255),
-                        ),
-                        shape: WidgetStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: DropdownMenu(
+                            textStyle: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            selectedTrailingIcon: const Icon(Icons.expand_less),
+                            trailingIcon: const Icon(Icons.expand_more),
+                            menuStyle: MenuStyle(
+                              maximumSize: const WidgetStatePropertyAll(
+                                Size.fromHeight(150),
+                              ),
+                              surfaceTintColor: const WidgetStatePropertyAll(
+                                Color.fromARGB(255, 255, 255, 255),
+                              ),
+                              shape: WidgetStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            ),
+                            inputDecorationTheme: InputDecorationTheme(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0,
+                                horizontal: 10,
+                              ),
+                              fillColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  color: Colors.lightBlueAccent,
+                                ),
+                              ),
+                            ),
+                            initialSelection: _dataSelected.name,
+                            onSelected: (value) {
+                              setState(
+                                () {
+                                  _dataSelected = DataSelected.values
+                                      .byName(value as String);
+                                  _rainDataBuilder = fetchRainData(
+                                      startDate: _startDate, endDate: _endDate);
+                                },
+                              );
+                            },
+                            dropdownMenuEntries: DataSelected.values
+                                .map(
+                                  (e) => DropdownMenuEntry(
+                                      value: e.name, label: e.label),
+                                )
+                                .toList(),
                           ),
                         ),
-                      ),
-                      inputDecorationTheme: InputDecorationTheme(
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: 10,
-                        ),
-                        fillColor: const Color.fromARGB(255, 255, 255, 255),
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: Colors.lightBlueAccent,
-                          ),
-                        ),
-                      ),
-                      initialSelection: _dataSelected.name,
-                      onSelected: (value) {
-                        setState(
-                          () {
-                            _dataSelected =
-                                DataSelected.values.byName(value as String);
-                            _rainDataBuilder = fetchRainData();
-                          },
-                        );
-                      },
-                      dropdownMenuEntries: DataSelected.values
-                          .map(
-                            (e) => DropdownMenuEntry(
-                                value: e.name, label: e.label),
-                          )
-                          .toList(),
+                      ],
                     ),
                   ),
 
-                  // draw chart
+                  // Draw chart
                   SfCartesianChart(
+                    margin: const EdgeInsets.all(15),
                     primaryXAxis: const CategoryAxis(
                       majorGridLines: MajorGridLines(width: 0),
+                      majorTickLines: MajorTickLines(
+                        width: 1,
+                        color: Colors.black,
+                        size: 5,
+                      ),
                       axisLine: AxisLine(
                         color: Colors.black,
                         width: 1,
@@ -180,7 +475,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
     );
   }
 
-  // chart corresponding data selected
+  // Chart corresponding data selected
   List<CartesianSeries<RainData, String>> _getSeries(List<RainData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:

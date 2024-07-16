@@ -171,8 +171,12 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           child: SizedBox(
                             width: 1000,
                             child: SfCartesianChart(
+                              margin: const EdgeInsets.all(15),
+                              enableAxisAnimation: true,
                               primaryXAxis: const CategoryAxis(
                                 majorGridLines: MajorGridLines(width: 0),
+                                majorTickLines: MajorTickLines(
+                                    width: 1, color: Colors.black, size: 5),
                                 isVisible: true,
                                 axisLine: AxisLine(
                                   color: Colors.black,
@@ -180,11 +184,11 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                 ),
                               ),
                               primaryYAxis: NumericAxis(
-                                maximum:
-                                    getMaxYAxisValue(_chartData).toDouble(),
-                                interval: 0.001,
-                                majorGridLines: MajorGridLines(width: 0),
-                              ),
+                                  maximum:
+                                      getMaxYAxisValue(_chartData).toDouble(),
+                                  majorGridLines:
+                                      const MajorGridLines(width: 1),
+                                  rangePadding: ChartRangePadding.additional),
                               series: _getSeries(_chartData),
                               tooltipBehavior: _tooltipBehavior,
                               zoomPanBehavior: _zoomPanBehavior,
