@@ -6,9 +6,13 @@ import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:intl/intl.dart';
 
 enum DataSelected {
+  // ignore: constant_identifier_names
   Hours,
+  // ignore: constant_identifier_names
   Day,
+  // ignore: constant_identifier_names
   Month,
+  // ignore: constant_identifier_names
   Year,
 }
 
@@ -42,17 +46,13 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
   Future<List<RainData>>? _rainDataBuilder;
-
   DateTime _startDate = DateTime.now().subtract(
     const Duration(days: 7),
   );
-
   DateTime _endDate = DateTime.now();
-
   final DateTime _startTime = DateTime.now().subtract(
     const Duration(days: 7),
   );
-
   final DateTime _endTime = DateTime.now();
 
   @override
@@ -376,6 +376,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                     ],
                   ),
 
+                  // devider
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     height: 2,
@@ -383,6 +384,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                     color: const Color.fromRGBO(236, 236, 236, 1),
                   ),
 
+                  // drop down menu
                   Container(
                     margin: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 20),
