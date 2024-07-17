@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:video_player/video_player.dart';
 
 enum CameraSelected {
   all,
@@ -40,14 +44,14 @@ class CameraScreenTest extends StatefulWidget {
 }
 
 class _CameraScreenTestState extends State<CameraScreenTest> {
-  CameraSelected _selectedCamera = CameraSelected.all;
-  late final StreamController<Map<String, dynamic>> _streamController =
-      StreamController<Map<String, dynamic>>.broadcast();
+  CameraSelected _selectedCamera = CameraSelected.camera1;
+  late VideoPlayerController _controller;
 
   Stream<dynamic> fetchCamera(CameraSelected selectedCamera) async* {
     final apiClient = ApiClient();
-    Stream<dynamic> response = Stream.empty();
 
+    // fetch api
+    Stream<dynamic> response = const Stream.empty();
     switch (selectedCamera) {
       case CameraSelected.all:
         yield* apiClient.getCamera1();
@@ -73,6 +77,22 @@ class _CameraScreenTestState extends State<CameraScreenTest> {
         break;
     }
     yield* response;
+  }
+
+  // save stream data to file
+  Future<File> saveStreamData(Uint8List uint8List) async {
+    String tempDir = (await getTemporaryDirectory()).path;
+    File file = File('$tempDir/temp_video.mp4');
+    await file.writeAsBytes(uint8List);
+    return file;
+  }
+
+  // play video
+  void playVideo(Uint8List uint8List) async {
+    File videoFile = await saveStreamData(uint8List);
+    VideoPlayerController controller = VideoPlayerController.file(videoFile);
+    await controller.initialize();
+    controller.play();
   }
 
   @override
@@ -250,10 +270,20 @@ class _CameraScreenTestState extends State<CameraScreenTest> {
                 );
               } else if (snapshot.hasData) {
                 final response = snapshot.data!;
-                return Container(
-                  color: Colors.white,
-                  child:
-                      Text(response.toString()), // Render your camera data here
+                return FutureBuilder(
+                  future: saveStreamData(response),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      File videoFile = snapshot.data!;
+                      VideoPlayerController controller =
+                          VideoPlayerController.file(videoFile);
+                      return VideoPlayer(controller);
+                    } else {
+                      return const Center(
+                        child: Text('failed to load data'),
+                      );
+                    }
+                  },
                 );
               }
             }
@@ -299,10 +329,20 @@ class _CameraScreenTestState extends State<CameraScreenTest> {
               );
             } else if (snapshot.hasData) {
               final response = snapshot.data!;
-              return Container(
-                color: Colors.white,
-                child:
-                    Text(response.toString()), // Render your camera data here
+              return FutureBuilder(
+                future: saveStreamData(response),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    File videoFile = snapshot.data!;
+                    VideoPlayerController controller =
+                        VideoPlayerController.file(videoFile);
+                    return VideoPlayer(controller);
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               );
             }
           }
