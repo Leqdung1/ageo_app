@@ -2,7 +2,6 @@ import "package:Ageo_solutions/screens/forgot_password.dart";
 import "package:Ageo_solutions/screens/home.dart";
 
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 
 import "package:flutter_svg/svg.dart";
@@ -56,11 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _checkLastLoggedInData() {
     return _lastUserName.isNotEmpty && _lastUserPhoneNumber.isNotEmpty;
   }
-
-  bool _checkEnable() {
-    return _username.isNotEmpty && _password.isNotEmpty;
-  }
-
   Future<void> _handleLogin() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (_formKey.currentState!.validate()) {
@@ -87,11 +81,13 @@ class _LoginScreenState extends State<LoginScreen> {
       dynamic res = await _apiClient.login(_username, _password);
       if (context.mounted) {
         if (res["error"] != null) {
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(res["error_description"]),
             backgroundColor: Colors.red,
           ));
 
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
         } else {
           await SecureStorage()

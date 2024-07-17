@@ -1,4 +1,5 @@
 import 'package:Ageo_solutions/components/menu_side_bar.dart';
+import 'package:Ageo_solutions/screens/cameratest.dart';
 import 'package:Ageo_solutions/screens/camera.dart';
 import 'package:Ageo_solutions/screens/control_panel.dart';
 import 'package:Ageo_solutions/screens/device.dart';
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      drawer: const NavigatorDrawer(),
+      drawer: NavigatorDrawer(),
       body: Stack(
         children: [
           Positioned.fill(
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 ControlPanelScreen(),
                 MapScreen(),
-                CameraScreen(),
+                CameraScreenTest(),
                 DeviceScreen(),
                 WarningScreen(),
               ],

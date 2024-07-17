@@ -12,7 +12,7 @@ class _WarningScreenState extends State<WarningScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-       backgroundColor: Color.fromRGBO(245, 245, 245, 1),
+       backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
       body: Column(
         children: [
           // TODO: add api
@@ -85,7 +85,7 @@ class _WarningScreenState extends State<WarningScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(left: 15),
+                              margin: const EdgeInsets.only(left: 15),
                               height: 35,
                               width: 35,
                               decoration: const BoxDecoration(
@@ -142,7 +142,7 @@ class _WarningScreenState extends State<WarningScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(left: 15),
+                              margin: const EdgeInsets.only(left: 15),
                               height: 35,
                               width: 35,
                               decoration: const BoxDecoration(
@@ -205,7 +205,7 @@ class _WarningScreenState extends State<WarningScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(left: 15),
+                              margin: const EdgeInsets.only(left: 15),
                               height: 35,
                               width: 35,
                               decoration: const BoxDecoration(

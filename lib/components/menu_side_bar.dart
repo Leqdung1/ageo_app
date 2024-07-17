@@ -66,7 +66,7 @@ class _NavigatorDrawerState extends State<NavigatorDrawer> {
                       fontWeight: FontWeight.w500),
                 ),
                 onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()))),
+                    MaterialPageRoute(builder: (context) => const HomeScreen()))),
             ListTile(
                 leading: SvgPicture.asset('assets/icons/notifi.svg'),
                 title: const Text(
@@ -79,7 +79,7 @@ class _NavigatorDrawerState extends State<NavigatorDrawer> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => NotificationsScreen()))),
+                        builder: (context) => const NotificationsScreen()))),
             ExpansionTile(
               leading: SvgPicture.asset('assets/icons/menu.svg'),
               title: const Text(
@@ -182,7 +182,7 @@ class _NavigatorDrawerState extends State<NavigatorDrawer> {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => AccountScreen(
+                        builder: (context) => const AccountScreen(
                               userData: {},
                               avatar: '',
                               name: '',

@@ -1,4 +1,10 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:video_player/video_player.dart';
 
 enum CameraSelected {
   all,
@@ -39,6 +45,58 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   CameraSelected _selectedCamera = CameraSelected.all;
+
+  // convert stream data into file 
+  Future<File> _saveStreamData(Uint8List streamData) async {
+    String tempPath = (await getTemporaryDirectory()).path;
+    File file = File('$tempPath/temp_video.mp4');
+    await file.writeAsBytes(streamData);
+    return file;
+  }
+
+  // create video player 
+  void playVideo(Uint8List streamData) async {  
+  File videoFile = await _saveStreamData(streamData);  
+  VideoPlayerController controller = VideoPlayerController.file(videoFile);  
+  await controller.initialize();  
+  controller.play();  
+}  
+
+  // fetch api
+  Stream<Uint8List> fetchCamera(CameraSelected selectedCamera) async* {
+    final apiClient = ApiClient();
+    Stream<Uint8List> response = const Stream.empty();
+
+    try {
+      switch (selectedCamera) {
+        case CameraSelected.all:
+          yield* apiClient.getCamera1();
+          yield* apiClient.getCamera2();
+          yield* apiClient.getCamera3();
+          yield* apiClient.getCamera4();
+          yield* apiClient.getCamera5();
+          break;
+        case CameraSelected.camera1:
+          response = apiClient.getCamera1();
+          break;
+        case CameraSelected.camera2:
+          response = apiClient.getCamera2();
+          break;
+        case CameraSelected.camera3:
+          response = apiClient.getCamera3();
+          break;
+        case CameraSelected.camera4:
+          response = apiClient.getCamera4();
+          break;
+        case CameraSelected.camera5:
+          response = apiClient.getCamera5();
+          break;
+      }
+      yield* response;
+    } catch (e) {
+      print("Error in fetchCamera: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

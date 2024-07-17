@@ -1,6 +1,5 @@
-import 'package:Ageo_solutions/screens/device.dart';
+import 'package:Ageo_solutions/screens/cameratest.dart';
 import 'package:Ageo_solutions/screens/home.dart';
-import 'package:Ageo_solutions/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
         Locale('en', ''), // English
       ],
       locale: Locale('vi', ''),
-      home: HomeScreen(),
+      home: CameraScreenTest(),
     );
   }
 }

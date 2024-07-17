@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:dio/dio.dart';
+
 import 'package:retry/retry.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/status.dart' as status;
+
 
 class ApiClient {
   final Dio _dio = Dio(BaseOptions(
@@ -75,12 +80,13 @@ class ApiClient {
   // Piezometer
   Future<Map<String, dynamic>> getPiezometerData(timeFormat) async {
     final apiToken = await _ss.readSecureData("access_token");
+    final toDate = DateTime.now().toIso8601String();
     final Map<String, dynamic> details = {
       'deviceId': "",
       'fromDate': "2024-06-30T17:00:00.000Z",
       'tagName': "",
       'timeFormat': timeFormat,
-      'toDate': "2024-07-15T15:26:43.851Z",
+      'toDate': toDate,
     };
     try {
       final response = await _r.retry(
@@ -129,12 +135,13 @@ class ApiClient {
   // Inclinometer
   Future<Map<String, dynamic>> getInclinometerData(timeFormat) async {
     final apiToken = await _ss.readSecureData("access_token");
+    final toDate = DateTime.now().toIso8601String();
     final Map<String, dynamic> details = {
       'deviceId': "",
       'fromDate': "2024-06-30T17:00:00.000Z",
       'tagName': "Di",
       'timeFormat': timeFormat,
-      'toDate': "2024-07-15T16:52:33.145Z",
+      'toDate': toDate,
     };
     try {
       final response = await _r.retry(
@@ -183,11 +190,11 @@ class ApiClient {
   // Rain gauge
   Future<Map<String, dynamic>> getRainData(timeFormat) async {
     final apiToken = await _ss.readSecureData("access_token");
-
+    final toDate = DateTime.now().toIso8601String();
     final Map<String, dynamic> details = {
       'deviceId': "175_NTH/QT_04",
       'fromDate': "2024-06-30T17:00:00.000Z",
-      'toDate': "2024-07-15T03:38:55.170Z",
+      'toDate': toDate,
       'tagName': "MUCNUOC",
       'timeFormat': timeFormat
     };
@@ -238,12 +245,13 @@ class ApiClient {
   // Water Leverl
   Future<Map<String, dynamic>> getWaterLevel(timeFormat) async {
     final apiToken = await _ss.readSecureData('access_token');
+    final toDate = DateTime.now().toIso8601String();
     final details = {
       'deviceId': "175_NTH/QT_04",
       'fromDate': "2024-06-30T17:00:00.000Z",
       'tagName': "MUCNUOC",
       'timeFormat': timeFormat,
-      'toDate': "2024-07-15T16:13:57.088Z",
+      'toDate': toDate,
     };
     try {
       final response = await _r.retry(
@@ -272,20 +280,41 @@ class ApiClient {
     }
   }
 
-  Future<Map<String, dynamic>> getWaterLevelByHours(String s) async{
+  Future<Map<String, dynamic>> getWaterLevelByHours(String s) async {
     return await getWaterLevel('yy/MM/dd HH');
   }
 
-   Future<Map<String, dynamic>> getWaterLevelByDay(String s) async{
+  Future<Map<String, dynamic>> getWaterLevelByDay(String s) async {
     return await getWaterLevel('yy/MM/dd');
   }
 
-   Future<Map<String, dynamic>> getWaterLevelByMonth(String s) async{
+  Future<Map<String, dynamic>> getWaterLevelByMonth(String s) async {
     return await getWaterLevel('yy/MM');
   }
 
-   Future<Map<String, dynamic>> getWaterLevelByYear(String s) async{
+  Future<Map<String, dynamic>> getWaterLevelByYear(String s) async {
     return await getWaterLevel('yyyy');
   }
+
+
+  // Camera
+  Stream<Uint8List> getCamera(String url) async* {
+    final channel = WebSocketChannel.connect(Uri.parse(url));
+    try {
+      await for (var data in channel.stream) {
+        yield data;
+      }
+    } catch (e) {
+     
+    } finally {
+      channel.sink.close(status.goingAway);
+    }
   }
 
+  Stream<Uint8List> getCamera1() => getCamera("ws://api.ageo.vn:2000/api/stream/9091/103/0");
+  Stream<Uint8List> getCamera2() => getCamera("ws://api.ageo.vn:2000/api/stream/9092/103/0");
+  Stream<Uint8List> getCamera3() => getCamera("ws://api.ageo.vn:2000/api/stream/9093/103/0");
+  Stream<Uint8List> getCamera4() => getCamera("ws://api.ageo.vn:2000/api/stream/9094/103/0");
+  Stream<Uint8List> getCamera5() => getCamera("ws://api.ageo.vn:2000/api/stream/9095/103/0");
+
+}

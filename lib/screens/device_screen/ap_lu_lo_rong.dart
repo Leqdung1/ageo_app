@@ -6,9 +6,13 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 
 enum DataSelected {
+  // ignore: constant_identifier_names
   Hours,
+  // ignore: constant_identifier_names
   Day,
+  // ignore: constant_identifier_names
   Month,
+  // ignore: constant_identifier_names
   Year,
 }
 
@@ -483,7 +487,8 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                 ),
               );
             }
-          }),
+          },
+          ),
     );
   }
 

@@ -83,7 +83,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(245, 245, 245, 1),
+      backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
       body: Column(
         children: [
           Container(
