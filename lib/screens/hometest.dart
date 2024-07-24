@@ -22,19 +22,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(21, 101, 192, 1),
-        title: const Text(
-          'KHE SANH, WARD 10, DA LAT CITY',
-          style: TextStyle(
-            fontSize: 15,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
-      drawer: const NavigatorDrawer(),
+      // appBar: AppBar(
+      //   backgroundColor: const Color.fromRGBO(21, 101, 192, 1),
+      //   title: const Text(
+      //     'KHE SANH, WARD 10, DA LAT CITY',
+      //     style: TextStyle(
+      //       fontSize: 15,
+      //       color: Colors.white,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      //   iconTheme: const IconThemeData(color: Colors.white),
+      // ),
+      // drawer: const NavigatorDrawer(),
       body: Column(
         children: [
           Expanded(
@@ -151,37 +151,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ],
-              navBarBuilder: (navBarConfig) => Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
+              navBarBuilder: (navBarConfig) => Style4BottomNavBar(
+                navBarDecoration: NavBarDecoration(
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
-                  boxShadow: [
+                  boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      spreadRadius: 1,
+                      color: Colors.black.withAlpha(25),
+                      blurRadius: 20,
+                      offset: const Offset(1, -1),
                     ),
                   ],
                 ),
-                child: Style4BottomNavBar(
-                  navBarDecoration: NavBarDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black.withAlpha(25),
-                        blurRadius: 20,
-                        offset: const Offset(1, -1),
-                      ),
-                    ],
-                  ),
-                  navBarConfig: navBarConfig,
-                ),
+                navBarConfig: navBarConfig,
               ),
             ),
           ),

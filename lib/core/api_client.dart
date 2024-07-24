@@ -8,7 +8,6 @@ import 'package:retry/retry.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
 
-
 class ApiClient {
   final Dio _dio = Dio(BaseOptions(
     connectTimeout: const Duration(seconds: 5),
@@ -296,7 +295,6 @@ class ApiClient {
     return await getWaterLevel('yyyy');
   }
 
-
   // Camera
   Stream<Uint8List> getCamera(String url) async* {
     final channel = WebSocketChannel.connect(Uri.parse(url));
@@ -305,16 +303,20 @@ class ApiClient {
         yield data;
       }
     } catch (e) {
-     
+      print('$e');
     } finally {
       channel.sink.close(status.goingAway);
     }
   }
 
-  Stream<Uint8List> getCamera1() => getCamera("ws://api.ageo.vn:2000/api/stream/9091/103/0");
-  Stream<Uint8List> getCamera2() => getCamera("ws://api.ageo.vn:2000/api/stream/9092/103/0");
-  Stream<Uint8List> getCamera3() => getCamera("ws://api.ageo.vn:2000/api/stream/9093/103/0");
-  Stream<Uint8List> getCamera4() => getCamera("ws://api.ageo.vn:2000/api/stream/9094/103/0");
-  Stream<Uint8List> getCamera5() => getCamera("ws://api.ageo.vn:2000/api/stream/9095/103/0");
-
+  Stream<Uint8List> getCamera1() =>
+      getCamera("ws://api.ageo.vn:2000/api/stream/9091/103/0");
+  Stream<Uint8List> getCamera2() =>
+      getCamera("ws://api.ageo.vn:2000/api/stream/9092/103/0");
+  Stream<Uint8List> getCamera3() =>
+      getCamera("ws://api.ageo.vn:2000/api/stream/9093/103/0");
+  Stream<Uint8List> getCamera4() =>
+      getCamera("ws://api.ageo.vn:2000/api/stream/9094/103/0");
+  Stream<Uint8List> getCamera5() =>
+      getCamera("ws://api.ageo.vn:2000/api/stream/9095/103/0");
 }

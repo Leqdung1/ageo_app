@@ -160,25 +160,44 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       body: FutureBuilder(
-          future: _piezmometerBuilder,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text('No data available'));
-            } else {
-              _chartData = snapshot.data!;
-              return SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // pick date
-                    Row(
+        future: _piezmometerBuilder,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No data available'));
+          } else {
+            _chartData = snapshot.data!;
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // pick date
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                    ),
+                    padding: const EdgeInsetsDirectional.symmetric(
+                      horizontal: 10,
+                      vertical: 15,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
@@ -377,134 +396,158 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                         ),
                       ],
                     ),
+                  ),
 
-                    // devider
-                    Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      height: 2,
-                      width: MediaQuery.sizeOf(context).width * 1,
-                      color: const Color.fromRGBO(236, 236, 236, 1),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 15,
                     ),
-
-                    // drop down menu
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 20),
-                      child: DropdownMenu(
-                        textStyle: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        selectedTrailingIcon: const Icon(Icons.expand_less),
-                        trailingIcon: const Icon(Icons.expand_more),
-                        menuStyle: MenuStyle(
-                          maximumSize: const WidgetStatePropertyAll(
-                            Size.fromHeight(150),
-                          ),
-                          surfaceTintColor: const WidgetStatePropertyAll(
-                            Color.fromARGB(255, 255, 255, 255),
-                          ),
-                          shape: WidgetStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                        inputDecorationTheme: InputDecorationTheme(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 0,
-                            horizontal: 10,
-                          ),
-                          fillColor: const Color.fromARGB(255, 255, 255, 255),
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: Colors.lightBlueAccent,
-                            ),
-                          ),
-                        ),
-                        initialSelection: _dataSelected.name,
-                        onSelected: (value) {
-                          setState(() {
-                            _dataSelected =
-                                DataSelected.values.byName(value as String);
-                            _piezmometerBuilder = fetchPiezometer(
-                                startDate: _startDate, endDate: _endDate);
-                          });
-                        },
-                        dropdownMenuEntries: DataSelected.values
-                            .map(
-                              (e) => DropdownMenuEntry(
-                                  value: e.name, label: e.label),
-                            )
-                            .toList(),
-                      ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 15,
                     ),
-
-                    // draw chart
-                    Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 15, top: 30),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: SizedBox(
-                              width: 1000,
-                              child: SfCartesianChart(
-                                plotAreaBorderWidth: 0,
-                                primaryXAxis: const CategoryAxis(
-                                  labelStyle: TextStyle(
-                        color: Colors.grey,
-                      ),
-                                  majorGridLines: MajorGridLines(width: 0),
-                                  majorTickLines: MajorTickLines(
-                                    width: 1,
-                                    color: Colors.black,
-                                    size: 5,
-                                  ),
-                                  isVisible: true,
-                                  axisLine: AxisLine(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
-                                ),
-                                  primaryYAxis: const NumericAxis(
-                                    labelStyle: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                      majorTickLines: MajorTickLines(
-                        width: 0,
-                      ),
-                      axisLine: AxisLine(
-                        color: Colors.transparent,
-                        width: 0,
-                      ),
-                    ),
-                                series: _getSeries(_chartData),
-                                tooltipBehavior: _tooltipBehavior,
-                                zoomPanBehavior: _zoomPanBehavior,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SingleChildScrollView(
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 20, right: 20),
-                          scrollDirection: Axis.horizontal,
-                          child: _buildCustomLegend(),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.3,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          offset: const Offset(0, 1),
+                          blurRadius: 8,
                         ),
                       ],
                     ),
-                  ],
-                ),
-              );
-            }
-          },
-          ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // drop down menu
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 15, bottom: 20),
+                            child: Expanded(
+                              child: DropdownMenu(
+                                textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                selectedTrailingIcon:
+                                    const Icon(Icons.expand_less),
+                                trailingIcon: const Icon(Icons.expand_more),
+                                menuStyle: MenuStyle(
+                                  maximumSize: const WidgetStatePropertyAll(
+                                    Size.fromHeight(150),
+                                  ),
+                                  surfaceTintColor:
+                                      const WidgetStatePropertyAll(
+                                    Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                  shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ),
+                                inputDecorationTheme: InputDecorationTheme(
+                                  fillColor:
+                                      const Color.fromRGBO(245, 245, 245, 1),
+                                  filled: true,
+                                  border: InputBorder.none,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: const BorderSide(
+                                      color: Colors.transparent,
+                                      width: 0,
+                                    ),
+                                  ),
+                                ),
+                                initialSelection: _dataSelected.name,
+                                onSelected: (value) {
+                                  setState(() {
+                                    _dataSelected = DataSelected.values
+                                        .byName(value as String);
+                                    _piezmometerBuilder = fetchPiezometer(
+                                        startDate: _startDate,
+                                        endDate: _endDate);
+                                  });
+                                },
+                                dropdownMenuEntries: DataSelected.values
+                                    .map(
+                                      (e) => DropdownMenuEntry(
+                                          value: e.name, label: e.label),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ),
+
+                          // draw chart
+                          Column(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(left: 15, top: 30),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SizedBox(
+                                    width: 1000,
+                                    child: SfCartesianChart(
+                                      plotAreaBorderWidth: 0,
+                                      primaryXAxis: const CategoryAxis(
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorGridLines:
+                                            MajorGridLines(width: 0),
+                                        majorTickLines: MajorTickLines(
+                                          width: 1,
+                                          color: Colors.black,
+                                          size: 5,
+                                        ),
+                                        isVisible: true,
+                                        axisLine: AxisLine(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      primaryYAxis: const NumericAxis(
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorTickLines: MajorTickLines(
+                                          width: 0,
+                                        ),
+                                        axisLine: AxisLine(
+                                          color: Colors.transparent,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      series: _getSeries(_chartData),
+                                      tooltipBehavior: _tooltipBehavior,
+                                      zoomPanBehavior: _zoomPanBehavior,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                padding: const EdgeInsets.only(
+                                    top: 15, left: 20, right: 20),
+                                scrollDirection: Axis.horizontal,
+                                child: _buildCustomLegend(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 

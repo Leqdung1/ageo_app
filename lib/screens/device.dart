@@ -40,9 +40,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
           // Choose devices screen
           Container(
             height: MediaQuery.of(context).size.height * 0.08,
-            margin: const EdgeInsets.symmetric(vertical: 12),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color.fromRGBO(245, 245, 245, 1),
+
               // borderRadius: BorderRadius.circular(8),
               // boxShadow: [
               //   BoxShadow(
@@ -58,13 +58,24 @@ class _DeviceScreenState extends State<DeviceScreen> {
               itemBuilder: (BuildContext context, int index) {
                 bool isSelected = _itemsSelected == index;
                 return Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 15,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 5,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
+                    border: Border.all(
+                      color: isSelected
+                          ? const Color.fromRGBO(0, 65, 130, 1)
+                          : Colors.grey,
+                    ),
                     color: isSelected
                         ? const Color.fromRGBO(42, 98, 154, 1)
-                        : const Color.fromRGBO(237, 235, 233, 1),
-                    borderRadius: BorderRadius.circular(15),
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
                     child: TextButton(
@@ -80,9 +91,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         items[index],
                         style: TextStyle(
                           fontSize: 15,
-                          color: isSelected
-                              ? Colors.white
-                              : const Color.fromRGBO(135, 133, 131, 1),
+                          color: isSelected ? Colors.white : Colors.grey,
                           fontWeight:
                               isSelected ? FontWeight.bold : FontWeight.w400,
                         ),
@@ -94,45 +103,39 @@ class _DeviceScreenState extends State<DeviceScreen> {
             ),
           ),
 
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(-1, 1),
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 4,
-                  ),
-                ],
+          // decoration: BoxDecoration(
+          //   color: Colors.white,
+          //   borderRadius: const BorderRadius.only(
+          //       topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+          //   boxShadow: [
+          //     BoxShadow(
+          //       offset: const Offset(-1, 1),
+          //       color: Colors.black.withOpacity(0.1),
+          //       blurRadius: 4,
+          //     ),
+          //   ],
+          // ),
+
+          Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
               ),
-              child: SingleChildScrollView(
-                child: Column(
+              // index screen
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.75,
+                child: IndexedStack(
+                  index: _itemsSelected,
                   children: [
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5, vertical: 12),
-                    ),
-                    // index screen
-                    SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.75,
-                      child: IndexedStack(
-                        index: _itemsSelected,
-                        children: [
-                          gnssScreen(),
-                          ApLucLoRongScreen(),
-                          //nghiengSauScreen(),
-                          RaingaugeScreen(),
-                          WaterLevelScreen(),
-                        ],
-                      ),
-                    ),
+                    gnssScreen(),
+                    ApLucLoRongScreen(),
+                    //nghiengSauScreen(),
+                    RaingaugeScreen(),
+                    WaterLevelScreen(),
                   ],
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

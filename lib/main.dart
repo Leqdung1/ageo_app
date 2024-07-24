@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,  
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
