@@ -130,7 +130,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
       lastDate: DateTime.now(),
       is24HourMode: true,
       minutesInterval: 1,
-      borderRadius: const BorderRadius.all(Radius.circular(16)),
+      borderRadius: const BorderRadius.all(Radius.circular(12)),
       constraints: const BoxConstraints(maxWidth: 350, maxHeight: 650),
       transitionBuilder: (context, anim1, anim2, child) {
         return FadeTransition(
@@ -209,16 +209,22 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                           child: TextButton(
                             onPressed: () => showDateTime(context, true),
                             child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color:
-                                        const Color.fromRGBO(210, 221, 238, 1)),
-                              ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          right: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.01),
+                                      child: SvgPicture.asset(
+                                          'assets/icons/calender.svg',
+                                          height: 20),
+                                    ),
+                                  ),
                                   Expanded(
                                     flex: 3,
                                     child: Column(
@@ -283,6 +289,24 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                       ],
                                     ),
                                   ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 50,
+                          width: 2,
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: TextButton(
+                            onPressed: () => showDateTime(context, false),
+                            child: Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
                                   Expanded(
                                     flex: 1,
                                     child: Padding(
@@ -296,26 +320,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                           height: 20),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: TextButton(
-                            onPressed: () => showDateTime(context, false),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color:
-                                        const Color.fromRGBO(210, 221, 238, 1)),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
                                   Expanded(
                                     flex: 3,
                                     child: Column(
@@ -378,19 +382,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.01),
-                                      child: SvgPicture.asset(
-                                          'assets/icons/calender.svg',
-                                          height: 20),
                                     ),
                                   ),
                                 ],
@@ -500,7 +491,9 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                             vertical: 20,
                           ),
                           primaryXAxis: const CategoryAxis(
-                            majorGridLines: MajorGridLines(width: 0),
+                            majorGridLines: MajorGridLines(
+                              width: 0,
+                            ),
                             labelStyle: TextStyle(
                               color: Colors.grey,
                             ),
@@ -566,8 +559,8 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         xValueMapper: (RainData rain, _) => rain.logTime,
         yValueMapper: (RainData rain, _) => rain.rainAmount,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
         ),
         color: const Color.fromRGBO(21, 101, 192, 1),
       ),
@@ -581,8 +574,8 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         xValueMapper: (RainData rain, _) => rain.logTime,
         yValueMapper: (RainData rain, _) => rain.rainAmount,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
         ),
         color: const Color.fromRGBO(21, 101, 192, 1),
       ),
@@ -596,8 +589,8 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         xValueMapper: (RainData rain, _) => rain.logTime,
         yValueMapper: (RainData rain, _) => rain.rainAmount,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
         ),
         color: const Color.fromRGBO(21, 101, 192, 1),
       ),
@@ -611,8 +604,8 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         xValueMapper: (RainData rain, _) => rain.logTime,
         yValueMapper: (RainData rain, _) => rain.rainAmount,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
         ),
         color: const Color.fromRGBO(21, 101, 192, 1),
       ),

@@ -22,19 +22,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
-      // appBar: AppBar(
-      //   backgroundColor: const Color.fromRGBO(21, 101, 192, 1),
-      //   title: const Text(
-      //     'KHE SANH, WARD 10, DA LAT CITY',
-      //     style: TextStyle(
-      //       fontSize: 15,
-      //       color: Colors.white,
-      //       fontWeight: FontWeight.bold,
-      //     ),
-      //   ),
-      //   iconTheme: const IconThemeData(color: Colors.white),
-      // ),
-      // drawer: const NavigatorDrawer(),
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(21, 101, 192, 1),
+        title: const Text(
+          'KHE SANH, WARD 10, DA LAT CITY',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      drawer: const NavigatorDrawer(),
       body: Column(
         children: [
           Expanded(
