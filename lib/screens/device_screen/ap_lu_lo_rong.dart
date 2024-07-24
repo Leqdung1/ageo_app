@@ -542,6 +542,9 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height * 0.2,
+                  ),
                 ],
               ),
             );

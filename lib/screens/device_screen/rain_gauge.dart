@@ -187,8 +187,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                       horizontal: 12,
                     ),
                     padding: const EdgeInsetsDirectional.symmetric(
-                      horizontal: 10,
-                      vertical: 15,
+                      vertical: 10,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -202,6 +201,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                       ],
                     ),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
@@ -214,16 +214,9 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 children: [
                                   Expanded(
                                     flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.01),
-                                      child: SvgPicture.asset(
-                                          'assets/icons/calender.svg',
-                                          height: 20),
-                                    ),
+                                    child: SvgPicture.asset(
+                                        'assets/icons/calender.svg',
+                                        height: 20),
                                   ),
                                   Expanded(
                                     flex: 3,
@@ -235,10 +228,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
                                               top: MediaQuery.of(context)
                                                       .size
                                                       .width *
@@ -246,7 +235,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                               bottom: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.005),
+                                                  0.008),
                                           child: const Text(
                                             'Từ ngày',
                                             style: TextStyle(
@@ -257,10 +246,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
                                               bottom: MediaQuery.of(context)
                                                       .size
                                                       .width *
@@ -295,7 +280,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                           ),
                         ),
                         Container(
-                          height: 50,
+                          height: 40,
                           width: 2,
                           color: Colors.grey.withOpacity(0.5),
                         ),
@@ -309,16 +294,9 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 children: [
                                   Expanded(
                                     flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.01),
-                                      child: SvgPicture.asset(
-                                          'assets/icons/calender.svg',
-                                          height: 20),
-                                    ),
+                                    child: SvgPicture.asset(
+                                        'assets/icons/calender.svg',
+                                        height: 20),
                                   ),
                                   Expanded(
                                     flex: 3,
@@ -423,109 +401,115 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                       ],
                     ),
                     child: SingleChildScrollView(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(
-                              left: 20, right: 15, bottom: 20),
-                          child: Expanded(
-                            child: DropdownMenu(
-                              textStyle: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              selectedTrailingIcon:
-                                  const Icon(Icons.expand_less),
-                              trailingIcon: const Icon(Icons.expand_more),
-                              menuStyle: MenuStyle(
-                                maximumSize: const WidgetStatePropertyAll(
-                                  Size.fromHeight(150),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 15, bottom: 20),
+                            child: Expanded(
+                              child: DropdownMenu(
+                                textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                surfaceTintColor: const WidgetStatePropertyAll(
-                                  Colors.white,
-                                ),
-                                shape: WidgetStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
+                                selectedTrailingIcon:
+                                    const Icon(Icons.expand_less),
+                                trailingIcon: const Icon(Icons.expand_more),
+                                menuStyle: MenuStyle(
+                                  maximumSize: const WidgetStatePropertyAll(
+                                    Size.fromHeight(150),
+                                  ),
+                                  surfaceTintColor:
+                                      const WidgetStatePropertyAll(
+                                    Colors.white,
+                                  ),
+                                  shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              inputDecorationTheme: InputDecorationTheme(
-                                fillColor:
-                                    const Color.fromRGBO(245, 245, 245, 1),
-                                filled: true,
-                                border: InputBorder.none,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                    color: Colors.transparent,
-                                    width: 0,
+                                inputDecorationTheme: InputDecorationTheme(
+                                  fillColor:
+                                      const Color.fromRGBO(245, 245, 245, 1),
+                                  filled: true,
+                                  border: InputBorder.none,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: const BorderSide(
+                                      color: Colors.transparent,
+                                      width: 0,
+                                    ),
                                   ),
                                 ),
+                                initialSelection: _dataSelected.name,
+                                onSelected: (value) {
+                                  setState(() {
+                                    _dataSelected = DataSelected.values
+                                        .byName(value as String);
+                                    _rainDataBuilder = fetchRainData(
+                                        startDate: _startDate,
+                                        endDate: _endDate);
+                                  });
+                                },
+                                dropdownMenuEntries: DataSelected.values
+                                    .map(
+                                      (e) => DropdownMenuEntry(
+                                          value: e.name, label: e.label),
+                                    )
+                                    .toList(),
                               ),
-                              initialSelection: _dataSelected.name,
-                              onSelected: (value) {
-                                setState(() {
-                                  _dataSelected = DataSelected.values
-                                      .byName(value as String);
-                                  _rainDataBuilder = fetchRainData(
-                                      startDate: _startDate, endDate: _endDate);
-                                });
-                              },
-                              dropdownMenuEntries: DataSelected.values
-                                  .map(
-                                    (e) => DropdownMenuEntry(
-                                        value: e.name, label: e.label),
-                                  )
-                                  .toList(),
                             ),
                           ),
-                        ),
 
-                        // Draw chart
-                        SfCartesianChart(
-                          plotAreaBorderWidth: 0,
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 20,
+                          // Draw chart
+                          SfCartesianChart(
+                            plotAreaBorderWidth: 0,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 20,
+                            ),
+                            primaryXAxis: const CategoryAxis(
+                              majorGridLines: MajorGridLines(
+                                width: 0,
+                              ),
+                              labelStyle: TextStyle(
+                                color: Colors.grey,
+                              ),
+                              rangePadding: ChartRangePadding.auto,
+                              majorTickLines: MajorTickLines(
+                                width: 1,
+                                color: Colors.black,
+                                size: 5,
+                              ),
+                              axisLine: AxisLine(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                            ),
+                            primaryYAxis: const NumericAxis(
+                              labelStyle: TextStyle(
+                                color: Colors.grey,
+                              ),
+                              majorTickLines: MajorTickLines(
+                                width: 0,
+                              ),
+                              axisLine: AxisLine(
+                                color: Colors.transparent,
+                                width: 0,
+                              ),
+                            ),
+                            tooltipBehavior: _tooltipBehavior,
+                            zoomPanBehavior: _zoomPanBehavior,
+                            series: _getSeries(_chartData),
                           ),
-                          primaryXAxis: const CategoryAxis(
-                            majorGridLines: MajorGridLines(
-                              width: 0,
-                            ),
-                            labelStyle: TextStyle(
-                              color: Colors.grey,
-                            ),
-                            rangePadding: ChartRangePadding.auto,
-                            majorTickLines: MajorTickLines(
-                              width: 1,
-                              color: Colors.black,
-                              size: 5,
-                            ),
-                            axisLine: AxisLine(
-                              color: Colors.black,
-                              width: 1,
-                            ),
-                          ),
-                          primaryYAxis: const NumericAxis(
-                            labelStyle: TextStyle(
-                              color: Colors.grey,
-                            ),
-                            majorTickLines: MajorTickLines(
-                              width: 0,
-                            ),
-                            axisLine: AxisLine(
-                              color: Colors.transparent,
-                              width: 0,
-                            ),
-                          ),
-                          tooltipBehavior: _tooltipBehavior,
-                          zoomPanBehavior: _zoomPanBehavior,
-                          series: _getSeries(_chartData),
-                        ),
-                      ],
-                    )),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height * 0.2,
                   ),
                 ],
               ),

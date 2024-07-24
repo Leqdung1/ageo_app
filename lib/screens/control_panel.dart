@@ -77,7 +77,8 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                               offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
-                          ]),
+                          ],
+                          ),
                       child: const Column(
                         children: [
                           Padding(
@@ -194,7 +195,8 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                               offset: const Offset(0, 1),
                               blurRadius: 8,
                             )
-                          ]),
+                          ],
+                          ),
                       child: const Column(
                         children: [
                           Padding(

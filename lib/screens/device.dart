@@ -39,7 +39,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         children: [
           // Choose devices screen
           Container(
-            height: MediaQuery.of(context).size.height * 0.08,
+            height: 70,
             decoration: const BoxDecoration(
               color: Color.fromRGBO(245, 245, 245, 1),
 
@@ -62,10 +62,6 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     horizontal: 12,
                     vertical: 15,
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 5,
-                  ),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: isSelected
@@ -87,13 +83,19 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         );
                         debugPrint('Selected index: $_itemsSelected');
                       },
-                      child: Text(
-                        items[index],
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: isSelected ? Colors.white : Colors.grey,
-                          fontWeight:
-                              isSelected ? FontWeight.bold : FontWeight.w400,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        child: Text(
+                          items[index],
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: isSelected ? Colors.white : Colors.grey,
+                            fontWeight:
+                                isSelected ? FontWeight.bold : FontWeight.w400,
+                          ),
                         ),
                       ),
                     ),

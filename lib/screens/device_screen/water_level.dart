@@ -549,7 +549,11 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           ),
                         ],
                       ),
+                      
                     ),
+                  ),
+                      SizedBox(
+                    height: MediaQuery.sizeOf(context).height * 0.2,
                   ),
                 ],
               ),
