@@ -452,6 +452,9 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                               margin: const EdgeInsets.all(15),
                               enableAxisAnimation: true,
                               primaryXAxis: const CategoryAxis(
+                                labelStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
                                 majorGridLines: MajorGridLines(width: 0),
                                 majorTickLines: MajorTickLines(
                                     width: 1, color: Colors.black, size: 5),

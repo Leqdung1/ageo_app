@@ -125,10 +125,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
   Future<void> showDateTime(BuildContext context, bool isStart) async {
     DateTime? pickedDate = await showOmniDateTimePicker(
       context: context,
-      theme: ThemeData(
-        hoverColor: Colors.blue,
-        primaryColor: Colors.blue,
-      ),
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
@@ -143,6 +139,13 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         );
       },
       transitionDuration: const Duration(milliseconds: 200),
+      theme: ThemeData(
+        colorScheme: const ColorScheme.light(
+          primary: Color.fromRGBO(21, 101, 192, 1),
+          onPrimary: Colors.white,
+          surface: Colors.white,
+        ),
+      ),
     );
 
     if (pickedDate != null) {
@@ -394,7 +397,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                           child: DropdownMenu(
                             textStyle: const TextStyle(
                               fontSize: 15,
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.w500,
                             ),
                             selectedTrailingIcon: const Icon(Icons.expand_less),
                             trailingIcon: const Icon(Icons.expand_more),
@@ -403,7 +406,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 Size.fromHeight(150),
                               ),
                               surfaceTintColor: const WidgetStatePropertyAll(
-                                Color.fromARGB(255, 255, 255, 255),
+                                Colors.white,
                               ),
                               shape: WidgetStatePropertyAll(
                                 RoundedRectangleBorder(
@@ -412,30 +415,25 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                               ),
                             ),
                             inputDecorationTheme: InputDecorationTheme(
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: 0,
-                                horizontal: 10,
-                              ),
-                              fillColor:
-                                  const Color.fromARGB(255, 255, 255, 255),
+                              fillColor: const Color.fromRGBO(245, 245, 245, 1),
                               filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
+                              border: InputBorder.none,
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
                                 borderSide: const BorderSide(
-                                  color: Colors.lightBlueAccent,
+                                  color: Colors.transparent,
+                                  width: 0,
                                 ),
                               ),
                             ),
                             initialSelection: _dataSelected.name,
                             onSelected: (value) {
-                              setState(
-                                () {
-                                  _dataSelected = DataSelected.values
-                                      .byName(value as String);
-                                  _rainDataBuilder = fetchRainData(
-                                      startDate: _startDate, endDate: _endDate);
-                                },
-                              );
+                              setState(() {
+                                _dataSelected =
+                                    DataSelected.values.byName(value as String);
+                                _rainDataBuilder = fetchRainData(
+                                    startDate: _startDate, endDate: _endDate);
+                              });
                             },
                             dropdownMenuEntries: DataSelected.values
                                 .map(
@@ -454,6 +452,10 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                     margin: const EdgeInsets.all(15),
                     primaryXAxis: const CategoryAxis(
                       majorGridLines: MajorGridLines(width: 0),
+                      labelStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      rangePadding: ChartRangePadding.auto,
                       majorTickLines: MajorTickLines(
                         width: 1,
                         color: Colors.black,
@@ -499,6 +501,10 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         dataSource: data,
         xValueMapper: (RainData rain, _) => rain.logTime,
         yValueMapper: (RainData rain, _) => rain.rainAmount,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
         color: const Color.fromRGBO(21, 101, 192, 1),
       ),
     ];
@@ -510,6 +516,10 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         dataSource: data,
         xValueMapper: (RainData rain, _) => rain.logTime,
         yValueMapper: (RainData rain, _) => rain.rainAmount,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
         color: const Color.fromRGBO(21, 101, 192, 1),
       ),
     ];
@@ -521,6 +531,10 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         dataSource: data,
         xValueMapper: (RainData rain, _) => rain.logTime,
         yValueMapper: (RainData rain, _) => rain.rainAmount,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
         color: const Color.fromRGBO(21, 101, 192, 1),
       ),
     ];
@@ -532,6 +546,10 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         dataSource: data,
         xValueMapper: (RainData rain, _) => rain.logTime,
         yValueMapper: (RainData rain, _) => rain.rainAmount,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
         color: const Color.fromRGBO(21, 101, 192, 1),
       ),
     ];

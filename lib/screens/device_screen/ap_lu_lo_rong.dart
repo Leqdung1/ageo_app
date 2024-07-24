@@ -452,7 +452,11 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                             child: SizedBox(
                               width: 1000,
                               child: SfCartesianChart(
+                                
                                 primaryXAxis: const CategoryAxis(
+                                  labelStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
                                   majorGridLines: MajorGridLines(width: 0),
                                   majorTickLines: MajorTickLines(
                                     width: 1,
