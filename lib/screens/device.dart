@@ -5,7 +5,6 @@ import 'package:Ageo_solutions/screens/device_screen/water_level.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 class DeviceScreen extends StatefulWidget {
   const DeviceScreen({super.key});
 
@@ -43,15 +42,15 @@ class _DeviceScreenState extends State<DeviceScreen> {
             height: MediaQuery.of(context).size.height * 0.08,
             margin: const EdgeInsets.symmetric(vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                  color: Colors.black.withOpacity(0.1),
-                ),
-              ],
+              color: Color.fromRGBO(245, 245, 245, 1),
+              // borderRadius: BorderRadius.circular(8),
+              // boxShadow: [
+              //   BoxShadow(
+              //     offset: const Offset(0, 1),
+              //     blurRadius: 4,
+              //     color: Colors.black.withOpacity(0.1),
+              //   ),
+              // ],
             ),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,

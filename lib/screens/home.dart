@@ -19,12 +19,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      currentPageIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 ControlPanelScreen(),
                 MapScreen(),
-                CameraScreenTest(),
+                //CameraScreenTest(),
                 DeviceScreen(),
                 WarningScreen(),
               ],

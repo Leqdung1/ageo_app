@@ -1,5 +1,7 @@
-
+import 'package:Ageo_solutions/screens/device.dart';
 import 'package:Ageo_solutions/screens/device_screen/rain_gauge.dart';
+import 'package:Ageo_solutions/screens/home.dart';
+import 'package:Ageo_solutions/screens/hometest.dart';
 import 'package:Ageo_solutions/screens/testcam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
         Locale('en', ''), // English
       ],
       locale: Locale('vi', ''),
-      home: RaingaugeScreen(),
+      home: HomeTest(),
     );
   }
 }
