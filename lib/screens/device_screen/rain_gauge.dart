@@ -449,6 +449,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
 
                   // Draw chart
                   SfCartesianChart(
+                    plotAreaBorderWidth: 0,
                     margin: const EdgeInsets.all(15),
                     primaryXAxis: const CategoryAxis(
                       majorGridLines: MajorGridLines(width: 0),
@@ -464,6 +465,15 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                       axisLine: AxisLine(
                         color: Colors.black,
                         width: 1,
+                      ),
+                    ),
+                    primaryYAxis: const NumericAxis(
+                      majorTickLines: MajorTickLines(
+                        width: 0,
+                      ),
+                      axisLine: AxisLine(
+                        color: Colors.transparent,
+                        width: 0,
                       ),
                     ),
                     tooltipBehavior: _tooltipBehavior,

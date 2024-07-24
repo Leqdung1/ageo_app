@@ -452,7 +452,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                             child: SizedBox(
                               width: 1000,
                               child: SfCartesianChart(
-                                
+                                plotAreaBorderWidth: 0,
                                 primaryXAxis: const CategoryAxis(
                                   labelStyle: TextStyle(
                         color: Colors.grey,
@@ -469,6 +469,15 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                     width: 1,
                                   ),
                                 ),
+                                  primaryYAxis: const NumericAxis(
+                      majorTickLines: MajorTickLines(
+                        width: 0,
+                      ),
+                      axisLine: AxisLine(
+                        color: Colors.transparent,
+                        width: 0,
+                      ),
+                    ),
                                 series: _getSeries(_chartData),
                                 tooltipBehavior: _tooltipBehavior,
                                 zoomPanBehavior: _zoomPanBehavior,

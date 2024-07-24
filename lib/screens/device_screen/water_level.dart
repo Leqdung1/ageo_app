@@ -449,6 +449,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           child: SizedBox(
                             width: 1000,
                             child: SfCartesianChart(
+                              plotAreaBorderWidth: 0,
                               margin: const EdgeInsets.all(15),
                               enableAxisAnimation: true,
                               primaryXAxis: const CategoryAxis(
@@ -464,6 +465,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                   width: 1,
                                 ),
                               ),
+                              
                               primaryYAxis: NumericAxis(
                                   maximum:
                                       getMaxYAxisValue(_chartData).toDouble(),
