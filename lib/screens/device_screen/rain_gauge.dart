@@ -468,6 +468,9 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                       ),
                     ),
                     primaryYAxis: const NumericAxis(
+                      labelStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
                       majorTickLines: MajorTickLines(
                         width: 0,
                       ),

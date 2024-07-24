@@ -470,6 +470,9 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                   ),
                                 ),
                                   primaryYAxis: const NumericAxis(
+                                    labelStyle: TextStyle(
+                                      color: Colors.grey,
+                                    ),
                       majorTickLines: MajorTickLines(
                         width: 0,
                       ),

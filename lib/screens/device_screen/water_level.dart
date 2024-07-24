@@ -454,8 +454,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                               enableAxisAnimation: true,
                               primaryXAxis: const CategoryAxis(
                                 labelStyle: TextStyle(
-                        color: Colors.grey,
-                      ),
+                                  color: Colors.grey,
+                                ),
                                 majorGridLines: MajorGridLines(width: 0),
                                 majorTickLines: MajorTickLines(
                                     width: 1, color: Colors.black, size: 5),
@@ -465,8 +465,10 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                   width: 1,
                                 ),
                               ),
-                              
                               primaryYAxis: NumericAxis(
+                                  labelStyle: TextStyle(
+                                    color: Colors.grey,
+                                  ),
                                   maximum:
                                       getMaxYAxisValue(_chartData).toDouble(),
                                   majorGridLines:
