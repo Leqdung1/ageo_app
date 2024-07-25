@@ -1,7 +1,7 @@
 import 'package:Ageo_solutions/screens/device.dart';
 import 'package:Ageo_solutions/screens/device_screen/rain_gauge.dart';
 import 'package:Ageo_solutions/screens/home.dart';
-import 'package:Ageo_solutions/screens/hometest.dart';
+import 'package:Ageo_solutions/screens/home.dart';
 import 'package:Ageo_solutions/screens/testcam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

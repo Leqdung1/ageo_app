@@ -1,6 +1,6 @@
 import "package:Ageo_solutions/screens/forgot_password.dart";
 import "package:Ageo_solutions/screens/home.dart";
-import "package:Ageo_solutions/screens/hometest.dart";
+import "package:Ageo_solutions/screens/home.dart";
 
 import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,8 +11,9 @@ import "../core/api_client.dart";
 import "../core/helpers.dart";
 
 class LoginScreen extends StatefulWidget {
-
-  const LoginScreen({super.key,});
+  const LoginScreen({
+    super.key,
+  });
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -31,8 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordFocus = FocusNode();
 
   var _passwordVisible = false;
-
-
 
   void _readLastLoggedInData() async {
     final name =
@@ -56,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _checkLastLoggedInData() {
     return _lastUserName.isNotEmpty && _lastUserPhoneNumber.isNotEmpty;
   }
+
   Future<void> _handleLogin() async {
     FocusManager.instance.primaryFocus?.unfocus();
     if (_formKey.currentState!.validate()) {
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-   
+
     return Stack(
       children: [
         Container(
@@ -208,7 +208,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     IconButton(
                                       onPressed: () {
                                         //TODO: change language VN
-                               
                                       },
                                       icon: SvgPicture.asset(
                                           'assets/icons/Vietnam.svg'),
@@ -219,7 +218,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     IconButton(
                                       onPressed: () {
                                         //TODO: change language EN
-                                     
                                       },
                                       icon: SvgPicture.asset(
                                           'assets/icons/Us.svg'),
