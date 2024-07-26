@@ -1,4 +1,5 @@
 import 'package:Ageo_solutions/components/menu_side_bar.dart';
+import 'package:Ageo_solutions/components/theme_provider.dart';
 import 'package:Ageo_solutions/screens/camera.dart';
 import 'package:Ageo_solutions/screens/control_panel.dart';
 import 'package:Ageo_solutions/screens/device.dart';
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // drawer: const NavigatorDrawer(),
       body: Column(
         children: [
+ 
           Expanded(
             child: PersistentTabView(
               navBarHeight: 80,
@@ -138,8 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: const SettingsScreen(
-                ),
+                  screen: const SettingsScreen(),
                   item: ItemConfig(
                     icon: const Icon(Icons.more_horiz_outlined),
                     title: "More",

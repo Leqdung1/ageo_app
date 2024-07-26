@@ -12,7 +12,6 @@ class _WarningScreenState extends State<WarningScreen> {
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // User must tap button to dismiss
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('AlertDialog Title'),
@@ -26,9 +25,15 @@ class _WarningScreenState extends State<WarningScreen> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Approve'),
+              child: const Text('Cancel'),
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],

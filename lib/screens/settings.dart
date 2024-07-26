@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'package:Ageo_solutions/components/theme.dart';
+import 'package:Ageo_solutions/components/theme_provider.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -14,7 +17,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   Map<String, dynamic>? response;
   bool isLoading = true;
-  bool isDarkMode = false;
 
   @override
   void initState() {
@@ -66,6 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Provider.of<ThemeProvider>(context).themeData == darkMode;
     var size = MediaQuery.of(context).size;
 
     return Container(
@@ -112,7 +115,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -141,8 +144,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ? const CircularProgressIndicator()
                                     : Text(
                                         response?["staffName"] ?? "N/A",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
                                         ),
                                       ),
                               ],
@@ -159,17 +166,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     vertical: 16,
                     horizontal: 5,
                   ),
-                  child: const Text(
+                  child: Text(
                     "Cài đặt tài khoản",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     boxShadow: [
                       BoxShadow(
                         offset: const Offset(0, 2),
@@ -186,16 +194,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
-                        title: const Text(
+                        title: Text(
                           "Thông tin cá nhân",
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        leading: const Icon(
+                        leading: Icon(
                           Icons.person_outline_outlined,
-                          color: Colors.black,
+                          color: Theme.of(context).iconTheme.color,
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
@@ -220,16 +229,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
-                        title: const Text(
+                        title: Text(
                           "Thay đổi ngôn ngữ",
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        leading: const Icon(
+                        leading: Icon(
                           Icons.language_outlined,
-                          color: Colors.black,
+                          color: Theme.of(context).iconTheme.color,
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
@@ -254,40 +264,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
-                        title: const Text(
+                        title: Text(
                           "Chế độ tối",
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        leading: const Icon(
+                        leading: Icon(
                           Icons.dark_mode_outlined,
-                          color: Colors.black,
+                          color: Theme.of(context).iconTheme.color,
                         ),
                         trailing: Transform.scale(
                           scale: 0.8,
                           child: Switch(
-                           
-                            activeTrackColor: Colors.yellow,
-                            activeColor: Colors.blue,
+                            activeTrackColor:
+                                const Color.fromARGB(255, 246, 193, 49),
+                            activeColor: const Color.fromRGBO(21, 101, 192, 1),
                             value: isDarkMode,
                             onChanged: (value) {
-                              setState(() {
-                                isDarkMode = value;
-                              });
-                              // Implement dark mode functionality
+                              Provider.of<ThemeProvider>(context, listen: false)
+                                  .toggleTheme();
                             },
                           ),
                         ),
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (BuildContext context) => LoginScreen(),
-                          //   ),
-                          // );
-                        },
                       ),
                       Divider(
                         height: 0,
@@ -298,11 +299,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
-                        title: const Text(
+                        title: Text(
                           "Đổi mật khẩu",
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
                         leading: SvgPicture.asset(
@@ -334,11 +336,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
-                        title: const Text(
+                        title: Text(
                           "Đăng xuất",
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
                         leading: SvgPicture.asset("assets/icons/logout.svg"),
