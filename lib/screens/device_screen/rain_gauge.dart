@@ -371,14 +371,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                     ),
                   ),
 
-                  // // devider
-                  // Container(
-                  //   margin: const EdgeInsets.only(top: 20),
-                  //   height: 2,
-                  //   width: MediaQuery.sizeOf(context).width * 1,
-                  //   color: const Color.fromRGBO(236, 236, 236, 1),
-                  // ),
-
                   // drop down menu
                   Container(
                     margin: const EdgeInsets.symmetric(

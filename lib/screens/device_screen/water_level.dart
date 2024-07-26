@@ -128,8 +128,11 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
     DateTime? pickedDate = await showOmniDateTimePicker(
       context: context,
       theme: ThemeData(
-        hoverColor: Colors.blue,
-        primaryColor: Colors.blue,
+        colorScheme: const ColorScheme.light(
+          primary: Color.fromRGBO(21, 101, 192, 1),
+          onPrimary: Colors.white,
+          surface: Colors.white,
+        ),
       ),
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
@@ -187,8 +190,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                       horizontal: 12,
                     ),
                     padding: const EdgeInsetsDirectional.symmetric(
-                      horizontal: 10,
-                      vertical: 15,
+                      vertical: 10,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -202,6 +204,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                       ],
                     ),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
@@ -209,16 +212,15 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           child: TextButton(
                             onPressed: () => showDateTime(context, true),
                             child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color:
-                                        const Color.fromRGBO(210, 221, 238, 1)),
-                              ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: SvgPicture.asset(
+                                        'assets/icons/calender.svg',
+                                        height: 20),
+                                  ),
                                   Expanded(
                                     flex: 3,
                                     child: Column(
@@ -229,10 +231,6 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
                                               top: MediaQuery.of(context)
                                                       .size
                                                       .width *
@@ -240,7 +238,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                               bottom: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.005),
+                                                  0.008),
                                           child: const Text(
                                             'Từ ngày',
                                             style: TextStyle(
@@ -251,10 +249,6 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
                                               bottom: MediaQuery.of(context)
                                                       .size
                                                       .width *
@@ -283,39 +277,30 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                       ],
                                     ),
                                   ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.01),
-                                      child: SvgPicture.asset(
-                                          'assets/icons/calender.svg',
-                                          height: 20),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
                           ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 2,
+                          color: Colors.grey.withOpacity(0.5),
                         ),
                         Expanded(
                           flex: 1,
                           child: TextButton(
                             onPressed: () => showDateTime(context, false),
                             child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color:
-                                        const Color.fromRGBO(210, 221, 238, 1)),
-                              ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: SvgPicture.asset(
+                                        'assets/icons/calender.svg',
+                                        height: 20),
+                                  ),
                                   Expanded(
                                     flex: 3,
                                     child: Column(
@@ -378,19 +363,6 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.01),
-                                      child: SvgPicture.asset(
-                                          'assets/icons/calender.svg',
-                                          height: 20),
                                     ),
                                   ),
                                 ],
@@ -549,10 +521,9 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           ),
                         ],
                       ),
-                      
                     ),
                   ),
-                      SizedBox(
+                  SizedBox(
                     height: MediaQuery.sizeOf(context).height * 0.2,
                   ),
                 ],

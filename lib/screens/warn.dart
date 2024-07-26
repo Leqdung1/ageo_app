@@ -8,11 +8,40 @@ class WarningScreen extends StatefulWidget {
 }
 
 class _WarningScreenState extends State<WarningScreen> {
+  // show alert
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap button to dismiss
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('This is a demo alert dialog.'),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-       backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
+      backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
       body: Column(
         children: [
           // TODO: add api
@@ -62,7 +91,9 @@ class _WarningScreenState extends State<WarningScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _showMyDialog();
+                      },
                       child: Container(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 29,
@@ -105,7 +136,9 @@ class _WarningScreenState extends State<WarningScreen> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 5),
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _showMyDialog();
+                                },
                                 child: const Text(
                                   'Warning level 1',
                                   style: TextStyle(
@@ -120,7 +153,9 @@ class _WarningScreenState extends State<WarningScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _showMyDialog();
+                      },
                       child: Container(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 29, vertical: 15),
@@ -167,7 +202,9 @@ class _WarningScreenState extends State<WarningScreen> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 5),
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _showMyDialog();
+                                },
                                 child: const Text(
                                   'Warning level 2',
                                   style: TextStyle(
@@ -182,7 +219,9 @@ class _WarningScreenState extends State<WarningScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _showMyDialog();
+                      },
                       child: Container(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 29,
@@ -230,7 +269,9 @@ class _WarningScreenState extends State<WarningScreen> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 10),
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _showMyDialog();
+                                },
                                 child: const Text(
                                   'Warning level 3',
                                   style: TextStyle(

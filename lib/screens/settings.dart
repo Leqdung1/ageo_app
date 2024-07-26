@@ -14,6 +14,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   Map<String, dynamic>? response;
   bool isLoading = true;
+  bool isDarkMode = false;
 
   @override
   void initState() {
@@ -186,6 +187,118 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         title: const Text(
+                          "Thông tin cá nhân",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        leading: const Icon(
+                          Icons.person_outline_outlined,
+                          color: Colors.black,
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.grey.withOpacity(0.5),
+                          size: 18,
+                        ),
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (BuildContext context) => LoginScreen(),
+                          //   ),
+                          // );
+                        },
+                      ),
+                      Divider(
+                        height: 0,
+                        indent: 15,
+                        endIndent: 15,
+                        color: Colors.grey.withOpacity(0.2),
+                      ),
+                      ListTile(
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
+                        title: const Text(
+                          "Thay đổi ngôn ngữ",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        leading: const Icon(
+                          Icons.language_outlined,
+                          color: Colors.black,
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 18,
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (BuildContext context) => LoginScreen(),
+                          //   ),
+                          // );
+                        },
+                      ),
+                      Divider(
+                        height: 0,
+                        indent: 15,
+                        endIndent: 15,
+                        color: Colors.grey.withOpacity(0.2),
+                      ),
+                      ListTile(
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
+                        title: const Text(
+                          "Chế độ tối",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        leading: const Icon(
+                          Icons.dark_mode_outlined,
+                          color: Colors.black,
+                        ),
+                        trailing: Transform.scale(
+                          scale: 0.8,
+                          child: Switch(
+                           
+                            activeTrackColor: Colors.yellow,
+                            activeColor: Colors.blue,
+                            value: isDarkMode,
+                            onChanged: (value) {
+                              setState(() {
+                                isDarkMode = value;
+                              });
+                              // Implement dark mode functionality
+                            },
+                          ),
+                        ),
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (BuildContext context) => LoginScreen(),
+                          //   ),
+                          // );
+                        },
+                      ),
+                      Divider(
+                        height: 0,
+                        indent: 15,
+                        endIndent: 15,
+                        color: Colors.grey.withOpacity(0.2),
+                      ),
+                      ListTile(
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
+                        title: const Text(
                           "Đổi mật khẩu",
                           style: TextStyle(
                             fontSize: 13,
@@ -197,6 +310,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
                           color: Colors.grey.withOpacity(0.5),
+                          size: 18,
                         ),
                         onTap: () {
                           // Navigator.push(

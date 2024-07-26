@@ -5,7 +5,6 @@ import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 enum CameraSelected {
   all,
   camera1,
@@ -46,7 +45,7 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   CameraSelected _selectedCamera = CameraSelected.all;
 
-  // convert stream data into file 
+  // convert stream data into file
   Future<File> _saveStreamData(Uint8List streamData) async {
     String tempPath = (await getTemporaryDirectory()).path;
     File file = File('$tempPath/temp_video.mp4');
@@ -54,13 +53,13 @@ class _CameraScreenState extends State<CameraScreen> {
     return file;
   }
 
-  // create video player 
-  void playVideo(Uint8List streamData) async {  
-  File videoFile = await _saveStreamData(streamData);  
-  // VideoPlayerController controller = VideoPlayerController.file(videoFile);  
-  // await controller.initialize();  
-  // controller.play();  
-}  
+  // create video player
+  void playVideo(Uint8List streamData) async {
+    File videoFile = await _saveStreamData(streamData);
+    // VideoPlayerController controller = VideoPlayerController.file(videoFile);
+    // await controller.initialize();
+    // controller.play();
+  }
 
   // fetch api
   Stream<Uint8List> fetchCamera(CameraSelected selectedCamera) async* {
@@ -141,16 +140,14 @@ class _CameraScreenState extends State<CameraScreen> {
                   ),
                 ),
                 inputDecorationTheme: InputDecorationTheme(
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 0,
-                    horizontal: 10,
-                  ),
-                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  fillColor: const Color.fromRGBO(245, 245, 245, 1),
                   filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                  border: InputBorder.none,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
-                      color: Colors.lightBlueAccent,
+                      color: Colors.transparent,
+                      width: 0,
                     ),
                   ),
                 ),

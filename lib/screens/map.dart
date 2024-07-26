@@ -124,16 +124,14 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 inputDecorationTheme: InputDecorationTheme(
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 0,
-                    horizontal: 10,
-                  ),
-                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  fillColor: const Color.fromRGBO(245, 245, 245, 1),
                   filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                  border: InputBorder.none,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
-                      color: Colors.lightBlueAccent,
+                      color: Colors.transparent,
+                      width: 0,
                     ),
                   ),
                 ),
