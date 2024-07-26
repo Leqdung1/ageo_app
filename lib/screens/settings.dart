@@ -101,12 +101,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               children: [
                 AppBar(
-                  title: const Text(
+                  title: Text(
                     "Cài đặt",
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
                   centerTitle: true,
@@ -307,8 +307,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        leading: SvgPicture.asset(
-                            "assets/icons/changed_password.svg"),
+                        // leading: SvgPicture.asset(
+                        //     "assets/icons/changed_password.svg"),
+                        leading: Icon(
+                          Icons.lock_outline,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
                         trailing: Icon(
                           Icons.arrow_forward_ios_rounded,
                           color: Colors.grey.withOpacity(0.5),
@@ -344,7 +348,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        leading: SvgPicture.asset("assets/icons/logout.svg"),
+                        // leading: SvgPicture.asset("assets/icons/logout.svg"),
+                        leading: Icon(
+                          Icons.logout_outlined,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
                         onTap: () {
                           // Implement logout functionality
                           Navigator.push(

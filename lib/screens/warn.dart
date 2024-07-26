@@ -70,7 +70,7 @@ class _WarningScreenState extends State<WarningScreen> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                 boxShadow: [
@@ -85,13 +85,14 @@ class _WarningScreenState extends State<WarningScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10, left: 15, bottom: 18),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 15, bottom: 18),
                       child: Text(
                         'Warning system',
                         style: TextStyle(
                             fontSize: 15,
-                            color: Color.fromRGBO(49, 52, 66, 1),
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                             fontWeight: FontWeight.w600),
                       ),
                     ),

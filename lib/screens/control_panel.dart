@@ -36,7 +36,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                 boxShadow: [
@@ -51,13 +51,14 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10, left: 15, bottom: 18),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 15, bottom: 18),
                       child: Text(
                         'Informations',
                         style: TextStyle(
                             fontSize: 15,
-                            color: Color.fromRGBO(49, 52, 66, 1),
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                             fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -66,19 +67,19 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                         horizontal: 29,
                       ),
                       decoration: BoxDecoration(
-                          color: const Color.fromRGBO(255, 241, 219, 1),
-                          border: Border.all(
-                            color: const Color.fromRGBO(255, 217, 157, 1),
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.15),
-                              offset: const Offset(0, 1),
-                              blurRadius: 8,
-                            )
-                          ],
-                          ),
+                        color: const Color.fromRGBO(255, 241, 219, 1),
+                        border: Border.all(
+                          color: const Color.fromRGBO(255, 217, 157, 1),
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            offset: const Offset(0, 1),
+                            blurRadius: 8,
+                          )
+                        ],
+                      ),
                       child: const Column(
                         children: [
                           Padding(
@@ -184,19 +185,19 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                         horizontal: 29,
                       ),
                       decoration: BoxDecoration(
-                          color: const Color.fromRGBO(255, 241, 219, 1),
-                          border: Border.all(
-                            color: const Color.fromRGBO(255, 217, 157, 1),
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.15),
-                              offset: const Offset(0, 1),
-                              blurRadius: 8,
-                            )
-                          ],
-                          ),
+                        color: const Color.fromRGBO(255, 241, 219, 1),
+                        border: Border.all(
+                          color: const Color.fromRGBO(255, 217, 157, 1),
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            offset: const Offset(0, 1),
+                            blurRadius: 8,
+                          )
+                        ],
+                      ),
                       child: const Column(
                         children: [
                           Padding(

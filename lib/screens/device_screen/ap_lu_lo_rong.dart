@@ -123,7 +123,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   Future<void> showDateTime(BuildContext context, bool isStart) async {
     DateTime? pickedDate = await showOmniDateTimePicker(
       context: context,
-    
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
@@ -190,7 +189,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                       vertical: 10,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -257,16 +256,24 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                               Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_startDate),
-                                                style: const TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.black),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                               Text(
                                                 DateFormat('hh:mm')
                                                     .format(_startTime),
-                                                style: const TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.black),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -345,16 +352,24 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                               Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_endDate),
-                                                style: const TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.black),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                               Text(
                                                 DateFormat('hh:mm')
                                                     .format(_endTime),
-                                                style: const TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.black),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -381,7 +396,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                       vertical: 15,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -575,7 +590,9 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         const SizedBox(width: 5),
         Text(
           text,
-          style: const TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+          ),
         ),
       ],
     );

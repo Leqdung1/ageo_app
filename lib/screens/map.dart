@@ -90,7 +90,7 @@ class _MapScreenState extends State<MapScreen> {
             margin: const EdgeInsets.symmetric(vertical: 12),
             width: MediaQuery.sizeOf(context).width,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(8),
                 topRight: Radius.circular(8),
@@ -152,7 +152,7 @@ class _MapScreenState extends State<MapScreen> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(8),
                   topRight: Radius.circular(8),

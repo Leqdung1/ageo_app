@@ -190,7 +190,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                       vertical: 10,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
@@ -257,16 +257,16 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                               Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_startDate),
-                                                style: const TextStyle(
+                                                style:  TextStyle(
                                                     fontSize: 12,
-                                                    color: Colors.black),
+                                                    color: Theme.of(context).textTheme.bodyLarge?.color,),
                                               ),
                                               Text(
                                                 DateFormat('hh:mm')
                                                     .format(_startTime),
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                     fontSize: 12,
-                                                    color: Colors.black),
+                                                    color: Theme.of(context).textTheme.bodyLarge?.color,),
                                               ),
                                             ],
                                           ),
@@ -345,16 +345,16 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                               Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_endDate),
-                                                style: const TextStyle(
+                                                style:  TextStyle(
                                                     fontSize: 12,
-                                                    color: Colors.black),
+                                                    color: Theme.of(context).textTheme.bodyLarge?.color,),
                                               ),
                                               Text(
                                                 DateFormat('hh:mm')
                                                     .format(_endTime),
-                                                style: const TextStyle(
+                                                style:  TextStyle(
                                                     fontSize: 12,
-                                                    color: Colors.black),
+                                                    color: Theme.of(context).textTheme.bodyLarge?.color,),
                                               ),
                                             ],
                                           ),
@@ -382,7 +382,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                       vertical: 15,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
