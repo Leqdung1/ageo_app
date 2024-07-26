@@ -1,35 +1,50 @@
 import 'dart:async';
-
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SettingsScreen extends StatelessWidget {
-  final Map<String, dynamic>? userData;
-  const SettingsScreen({super.key, required this.userData});
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
-  Future<void> fetUserData() async {
-    final apiClient = ApiClient();
-    final userId = userData?['userId'];
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
 
-    if (userId == null) {
-      print('not have userId: $userId');
+class _SettingsScreenState extends State<SettingsScreen> {
+  Map<String, dynamic>? response;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> fetchUserData() async {
+    if (response == null || response!['userId'] == null) {
+      setState(() {
+        isLoading = false;
+      });
+      print("User ID is null");
       return;
     }
 
-    final dataUser = await apiClient.getUserData(userId);
+    final apiClient = ApiClient();
+    final userId = response!['userId'].toString();
+    final res = await apiClient.getUserData(userId);
 
-    if (dataUser['success']) {
-      List<UserData> data = (dataUser['data'] as List)
-          .map((data) => UserData.fromJson(data))
-          .toList();
-      // Use the data as needed
+    setState(() {
+      response = res['data'];
+      isLoading = false;
+    });
+
+    if (!res['success']) {
+      print("Failed to fetch user data: ${res['message']}");
     }
   }
 
   Widget _getAvatarWidget() {
-    if (userData?["imageURL"] != null && userData?["imageURL"].isNotEmpty) {
+    if (response?["imageURL"] != null && response?["imageURL"].isNotEmpty) {
       return Container(
         width: 40,
         height: 40,
@@ -38,7 +53,7 @@ class SettingsScreen extends StatelessWidget {
           image: DecorationImage(
             fit: BoxFit.cover,
             image: NetworkImage(
-              userData?["imageURL"],
+              response?["imageURL"],
             ),
           ),
         ),
@@ -121,10 +136,10 @@ class SettingsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text("Xin chào,"),
-                                userData == null
+                                isLoading
                                     ? const CircularProgressIndicator()
                                     : Text(
-                                        userData?["staffName"] ?? "N/A",
+                                        response?["staffName"] ?? "N/A",
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -189,7 +204,7 @@ class SettingsScreen extends StatelessWidget {
                           //   MaterialPageRoute(
                           //     builder: (BuildContext builder) =>
                           //         ChangePasswordScreen(
-                          //       userData: userData!,
+                          //       response: userData!,
                           //       changePassword: true,
                           //     ),
                           //   ),
@@ -233,24 +248,4 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class UserData {
-  UserData({required this.name, required this.avatar, required this.userId});
-
-  String? name;
-  String? avatar;
-  String? userId;
-
-  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-        name: json["staffName"],
-        avatar: json["imageURL"],
-        userId: json["userId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'staffName': name,
-        'imageURL': avatar,
-        'userId': userId,
-      };
 }

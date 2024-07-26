@@ -52,8 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 0
-                          ? 'assets/icons/control_panel_fill.svg'
-                          : 'assets/icons/control_panel.svg',
+                          ? 'assets/icons/logo_ageo.svg'
+                          : 'assets/icons/logo_ageo.svg',
                     ),
                     title: "Control panel",
                     textStyle: TextStyle(
@@ -139,8 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 PersistentTabConfig(
                   screen: const SettingsScreen(
-                    userData: {},
-                  ),
+                ),
                   item: ItemConfig(
                     icon: const Icon(Icons.more_horiz_outlined),
                     title: "More",

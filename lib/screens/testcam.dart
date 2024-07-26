@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -14,7 +14,7 @@ class Camtest extends StatefulWidget {
 
 class _CamtestState extends State<Camtest> {
   static const String url = "ws://api.ageo.vn:2000/api/stream/9091/103/0";
-  late VideoPlayerController _controller;
+ // late VideoPlayerController _controller;
   Uint8List? _videoData;
   bool _isConnected = false;
   final channel = WebSocketChannel.connect(Uri.parse(url));

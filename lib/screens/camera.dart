@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
+
 
 enum CameraSelected {
   all,
@@ -57,9 +57,9 @@ class _CameraScreenState extends State<CameraScreen> {
   // create video player 
   void playVideo(Uint8List streamData) async {  
   File videoFile = await _saveStreamData(streamData);  
-  VideoPlayerController controller = VideoPlayerController.file(videoFile);  
-  await controller.initialize();  
-  controller.play();  
+  // VideoPlayerController controller = VideoPlayerController.file(videoFile);  
+  // await controller.initialize();  
+  // controller.play();  
 }  
 
   // fetch api
