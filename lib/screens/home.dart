@@ -1,6 +1,6 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/components/menu_side_bar.dart';
-import 'package:Ageo_solutions/components/theme_provider.dart';
+import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/screens/camera.dart';
 import 'package:Ageo_solutions/screens/control_panel.dart';
 import 'package:Ageo_solutions/screens/device.dart';
@@ -158,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
               navBarBuilder: (navBarConfig) => Style4BottomNavBar(
                 navBarDecoration: NavBarDecoration(
+                  color: Theme.of(context).colorScheme.primary,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),

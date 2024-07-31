@@ -1,5 +1,5 @@
 import 'package:Ageo_solutions/components/localization.dart';
-import 'package:Ageo_solutions/components/theme_provider.dart';
+import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/screens/device.dart';
 import 'package:Ageo_solutions/screens/device_screen/rain_gauge.dart';
 import 'package:Ageo_solutions/screens/home.dart';

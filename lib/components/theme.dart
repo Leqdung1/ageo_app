@@ -7,6 +7,8 @@ ThemeData lightMode = ThemeData(
     // color for big container
     surface: Colors.white,
 
+    // color for bottom bar
+
     // color for drop down button
     primary: Color.fromRGBO(245, 245, 245, 1),
 
@@ -17,11 +19,9 @@ ThemeData lightMode = ThemeData(
     onSurface: Color.fromRGBO(245, 245, 245, 1),
   ),
   textTheme: const TextTheme(
-
     // color for text
     bodyLarge: TextStyle(color: Colors.black),
 
-    
     bodyMedium: TextStyle(color: Colors.black),
   ),
   iconTheme: const IconThemeData(color: Colors.black),
@@ -32,16 +32,16 @@ ThemeData darkMode = ThemeData(
   primaryColor: Colors.grey.shade800,
   colorScheme: const ColorScheme.dark(
     // color for big container
-    surface:  Color.fromRGBO(22, 28, 44, 1),
+    surface: Color.fromRGBO(37, 37, 37, 1),
 
     // color for button drop down
-    primary:  Color.fromRGBO(5, 12, 21, 1),
+    primary: Color.fromRGBO(43, 45, 47, 1),
 
     // color for icon in drop down menu
-    secondary:  Color.fromRGBO(237, 238, 239, 1),
+    secondary: Color.fromRGBO(237, 238, 239, 1),
 
     // color for background
-    onSurface:  Color.fromRGBO(9, 13, 25, 1),
+    onSurface: Color.fromRGBO(24, 24, 24, 1),
   ),
   textTheme: const TextTheme(
     // color for text
