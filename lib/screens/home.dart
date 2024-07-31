@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     title: LocalData.bottomlabel1.getString(context),
                     textStyle: TextStyle(
+                      overflow: TextOverflow.fade,
                       fontSize: 12,
                       color: currentPageIndex == 0 ? Colors.black : Colors.grey,
                       fontWeight: currentPageIndex == 0

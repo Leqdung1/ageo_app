@@ -1,6 +1,7 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ChooseLanguage extends StatefulWidget {
   const ChooseLanguage({super.key});
@@ -23,13 +24,24 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Theme.of(context).iconTheme.color,
+          ),
         ),
-        title: Text(LocalData.changeLanguage.getString(context)),
+        title: Text(
+          LocalData.changeLanguage.getString(context),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Column(
@@ -51,7 +63,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.flag_circle),
+                  SvgPicture.asset("assets/icons/vietnamIcon.svg"),
                   Text(
                     LocalData.language1.getString(context),
                     style: TextStyle(
@@ -83,7 +95,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.flag_circle),
+                  SvgPicture.asset("assets/icons/united_kingdom.svg"),
                   Text(
                     LocalData.language2.getString(context),
                     style: TextStyle(

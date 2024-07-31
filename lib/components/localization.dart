@@ -92,7 +92,7 @@ mixin LocalData {
     "titleChangeLanguage": "Thay đổi ngôn ngữ",
     "language1": "Tiếng việt",
     "language2": "Tiếng anh",
-    "bottomLabel1": "Điều khiển",
+    "bottomLabel1": "Bảng điều khiển",
     "bottomLabel2": "Bản đồ",
     "bottomLabel3": "Camera",
     "bottomLabel4": "Thiết bị",
