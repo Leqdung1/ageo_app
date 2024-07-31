@@ -443,7 +443,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                 ),
                                 inputDecorationTheme: InputDecorationTheme(
                                   fillColor:
-                                      const Color.fromRGBO(245, 245, 245, 1),
+                                    Theme.of(context).colorScheme.primary,
                                   filled: true,
                                   border: InputBorder.none,
                                   enabledBorder: OutlineInputBorder(

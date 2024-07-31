@@ -34,14 +34,14 @@ class _DeviceScreenState extends State<DeviceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
+      backgroundColor: Theme.of(context).colorScheme.onSurface,
       body: Column(
         children: [
           // Choose devices screen
           Container(
             height: 70,
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(245, 245, 245, 1),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onSurface,
 
               // borderRadius: BorderRadius.circular(8),
               // boxShadow: [

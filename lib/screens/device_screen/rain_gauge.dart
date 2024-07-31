@@ -257,16 +257,24 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                               Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_startDate),
-                                                style:  TextStyle(
-                                                    fontSize: 12,
-                                                    color: Theme.of(context).textTheme.bodyLarge?.color,),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                               Text(
                                                 DateFormat('hh:mm')
                                                     .format(_startTime),
                                                 style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Theme.of(context).textTheme.bodyLarge?.color,),
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -345,16 +353,24 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                               Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_endDate),
-                                                style:  TextStyle(
-                                                    fontSize: 12,
-                                                    color: Theme.of(context).textTheme.bodyLarge?.color,),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                               Text(
                                                 DateFormat('hh:mm')
                                                     .format(_endTime),
-                                                style:  TextStyle(
-                                                    fontSize: 12,
-                                                    color: Theme.of(context).textTheme.bodyLarge?.color,),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -404,17 +420,25 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 textStyle: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
+                                 
                                 ),
-                                selectedTrailingIcon:
-                                    const Icon(Icons.expand_less),
-                                trailingIcon: const Icon(Icons.expand_more),
+                                selectedTrailingIcon: Icon(
+                                  Icons.expand_less,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
+                                trailingIcon: Icon(
+                                  Icons.expand_more,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
                                 menuStyle: MenuStyle(
+                                  
                                   maximumSize: const WidgetStatePropertyAll(
                                     Size.fromHeight(150),
                                   ),
-                                  surfaceTintColor:
-                                      const WidgetStatePropertyAll(
-                                    Colors.white,
+                                  surfaceTintColor: WidgetStatePropertyAll(
+                                   Theme.of(context).colorScheme.primary,
                                   ),
                                   shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
@@ -424,7 +448,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 ),
                                 inputDecorationTheme: InputDecorationTheme(
                                   fillColor:
-                                      const Color.fromRGBO(245, 245, 245, 1),
+                                      Theme.of(context).colorScheme.primary,
                                   filled: true,
                                   border: InputBorder.none,
                                   enabledBorder: OutlineInputBorder(

@@ -46,7 +46,7 @@ class _WarningScreenState extends State<WarningScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
+      backgroundColor: Theme.of(context).colorScheme.onSurface,
       body: Column(
         children: [
           // TODO: add api

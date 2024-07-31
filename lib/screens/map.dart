@@ -83,7 +83,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
+      backgroundColor: Theme.of(context).colorScheme.onSurface,
       body: Column(
         children: [
           Container(
@@ -124,7 +124,7 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 inputDecorationTheme: InputDecorationTheme(
-                  fillColor: const Color.fromRGBO(245, 245, 245, 1),
+                  fillColor: Theme.of(context).colorScheme.primary,
                   filled: true,
                   border: InputBorder.none,
                   enabledBorder: OutlineInputBorder(

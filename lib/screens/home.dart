@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
+      backgroundColor: Theme.of(context).colorScheme.onSurface,
       // appBar: AppBar(
       //   backgroundColor: const Color.fromRGBO(21, 101, 192, 1),
       //   title: const Text(
