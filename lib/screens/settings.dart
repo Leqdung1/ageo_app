@@ -3,6 +3,7 @@ import 'package:Ageo_solutions/components/theme.dart';
 import 'package:Ageo_solutions/components/theme_provider.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/screens/login.dart';
+import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -247,12 +248,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Colors.grey.withOpacity(0.5),
                         ),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (BuildContext context) => LoginScreen(),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => const ChooseLanguage(),
+                            ),
+                          );
                         },
                       ),
                       Divider(

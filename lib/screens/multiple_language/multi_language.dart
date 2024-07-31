@@ -46,16 +46,17 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               height: 50,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
-                border: Border.all(color: Colors.grey),
+                border: Border.all(color: Colors.grey.shade400),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
                 children: [
                   Icon(Icons.flag_circle),
                   Text(
-                    LocalData.language1,
+                    LocalData.language1.getString(context),
                     style: TextStyle(
                       fontSize: 15,
+                      fontWeight: FontWeight.bold,
                       color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
@@ -77,16 +78,17 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               height: 50,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
-                border: Border.all(color: Colors.grey),
+                border: Border.all(color: Colors.grey.shade400),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
                 children: [
                   Icon(Icons.flag_circle),
                   Text(
-                    LocalData.language2,
+                    LocalData.language2.getString(context),
                     style: TextStyle(
                       fontSize: 15,
+                      fontWeight: FontWeight.bold,
                       color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),

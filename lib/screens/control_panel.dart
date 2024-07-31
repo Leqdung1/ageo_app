@@ -1,4 +1,6 @@
+import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class ControlPanelScreen extends StatefulWidget {
   const ControlPanelScreen({super.key});
@@ -12,7 +14,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor:Theme.of(context).colorScheme.onSurface,
+      backgroundColor: Theme.of(context).colorScheme.onSurface,
       body: Column(
         children: [
           // TODO: add api
@@ -55,7 +57,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                       padding:
                           const EdgeInsets.only(top: 10, left: 15, bottom: 18),
                       child: Text(
-                        'Informations',
+                        LocalData.infoTitle.getString(context),
                         style: TextStyle(
                             fontSize: 15,
                             color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -80,7 +82,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                           )
                         ],
                       ),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Padding(
                             padding: EdgeInsets.symmetric(
@@ -101,7 +103,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                   height: 5,
                                 ),
                                 Text(
-                                  'Slope failure near Khe Sanh, ward 10, DaLat, after a heavy rain',
+                                  LocalData.infoDetails1.getString(context),
                                   style: TextStyle(
                                       fontSize: 12,
                                       color: Color.fromRGBO(111, 64, 36, 1),
@@ -135,11 +137,11 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                               blurRadius: 8,
                             )
                           ]),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Column(
                             children: [
-                              Align(
+                              const Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 10, top: 6),
@@ -152,16 +154,17 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 10, bottom: 6),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, bottom: 6),
                                   child: Text(
-                                    'Slope failure at Pham Hong Thai str, ward 10, Da Lat',
-                                    style: TextStyle(
+                                    LocalData.infoDetails2.getString(context),
+                                    style: const TextStyle(
                                         fontSize: 12,
                                         color: Color.fromRGBO(111, 64, 36, 1),
                                         fontWeight: FontWeight.normal),
@@ -198,14 +201,14 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                           )
                         ],
                       ),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 6, horizontal: 10),
                             child: Column(
                               children: [
-                                Align(
+                                const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     '12/11/2021',
@@ -215,12 +218,12 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
-                                  'Slope failure behind the Hoang Long hotel, Nhat Huy hotel, Thao Quyen hotel, Hoang Lan hotel at Khe Sanh str, ward 10, DaLat, in a sunny day',
-                                  style: TextStyle(
+                                  LocalData.infoDetails3.getString(context),
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       color: Color.fromRGBO(111, 64, 36, 1),
                                       fontWeight: FontWeight.normal),
@@ -247,11 +250,11 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                               blurRadius: 8,
                             )
                           ]),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Column(
                             children: [
-                              Align(
+                              const Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 10, top: 6),
@@ -264,16 +267,17 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 10, bottom: 6),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, bottom: 6),
                                   child: Text(
-                                    'Geometric monitoring the hotel',
-                                    style: TextStyle(
+                                    LocalData.infoDetails4.getString(context),
+                                    style: const TextStyle(
                                         fontSize: 12,
                                         color: Color.fromRGBO(91, 149, 95, 1),
                                         fontWeight: FontWeight.normal),
@@ -307,11 +311,11 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                               blurRadius: 8,
                             )
                           ]),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Column(
                             children: [
-                              Align(
+                              const Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 10, top: 6),
@@ -324,16 +328,17 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 10, bottom: 6),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, bottom: 6),
                                   child: Text(
-                                    'Commencement the rehabilitation project',
-                                    style: TextStyle(
+                                    LocalData.infoDetails5.getString(context),
+                                    style: const TextStyle(
                                         fontSize: 12,
                                         color: Color.fromRGBO(91, 149, 95, 1),
                                         fontWeight: FontWeight.normal),
@@ -361,11 +366,11 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                               blurRadius: 8,
                             )
                           ]),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Column(
                             children: [
-                              Align(
+                              const Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 10, top: 6),
@@ -378,16 +383,17 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 10, bottom: 6),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, bottom: 6),
                                   child: Text(
-                                    'Installation of the GNSS sensors on the hotel',
-                                    style: TextStyle(
+                                    LocalData.infoDetails6.getString(context),
+                                    style: const TextStyle(
                                         fontSize: 12,
                                         color: Color.fromRGBO(69, 136, 167, 1),
                                         fontWeight: FontWeight.normal),
@@ -422,11 +428,11 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                           )
                         ],
                       ),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Column(
                             children: [
-                              Align(
+                              const Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 10, top: 6),
@@ -439,16 +445,17 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 10, bottom: 6),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, bottom: 6),
                                   child: Text(
-                                    'Installtion of the rain gauge',
-                                    style: TextStyle(
+                                    LocalData.infoDetails7.getString(context),
+                                    style: const TextStyle(
                                         fontSize: 12,
                                         color: Color.fromRGBO(69, 136, 167, 1),
                                         fontWeight: FontWeight.normal),
@@ -482,11 +489,11 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                               blurRadius: 8,
                             )
                           ]),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Column(
                             children: [
-                              Align(
+                              const Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 10, top: 6),
@@ -499,16 +506,17 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 10, bottom: 6),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, bottom: 6),
                                   child: Text(
-                                    'Installtion of the warning equiptments',
-                                    style: TextStyle(
+                                    LocalData.infoDetails8.getString(context),
+                                    style: const TextStyle(
                                         fontSize: 12,
                                         color: Color.fromRGBO(69, 136, 167, 1),
                                         fontWeight: FontWeight.normal),
@@ -544,14 +552,14 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                               blurRadius: 8,
                             )
                           ]),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 6, horizontal: 10),
                             child: Column(
                               children: [
-                                Align(
+                                const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     '14/01/2023',
@@ -561,12 +569,12 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
-                                  'Completed the installation and monitoring of monitoring equipment on the embankment, the blocks are currently stable.',
-                                  style: TextStyle(
+                                  LocalData.infoDetails9.getString(context),
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       color: Color.fromRGBO(69, 136, 167, 1),
                                       fontWeight: FontWeight.normal),
@@ -594,14 +602,14 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                           )
                         ],
                       ),
-                      child: const Column(
+                      child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 6, horizontal: 10),
                             child: Column(
                               children: [
-                                Align(
+                                const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     '29/06/2023 02:00 AM',
@@ -611,12 +619,12 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
-                                  'A landslide on an under-construction project at 15/2 Yen The, Ward 10, Da Lat City destroyed the structure on the slope and at the foot of the slope as well as killing two people.',
-                                  style: TextStyle(
+                                  LocalData.infoDetails10.getString(context),
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       color: Color.fromRGBO(97, 45, 43, 1),
                                       fontWeight: FontWeight.normal),
