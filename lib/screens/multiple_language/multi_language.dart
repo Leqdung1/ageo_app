@@ -12,6 +12,7 @@ class ChooseLanguage extends StatefulWidget {
 
 class _ChooseLanguageState extends State<ChooseLanguage> {
   late FlutterLocalization _flutterLocalization;
+  String seletedLanguage = "";
 
   @override
   void initState() {
@@ -48,12 +49,15 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         children: [
           TextButton(
             onPressed: () {
-              _flutterLocalization.translate("vi");
+              setState(() {
+                _flutterLocalization.translate("vi");
+                seletedLanguage = 'vi';
+              });
             },
             child: Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: 12,
-                vertical: 15,
+                vertical: 10,
               ),
               height: 50,
               decoration: BoxDecoration(
@@ -64,12 +68,15 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/Vietnam.svg',
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: SvgPicture.asset(
+                      'assets/icons/Vietnam.svg',
+                    ),
                   ),
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         left: 15,
                       ),
                       child: Text(
@@ -82,6 +89,8 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                       ),
                     ),
                   ),
+                  if (seletedLanguage == 'vi')
+                    SvgPicture.asset("assets/icons/success.svg"),
                 ],
               ),
             ),
@@ -90,6 +99,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             onPressed: () {
               setState(() {
                 _flutterLocalization.translate("en");
+                seletedLanguage = 'en';
               });
             },
             child: Container(
@@ -106,12 +116,17 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/Us.svg',
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 12,
+                    ),
+                    child: SvgPicture.asset(
+                      'assets/icons/Us.svg',
+                    ),
                   ),
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         left: 15,
                       ),
                       child: Text(
@@ -124,6 +139,8 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                       ),
                     ),
                   ),
+                  if (seletedLanguage == 'en')
+                    SvgPicture.asset("assets/icons/success.svg"),
                 ],
               ),
             ),
