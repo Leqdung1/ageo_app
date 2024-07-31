@@ -29,7 +29,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
-        title: Text(LocalData.titleChangeLanguage.getString(context)),
+        title: Text(LocalData.changeLanguage.getString(context)),
         centerTitle: true,
       ),
       body: Column(

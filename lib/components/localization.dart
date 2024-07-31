@@ -20,9 +20,23 @@ mixin LocalData {
   static String infoDetails8 = "infoDetails8";
   static String infoDetails9 = "infoDetails9";
   static String infoDetails10 = "infoDetails10";
-  static String titleChangeLanguage = "titleChangeLanguage";
+  static String changeLanguage = "titleChangeLanguage";
   static String language1 = "language1";
   static String language2 = "language2";
+  static String bottomlabel1 = "bottomLabel1";
+  static String bottomlabel2 = "bottomLabel2";
+  static String bottomlabel3 = "bottomLabel3";
+  static String bottomlabel4 = "bottomLabel4";
+  static String bottomlabel5 = "bottomLabel5";
+  static String bottomLabel6 = "bottomLabel6";
+  static String setting = "setting";
+  static String hello = "hello";
+  static String accountSetting = "accountSetting";
+  static String infomation = "info";
+  static String changeLang = "changeLang";
+  static String darkMode = "darkMode";
+  static String changePassWord = "changePassWord";
+  static String logOut = "logOut";
 
   static Map<String, dynamic> EN = {
     "infoTitle": "Informations",
@@ -40,9 +54,23 @@ mixin LocalData {
         "Completed the installation and monitoring of monitoring equipment on the embankment, the blocks are currently stable.",
     "infoDetails10":
         "A landslide on an under-construction project at 15/2 Yen The, Ward 10, Da Lat City destroyed the structure on the slope and at the foot of the slope as well as killing two people.",
-        "titleChangeLanguage": "Change language",
-        "language1": "Vietnamese",
-        "language2": "English"
+    "titleChangeLanguage": "Change language",
+    "language1": "Vietnamese",
+    "language2": "English",
+    "bottomLabel1": "Control panel",
+    "bottomLabel2": "Map",
+    "bottomLabel3": "Camera",
+    "bottomLabel4": "Device",
+    "bottomLabel5": "Warning",
+    "bottomLabel6": "More",
+    "setting": "Setting",
+    "hello": "Hello,",
+    "accountSetting": "Account setting",
+    "info": "Infomation",
+    "changeLang": "Change language",
+    "darkMode": "Dark mode",
+    "changePassWord": "Change password",
+    "logOut": "Log out",
   };
 
   static Map<String, dynamic> VI = {
@@ -61,8 +89,22 @@ mixin LocalData {
         "Hoàn thành việc lắp đặt và giám sát thiết bị giám sát trên bờ kè, các khối hiện đang ổn định.",
     "infoDetails10":
         "Một vụ lở đất tại dự án đang xây dựng ở 15/2 Yên Thế, Phường 10, Thành phố Đà Lạt đã phá hủy cấu trúc trên sườn dốc và chân dốc cũng như khiến hai người thiệt mạng.",
-        "titleChangeLanguage": "Thay đổi ngôn ngữ",
-        "language1": "Tiếng việt",
-        "language2": "Tiếng anh"
+    "titleChangeLanguage": "Thay đổi ngôn ngữ",
+    "language1": "Tiếng việt",
+    "language2": "Tiếng anh",
+    "bottomLabel1": "Điều khiển",
+    "bottomLabel2": "Bản đồ",
+    "bottomLabel3": "Camera",
+    "bottomLabel4": "Thiết bị",
+    "bottomLabel5": "Cảnh báo",
+    "bottomLabel6": "Thêm",
+    "setting": "Cài đặt",
+    "hello": "Xin chào,",
+    "accountSetting": "Cài đặt tài khoản",
+    "info": "Thông tin cá nhân",
+    "changeLang": "Thay đổi ngôn ngữ",
+    "darkMode": "Chế độ tối",
+    "changePassWord": "Đổi mật khẩu",
+    "logOut": "Đăng xuất",
   };
 }

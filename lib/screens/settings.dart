@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/components/theme.dart';
 import 'package:Ageo_solutions/components/theme_provider.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -103,7 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 AppBar(
                   title: Text(
-                    "Cài đặt",
+                    LocalData.setting.getString(context),
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -140,7 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("Xin chào,"),
+                                Text(LocalData.hello.getString(context)),
                                 isLoading
                                     ? const CircularProgressIndicator()
                                     : Text(
@@ -168,7 +170,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     horizontal: 5,
                   ),
                   child: Text(
-                    "Cài đặt tài khoản",
+                    LocalData.accountSetting.getString(context),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -196,7 +198,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         title: Text(
-                          "Thông tin cá nhân",
+                          LocalData.infomation.getString(context),
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -231,7 +233,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         title: Text(
-                          "Thay đổi ngôn ngữ",
+                          LocalData.changeLanguage.getString(context),
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -251,7 +253,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) => const ChooseLanguage(),
+                              builder: (BuildContext context) =>
+                                  const ChooseLanguage(),
                             ),
                           );
                         },
@@ -266,7 +269,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         title: Text(
-                          "Chế độ tối",
+                          LocalData.darkMode.getString(context),
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -301,7 +304,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         title: Text(
-                          "Đổi mật khẩu",
+                          LocalData.changePassWord.getString(context),
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -342,7 +345,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         title: Text(
-                          "Đăng xuất",
+                          LocalData.logOut.getString(context),
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,

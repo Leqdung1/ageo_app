@@ -1,3 +1,4 @@
+import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/components/menu_side_bar.dart';
 import 'package:Ageo_solutions/components/theme_provider.dart';
 import 'package:Ageo_solutions/screens/camera.dart';
@@ -6,6 +7,7 @@ import 'package:Ageo_solutions/screens/device.dart';
 import 'package:Ageo_solutions/screens/map.dart';
 import 'package:Ageo_solutions/screens/settings.dart';
 import 'package:Ageo_solutions/screens/warn.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
       // drawer: const NavigatorDrawer(),
       body: Column(
         children: [
- 
           Expanded(
             child: PersistentTabView(
               navBarHeight: 80,
@@ -57,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? 'assets/icons/logo_ageo.svg'
                           : 'assets/icons/logo_ageo.svg',
                     ),
-                    title: "Control panel",
+                    title: LocalData.bottomlabel1.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
                       color: currentPageIndex == 0 ? Colors.black : Colors.grey,
@@ -75,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? 'assets/icons/map_fill.svg'
                           : 'assets/icons/map.svg',
                     ),
-                    title: "Map",
+                    title: LocalData.bottomlabel2.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
                       color: currentPageIndex == 1 ? Colors.black : Colors.grey,
@@ -93,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? 'assets/icons/camera_fill.svg'
                           : 'assets/icons/camera.svg',
                     ),
-                    title: "Camera",
+                    title: LocalData.bottomlabel3.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
                       color: currentPageIndex == 2 ? Colors.black : Colors.grey,
@@ -111,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? 'assets/icons/thiet_bi_fill.svg'
                           : 'assets/icons/thiet_bi.svg',
                     ),
-                    title: "Device",
+                    title: LocalData.bottomlabel4.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
                       color: currentPageIndex == 3 ? Colors.black : Colors.grey,
@@ -129,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? 'assets/icons/waring_fill.svg'
                           : 'assets/icons/warning.svg',
                     ),
-                    title: "Warning",
+                    title: LocalData.bottomlabel5.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
                       color: currentPageIndex == 4 ? Colors.black : Colors.grey,
@@ -143,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   screen: const SettingsScreen(),
                   item: ItemConfig(
                     icon: const Icon(Icons.more_horiz_outlined),
-                    title: "More",
+                    title: LocalData.bottomLabel6.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
                       color: currentPageIndex == 5 ? Colors.black : Colors.grey,
