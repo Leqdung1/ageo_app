@@ -2,6 +2,7 @@ import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseLanguage extends StatefulWidget {
   const ChooseLanguage({super.key});
@@ -12,12 +13,34 @@ class ChooseLanguage extends StatefulWidget {
 
 class _ChooseLanguageState extends State<ChooseLanguage> {
   late FlutterLocalization _flutterLocalization;
-  String seletedLanguage = "";
+  String selectedLanguage = "";
 
   @override
   void initState() {
     super.initState();
     _flutterLocalization = FlutterLocalization.instance;
+    _loadSelectedLanguage();
+  }
+
+  // keep icon success always appear
+  Future<void> _loadSelectedLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedLanguage = prefs.getString('selectedLanguage') ?? '';
+    });
+  }
+
+  Future<void> _saveSelectedLanguage(String language) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedLanguage', language);
+  }
+
+  void _selectLanguage(String language) {
+    setState(() {
+      _flutterLocalization.translate(language);
+      selectedLanguage = language;
+      _saveSelectedLanguage(language);
+    });
   }
 
   @override
@@ -48,12 +71,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
       body: Column(
         children: [
           TextButton(
-            onPressed: () {
-              setState(() {
-                _flutterLocalization.translate("vi");
-                seletedLanguage = 'vi';
-              });
-            },
+            onPressed: () => _selectLanguage("vi"),
             child: Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: 12,
@@ -89,19 +107,17 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                       ),
                     ),
                   ),
-                  if (seletedLanguage == 'vi')
+                  if (selectedLanguage == 'vi')
                     SvgPicture.asset("assets/icons/success.svg"),
+                  const SizedBox(
+                    width: 20,
+                  ),
                 ],
               ),
             ),
           ),
           TextButton(
-            onPressed: () {
-              setState(() {
-                _flutterLocalization.translate("en");
-                seletedLanguage = 'en';
-              });
-            },
+            onPressed: () => _selectLanguage("en"),
             child: Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: 12,
@@ -139,8 +155,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                       ),
                     ),
                   ),
-                  if (seletedLanguage == 'en')
+                  if (selectedLanguage == 'en')
                     SvgPicture.asset("assets/icons/success.svg"),
+                  const SizedBox(
+                    width: 20,
+                  ),
                 ],
               ),
             ),
