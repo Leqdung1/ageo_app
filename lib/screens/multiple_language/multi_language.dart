@@ -62,14 +62,24 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SvgPicture.asset("assets/icons/vietnamIcon.svg"),
-                  Text(
-                    LocalData.language1.getString(context),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                  SvgPicture.asset(
+                    'assets/icons/Vietnam.svg',
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 15,
+                      ),
+                      child: Text(
+                        LocalData.language1.getString(context),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -94,14 +104,24 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SvgPicture.asset("assets/icons/united_kingdom.svg"),
-                  Text(
-                    LocalData.language2.getString(context),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                  SvgPicture.asset(
+                    'assets/icons/Us.svg',
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 15,
+                      ),
+                      child: Text(
+                        LocalData.language2.getString(context),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                        ),
+                      ),
                     ),
                   ),
                 ],
