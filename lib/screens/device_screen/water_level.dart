@@ -425,8 +425,10 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                   fontWeight: FontWeight.w500,
                                 ),
                                 selectedTrailingIcon:
-                                    const Icon(Icons.expand_less),
-                                trailingIcon: const Icon(Icons.expand_more),
+                                   Icon(Icons.expand_less, color:
+                                      Theme.of(context).iconTheme.color,),
+                                trailingIcon:  Icon(Icons.expand_more,  color:
+                                      Theme.of(context).iconTheme.color,),
                                 menuStyle: MenuStyle(
                                   maximumSize: const WidgetStatePropertyAll(
                                     Size.fromHeight(150),

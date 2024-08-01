@@ -110,8 +110,14 @@ class _MapScreenState extends State<MapScreen> {
                   fontSize: 15,
                   fontWeight: FontWeight.normal,
                 ),
-                selectedTrailingIcon: const Icon(Icons.expand_less),
-                trailingIcon: const Icon(Icons.expand_more),
+                selectedTrailingIcon: Icon(
+                  Icons.expand_less,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                trailingIcon: Icon(
+                  Icons.expand_more,
+                  color: Theme.of(context).iconTheme.color,
+                ),
                 menuStyle: MenuStyle(
                   maximumSize:
                       const WidgetStatePropertyAll(Size.fromHeight(200)),

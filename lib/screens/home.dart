@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ],
-              navBarBuilder: (navBarConfig) => Style4BottomNavBar(
+              navBarBuilder: (navBarConfig) => Style2BottomNavBar(
                 navBarDecoration: NavBarDecoration(
                   color: Theme.of(context).colorScheme.primary,
                   borderRadius: const BorderRadius.only(

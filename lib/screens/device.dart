@@ -70,7 +70,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     ),
                     color: isSelected
                         ? const Color.fromRGBO(42, 98, 154, 1)
-                        : Colors.white,
+                        : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(

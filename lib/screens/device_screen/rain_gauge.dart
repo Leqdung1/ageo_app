@@ -418,12 +418,12 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 selectedTrailingIcon: Icon(
                                   Icons.expand_less,
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).iconTheme.color,
                                 ),
                                 trailingIcon: Icon(
                                   Icons.expand_more,
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).iconTheme.color,
                                 ),
                                 menuStyle: MenuStyle(
                                   maximumSize: const WidgetStatePropertyAll(
