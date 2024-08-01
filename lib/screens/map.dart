@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
 
 enum MapSelected {
+  // ignore: constant_identifier_names
   WaterLevel1,
+  // ignore: constant_identifier_names
   WaterLevel2,
+  // ignore: constant_identifier_names
   Gnss1,
+  // ignore: constant_identifier_names
   Gnss2,
+  // ignore: constant_identifier_names
   Gnss3,
+  // ignore: constant_identifier_names
   Camera1,
+  // ignore: constant_identifier_names
   Camera2,
+  // ignore: constant_identifier_names
   Camera3,
+  // ignore: constant_identifier_names
   Camera4,
+  // ignore: constant_identifier_names
   Camera5,
+  // ignore: constant_identifier_names
   WarningSensor1,
+  // ignore: constant_identifier_names
   WarningSensor2,
+  // ignore: constant_identifier_names
   Raingauge,
+  // ignore: constant_identifier_names
   Piezometer1,
+  // ignore: constant_identifier_names
   Piezometer2,
+  // ignore: constant_identifier_names
   Piezometer3,
+  // ignore: constant_identifier_names
   Inclinometer1,
+  // ignore: constant_identifier_names
   Inclinometer2,
+  // ignore: constant_identifier_names
   Inclinometer3,
 }
 
@@ -106,7 +125,8 @@ class _MapScreenState extends State<MapScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
               child: DropdownMenu(
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                   fontSize: 15,
                   fontWeight: FontWeight.normal,
                 ),
@@ -130,6 +150,7 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 inputDecorationTheme: InputDecorationTheme(
+                  
                   fillColor: Theme.of(context).colorScheme.primary,
                   filled: true,
                   border: InputBorder.none,

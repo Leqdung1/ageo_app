@@ -424,11 +424,14 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                 ),
-                                selectedTrailingIcon:
-                                   Icon(Icons.expand_less, color:
-                                      Theme.of(context).iconTheme.color,),
-                                trailingIcon:  Icon(Icons.expand_more,  color:
-                                      Theme.of(context).iconTheme.color,),
+                                selectedTrailingIcon: Icon(
+                                  Icons.expand_less,
+                                  color: Theme.of(context).iconTheme.color,
+                                ),
+                                trailingIcon: Icon(
+                                  Icons.expand_more,
+                                  color: Theme.of(context).iconTheme.color,
+                                ),
                                 menuStyle: MenuStyle(
                                   maximumSize: const WidgetStatePropertyAll(
                                     Size.fromHeight(150),
@@ -445,7 +448,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                 ),
                                 inputDecorationTheme: InputDecorationTheme(
                                   fillColor:
-                                    Theme.of(context).colorScheme.primary,
+                                      Theme.of(context).colorScheme.primary,
                                   filled: true,
                                   border: InputBorder.none,
                                   enabledBorder: OutlineInputBorder(
@@ -507,6 +510,11 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                         ),
                                       ),
                                       primaryYAxis: NumericAxis(
+                                          majorGridLines: const MajorGridLines(
+                                            width: 1,
+                                            dashArray: [8, 8],
+                                            color: Colors.grey,
+                                          ),
                                           majorTickLines: const MajorTickLines(
                                             width: 0,
                                           ),
@@ -518,8 +526,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                           ),
                                           maximum: getMaxYAxisValue(_chartData)
                                               .toDouble(),
-                                          majorGridLines:
-                                              const MajorGridLines(width: 1),
+                                          
                                           rangePadding:
                                               ChartRangePadding.additional),
                                       series: _getSeries(_chartData),

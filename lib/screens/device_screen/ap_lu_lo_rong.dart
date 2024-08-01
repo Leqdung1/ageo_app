@@ -410,29 +410,34 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-
                           // drop down menu
                           Container(
                             margin: const EdgeInsets.only(
                                 left: 20, right: 15, bottom: 20),
                             child: Expanded(
                               child: DropdownMenu(
-                                textStyle: const TextStyle(
+                                textStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
                                   fontSize: 15,
                                   fontWeight: FontWeight.normal,
                                 ),
-                                selectedTrailingIcon:
-                                     Icon(Icons.expand_less,  color:
-                                      Theme.of(context).iconTheme.color,),
-                                trailingIcon: Icon(Icons.expand_more,  color:
-                                      Theme.of(context).iconTheme.color,),
+                                selectedTrailingIcon: Icon(
+                                  Icons.expand_less,
+                                  color: Theme.of(context).iconTheme.color,
+                                ),
+                                trailingIcon: Icon(
+                                  Icons.expand_more,
+                                  color: Theme.of(context).iconTheme.color,
+                                ),
                                 menuStyle: MenuStyle(
                                   maximumSize: const WidgetStatePropertyAll(
                                     Size.fromHeight(150),
                                   ),
-                                  surfaceTintColor:
-                                      const WidgetStatePropertyAll(
-                                    Color.fromARGB(255, 255, 255, 255),
+                                  surfaceTintColor: WidgetStatePropertyAll(
+                                    Theme.of(context).colorScheme.primary,
                                   ),
                                   shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
@@ -442,7 +447,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                 ),
                                 inputDecorationTheme: InputDecorationTheme(
                                   fillColor:
-                                     Theme.of(context).colorScheme.primary,
+                                      Theme.of(context).colorScheme.primary,
                                   filled: true,
                                   border: InputBorder.none,
                                   enabledBorder: OutlineInputBorder(
@@ -503,6 +508,11 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                         ),
                                       ),
                                       primaryYAxis: const NumericAxis(
+                                        majorGridLines: MajorGridLines(
+                                          width: 1,
+                                          dashArray: [8, 8],
+                                          color: Colors.grey,
+                                        ),
                                         labelStyle: TextStyle(
                                           color: Colors.grey,
                                         ),

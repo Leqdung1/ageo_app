@@ -417,13 +417,11 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 ),
                                 selectedTrailingIcon: Icon(
                                   Icons.expand_less,
-                                  color:
-                                      Theme.of(context).iconTheme.color,
+                                  color: Theme.of(context).iconTheme.color,
                                 ),
                                 trailingIcon: Icon(
                                   Icons.expand_more,
-                                  color:
-                                      Theme.of(context).iconTheme.color,
+                                  color: Theme.of(context).iconTheme.color,
                                 ),
                                 menuStyle: MenuStyle(
                                   maximumSize: const WidgetStatePropertyAll(
@@ -488,15 +486,20 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                               rangePadding: ChartRangePadding.auto,
                               majorTickLines: MajorTickLines(
                                 width: 1,
-                                color: Colors.black,
+                                color: Colors.grey,
                                 size: 5,
                               ),
                               axisLine: AxisLine(
-                                color: Colors.black,
+                                color: Colors.grey,
                                 width: 1,
                               ),
                             ),
                             primaryYAxis: const NumericAxis(
+                              majorGridLines: MajorGridLines(
+                                width: 1,
+                                dashArray: [8, 8],
+                                color: Colors.grey,
+                              ),
                               labelStyle: TextStyle(
                                 color: Colors.grey,
                               ),
