@@ -85,11 +85,11 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 6, horizontal: 10),
                             child: Column(
                               children: [
-                                Align(
+                                const Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     '03/05/2017',
@@ -99,12 +99,12 @@ class _ControlPanelScreenState extends State<ControlPanelScreen> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                SizedBox(
+                               const  SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   LocalData.infoDetails1.getString(context),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       color: Color.fromRGBO(111, 64, 36, 1),
                                       fontWeight: FontWeight.normal),

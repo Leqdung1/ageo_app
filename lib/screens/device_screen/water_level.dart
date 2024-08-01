@@ -501,11 +501,11 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                             MajorGridLines(width: 0),
                                         majorTickLines: MajorTickLines(
                                             width: 1,
-                                            color: Colors.black,
+                                            color: Colors.grey,
                                             size: 5),
                                         isVisible: true,
                                         axisLine: AxisLine(
-                                          color: Colors.black,
+                                          color: Colors.grey,
                                           width: 1,
                                         ),
                                       ),
@@ -526,7 +526,6 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                           ),
                                           maximum: getMaxYAxisValue(_chartData)
                                               .toDouble(),
-                                          
                                           rangePadding:
                                               ChartRangePadding.additional),
                                       series: _getSeries(_chartData),

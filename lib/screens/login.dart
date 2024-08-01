@@ -1,11 +1,14 @@
+import "package:Ageo_solutions/components/localization.dart";
 import "package:Ageo_solutions/screens/forgot_password.dart";
 import "package:Ageo_solutions/screens/home.dart";
 import "package:Ageo_solutions/screens/home.dart";
 
 import "package:flutter/material.dart";
+import "package:flutter_localization/flutter_localization.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 
 import "package:flutter_svg/svg.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 import "../core/api_client.dart";
 import "../core/helpers.dart";
@@ -20,6 +23,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late FlutterLocalization _flutterLocalization;
+  String selectedLanguage = "";
   var _username = "";
   var _password = "";
   var _lastUserName = "";
@@ -110,10 +115,31 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  // keep icon success always appear
+  Future<void> _loadSelectedLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedLanguage = prefs.getString('selectedLanguage') ?? '';
+    });
+  }
+
+  Future<void> _saveSelectedLanguage(String language) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedLanguage', language);
+  }
+
+  void _selectLanguage(String language) {
+    setState(() {
+      _flutterLocalization.translate(language);
+      selectedLanguage = language;
+      _saveSelectedLanguage(language);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-
+    _flutterLocalization = FlutterLocalization.instance;
     _readLastLoggedInData();
     _passwordVisible = false;
   }
@@ -191,11 +217,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                const Align(
+                                Align(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    "Nhập tên đăng nhập & mật khẩu để truy cập hệ thống",
-                                    style: TextStyle(
+                                    LocalData.typeNameandNumber
+                                        .getString(context),
+                                    style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.normal,
                                     ),
@@ -208,6 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     IconButton(
                                       onPressed: () {
                                         //TODO: change language VN
+                                        _selectLanguage("vi");
                                       },
                                       icon: SvgPicture.asset(
                                           'assets/icons/Vietnam.svg'),
@@ -218,6 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     IconButton(
                                       onPressed: () {
                                         //TODO: change language EN
+                                        _selectLanguage("en");
                                       },
                                       icon: SvgPicture.asset(
                                           'assets/icons/Us.svg'),
@@ -226,7 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             TextFormField(
                               focusNode: usernameFocus,
                               textInputAction: TextInputAction.next,
@@ -234,7 +263,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return "Số điện thoại không được để trống.";
+                                  return LocalData.numberMustWrite
+                                      .getString(context);
                                 }
                                 return null;
                               },
@@ -248,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintStyle: const TextStyle(
                                   color: Color(0xFFA7ABC3),
                                 ),
-                                hintText: "Tên đăng nhập",
+                                hintText: LocalData.userName.getString(context),
                                 isDense: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -275,7 +305,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 prefixIcon: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -304,7 +335,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 });
                               },
                             ),
-                            SizedBox(height: 12),
+                            const SizedBox(height: 12),
                           ],
                           TextFormField(
                             focusNode: passwordFocus,
@@ -314,7 +345,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureText: !_passwordVisible,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Mật khẩu không được để trống.";
+                                return LocalData.passwordMustWrite
+                                    .getString(context);
                               }
 
                               return null;
@@ -329,10 +361,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               hintStyle: const TextStyle(
                                 color: Color(0xFFA7ABC3),
                               ),
-                              hintText: "Mật khẩu",
+                              hintText: LocalData.logOut.getString(context),
                               isDense: true,
                               prefixIcon: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -345,7 +378,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         BlendMode.srcATop,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Container(
@@ -414,7 +447,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               _password = value;
                             },
                           ),
-                          SizedBox(height: 24),
+                          const SizedBox(height: 24),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -433,9 +466,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       vertical: 13,
                                     ),
                                   ),
-                                  child: const Text(
-                                    "Đăng nhập",
-                                    style: TextStyle(
+                                  child: Text(
+                                    LocalData.logIn.getString(context),
+                                    style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -444,7 +477,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -460,11 +493,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextButton.styleFrom(
                                     foregroundColor: const Color(0xFF3A9EFC),
                                   ),
-                                  child: const Text(
-                                    "Quên mật khẩu?",
-                                    style: TextStyle(
-                                      color:
-                                          const Color.fromRGBO(21, 101, 192, 1),
+                                  child: Text(
+                                    LocalData.forgotPassword.getString(context),
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(21, 101, 192, 1),
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,
                                     ),

@@ -4,6 +4,7 @@ import 'package:Ageo_solutions/screens/device.dart';
 import 'package:Ageo_solutions/screens/device_screen/rain_gauge.dart';
 import 'package:Ageo_solutions/screens/home.dart';
 import 'package:Ageo_solutions/screens/home.dart';
+import 'package:Ageo_solutions/screens/login.dart';
 import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
 import 'package:Ageo_solutions/screens/testcam.dart';
 import 'package:flutter/material.dart';
@@ -60,9 +61,9 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: localization.supportedLocales,
       locale: const Locale('vi', ''),
 
-      home: const HomeScreen(),
+      home: const LoginScreen(),
     );
-  } 
+  }
 
   void configLocal() {
     localization.init(mapLocales: Local, initLanguageCode: 'de');

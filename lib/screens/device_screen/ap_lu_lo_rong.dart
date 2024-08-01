@@ -436,8 +436,9 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                   maximumSize: const WidgetStatePropertyAll(
                                     Size.fromHeight(150),
                                   ),
-                                  surfaceTintColor: WidgetStatePropertyAll(
-                                    Theme.of(context).colorScheme.primary,
+                                  surfaceTintColor:
+                                      const WidgetStatePropertyAll(
+                                    Colors.white,
                                   ),
                                   shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
@@ -498,12 +499,12 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                             MajorGridLines(width: 0),
                                         majorTickLines: MajorTickLines(
                                           width: 1,
-                                          color: Colors.black,
+                                          color: Colors.grey,
                                           size: 5,
                                         ),
                                         isVisible: true,
                                         axisLine: AxisLine(
-                                          color: Colors.black,
+                                          color: Colors.grey,
                                           width: 1,
                                         ),
                                       ),

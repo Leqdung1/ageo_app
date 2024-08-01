@@ -37,6 +37,14 @@ mixin LocalData {
   static String darkMode = "darkMode";
   static String changePassWord = "changePassWord";
   static String logOut = "logOut";
+  static String typeNameandNumber = "NameAndNumber";
+  static String userName = "userName";
+  static String password = "password";
+  static String numberMustWrite = "numberMustWrite";
+  static String passwordMustWrite = "passwordMustWrite";
+  static String logIn = "logIn";
+  static String forgotPassword = "forgotPassword";
+
 
   static Map<String, dynamic> EN = {
     "infoTitle": "Informations",
@@ -71,6 +79,13 @@ mixin LocalData {
     "darkMode": "Dark mode",
     "changePassWord": "Change password",
     "logOut": "Log out",
+     "NameAndNumber": "Enter your username & password to access the system",
+    "userName": "Username",
+    "password": "Password",
+    "numberMustWrite": "Username cannot be blank.",
+    "passwordMustWrite": "Password can not be blank.",
+    "logIn": "Log in",
+    "forgotPassword": "Forgot password?"
   };
 
   static Map<String, dynamic> VI = {
@@ -106,5 +121,12 @@ mixin LocalData {
     "darkMode": "Chế độ tối",
     "changePassWord": "Đổi mật khẩu",
     "logOut": "Đăng xuất",
+    "NameAndNumber": "Nhập tên đăng nhập & mật khẩu để truy cập hệ thống",
+    "userName": "Tên đăng nhập",
+    "password": "Mật khẩu",
+    "numberMustWrite": "Tên đăng nhập không được để trống.",
+    "passwordMustWrite": "Mật khẩu không được để trống.",
+    "logIn": "Đăng nhập",
+    "forgotPassword": "Quên mật khẩu"
   };
 }
