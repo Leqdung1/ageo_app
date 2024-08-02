@@ -1,4 +1,6 @@
+import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class WarningScreen extends StatefulWidget {
   const WarningScreen({super.key});
@@ -47,6 +49,16 @@ class _WarningScreenState extends State<WarningScreen> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Text(
+          LocalData.title1.getString(context),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            fontSize: 20,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           // TODO: add api

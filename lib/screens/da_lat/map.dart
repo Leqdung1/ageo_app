@@ -1,4 +1,6 @@
+import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 enum MapSelected {
   // ignore: constant_identifier_names
@@ -103,6 +105,16 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Text(
+          LocalData.title1.getString(context),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            fontSize: 20,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Container(
@@ -150,7 +162,6 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 inputDecorationTheme: InputDecorationTheme(
-                  
                   fillColor: Theme.of(context).colorScheme.primary,
                   filled: true,
                   border: InputBorder.none,

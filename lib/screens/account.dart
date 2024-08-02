@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:Ageo_solutions/components/menu_side_bar.dart';
 import 'package:Ageo_solutions/screens/login.dart';
-import 'package:Ageo_solutions/screens/notifications.dart';
+import 'package:Ageo_solutions/screens/da_lat/notifications.dart';
 
 class AccountScreen extends StatefulWidget {
   final Map<String, dynamic>? userData;

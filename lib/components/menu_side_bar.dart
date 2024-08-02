@@ -1,7 +1,7 @@
 import 'package:Ageo_solutions/screens/account.dart';
 import 'package:Ageo_solutions/screens/home.dart';
 import 'package:Ageo_solutions/screens/home.dart';
-import 'package:Ageo_solutions/screens/notifications.dart';
+import 'package:Ageo_solutions/screens/da_lat/notifications.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

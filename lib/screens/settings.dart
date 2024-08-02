@@ -96,6 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       selectedIndex = index;
       _saveSelectedIndex(index);
     });
+    Navigator.pop(context);
   }
 
 // modal bottom sheet
@@ -105,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return SizedBox(
-          height: MediaQuery.sizeOf(context).height * 0.5,
+          height: MediaQuery.sizeOf(context).height * 0.48,
           child: Wrap(
             children: [
               Column(
@@ -215,35 +216,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                         ),
                       ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 15,
-                    ),
-                    width: MediaQuery.sizeOf(context).width * 1,
-                    child: ElevatedButton(
-                      style: const ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(
-                          Color.fromRGBO(0, 65, 130, 1),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          bottom: 10,
-                        ),
-                        child: Text(
-                          LocalData.textModal.getString(context),
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                 ],

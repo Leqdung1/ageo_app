@@ -1,12 +1,12 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/components/menu_side_bar.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
-import 'package:Ageo_solutions/screens/camera.dart';
-import 'package:Ageo_solutions/screens/control_panel.dart';
+import 'package:Ageo_solutions/screens/da_lat/camera.dart';
+import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
 import 'package:Ageo_solutions/screens/device.dart';
-import 'package:Ageo_solutions/screens/map.dart';
+import 'package:Ageo_solutions/screens/da_lat/map.dart';
 import 'package:Ageo_solutions/screens/settings.dart';
-import 'package:Ageo_solutions/screens/warn.dart';
+import 'package:Ageo_solutions/screens/da_lat/warn.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:flutter/material.dart';

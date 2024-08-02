@@ -1,8 +1,10 @@
-import 'package:Ageo_solutions/screens/device_screen/ap_lu_lo_rong.dart';
-import 'package:Ageo_solutions/screens/device_screen/gnss.dart';
-import 'package:Ageo_solutions/screens/device_screen/rain_gauge.dart';
-import 'package:Ageo_solutions/screens/device_screen/water_level.dart';
+import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/screens/da_lat/device_screen/ap_lu_lo_rong.dart';
+import 'package:Ageo_solutions/screens/da_lat/device_screen/gnss.dart';
+import 'package:Ageo_solutions/screens/da_lat/device_screen/rain_gauge.dart';
+import 'package:Ageo_solutions/screens/da_lat/device_screen/water_level.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
 
 class DeviceScreen extends StatefulWidget {
@@ -35,6 +37,16 @@ class _DeviceScreenState extends State<DeviceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Text(
+          LocalData.title1.getString(context),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            fontSize: 20,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           // Choose devices screen

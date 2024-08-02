@@ -40,34 +40,40 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
             fontSize: 20,
           ),
         ),
-        bottom: TabBar(
-          controller: _tabController,
-          labelStyle: const TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-          unselectedLabelStyle: const TextStyle(
-            fontWeight: FontWeight.normal,
-          ),
-          dividerColor: Colors.transparent,
-          indicatorColor: const Color.fromRGBO(0, 65, 130, 1),
-          labelColor: Theme.of(context).textTheme.bodyLarge?.color,
-          unselectedLabelColor: Colors.grey,
-          tabs: const [
-            Tab(
-              text: "Overview",
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
             ),
-            Tab(
-              text: "News",
+            child: TabBar(
+              controller: _tabController,
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.normal,
+              ),
+              dividerColor: Colors.transparent,
+              indicatorColor: const Color.fromRGBO(0, 65, 130, 1),
+              labelColor: Theme.of(context).textTheme.bodyLarge?.color,
+              unselectedLabelColor: Colors.grey,
+              tabs: const [
+                Tab(
+                  text: "Overview",
+                ),
+                Tab(
+                  text: "News",
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          // Overview Tab
           overViewTab(),
-          // News Tab
           newsTab(),
         ],
       ),
