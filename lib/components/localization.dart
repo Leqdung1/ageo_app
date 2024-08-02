@@ -47,6 +47,8 @@ mixin LocalData {
   static String forgotPassword = "forgotPassword";
   static String changeSystem = "changeSystem";
   static String textModal = "textModal";
+  static String title1 = "title1";
+  static String title2 = "title2";
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -91,6 +93,8 @@ mixin LocalData {
     "forgotPassword": "Forgot password?",
     "changeSystem": "Change system",
     "textModal": "Done",
+    "title1": "Khe Sanh, Ward 10, Da lat City",
+    "title2": "Hung Yen province",
   };
 
   // ignore: non_constant_identifier_names
@@ -136,5 +140,7 @@ mixin LocalData {
     "forgotPassword": "Quên mật khẩu",
     "changeSystem": "Thay đổi hệ thống",
     "textModal": "Xong",
+    "title1": "Khe Sanh, phường 10, TP.Đà Lạt",
+    "title2": "Tỉnh Hưng Yên",
   };
 }

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -22,10 +23,12 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   Map<String, dynamic>? response;
   bool isLoading = true;
+  String selectedIndex = "";
 
   @override
   void initState() {
     super.initState();
+    _loadSelectedIndex();
   }
 
   Future<void> fetchUserData() async {
@@ -73,6 +76,178 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } else {
       return const Icon(Icons.account_circle, size: 40);
     }
+  }
+
+  // keep icon success always appear
+  Future<void> _loadSelectedIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedIndex = prefs.getString('selectedIndex') ?? '';
+    });
+  }
+
+  Future<void> _saveSelectedIndex(String index) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedIndex', index);
+  }
+
+  void _selectIndex(String index) {
+    setState(() {
+      selectedIndex = index;
+      _saveSelectedIndex(index);
+    });
+  }
+
+// modal bottom sheet
+  void _openModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: MediaQuery.sizeOf(context).height * 0.5,
+          child: Wrap(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    height: 4,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  AppBar(
+                    leading: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Theme.of(context).iconTheme.color,
+                        size: 20,
+                      ),
+                    ),
+                    title: Text(
+                      LocalData.changeSystem.getString(context),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                    centerTitle: true,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).colorScheme.primary,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: const Offset(0, 2),
+                          blurRadius: 4,
+                          color: Colors.black.withOpacity(0.05),
+                        ),
+                      ],
+                    ),
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(0),
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
+                          title: Text(
+                            LocalData.title1.getString(context),
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                          trailing: selectedIndex == "0"
+                              ? SvgPicture.asset("assets/icons/success.svg")
+                              : null,
+                          onTap: () {
+                            // Use the callback to update the state in the parent widget
+                            _selectIndex("0");
+                          },
+                        ),
+                        Divider(
+                          height: 0,
+                          indent: 15,
+                          endIndent: 15,
+                          color: Colors.grey.withOpacity(0.2),
+                        ),
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
+                          title: Text(
+                            LocalData.title2.getString(context),
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                          trailing: selectedIndex == "1"
+                              ? SvgPicture.asset("assets/icons/success.svg")
+                              : null,
+                          onTap: () {
+                            // Use the callback to update the state in the parent widget
+                            _selectIndex("1");
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 15,
+                    ),
+                    width: MediaQuery.sizeOf(context).width * 1,
+                    child: ElevatedButton(
+                      style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          Color.fromRGBO(0, 65, 130, 1),
+                        ),
+                      ),
+                      onPressed: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          bottom: 10,
+                        ),
+                        child: Text(
+                          LocalData.textModal.getString(context),
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -329,216 +504,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           size: 18,
                         ),
                         onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SizedBox(
-                                height: MediaQuery.sizeOf(context).height * 0.5,
-                                child: Wrap(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                          margin: const EdgeInsets.symmetric(
-                                            vertical: 10,
-                                          ),
-                                          height: 4,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.shade200,
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                          ),
-                                        ),
-                                        Container(
-                                          alignment: Alignment.center,
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 0, horizontal: 15),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              IconButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                icon: Icon(
-                                                  Icons.arrow_back_ios,
-                                                  color: Theme.of(context)
-                                                      .iconTheme
-                                                      .color,
-                                                  size: 20,
-                                                ),
-                                              ),
-                                              Text(
-                                                LocalData.changeSystem
-                                                    .getString(context),
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                onPressed: () {
-                                                  DoNothingAction();
-                                                },
-                                                icon: const Icon(
-                                                  Icons.arrow_back_ios,
-                                                  color: Colors.transparent,
-                                                ),
-                                              ),
-                                              //                            if (selectedLanguage == 'en')
-                                              // SvgPicture.asset("assets/icons/success.svg"),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () => {},
-                                          child: Container(
-                                            margin: const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 10,
-                                            ),
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .surface,
-                                              border: Border.all(
-                                                  color: Colors.grey.shade500),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      left: 15,
-                                                    ),
-                                                    child: Text(
-                                                      LocalData.language1
-                                                          .getString(context),
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyLarge
-                                                            ?.color,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 20,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () => {},
-                                          child: Container(
-                                            margin: const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 15,
-                                            ),
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .surface,
-                                              border: Border.all(
-                                                  color: Colors.grey.shade400),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      left: 15,
-                                                    ),
-                                                    child: Text(
-                                                      LocalData.language2
-                                                          .getString(context),
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyLarge
-                                                            ?.color,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                //                              if (selectedLanguage == 'en')
-                                                // SvgPicture.asset("assets/icons/success.svg"),
-                                                const SizedBox(
-                                                  width: 20,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.symmetric(
-                                            horizontal: 20,
-                                          ),
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  1,
-                                          child: ElevatedButton(
-                                            style: const ButtonStyle(
-                                              backgroundColor:
-                                                  WidgetStatePropertyAll(
-                                                Color.fromRGBO(0, 65, 130, 1),
-                                              ),
-                                            ),
-                                            onPressed: () {},
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                top: 10,
-                                                bottom: 10,
-                                              ),
-                                              child: Text(
-                                                LocalData.textModal
-                                                    .getString(context),
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
+                          _openModalBottomSheet(context);
                         },
                       ),
                       Divider(
@@ -558,8 +524,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        // leading: SvgPicture.asset(
-                        //     "assets/icons/changed_password.svg"),
                         leading: Icon(
                           Icons.lock_outline,
                           color: Theme.of(context).iconTheme.color,
@@ -599,7 +563,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        // leading: SvgPicture.asset("assets/icons/logout.svg"),
                         leading: Icon(
                           Icons.logout_outlined,
                           color: Theme.of(context).iconTheme.color,

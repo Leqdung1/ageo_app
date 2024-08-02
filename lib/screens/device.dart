@@ -84,7 +84,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                         debugPrint('Selected index: $_itemsSelected');
                       },
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 10,
                           vertical: 6,
                         ),
