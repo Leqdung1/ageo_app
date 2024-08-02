@@ -334,171 +334,180 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return SizedBox(
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.45,
-                                  child: Wrap(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.symmetric(
-                                              vertical: 15,
-                                            ),
-                                            height: 4,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey.shade200,
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                            ),
+                                height: MediaQuery.sizeOf(context).height * 0.5,
+                                child: Wrap(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 10,
                                           ),
-                                          Container(
-                                            alignment: Alignment.center,
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 0, horizontal: 15),
+                                          height: 4,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 15),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: Icon(
+                                                  Icons.arrow_back_ios,
+                                                  color: Theme.of(context)
+                                                      .iconTheme
+                                                      .color,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                              Text(
+                                                LocalData.changeSystem
+                                                    .getString(context),
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  DoNothingAction();
+                                                },
+                                                icon: const Icon(
+                                                  Icons.arrow_back_ios,
+                                                  color: Colors.transparent,
+                                                ),
+                                              ),
+                                              //                            if (selectedLanguage == 'en')
+                                              // SvgPicture.asset("assets/icons/success.svg"),
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => {},
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 10,
+                                            ),
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surface,
+                                              border: Border.all(
+                                                  color: Colors.grey.shade500),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  MainAxisAlignment.start,
                                               children: [
-                                                IconButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.arrow_back_ios,
-                                                    color: Theme.of(context)
-                                                        .iconTheme
-                                                        .color,
-                                                    size: 20,
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      left: 15,
+                                                    ),
+                                                    child: Text(
+                                                      LocalData.language1
+                                                          .getString(context),
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge
+                                                            ?.color,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                                Text(
-                                                  LocalData.changeSystem
-                                                      .getString(context),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.color,
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    DoNothingAction();
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.arrow_back_ios,
-                                                    color: Colors.transparent,
-                                                  ),
+                                                const SizedBox(
+                                                  width: 20,
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          TextButton(
-                                            onPressed: () => {},
-                                            child: Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 12,
-                                                vertical: 10,
-                                              ),
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .surface,
-                                                border: Border.all(
-                                                    color:
-                                                        Colors.grey.shade400),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 15,
-                                                      ),
-                                                      child: Text(
-                                                        LocalData.language1
-                                                            .getString(context),
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyLarge
-                                                                  ?.color,
-                                                        ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => {},
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 15,
+                                            ),
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surface,
+                                              border: Border.all(
+                                                  color: Colors.grey.shade400),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      left: 15,
+                                                    ),
+                                                    child: Text(
+                                                      LocalData.language2
+                                                          .getString(context),
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge
+                                                            ?.color,
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                                //                              if (selectedLanguage == 'en')
+                                                // SvgPicture.asset("assets/icons/success.svg"),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          TextButton(
-                                            onPressed: () => {},
-                                            child: Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 12,
-                                                vertical: 15,
-                                              ),
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .surface,
-                                                border: Border.all(
-                                                    color:
-                                                        Colors.grey.shade400),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        left: 15,
-                                                      ),
-                                                      child: Text(
-                                                        LocalData.language2
-                                                            .getString(context),
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyLarge
-                                                                  ?.color,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.symmetric(
+                                            horizontal: 20,
                                           ),
-                                          ElevatedButton(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  1,
+                                          child: ElevatedButton(
                                             style: const ButtonStyle(
                                               backgroundColor:
                                                   WidgetStatePropertyAll(
@@ -506,180 +515,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                               ),
                                             ),
                                             onPressed: () {},
-                                            child: Text(
-                                              LocalData.textModal
-                                                  .getString(context),
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                top: 10,
+                                                bottom: 10,
+                                              ),
+                                              child: Text(
+                                                LocalData.textModal
+                                                    .getString(context),
+                                                style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                  // Scaffold(
-                                  //   appBar: AppBar(
-                                  //     backgroundColor: Colors.transparent,
-                                  //     leading: IconButton(
-                                  //       onPressed: () {
-                                  //         Navigator.pop(context);
-                                  //       },
-                                  //       icon: Icon(
-                                  //         Icons.arrow_back_ios,
-                                  //         color:
-                                  //             Theme.of(context).iconTheme.color,
-                                  //         size: 20,
-                                  //       ),
-                                  //     ),
-                                  //     title: Text(
-                                  //       LocalData.changeSystem.getString(context),
-                                  //       style: TextStyle(
-                                  //         fontSize: 15,
-                                  //         fontWeight: FontWeight.w600,
-                                  //         color: Theme.of(context)
-                                  //             .textTheme
-                                  //             .bodyLarge
-                                  //             ?.color,
-                                  //       ),
-                                  //     ),
-                                  //     centerTitle: true,
-                                  //   ),
-                                  //   body: Column(
-                                  //     mainAxisAlignment: MainAxisAlignment.center,
-                                  //     mainAxisSize: MainAxisSize.min,
-                                  //     children: [
-                                  //       TextButton(
-                                  //         onPressed: () => {},
-                                  //         child: Container(
-                                  //           margin: const EdgeInsets.symmetric(
-                                  //             horizontal: 12,
-                                  //             vertical: 10,
-                                  //           ),
-                                  //           height: 50,
-                                  //           decoration: BoxDecoration(
-                                  //             color: Theme.of(context)
-                                  //                 .colorScheme
-                                  //                 .surface,
-                                  //             border: Border.all(
-                                  //                 color: Colors.grey.shade400),
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10),
-                                  //           ),
-                                  //           child: Row(
-                                  //             mainAxisAlignment:
-                                  //                 MainAxisAlignment.start,
-                                  //             children: [
-                                  //               Expanded(
-                                  //                 child: Padding(
-                                  //                   padding:
-                                  //                       const EdgeInsets.only(
-                                  //                     left: 15,
-                                  //                   ),
-                                  //                   child: Text(
-                                  //                     LocalData.language1
-                                  //                         .getString(context),
-                                  //                     style: TextStyle(
-                                  //                       fontSize: 15,
-                                  //                       fontWeight:
-                                  //                           FontWeight.bold,
-                                  //                       color: Theme.of(context)
-                                  //                           .textTheme
-                                  //                           .bodyLarge
-                                  //                           ?.color,
-                                  //                     ),
-                                  //                   ),
-                                  //                 ),
-                                  //               ),
-                                  //               const SizedBox(
-                                  //                 width: 20,
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //       TextButton(
-                                  //         onPressed: () => {},
-                                  //         child: Container(
-                                  //           margin: const EdgeInsets.symmetric(
-                                  //             horizontal: 12,
-                                  //             vertical: 15,
-                                  //           ),
-                                  //           height: 50,
-                                  //           decoration: BoxDecoration(
-                                  //             color: Theme.of(context)
-                                  //                 .colorScheme
-                                  //                 .surface,
-                                  //             border: Border.all(
-                                  //                 color: Colors.grey.shade400),
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10),
-                                  //           ),
-                                  //           child: Row(
-                                  //             mainAxisAlignment:
-                                  //                 MainAxisAlignment.start,
-                                  //             children: [
-                                  //               Expanded(
-                                  //                 child: Padding(
-                                  //                   padding:
-                                  //                       const EdgeInsets.only(
-                                  //                     left: 15,
-                                  //                   ),
-                                  //                   child: Text(
-                                  //                     LocalData.language2
-                                  //                         .getString(context),
-                                  //                     style: TextStyle(
-                                  //                       fontSize: 15,
-                                  //                       fontWeight:
-                                  //                           FontWeight.bold,
-                                  //                       color: Theme.of(context)
-                                  //                           .textTheme
-                                  //                           .bodyLarge
-                                  //                           ?.color,
-                                  //                     ),
-                                  //                   ),
-                                  //                 ),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //       ElevatedButton(
-                                  //         style: const ButtonStyle(
-                                  //           backgroundColor:
-                                  //               WidgetStatePropertyAll(
-                                  //             Color.fromRGBO(0, 65, 130, 1),
-                                  //           ),
-                                  //         ),
-                                  //         onPressed: () {},
-                                  //         child: Text(
-                                  //           LocalData.textModal
-                                  //               .getString(context),
-                                  //           style: const TextStyle(
-                                  //             fontSize: 15,
-                                  //             fontWeight: FontWeight.bold,
-                                  //             color: Colors.white,
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                  );
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
                             },
                           );
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (BuildContext builder) =>
-                          //         ChangePasswordScreen(
-                          //       response: userData!,
-                          //       changePassword: true,
-                          //     ),
-                          //   ),
-                          // );
                         },
                       ),
                       Divider(
