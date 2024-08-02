@@ -29,16 +29,30 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         title: Text(
           LocalData.title1.getString(context),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            fontSize: 20,
+          ),
         ),
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
+          labelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+          dividerColor: Colors.transparent,
+          indicatorColor: const Color.fromRGBO(0, 65, 130, 1),
+          labelColor: Theme.of(context).textTheme.bodyLarge?.color,
+          unselectedLabelColor: Colors.grey,
+          tabs: const [
             Tab(
               text: "Overview",
             ),
