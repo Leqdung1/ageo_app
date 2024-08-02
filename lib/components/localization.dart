@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_localization/flutter_localization.dart';
 
+// ignore: non_constant_identifier_names
 final List<MapLocale> Local = [
   MapLocale('en', LocalData.EN),
   MapLocale('vi', LocalData.VI),
@@ -44,8 +45,10 @@ mixin LocalData {
   static String passwordMustWrite = "passwordMustWrite";
   static String logIn = "logIn";
   static String forgotPassword = "forgotPassword";
+  static String changeSystem = "changeSystem";
+  static String textModal = "textModal";
 
-
+  // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
     "infoTitle": "Informations",
     "infoDetails1":
@@ -79,15 +82,18 @@ mixin LocalData {
     "darkMode": "Dark mode",
     "changePassWord": "Change password",
     "logOut": "Log out",
-     "NameAndNumber": "Enter your username & password to access the system",
+    "NameAndNumber": "Enter your username & password to access the system",
     "userName": "Username",
     "password": "Password",
     "numberMustWrite": "Username cannot be blank.",
     "passwordMustWrite": "Password can not be blank.",
     "logIn": "Log in",
-    "forgotPassword": "Forgot password?"
+    "forgotPassword": "Forgot password?",
+    "changeSystem": "Change system",
+    "textModal": "Done",
   };
 
+  // ignore: non_constant_identifier_names
   static Map<String, dynamic> VI = {
     infoTitle: 'Thông tin',
     infoDetails1:
@@ -127,6 +133,8 @@ mixin LocalData {
     "numberMustWrite": "Tên đăng nhập không được để trống.",
     "passwordMustWrite": "Mật khẩu không được để trống.",
     "logIn": "Đăng nhập",
-    "forgotPassword": "Quên mật khẩu"
+    "forgotPassword": "Quên mật khẩu",
+    "changeSystem": "Thay đổi hệ thống",
+    "textModal": "Xong",
   };
 }

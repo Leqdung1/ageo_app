@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: localization.supportedLocales,
       locale: const Locale('vi', ''),
 
-      home: const LoginScreen(),
+      home: const HomeScreen(),
     );
   }
 
