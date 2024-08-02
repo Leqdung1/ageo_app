@@ -23,7 +23,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   Map<String, dynamic>? response;
   bool isLoading = true;
-  String selectedIndex = "";
+  String selectedIndex = "0";
 
   @override
   void initState() {
@@ -164,25 +164,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
                         ListTile(
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 16),
-                          title: Text(
-                            LocalData.title1.getString(context),
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge?.color,
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            title: Text(
+                              LocalData.title1.getString(context),
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
                             ),
-                          ),
-                          trailing: selectedIndex == "0"
-                              ? SvgPicture.asset("assets/icons/success.svg")
-                              : null,
-                          onTap: () {
-                            // Use the callback to update the state in the parent widget
-                            _selectIndex("0");
-                          },
-                        ),
+                            trailing: selectedIndex == "0"
+                                ? SvgPicture.asset("assets/icons/success.svg")
+                                : null,
+                            onTap: () {
+                              setState(
+                                () {
+                                  _selectIndex("0");
+                                },
+                              );
+                            }),
                         Divider(
                           height: 0,
                           indent: 15,
@@ -205,8 +209,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ? SvgPicture.asset("assets/icons/success.svg")
                               : null,
                           onTap: () {
-                            // Use the callback to update the state in the parent widget
-                            _selectIndex("1");
+                            setState(() {
+                              _selectIndex("1");
+                            });
                           },
                         ),
                       ],
@@ -396,12 +401,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           size: 18,
                         ),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (BuildContext context) => LoginScreen(),
-                          //   ),
-                          // );
+                          // TODO: add screen user information
                         },
                       ),
                       Divider(
@@ -492,8 +492,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        // leading: SvgPicture.asset(
-                        //     "assets/icons/changed_password.svg"),
                         leading: Icon(
                           Icons.change_circle,
                           color: Theme.of(context).iconTheme.color,
@@ -534,16 +532,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           size: 18,
                         ),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (BuildContext builder) =>
-                          //         ChangePasswordScreen(
-                          //       response: userData!,
-                          //       changePassword: true,
-                          //     ),
-                          //   ),
-                          // );
+                          // TODO: add screen change password
                         },
                       ),
                       Divider(

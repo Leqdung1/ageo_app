@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
       //   iconTheme: const IconThemeData(color: Colors.white),
       // ),
       // drawer: const NavigatorDrawer(),
-      body: Column(
+     body: 
+      Column(
         children: [
           Expanded(
             child: PersistentTabView(
