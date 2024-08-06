@@ -478,8 +478,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           trailing: Transform.scale(
                             scale: 0.8,
                             child: Switch(
+                            
+                              trackOutlineColor: WidgetStatePropertyAll(
+                                Colors.black.withOpacity(0.3),
+                              ),
                               activeTrackColor:
                                   const Color.fromRGBO(21, 101, 192, 1),
+                              inactiveThumbColor: Colors.black.withOpacity(0.3),
                               activeColor: Colors.white,
                               value: isDarkMode,
                               onChanged: (value) {
