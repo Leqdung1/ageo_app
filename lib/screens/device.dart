@@ -51,6 +51,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
         children: [
           // Choose devices screen
           Container(
+            margin: const EdgeInsets.symmetric(
+              vertical: 5,
+            ),
             height: 70,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onSurface,
@@ -110,7 +113,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
           Column(
             children: [
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 5,
+                ),
               ),
               // index screen
               SizedBox(
