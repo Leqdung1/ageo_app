@@ -173,7 +173,7 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                   ),
                 ),
-                initialSelection: _selectedMap.name,
+                initialSelection: _selectedMap.label,
                 onSelected: (value) {
                   setState(() {
                     _selectedMap = MapSelected.values.byName(value as String);
@@ -181,7 +181,20 @@ class _MapScreenState extends State<MapScreen> {
                 },
                 dropdownMenuEntries: MapSelected.values
                     .map(
-                      (e) => DropdownMenuEntry(value: e.name, label: e.label),
+                      (e) => DropdownMenuEntry(
+                        value: e.label,
+                        labelWidget: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Text(
+                            e.label,
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                        ),
+                        label: e.label,
+                      ),
                     )
                     .toList(),
               ),

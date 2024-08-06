@@ -434,7 +434,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                 ),
                                 menuStyle: MenuStyle(
                                   maximumSize: const WidgetStatePropertyAll(
-                                    Size.fromHeight(150),
+                                    Size.fromHeight(160),
                                   ),
                                   surfaceTintColor:
                                       const WidgetStatePropertyAll(
@@ -472,7 +472,20 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                 dropdownMenuEntries: DataSelected.values
                                     .map(
                                       (e) => DropdownMenuEntry(
-                                          value: e.name, label: e.label),
+                                          value: e.label, 
+                                          labelWidget: Padding(
+                                          padding: const EdgeInsets.all(0),
+                                          child: Text(
+                                            e.label,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color,
+                                            ),
+                                          ),
+                                        ),
+                                          label: e.label),
                                     )
                                     .toList(),
                               ),

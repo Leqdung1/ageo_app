@@ -429,10 +429,11 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 ),
                                 menuStyle: MenuStyle(
                                   maximumSize: const WidgetStatePropertyAll(
-                                    Size.fromHeight(150),
+                                    Size.fromHeight(160),
                                   ),
-                                  backgroundColor: WidgetStatePropertyAll(
-                                    Theme.of(context).colorScheme.primary,
+                                  surfaceTintColor:
+                                      const WidgetStatePropertyAll(
+                                    Colors.white,
                                   ),
                                   shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
@@ -469,7 +470,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                       (e) => DropdownMenuEntry(
                                         value: e.label,
                                         labelWidget: Padding(
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(0),
                                           child: Text(
                                             e.label,
                                             style: TextStyle(
