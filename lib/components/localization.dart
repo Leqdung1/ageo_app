@@ -49,6 +49,12 @@ mixin LocalData {
   static String textModal = "textModal";
   static String title1 = "title1";
   static String title2 = "title2";
+  static String day = "day";
+  static String hours = "hours";
+  static String month = "month";
+  static String year = "year";
+  static String fromDate = "fromDate";
+  static String toDate = "toDate";
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -95,6 +101,12 @@ mixin LocalData {
     "textModal": "Done",
     "title1": "Khe Sanh, Ward 10, Da lat City",
     "title2": "Hung Yen province",
+    "hours": "Hours",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year",
+    "fromDate": "From date",
+    "toDate": "To date",
   };
 
   // ignore: non_constant_identifier_names
@@ -142,5 +154,11 @@ mixin LocalData {
     "textModal": "Xong",
     "title1": "Khe Sanh, phường 10, TP.Đà Lạt",
     "title2": "Tỉnh Hưng Yên",
+    "hours": "Giờ",
+    "day": "Ngày",
+    "month": "Tháng",
+    "year": "Năm",
+    "fromDate": "Từ Ngày",
+    "toDate": "Đến ngày"
   };
 }

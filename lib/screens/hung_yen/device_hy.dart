@@ -50,18 +50,10 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
         children: [
           // Choose devices screen
           Container(
+            margin: const EdgeInsets.symmetric(vertical: 5),
             height: 70,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onSurface,
-
-              // borderRadius: BorderRadius.circular(8),
-              // boxShadow: [
-              //   BoxShadow(
-              //     offset: const Offset(0, 1),
-              //     blurRadius: 4,
-              //     color: Colors.black.withOpacity(0.1),
-              //   ),
-              // ],
             ),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -116,23 +108,12 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
             ),
           ),
 
-          // decoration: BoxDecoration(
-          //   color: Colors.white,
-          //   borderRadius: const BorderRadius.only(
-          //       topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-          //   boxShadow: [
-          //     BoxShadow(
-          //       offset: const Offset(-1, 1),
-          //       color: Colors.black.withOpacity(0.1),
-          //       blurRadius: 4,
-          //     ),
-          //   ],
-          // ),
-
           Column(
             children: [
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 5,
+                ),
               ),
               // index screen
               SizedBox(

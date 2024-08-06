@@ -1,8 +1,11 @@
+import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 enum DataSelected {
@@ -234,9 +237,9 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                                     .size
                                                     .width *
                                                 0.008),
-                                        child: const Text(
-                                          'Từ ngày',
-                                          style: TextStyle(
+                                        child:  Text(
+                                          LocalData.fromDate.getString(context),
+                                          style: const TextStyle(
                                               fontSize: 12,
                                               color: Color.fromRGBO(
                                                   21, 101, 192, 1)),
@@ -325,9 +328,9 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                                     .size
                                                     .width *
                                                 0.005),
-                                        child: const Text(
-                                          'Đến ngày',
-                                          style: TextStyle(
+                                        child:  Text(
+                                          LocalData.toDate.getString(context),
+                                          style: const TextStyle(
                                               fontSize: 12,
                                               color: Color.fromRGBO(
                                                   21, 101, 192, 1)),
