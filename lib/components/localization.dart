@@ -55,6 +55,11 @@ mixin LocalData {
   static String year = "year";
   static String fromDate = "fromDate";
   static String toDate = "toDate";
+  static String gnss = "gnss";
+  static String loRong = "loRong";
+  static String nghiengSau = "nghiengSau";
+  static String mua = "mua";
+  static String mucNuoc = "mucNuoc";
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -107,6 +112,11 @@ mixin LocalData {
     "year": "Year",
     "fromDate": "From date",
     "toDate": "To date",
+     "gnss": "GNSS",
+    "loRong": "Piezometer",
+    "nghiengSau": "Inclinometer",
+    "mua": "Rain Gauge",
+    "mucNuoc": "Water Level"
   };
 
   // ignore: non_constant_identifier_names
@@ -159,6 +169,11 @@ mixin LocalData {
     "month": "Tháng",
     "year": "Năm",
     "fromDate": "Từ Ngày",
-    "toDate": "Đến ngày"
+    "toDate": "Đến ngày",
+    "gnss": "Quan trắc vệ tinh",
+    "loRong": "Áp lực nước lỗ rỗng",
+    "nghiengSau": "Đo nghiêng sâu",
+    "mua": "Đo mưa",
+    "mucNuoc": "Đo mực nước"
   };
 }

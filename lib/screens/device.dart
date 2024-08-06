@@ -20,21 +20,18 @@ final NumberFormat currencyFormat =
 
 class _DeviceScreenState extends State<DeviceScreen> {
   int? _itemsSelected = 0;
-  final List<String> items = [
-    'GNSS',
-    'Đo áp lực nước lỗ rỗng',
-    'Thiết bị đo nghiêng sâu',
-    'Rain gauge',
-    'Water level',
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+ 
+    final List<String> items = [
+      LocalData.gnss.getString(context),
+      LocalData.loRong.getString(context),
+      LocalData.nghiengSau.getString(context),
+      LocalData.mua.getString(context),
+      LocalData.mucNuoc.getString(context),
+    ];
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
       appBar: AppBar(
