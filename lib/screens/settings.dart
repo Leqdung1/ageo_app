@@ -131,10 +131,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Theme.of(context).iconTheme.color,
-                        size: 20,
+                      icon: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Theme.of(context).iconTheme.color,
+                          size: 20,
+                        ),
                       ),
                     ),
                     title: Text(
