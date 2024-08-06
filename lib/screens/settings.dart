@@ -478,7 +478,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           trailing: Transform.scale(
                             scale: 0.8,
                             child: Switch(
-                            
                               trackOutlineColor: WidgetStatePropertyAll(
                                 Colors.black.withOpacity(0.3),
                               ),

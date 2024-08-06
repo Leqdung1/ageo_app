@@ -1,8 +1,10 @@
+import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/ap_lu_lo_rong.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/gnss.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/rain_gauge.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/water_level.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
@@ -39,7 +41,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         title: Text(
-          "Hy",
+          LocalData.title2.getString(context),
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 20,

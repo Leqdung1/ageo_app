@@ -52,7 +52,7 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         title: Text(
-          "Hy",
+        LocalData.title2.getString(context),
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 20,
