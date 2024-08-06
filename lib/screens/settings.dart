@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/components/theme.dart';
+import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/screens/login.dart';
@@ -30,6 +31,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     _loadSelectedIndex();
+  }
+
+  // log out
+  void handleLogout(BuildContext context) async {
+    await SecureStorage().deleteSecureData("logged_in");
+    await SecureStorage().deleteSecureData("access_token");
+
+    Navigator.pushAndRemoveUntil(
+      // ignore: use_build_context_synchronously
+      context,
+      PageRouteBuilder(
+        pageBuilder: (BuildContext context, Animation animation,
+            Animation secondaryAnimation) {
+          return const LoginScreen();
+        },
+        transitionsBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation, Widget child) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+      ),
+      (Route route) => false,
+    );
   }
 
   Future<void> fetchUserData() async {
@@ -425,32 +454,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         endIndent: 15,
                         color: Colors.grey.withOpacity(0.2),
                       ),
-                      ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        title: Text(
-                          LocalData.darkMode.getString(context),
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                      GestureDetector(
+                        onTap: () {
+                          Provider.of<ThemeProvider>(context, listen: false)
+                              .toggleTheme();
+                        },
+                        child: ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
+                          title: Text(
+                            LocalData.darkMode.getString(context),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
+                            ),
                           ),
-                        ),
-                        leading: Icon(
-                          Icons.dark_mode_outlined,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        trailing: Transform.scale(
-                          scale: 0.8,
-                          child: Switch(
-                            activeTrackColor:
-                                const Color.fromARGB(255, 246, 193, 49),
-                            activeColor: const Color.fromRGBO(21, 101, 192, 1),
-                            value: isDarkMode,
-                            onChanged: (value) {
-                              Provider.of<ThemeProvider>(context, listen: false)
-                                  .toggleTheme();
-                            },
+                          leading: Icon(
+                            Icons.dark_mode_outlined,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                          trailing: Transform.scale(
+                            scale: 0.8,
+                            child: Switch(
+                              activeTrackColor:
+                                  const Color.fromRGBO(21, 101, 192, 1),
+                              activeColor: Colors.white,
+                              value: isDarkMode,
+                              onChanged: (value) {
+                                Provider.of<ThemeProvider>(context,
+                                        listen: false)
+                                    .toggleTheme();
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -472,7 +509,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ),
                         leading: Icon(
-                          Icons.change_circle,
+                          Icons.switch_left_outlined,
                           color: Theme.of(context).iconTheme.color,
                         ),
                         trailing: Icon(
@@ -536,14 +573,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Theme.of(context).iconTheme.color,
                         ),
                         onTap: () {
-                          // Implement logout functionality
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const LoginScreen(),
-                            ),
-                          );
+                          handleLogout(context);
                         },
                       ),
                     ],

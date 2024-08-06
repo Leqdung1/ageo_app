@@ -411,7 +411,11 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 left: 20, right: 15, bottom: 20),
                             child: Expanded(
                               child: DropdownMenu(
-                                textStyle: const TextStyle(
+                                textStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -427,9 +431,8 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                   maximumSize: const WidgetStatePropertyAll(
                                     Size.fromHeight(150),
                                   ),
-                                  surfaceTintColor:
-                                      const WidgetStatePropertyAll(
-                                    Colors.white,
+                                  backgroundColor: WidgetStatePropertyAll(
+                                    Theme.of(context).colorScheme.primary,
                                   ),
                                   shape: WidgetStatePropertyAll(
                                     RoundedRectangleBorder(
@@ -450,20 +453,35 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                     ),
                                   ),
                                 ),
-                                initialSelection: _dataSelected.name,
+                                initialSelection: _dataSelected.label,
                                 onSelected: (value) {
                                   setState(() {
                                     _dataSelected = DataSelected.values
                                         .byName(value as String);
                                     _rainDataBuilder = fetchRainData(
-                                        startDate: _startDate,
-                                        endDate: _endDate);
+                                      startDate: _startDate,
+                                      endDate: _endDate,
+                                    );
                                   });
                                 },
                                 dropdownMenuEntries: DataSelected.values
                                     .map(
                                       (e) => DropdownMenuEntry(
-                                          value: e.name, label: e.label),
+                                        value: e.label,
+                                        labelWidget: Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: Text(
+                                            e.label,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color,
+                                            ),
+                                          ),
+                                        ),
+                                        label: e.label,
+                                      ),
                                     )
                                     .toList(),
                               ),
