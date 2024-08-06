@@ -24,7 +24,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   Map<String, dynamic>? response;
   bool isLoading = true;
-  String selectedIndex = "0";
+  String selectedIndex = "";
 
   @override
   void initState() {
@@ -97,9 +97,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       selectedIndex = index;
       _saveSelectedIndex(index);
       widget.onSystemSelected(
-        index == '0'
-         ? 'dalat' 
-         : 'hy',
+        index == '0' ? 'dalat' : 'hy',
       );
     });
     Navigator.pop(context);

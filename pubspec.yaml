@@ -29,7 +29,6 @@ dependencies:
   shared_preferences: ^2.3.0
  
   
-  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -38,7 +37,7 @@ dev_dependencies:
 flutter_icons: 
   android: true
   ios: true
-  image_path: 'assets/images/360_F_375677469_UzQt3JpGywuXxkOlCkG7SJXXbiGsampv.jpg'
+  image_path: 'assets/icons/logo_ageo.svg'
   adaptive_icon_background: '#ffffff'
 
 flutter:

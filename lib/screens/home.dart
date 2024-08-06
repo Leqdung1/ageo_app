@@ -7,6 +7,8 @@ import 'package:Ageo_solutions/screens/device.dart';
 import 'package:Ageo_solutions/screens/da_lat/map.dart';
 import 'package:Ageo_solutions/screens/hung_yen/camera_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/control_panel_hy.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_hy.dart';
+import 'package:Ageo_solutions/screens/hung_yen/map_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/warn_hy.dart';
 import 'package:Ageo_solutions/screens/settings.dart';
 import 'package:Ageo_solutions/screens/da_lat/warn.dart';
@@ -47,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
               tabs: [
                 PersistentTabConfig(
                   screen: selectedSystem == 'dalat'
-                      ? ControlPanelScreen()
-                      : ControlPanelHyScreen(),
+                      ? const ControlPanelScreen()
+                      : const ControlPanelHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 0
@@ -67,7 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: const MapScreen(),
+                  screen: selectedSystem == "dalat"
+                      ? const MapScreen()
+                      : const MapHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 1
@@ -86,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 PersistentTabConfig(
                   screen: selectedSystem == 'dalat'
-                      ? CameraScreen()
-                      : CameraHyScreen(),
+                      ? const CameraScreen()
+                      : const CameraHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 2
@@ -105,7 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: DeviceScreen(),
+                  screen: selectedSystem == "dalat"
+                      ? const DeviceScreen()
+                      : const DeviceHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 3
@@ -124,8 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 PersistentTabConfig(
                   screen: selectedSystem == 'dalat'
-                      ? WarningScreen()
-                      : WarningHyScreen(),
+                      ? const WarningScreen()
+                      : const WarningHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 4
@@ -143,7 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: SettingsScreen(onSystemSelected: _updateSelectedSystem),
+                  screen:
+                      SettingsScreen(onSystemSelected: _updateSelectedSystem),
                   item: ItemConfig(
                     icon: const Icon(Icons.more_horiz_outlined),
                     title: LocalData.bottomLabel6.getString(context),
