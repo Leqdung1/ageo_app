@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void configLocal() {
-    localization.init(mapLocales: Local, initLanguageCode: 'de');
+    localization.init(mapLocales: Local, initLanguageCode: 'vi');
     localization.onTranslatedLanguage = onTranslateLang;
   }
 

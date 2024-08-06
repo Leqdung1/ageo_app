@@ -13,7 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  final Function(String) onSystemSelected;
+  const SettingsScreen({super.key, required this.onSystemSelected});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -95,6 +96,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     setState(() {
       selectedIndex = index;
       _saveSelectedIndex(index);
+      // ignore: unrelated_type_equality_checks
+      if (index == 0) {
+        widget.onSystemSelected("dalat");
+      } else {
+        widget.onSystemSelected("hy");
+      }
     });
     Navigator.pop(context);
   }

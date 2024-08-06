@@ -424,6 +424,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                   color: Theme.of(context).iconTheme.color,
                                 ),
                                 menuStyle: MenuStyle(
+                           
                                   maximumSize: const WidgetStatePropertyAll(
                                     Size.fromHeight(150),
                                   ),

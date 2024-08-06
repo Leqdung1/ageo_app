@@ -5,6 +5,9 @@ import 'package:Ageo_solutions/screens/da_lat/camera.dart';
 import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
 import 'package:Ageo_solutions/screens/device.dart';
 import 'package:Ageo_solutions/screens/da_lat/map.dart';
+import 'package:Ageo_solutions/screens/hung_yen/camera_hy.dart';
+import 'package:Ageo_solutions/screens/hung_yen/control_panel_hy.dart';
+import 'package:Ageo_solutions/screens/hung_yen/warn_hy.dart';
 import 'package:Ageo_solutions/screens/settings.dart';
 import 'package:Ageo_solutions/screens/da_lat/warn.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -21,7 +24,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
- 
+  String selecSystem = "dalat";
+
+  void _updateSelectedSystem(String system) {
+    setState(() {
+      selecSystem = system;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //   iconTheme: const IconThemeData(color: Colors.white),
       // ),
       // drawer: const NavigatorDrawer(),
-     body: 
-      Column(
+      body: Column(
         children: [
           Expanded(
             child: PersistentTabView(
@@ -52,7 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               tabs: [
                 PersistentTabConfig(
-                  screen: const ControlPanelScreen(),
+                  screen: selecSystem == "dalat"
+                      ? const ControlPanelScreen()
+                      : const ControlPanelHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 0
@@ -89,7 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: const CameraScreen(),
+                  screen: selecSystem == "dalat"
+                      ? const CameraScreen()
+                      : const CameraHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 2
@@ -125,7 +138,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: const WarningScreen(),
+                  screen: selecSystem == "dalat"
+                      ? const WarningScreen()
+                      : const WarningHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 4
@@ -143,7 +158,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: const SettingsScreen(),
+                  screen:
+                      SettingsScreen(onSystemSelected: _updateSelectedSystem),
                   item: ItemConfig(
                     icon: const Icon(Icons.more_horiz_outlined),
                     title: LocalData.bottomLabel6.getString(context),

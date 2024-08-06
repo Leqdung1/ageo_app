@@ -2,14 +2,14 @@ import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
-class WarningScreen extends StatefulWidget {
-  const WarningScreen({super.key});
+class WarningHyScreen extends StatefulWidget {
+  const WarningHyScreen({super.key});
 
   @override
-  State<WarningScreen> createState() => _WarningScreenState();
+  State<WarningHyScreen> createState() => _WarningHyScreenState();
 }
 
-class _WarningScreenState extends State<WarningScreen> {
+class _WarningHyScreenState extends State<WarningHyScreen> {
   // show alert
   Future<void> _showMyDialog() async {
     return showDialog<void>(
@@ -17,7 +17,7 @@ class _WarningScreenState extends State<WarningScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('AlertDialog Title'),
-          content: const SingleChildScrollView(
+          content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text('This is a demo alert dialog.'),
