@@ -8,7 +8,7 @@ class ControlPanelHyScreen extends StatefulWidget {
   @override
   State<ControlPanelHyScreen> createState() => _ControlPanelHyScreenState();
 }
-  
+
 /// [AnimationController]s can be created with `vsync: this` because of
 /// [TickerProviderStateMixin].
 class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
@@ -34,7 +34,7 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         title: Text(
-          LocalData.title1.getString(context),
+          "Hy",
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 20,

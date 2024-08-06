@@ -67,7 +67,7 @@ class _NavigatorDrawerState extends State<NavigatorDrawer> {
                       fontWeight: FontWeight.w500),
                 ),
                 onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()))),
+                    MaterialPageRoute(builder: (context) => HomeScreen()))),
             ListTile(
                 leading: SvgPicture.asset('assets/icons/notifi.svg'),
                 title: const Text(

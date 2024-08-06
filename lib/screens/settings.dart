@@ -96,12 +96,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     setState(() {
       selectedIndex = index;
       _saveSelectedIndex(index);
-      // ignore: unrelated_type_equality_checks
-      if (index == 0) {
-        widget.onSystemSelected("dalat");
-      } else {
-        widget.onSystemSelected("hy");
-      }
+      widget.onSystemSelected(
+        index == '0'
+         ? 'dalat' 
+         : 'hy',
+      );
     });
     Navigator.pop(context);
   }

@@ -16,19 +16,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
-  String selecSystem = "dalat";
+  String selectedSystem = 'dalat'; // Default system
 
   void _updateSelectedSystem(String system) {
     setState(() {
-      selecSystem = system;
+      selectedSystem = system;
     });
   }
 
@@ -36,19 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
-      // appBar: AppBar(
-      //   backgroundColor: const Color.fromRGBO(21, 101, 192, 1),
-      //   title: const Text(
-      //     'KHE SANH, WARD 10, DA LAT CITY',
-      //     style: TextStyle(
-      //       fontSize: 15,
-      //       color: Colors.white,
-      //       fontWeight: FontWeight.bold,
-      //     ),
-      //   ),
-      //   iconTheme: const IconThemeData(color: Colors.white),
-      // ),
-      // drawer: const NavigatorDrawer(),
       body: Column(
         children: [
           Expanded(
@@ -61,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               tabs: [
                 PersistentTabConfig(
-                  screen: selecSystem == "dalat"
-                      ? const ControlPanelScreen()
-                      : const ControlPanelHyScreen(),
+                  screen: selectedSystem == 'dalat'
+                      ? ControlPanelScreen()
+                      : ControlPanelHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 0
@@ -100,9 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: selecSystem == "dalat"
-                      ? const CameraScreen()
-                      : const CameraHyScreen(),
+                  screen: selectedSystem == 'dalat'
+                      ? CameraScreen()
+                      : CameraHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 2
@@ -120,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: const DeviceScreen(),
+                  screen: DeviceScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 3
@@ -138,9 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: selecSystem == "dalat"
-                      ? const WarningScreen()
-                      : const WarningHyScreen(),
+                  screen: selectedSystem == 'dalat'
+                      ? WarningScreen()
+                      : WarningHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 4
@@ -158,8 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen:
-                      SettingsScreen(onSystemSelected: _updateSelectedSystem),
+                  screen: SettingsScreen(onSystemSelected: _updateSelectedSystem),
                   item: ItemConfig(
                     icon: const Icon(Icons.more_horiz_outlined),
                     title: LocalData.bottomLabel6.getString(context),
