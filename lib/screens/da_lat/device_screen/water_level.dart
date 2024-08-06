@@ -211,82 +211,81 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           flex: 1,
                           child: TextButton(
                             onPressed: () => showDateTime(context, true),
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: SvgPicture.asset(
-                                        'assets/icons/calender.svg',
-                                        height: 20),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.008),
-                                          child: const Text(
-                                            'Từ ngày',
-                                            style: TextStyle(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/calender.svg',
+                                      height: 20),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.008),
+                                        child: const Text(
+                                          'Từ ngày',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(child: Text(
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(_startDate),
+                                              style: TextStyle(
                                                 fontSize: 12,
-                                                color: Color.fromRGBO(
-                                                    21, 101, 192, 1)),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                DateFormat('dd/MM/yyyy')
-                                                    .format(_startDate),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
                                               ),
-                                              Text(
-                                                DateFormat('hh:mm')
-                                                    .format(_startTime),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                            ),),
+                                            
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_startTime),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -299,90 +298,89 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           flex: 1,
                           child: TextButton(
                             onPressed: () => showDateTime(context, false),
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: SvgPicture.asset(
-                                        'assets/icons/calender.svg',
-                                        height: 20),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.005),
-                                          child: const Text(
-                                            'Đến ngày',
-                                            style: TextStyle(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/calender.svg',
+                                      height: 20),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.005),
+                                        child: const Text(
+                                          'Đến ngày',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(child: Text(
+                                              DateFormat('dd/MM/yyyy')
+                                                  .format(_endDate),
+                                              style: TextStyle(
                                                 fontSize: 12,
-                                                color: Color.fromRGBO(
-                                                    21, 101, 192, 1)),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                DateFormat('dd/MM/yyyy')
-                                                    .format(_endDate),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
                                               ),
-                                              Text(
-                                                DateFormat('hh:mm')
-                                                    .format(_endTime),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                            ),),
+                                            
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_endTime),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

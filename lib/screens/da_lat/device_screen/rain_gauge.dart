@@ -252,15 +252,17 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              DateFormat('dd/MM/yyyy')
-                                                  .format(_startDate),
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
+                                            Expanded(
+                                              child: Text(
+                                                DateFormat('dd/MM/yyyy')
+                                                    .format(_startDate),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                             ),
                                             Text(
@@ -345,15 +347,17 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              DateFormat('dd/MM/yyyy')
-                                                  .format(_endDate),
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
+                                            Expanded(
+                                              child: Text(
+                                                DateFormat('dd/MM/yyyy')
+                                                    .format(_endDate),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
                                             ),
                                             Text(
