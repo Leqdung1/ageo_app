@@ -23,7 +23,6 @@ class _DeviceScreenState extends State<DeviceScreen> {
 
   @override
   Widget build(BuildContext context) {
- 
     final List<String> items = [
       LocalData.gnss.getString(context),
       LocalData.loRong.getString(context),
@@ -69,7 +68,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     border: Border.all(
                       color: isSelected
                           ? const Color.fromRGBO(0, 65, 130, 1)
-                          : Colors.grey.shade400,
+                          : Colors.grey.shade200,
                     ),
                     color: isSelected
                         ? const Color.fromRGBO(42, 98, 154, 1)
@@ -89,7 +88,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
-                          vertical: 6,
+                          // vertical: 6,
                         ),
                         child: Text(
                           items[index],

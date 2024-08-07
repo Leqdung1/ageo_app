@@ -237,7 +237,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                                     .size
                                                     .width *
                                                 0.008),
-                                        child:  Text(
+                                        child: Text(
                                           LocalData.fromDate.getString(context),
                                           style: const TextStyle(
                                               fontSize: 12,
@@ -328,7 +328,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                                     .size
                                                     .width *
                                                 0.005),
-                                        child:  Text(
+                                        child: Text(
                                           LocalData.toDate.getString(context),
                                           style: const TextStyle(
                                               fontSize: 12,
@@ -388,7 +388,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                     ),
                   ),
 
-                  // drop down menu
                   Container(
                     margin: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -417,6 +416,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                             margin: const EdgeInsets.only(
                                 left: 20, right: 15, bottom: 20),
                             child: Expanded(
+                              // drop down menu
                               child: DropdownMenu(
                                 textStyle: TextStyle(
                                   color: Theme.of(context)

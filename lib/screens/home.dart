@@ -3,7 +3,7 @@ import 'package:Ageo_solutions/components/menu_side_bar.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/screens/da_lat/camera.dart';
 import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
-import 'package:Ageo_solutions/screens/device.dart';
+import 'package:Ageo_solutions/screens/da_lat/device.dart';
 import 'package:Ageo_solutions/screens/da_lat/map.dart';
 import 'package:Ageo_solutions/screens/hung_yen/camera_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/control_panel_hy.dart';
