@@ -19,16 +19,16 @@ enum DataSelected {
 }
 
 extension DataSelectedExtension on DataSelected {
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case DataSelected.Hours:
-        return 'Hours';
+        return LocalData.hours.getString(context);
       case DataSelected.Day:
-        return 'Day';
+        return LocalData.day.getString(context);
       case DataSelected.Month:
-        return 'Month';
+        return LocalData.month.getString(context);
       case DataSelected.Year:
-        return 'Year';
+        return LocalData.year.getString(context);
       default:
         return '';
     }
@@ -422,7 +422,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                       .bodyLarge
                                       ?.color,
                                   fontSize: 15,
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.w500,
                                 ),
                                 selectedTrailingIcon: Icon(
                                   Icons.expand_less,
@@ -459,33 +459,38 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                     ),
                                   ),
                                 ),
-                                initialSelection: _dataSelected.name,
+                                initialSelection: _dataSelected.label(context),
                                 onSelected: (value) {
                                   setState(() {
                                     _dataSelected = DataSelected.values
-                                        .byName(value as String);
+                                        .firstWhere((e) =>
+                                            e.label(context) ==
+                                            value as String);
+
                                     _piezmometerBuilder = fetchPiezometer(
-                                        startDate: _startDate,
-                                        endDate: _endDate);
+                                      startDate: _startDate,
+                                      endDate: _endDate,
+                                    );
                                   });
                                 },
                                 dropdownMenuEntries: DataSelected.values
                                     .map(
                                       (e) => DropdownMenuEntry(
-                                          value: e.label,
-                                          labelWidget: Padding(
-                                            padding: const EdgeInsets.all(0),
-                                            child: Text(
-                                              e.label,
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
-                                              ),
+                                        value: e.label(context),
+                                        labelWidget: Padding(
+                                          padding: const EdgeInsets.all(0),
+                                          child: Text(
+                                            e.label(context),
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color,
                                             ),
                                           ),
-                                          label: e.label),
+                                        ),
+                                        label: e.label(context),
+                                      ),
                                     )
                                     .toList(),
                               ),

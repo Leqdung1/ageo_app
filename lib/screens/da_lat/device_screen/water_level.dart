@@ -20,16 +20,16 @@ enum DataSelected {
 }
 
 extension DataSelectedExtension on DataSelected {
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case DataSelected.Hours:
-        return 'Hours';
+        return LocalData.hours.getString(context);
       case DataSelected.Day:
-        return 'Day';
+        return LocalData.day.getString(context);
       case DataSelected.Month:
-        return 'Month';
+        return LocalData.month.getString(context);
       case DataSelected.Year:
-        return 'Year';
+        return LocalData.year.getString(context);
       default:
         return '';
     }
@@ -225,8 +225,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                 Expanded(
                                   flex: 3,
                                   child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -240,9 +239,9 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                                     .size
                                                     .width *
                                                 0.008),
-                                        child:  Text(
+                                        child: Text(
                                           LocalData.fromDate.getString(context),
-                                          style: const  TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 12,
                                               color: Color.fromRGBO(
                                                   21, 101, 192, 1)),
@@ -258,18 +257,19 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Expanded(child: Text(
-                                              DateFormat('dd/MM/yyyy')
-                                                  .format(_startDate),
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
+                                            Expanded(
+                                              child: Text(
+                                                DateFormat('dd/MM/yyyy')
+                                                    .format(_startDate),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
-                                            ),),
-                                            
+                                            ),
                                             Text(
                                               DateFormat('hh:mm')
                                                   .format(_startTime),
@@ -312,8 +312,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                 Expanded(
                                   flex: 3,
                                   child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -331,7 +330,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                                     .size
                                                     .width *
                                                 0.005),
-                                        child:  Text(
+                                        child: Text(
                                           LocalData.toDate.getString(context),
                                           style: const TextStyle(
                                               fontSize: 12,
@@ -353,18 +352,19 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Expanded(child: Text(
-                                              DateFormat('dd/MM/yyyy')
-                                                  .format(_endDate),
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
+                                            Expanded(
+                                              child: Text(
+                                                DateFormat('dd/MM/yyyy')
+                                                    .format(_endDate),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
                                               ),
-                                            ),),
-                                            
+                                            ),
                                             Text(
                                               DateFormat('hh:mm')
                                                   .format(_endTime),
@@ -420,7 +420,11 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                             child: Expanded(
                               // drop down menu
                               child: DropdownMenu(
-                                textStyle: const TextStyle(
+                                textStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -459,24 +463,28 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                     ),
                                   ),
                                 ),
-                                initialSelection: _dataSelected.name,
+                                initialSelection: _dataSelected.label(context),
                                 onSelected: (value) {
                                   setState(() {
                                     _dataSelected = DataSelected.values
-                                        .byName(value as String);
+                                        .firstWhere((e) =>
+                                            e.label(context) ==
+                                            value as String);
+
                                     _waterLevelBuilder = fetchWaterLevelData(
-                                        startDate: _startDate,
-                                        endDate: _endDate);
+                                      startDate: _startDate,
+                                      endDate: _endDate,
+                                    );
                                   });
                                 },
                                 dropdownMenuEntries: DataSelected.values
                                     .map(
                                       (e) => DropdownMenuEntry(
-                                          value: e.label, 
-                                          labelWidget: Padding(
+                                        value: e.label(context),
+                                        labelWidget: Padding(
                                           padding: const EdgeInsets.all(0),
                                           child: Text(
-                                            e.label,
+                                            e.label(context),
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .textTheme
@@ -485,7 +493,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                             ),
                                           ),
                                         ),
-                                          label: e.label),
+                                        label: e.label(context),
+                                      ),
                                     )
                                     .toList(),
                               ),

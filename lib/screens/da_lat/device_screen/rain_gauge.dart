@@ -416,6 +416,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                             margin: const EdgeInsets.only(
                                 left: 20, right: 15, bottom: 20),
                             child: Expanded(
+                              
                               // drop down menu
                               child: DropdownMenu(
                                 textStyle: TextStyle(
