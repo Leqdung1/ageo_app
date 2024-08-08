@@ -465,8 +465,10 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 onSelected: (value) {
                                   setState(() {
                                     _dataSelected = DataSelected.values
-                                        .byName(value as String);
-                                    
+                                        .firstWhere((e) =>
+                                            e.label(context) ==
+                                            value as String);
+
                                     _rainDataBuilder = fetchRainData(
                                       startDate: _startDate,
                                       endDate: _endDate,
