@@ -20,16 +20,16 @@ enum DataSelected {
 }
 
 extension DataSelectedExtension on DataSelected {
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case DataSelected.Hours:
-        return 'Hours';
+        return LocalData.hours.getString(context);
       case DataSelected.Day:
-        return 'Day';
+        return LocalData.day.getString(context);
       case DataSelected.Month:
-        return 'Month';
+        return LocalData.month.getString(context);
       case DataSelected.Year:
-        return 'Year';
+        return LocalData.year.getString(context);
       default:
         return '';
     }
@@ -461,11 +461,12 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                     ),
                                   ),
                                 ),
-                                initialSelection: _dataSelected.label,
+                                initialSelection: _dataSelected.label(context),
                                 onSelected: (value) {
                                   setState(() {
                                     _dataSelected = DataSelected.values
                                         .byName(value as String);
+                                    
                                     _rainDataBuilder = fetchRainData(
                                       startDate: _startDate,
                                       endDate: _endDate,
@@ -475,11 +476,11 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 dropdownMenuEntries: DataSelected.values
                                     .map(
                                       (e) => DropdownMenuEntry(
-                                        value: e.label,
+                                        value: e.label(context),
                                         labelWidget: Padding(
                                           padding: const EdgeInsets.all(0),
                                           child: Text(
-                                            e.label,
+                                            e.label(context),
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .textTheme
@@ -488,7 +489,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                             ),
                                           ),
                                         ),
-                                        label: e.label,
+                                        label: e.label(context),
                                       ),
                                     )
                                     .toList(),

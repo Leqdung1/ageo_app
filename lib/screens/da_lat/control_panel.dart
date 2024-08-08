@@ -55,6 +55,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                 fontWeight: FontWeight.normal,
               ),
               dividerColor: Colors.transparent,
+              indicatorSize: TabBarIndicatorSize.tab,
               indicatorColor: const Color.fromRGBO(0, 65, 130, 1),
               labelColor: Theme.of(context).textTheme.bodyLarge?.color,
               unselectedLabelColor: Colors.grey,
@@ -85,7 +86,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: MediaQuery.sizeOf(context).height * 0.5,
       decoration: BoxDecoration(
-        color: Colors.green,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -94,6 +94,15 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
             blurRadius: 4,
           ),
         ],
+      ),
+      child: InteractiveViewer(
+        boundaryMargin: const EdgeInsets.all(20),
+        minScale: 0.5,
+        maxScale: 2,
+        child: Image.asset(
+          "assets/images/background.png",
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

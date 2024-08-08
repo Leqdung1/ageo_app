@@ -60,24 +60,22 @@ mixin LocalData {
   static String nghiengSau = "nghiengSau";
   static String mua = "mua";
   static String mucNuoc = "mucNuoc";
+  static String overView = "overView";
+  static String news = "news";
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
     "infoTitle": "Informations",
-    "infoDetails1":
-        "Slope failure near Khe Sanh, ward 10, DaLat, after a heavy rain",
+    "infoDetails1": "Slope failure near Khe Sanh, ward 10, DaLat, after a heavy rain",
     "infoDetails2": "Slope failure at Pham Hong Thai str, ward 10, Da Lat",
-    "infoDetails3":
-        "Slope failure behind the Hoang Long hotel, Nhat Huy hotel, Thao Quyen hotel, Hoang Lan hotel at Khe Sanh str, ward 10, DaLat, in a sunny day",
+    "infoDetails3": "Slope failure behind the Hoang Long hotel, Nhat Huy hotel, Thao Quyen hotel, Hoang Lan hotel at Khe Sanh street, ward 10, DaLat, in a sunny day",
     "infoDetails4": "Geometric monitoring the hotel",
     "infoDetails5": "Commencement the rehabilitation project",
     "infoDetails6": "Installation of the GNSS sensors on the hotel",
     "infoDetails7": "Installtion of the rain gauge",
     "infoDetails8": "Installtion of the warning equiptments",
-    "infoDetails9":
-        "Completed the installation and monitoring of monitoring equipment on the embankment, the blocks are currently stable.",
-    "infoDetails10":
-        "A landslide on an under-construction project at 15/2 Yen The, Ward 10, Da Lat City destroyed the structure on the slope and at the foot of the slope as well as killing two people.",
+    "infoDetails9": "Completed the installation and monitoring of monitoring equipment on the embankment, the blocks are currently stable.",
+    "infoDetails10": "A landslide on an under-construction project at 15/2 Yen The, Ward 10, Da Lat City destroyed the structure on the slope and at the foot of the slope as well as killing two people.",
     "titleChangeLanguage": "Change language",
     "language1": "Vietnamese",
     "language2": "English",
@@ -105,18 +103,20 @@ mixin LocalData {
     "changeSystem": "Change system",
     "textModal": "Done",
     "title1": "Khe Sanh, Ward 10, Da lat City",
-    "title2": "Hung Yen province",
+    "title2": "Hung Yen Province",
     "hours": "Hours",
     "day": "Day",
     "month": "Month",
     "year": "Year",
     "fromDate": "From date",
     "toDate": "To date",
-     "gnss": "GNSS",
+    "gnss": "GNSS",
     "loRong": "Piezometer",
     "nghiengSau": "Inclinometer",
     "mua": "Rain Gauge",
-    "mucNuoc": "Water Level"
+    "mucNuoc": "Water Level",
+    "overView": "Overview",
+    "news": "News",
   };
 
   // ignore: non_constant_identifier_names
@@ -174,6 +174,8 @@ mixin LocalData {
     "loRong": "Áp lực nước lỗ rỗng",
     "nghiengSau": "Đo nghiêng sâu",
     "mua": "Đo mưa",
-    "mucNuoc": "Đo mực nước"
+    "mucNuoc": "Đo mực nước",
+    "overView": "Overview",
+    "news": "Bản tin",
   };
 }

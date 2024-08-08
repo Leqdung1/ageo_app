@@ -6,10 +6,12 @@ import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,34 +33,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     _loadSelectedIndex();
-  }
-
-  // log out
-  void handleLogout(BuildContext context) async {
-    await SecureStorage().deleteSecureData("logged_in");
-    await SecureStorage().deleteSecureData("access_token");
-
-    Navigator.pushAndRemoveUntil(
-      // ignore: use_build_context_synchronously
-      context,
-      PageRouteBuilder(
-        pageBuilder: (BuildContext context, Animation animation,
-            Animation secondaryAnimation) {
-          return const LoginScreen();
-        },
-        transitionsBuilder: (BuildContext context, Animation<double> animation,
-            Animation<double> secondaryAnimation, Widget child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(1.0, 0.0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          );
-        },
-      ),
-      (Route route) => false,
-    );
   }
 
   Future<void> fetchUserData() async {
@@ -577,7 +551,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Theme.of(context).iconTheme.color,
                         ),
                         onTap: () {
-                          handleLogout(context);
+                          pushWithoutNavBar(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
                         },
                       ),
                     ],
