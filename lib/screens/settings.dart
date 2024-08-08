@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/components/theme.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
@@ -452,12 +453,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           trailing: Transform.scale(
                             scale: 0.8,
                             child: Switch(
-                              trackOutlineColor: WidgetStatePropertyAll(
-                                Colors.black.withOpacity(0.3),
+                            
+                              trackOutlineColor: const WidgetStatePropertyAll(
+                                Colors.transparent,
                               ),
+                              inactiveTrackColor: Colors.grey.shade300,
                               activeTrackColor:
                                   const Color.fromRGBO(21, 101, 192, 1),
-                              inactiveThumbColor: Colors.black.withOpacity(0.3),
+                              inactiveThumbColor: Colors.white,
                               activeColor: Colors.white,
                               value: isDarkMode,
                               onChanged: (value) {
