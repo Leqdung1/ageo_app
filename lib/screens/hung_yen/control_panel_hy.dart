@@ -85,15 +85,39 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: MediaQuery.sizeOf(context).height * 0.5,
       decoration: BoxDecoration(
-        color: Colors.green,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.25),
-            offset: const Offset(0, 1),
-            blurRadius: 4,
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.grey.withOpacity(0.25),
+        //     offset: const Offset(0, 1),
+        //     blurRadius: 4,
+        //   ),
+        // ],
+      ),
+      child: InteractiveViewer(
+        boundaryMargin: const EdgeInsets.all(20),
+        minScale: 0.25,
+        maxScale: 2,
+        child: Column(
+          children: [
+            Expanded(
+              child: Image.asset(
+                "assets/images/hy.png",
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Expanded(
+              child: Image.asset(
+                "assets/images/hy1.jpg",
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.1,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -152,11 +176,11 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                           vertical: 6, horizontal: 10),
                       child: Column(
                         children: [
-                          const Align(
+                          Align(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              'Tên dự án',
-                              style: TextStyle(
+                              LocalData.nameProject.getString(context),
+                              style: const TextStyle(
                                   fontSize: 15,
                                   color: Color.fromRGBO(111, 64, 36, 1),
                                   fontWeight: FontWeight.w600),
@@ -166,7 +190,7 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                             height: 5,
                           ),
                           Text(
-                            "Dự án thành phần I (giai đoạn 2) xây dựng đoạn qua địa phận tỉnh Hưng Yên từ Km0Km24+930,9 (nút giao QL.39) thuộc Dự án xây dựng tuyến đường bộ nối đường cao tốc Hà Nội - Hải Phòng với đường cao tốc Cầu Giẽ - Ninh Bình.",
+                            LocalData.nameProject1.getString(context),
                             style: const TextStyle(
                                 fontSize: 12,
                                 color: Color.fromRGBO(111, 64, 36, 1),
@@ -204,13 +228,13 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                   children: [
                     Column(
                       children: [
-                        const Align(
+                        Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 10, top: 6),
+                            padding: const EdgeInsets.only(left: 10, top: 6),
                             child: Text(
-                              'Tên gói thầu',
-                              style: TextStyle(
+                              LocalData.namePackage.getString(context),
+                              style: const TextStyle(
                                   fontSize: 15,
                                   color: Color.fromRGBO(111, 64, 36, 1),
                                   fontWeight: FontWeight.w600),
@@ -225,7 +249,7 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10, bottom: 6),
                             child: Text(
-                              "Gói thầu số 3: Thi công xây dựng công trình",
+                              LocalData.namePackage1.getString(context),
                               style: const TextStyle(
                                   fontSize: 12,
                                   color: Color.fromRGBO(111, 64, 36, 1),
@@ -270,11 +294,11 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                           vertical: 6, horizontal: 10),
                       child: Column(
                         children: [
-                          const Align(
+                          Align(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              'Địa điểm đầu tư xây dựng',
-                              style: TextStyle(
+                              LocalData.location.getString(context),
+                              style: const TextStyle(
                                   fontSize: 15,
                                   color: Color.fromRGBO(111, 64, 36, 1),
                                   fontWeight: FontWeight.w600),
@@ -284,7 +308,7 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                             height: 5,
                           ),
                           Text(
-                            "Huyện Khoái Châu, huyện Ân Thi, huyện Kim Động, huyện Tiên Lữ, TP Hưng Yên, tỉnh Hưng Yên.",
+                            LocalData.location1.getString(context),
                             style: const TextStyle(
                                 fontSize: 12,
                                 color: Color.fromRGBO(111, 64, 36, 1),
@@ -328,11 +352,11 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                           vertical: 6, horizontal: 10),
                       child: Column(
                         children: [
-                          const Align(
+                          Align(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              'Nội dung và quy mô đầu tư phạm vi đoạn tuyến',
-                              style: TextStyle(
+                              LocalData.content.getString(context),
+                              style: const TextStyle(
                                   fontSize: 15,
                                   color: Color.fromRGBO(111, 64, 36, 1),
                                   fontWeight: FontWeight.w600),
@@ -342,7 +366,7 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                             height: 5,
                           ),
                           Text(
-                            "Quy mô thiết kế theo quy hoạch: tiêu chuẩn đường cấp II đồng bằng (theo TCVN 4054-2005), tốc độ thiết kế châm chước V=80 Km/h. Mặt cắt ngang bao gồm 4 làn xe cơ giới, 2 làn xe thô sơ.",
+                            LocalData.content1.getString(context),
                             style: const TextStyle(
                                 fontSize: 12,
                                 color: Color.fromRGBO(111, 64, 36, 1),

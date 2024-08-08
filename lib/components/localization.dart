@@ -62,20 +62,32 @@ mixin LocalData {
   static String mucNuoc = "mucNuoc";
   static String overView = "overView";
   static String news = "news";
+  static String nameProject = "nP";
+  static String nameProject1 = "nP1";
+  static String namePackage = "nPa";
+  static String namePackage1 = "nPa1";
+  static String location = "location";
+  static String location1 = "location1";
+  static String content = "content";
+  static String content1 = "content1";
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
     "infoTitle": "Informations",
-    "infoDetails1": "Slope failure near Khe Sanh, ward 10, DaLat, after a heavy rain",
+    "infoDetails1":
+        "Slope failure near Khe Sanh, ward 10, DaLat, after a heavy rain",
     "infoDetails2": "Slope failure at Pham Hong Thai str, ward 10, Da Lat",
-    "infoDetails3": "Slope failure behind the Hoang Long hotel, Nhat Huy hotel, Thao Quyen hotel, Hoang Lan hotel at Khe Sanh street, ward 10, DaLat, in a sunny day",
+    "infoDetails3":
+        "Slope failure behind the Hoang Long hotel, Nhat Huy hotel, Thao Quyen hotel, Hoang Lan hotel at Khe Sanh street, ward 10, DaLat, in a sunny day",
     "infoDetails4": "Geometric monitoring the hotel",
     "infoDetails5": "Commencement the rehabilitation project",
     "infoDetails6": "Installation of the GNSS sensors on the hotel",
     "infoDetails7": "Installtion of the rain gauge",
     "infoDetails8": "Installtion of the warning equiptments",
-    "infoDetails9": "Completed the installation and monitoring of monitoring equipment on the embankment, the blocks are currently stable.",
-    "infoDetails10": "A landslide on an under-construction project at 15/2 Yen The, Ward 10, Da Lat City destroyed the structure on the slope and at the foot of the slope as well as killing two people.",
+    "infoDetails9":
+        "Completed the installation and monitoring of monitoring equipment on the embankment, the blocks are currently stable.",
+    "infoDetails10":
+        "A landslide on an under-construction project at 15/2 Yen The, Ward 10, Da Lat City destroyed the structure on the slope and at the foot of the slope as well as killing two people.",
     "titleChangeLanguage": "Change language",
     "language1": "Vietnamese",
     "language2": "English",
@@ -117,6 +129,17 @@ mixin LocalData {
     "mucNuoc": "Water Level",
     "overView": "Overview",
     "news": "News",
+    "nP": "Project name",
+    "nP1":
+        "Component project I (phase 2) builds a section through Hung Yen province from Km0Km24+930.9 (NH.39 intersection) under the project to build a road connecting Hanoi - Hai Phong highway Room with Cau Gie - Ninh Binh highway.",
+    "nPa": "Packaging name",
+    "nPa1": "Third package: Construction of buildings",
+    "location": "Construction investment location",
+    "location1":
+        "Khoai Chau district, An Thi district, Kim Dong district, Tien Lu district, Hung Yen city, Hung Yen province.",
+    "content": "Content and scale of investment scope of line section",
+    "content1":
+        "Planning and design scale: according to the secondary road standard of plain (according to TCVN 4054-2005), the simulated design speed is V = 80 km/h. The cross section includes 4 mechanical lanes and 2 original lanes.",
   };
 
   // ignore: non_constant_identifier_names
@@ -177,5 +200,16 @@ mixin LocalData {
     "mucNuoc": "Đo mực nước",
     "overView": "Overview",
     "news": "Bản tin",
+    "nP": "Tên dự án",
+    "nP1":
+        "Dự án thành phần I (giai đoạn 2) xây dựng đoạn qua địa phận tỉnh Hưng Yên từ Km0Km24+930,9 (nút giao QL.39) thuộc Dự án xây dựng tuyến đường bộ nối đường cao tốc Hà Nội - Hải Phòng với đường cao tốc Cầu Giẽ - Ninh Bình.",
+    "nPa": "Tên gói thầu",
+    "nPa1": "Gói thầu số 3: Thi công xây dựng công trình",
+    "location": "Địa điểm đầu tư xây dựng",
+    "location1":
+        "Huyện Khoái Châu, huyện Ân Thi, huyện Kim Động, huyện Tiên Lữ, TP Hưng Yên, tỉnh Hưng Yên.",
+    "content": "Nội dung và quy mô đầu tư phạm vi đoạn tuyến",
+    "content1":
+        "Quy mô thiết kế theo quy hoạch: tiêu chuẩn đường cấp II đồng bằng (theo TCVN 4054-2005), tốc độ thiết kế châm chước V=80 Km/h. Mặt cắt ngang bao gồm 4 làn xe cơ giới, 2 làn xe thô sơ.",
   };
 }
