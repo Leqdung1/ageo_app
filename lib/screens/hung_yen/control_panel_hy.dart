@@ -1,5 +1,6 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
 class ControlPanelHyScreen extends StatefulWidget {
@@ -55,15 +56,16 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                 fontWeight: FontWeight.normal,
               ),
               dividerColor: Colors.transparent,
+              indicatorSize: TabBarIndicatorSize.tab,
               indicatorColor: const Color.fromRGBO(0, 65, 130, 1),
               labelColor: Theme.of(context).textTheme.bodyLarge?.color,
               unselectedLabelColor: Colors.grey,
-              tabs: const [
+              tabs: [
                 Tab(
-                  text: "Overview",
+                  text: LocalData.overView.getString(context),
                 ),
                 Tab(
-                  text: "News",
+                  text: LocalData.news.getString(context),
                 ),
               ],
             ),
@@ -85,28 +87,29 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: MediaQuery.sizeOf(context).height * 0.5,
       decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.onSurface,
         borderRadius: BorderRadius.circular(8),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.grey.withOpacity(0.25),
-        //     offset: const Offset(0, 1),
-        //     blurRadius: 4,
-        //   ),
-        // ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.25),
+            offset: const Offset(0, 1),
+            blurRadius: 4,
+          ),
+        ],
       ),
       child: InteractiveViewer(
         boundaryMargin: const EdgeInsets.all(20),
         minScale: 0.25,
-        maxScale: 2,
+        maxScale: 3,
         child: Column(
           children: [
             Expanded(
               child: Image.asset(
-                "assets/images/hy.png",
+                "assets/images/Group 33409 (1).png",
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 10,
             ),
             Expanded(
               child: Image.asset(
@@ -141,15 +144,18 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10, left: 15, bottom: 18),
-                child: Text(
-                  LocalData.infoTitle.getString(context),
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                      fontWeight: FontWeight.w600),
-                ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 10, left: 15, bottom: 18),
+              //   child: Text(
+              //     LocalData.infoTitle.getString(context),
+              //     style: TextStyle(
+              //         fontSize: 15,
+              //         color: Theme.of(context).textTheme.bodyLarge?.color,
+              //         fontWeight: FontWeight.w600),
+              //   ),
+              // ),
+              const SizedBox(
+                height: 25,
               ),
               Container(
                 margin: const EdgeInsets.symmetric(

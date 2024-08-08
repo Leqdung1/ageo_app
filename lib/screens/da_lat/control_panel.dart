@@ -59,12 +59,12 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
               indicatorColor: const Color.fromRGBO(0, 65, 130, 1),
               labelColor: Theme.of(context).textTheme.bodyLarge?.color,
               unselectedLabelColor: Colors.grey,
-              tabs: const [
+              tabs: [
                 Tab(
-                  text: "Overview",
+                  text: LocalData.overView.getString(context),
                 ),
                 Tab(
-                  text: "News",
+                  text: LocalData.news.getString(context),
                 ),
               ],
             ),
@@ -86,6 +86,7 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: MediaQuery.sizeOf(context).height * 0.5,
       decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.onSurface,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -126,16 +127,9 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10, left: 15, bottom: 18),
-                child: Text(
-                  LocalData.infoTitle.getString(context),
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
+             const SizedBox(
+              height: 25,
+             ),
               Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 29,

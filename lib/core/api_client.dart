@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
-
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:dio/dio.dart';
-
+import 'package:flutter/foundation.dart';
 import 'package:retry/retry.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
@@ -303,7 +302,9 @@ class ApiClient {
         yield data;
       }
     } catch (e) {
-      print('$e');
+      if (kDebugMode) {
+        print('$e');
+      }
     } finally {
       channel.sink.close(status.goingAway);
     }
@@ -319,4 +320,6 @@ class ApiClient {
       getCamera("ws://api.ageo.vn:2000/api/stream/9094/103/0");
   Stream<Uint8List> getCamera5() =>
       getCamera("ws://api.ageo.vn:2000/api/stream/9095/103/0");
+
+ 
 }

@@ -198,7 +198,7 @@ mixin LocalData {
     "nghiengSau": "Đo nghiêng sâu",
     "mua": "Đo mưa",
     "mucNuoc": "Đo mực nước",
-    "overView": "Overview",
+    "overView": "Tổng quan",
     "news": "Bản tin",
     "nP": "Tên dự án",
     "nP1":

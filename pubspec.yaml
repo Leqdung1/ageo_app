@@ -27,6 +27,7 @@ dependencies:
   provider: ^6.1.2
   flutter_localization: ^0.2.1
   shared_preferences: ^2.3.0
+  flutter_launcher_icons: ^0.13.1
  
   
 dev_dependencies:
