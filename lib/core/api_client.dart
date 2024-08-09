@@ -321,5 +321,98 @@ class ApiClient {
   Stream<Uint8List> getCamera5() =>
       getCamera("ws://api.ageo.vn:2000/api/stream/9095/103/0");
 
- 
+// GNSS
+  Future<Map<String, dynamic>> getGnss(timeFormat) async {
+    final apiToken = await _ss.readSecureData('access_token');
+    final toDate = DateTime.now().toIso8601String();
+    final details = {
+      'iaDeviceId': "M1",
+      'fromDate': "2024-07-31T17:00:00.000Z",
+      'tagName': "",
+      'timeFormat': timeFormat,
+      'toDate': toDate,
+    };
+    try {
+      final response = await _r.retry(
+        () async => await _dio.post(
+          "$_apiUrl/IA/DataLogger/GetGNSSByHourDataLogger",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $apiToken",
+              'Content-Type': 'application/json',
+            },
+          ),
+          data: details,
+        ),
+        retryIf: (e) {
+          if (e is DioException) {
+            return e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.connectionTimeout;
+          }
+          return false;
+        },
+      );
+      return response.data;
+    } on DioException catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<Map<String, dynamic>> getGnssbyRealTime(String s) async {
+    return await getGnss('HH:mm:ss');
+  }
+
+  Future<Map<String, dynamic>> getGnssByHours(String s) async {
+    return await getGnss('yy/MM/dd HH');
+  }
+
+  Future<Map<String, dynamic>> getGnssByDay(String s) async {
+    return await getGnss('yy/MM/dd');
+  }
+
+  Future<Map<String, dynamic>> getGnssByMonth(String s) async {
+    return await getGnss('yy/MM');
+  }
+
+  Future<Map<String, dynamic>> getGnssByYear(String s) async {
+    return await getGnss('yyyy');
+  }
+
+   Future<Map<String, dynamic>> getGnssByRealtime(timeFormat) async {
+    final apiToken = await _ss.readSecureData('access_token');
+    final toDate = DateTime.now().toIso8601String();
+    final details = {
+      'iaDeviceId': "M1",
+      'fromDate': "2024-07-31T17:00:00.000Z",
+      'tagName': "",
+      'timeFormat': timeFormat,
+      'toDate': toDate,
+    };
+    try {
+      final response = await _r.retry(
+        () async => await _dio.post(
+          "$_apiUrl/IA/DataLogger/GetGNSSByHourDataLogger",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $apiToken",
+              'Content-Type': 'application/json',
+            },
+          ),
+          data: details,
+        ),
+        retryIf: (e) {
+          if (e is DioException) {
+            return e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.connectionTimeout;
+          }
+          return false;
+        },
+      );
+      return response.data;
+    } on DioException catch (e) {
+      return e.response!.data;
+    }
+  }
 }

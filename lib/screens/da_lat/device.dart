@@ -61,7 +61,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 bool isSelected = _itemsSelected == index;
                 return Container(
                   margin: const EdgeInsets.symmetric(
-                    horizontal: 10,
+                    horizontal: 5,
                     vertical: 15,
                   ),
                   decoration: BoxDecoration(
@@ -119,7 +119,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 child: IndexedStack(
                   index: _itemsSelected,
                   children: [
-                    gnssScreen(),
+                  GnssScreen(),
                     const ApLucLoRongScreen(),
                     //nghiengSauScreen(),
                     const RaingaugeScreen(),

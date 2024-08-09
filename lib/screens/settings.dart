@@ -414,11 +414,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Colors.grey.withOpacity(0.5),
                         ),
                         onTap: () {
-                          Navigator.push(
+                          pushWithoutNavBar(
                             context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const ChooseLanguage(),
+                              builder: (context) => const ChooseLanguage(),
                             ),
                           );
                         },
@@ -453,7 +452,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           trailing: Transform.scale(
                             scale: 0.8,
                             child: Switch(
-                            
                               trackOutlineColor: const WidgetStatePropertyAll(
                                 Colors.transparent,
                               ),

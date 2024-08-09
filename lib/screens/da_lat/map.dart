@@ -5,24 +5,43 @@ import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
 enum MapSelected {
+  // ignore: constant_identifier_names
   WaterLevel1,
+  // ignore: constant_identifier_names
   WaterLevel2,
+  // ignore: constant_identifier_names
   Gnss1,
+  // ignore: constant_identifier_names
   Gnss2,
+  // ignore: constant_identifier_names
   Gnss3,
+  // ignore: constant_identifier_names
   Camera1,
+  // ignore: constant_identifier_names
   Camera2,
+  // ignore: constant_identifier_names
   Camera3,
+  // ignore: constant_identifier_names
   Camera4,
+  // ignore: constant_identifier_names
   Camera5,
+  // ignore: constant_identifier_names
   WarningSensor1,
+  // ignore: constant_identifier_names
   WarningSensor2,
+  // ignore: constant_identifier_names
   Raingauge,
+  // ignore: constant_identifier_names
   Piezometer1,
+  // ignore: constant_identifier_names
   Piezometer2,
+  // ignore: constant_identifier_names
   Piezometer3,
+  // ignore: constant_identifier_names
   Inclinometer1,
+  // ignore: constant_identifier_names
   Inclinometer2,
+  // ignore: constant_identifier_names
   Inclinometer3,
 }
 
@@ -183,7 +202,6 @@ class _MapScreenState extends State<MapScreen> {
                   setState(() {
                     _selectedMap =
                         MapSelected.values.firstWhere((e) => e.name == value);
-                    print("Selected map item: $_selectedMap");
                   });
                 },
                 dropdownMenuEntries: MapSelected.values

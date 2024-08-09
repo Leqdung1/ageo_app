@@ -123,7 +123,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                 child: IndexedStack(
                   index: _itemsSelected,
                   children: [
-                    gnssScreen(),
+                    GnssScreen(),
                     ApLucLoRongScreen(),
                     //nghiengSauScreen(),
                     RaingaugeScreen(),

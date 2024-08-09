@@ -49,6 +49,7 @@ mixin LocalData {
   static String textModal = "textModal";
   static String title1 = "title1";
   static String title2 = "title2";
+  static String realtime = "realtime";
   static String day = "day";
   static String hours = "hours";
   static String month = "month";
@@ -164,6 +165,9 @@ mixin LocalData {
     "inclino1": "Inclinometer 01",
     "inclino2": "Inclinometer 02",
     "inclino3": "Inclinometer 03",
+    "wL1": "Water level 01",
+    "wL2": "Water level 02",
+    "realtime": "Realtime",
   };
 
   // ignore: non_constant_identifier_names
@@ -247,6 +251,7 @@ mixin LocalData {
     "inclino2": "Đo nghiêng sâu 02",
     "inclino3": "Đo nghiêng sâu 03",
     "wL1": "Đo mưa 01",
-    "wL2": "Đo mưa 02"
+    "wL2": "Đo mưa 02",
+    "realtime": "Thời gian thực"
   };
 }
