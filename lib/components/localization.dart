@@ -70,6 +70,19 @@ mixin LocalData {
   static String location1 = "location1";
   static String content = "content";
   static String content1 = "content1";
+  static String waterLevel1 = "wL1";
+  static String waterLevel2 = "wL2";
+  static String gnss1 = "gnss1";
+  static String gnss2 = "gnss2";
+  static String gnss3 = "gnss3";
+  static String warn1 = "warn1";
+  static String warn2 = "warn2";
+  static String piez1 = "piez1";
+  static String piez2 = "piez2";
+  static String piez3 = "piez3";
+  static String inclino1 = "inclino1";
+  static String inclino2 = "inclino2";
+  static String inclino3 = "inclino3";
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -140,6 +153,17 @@ mixin LocalData {
     "content": "Content and scale of investment scope of line section",
     "content1":
         "Planning and design scale: according to the secondary road standard of plain (according to TCVN 4054-2005), the simulated design speed is V = 80 km/h. The cross section includes 4 mechanical lanes and 2 original lanes.",
+    "gnss1": "GNSS1",
+    "gnss2": "GNSS2",
+    "gnss3": "GNSS3",
+    "warn1": "Warning sensor 01",
+    "warn2": "Warning sensor 02",
+    "piez1": "Piezometer 01",
+    "piez2": "Piezometer 02",
+    "piez3": "Piezometer 03",
+    "inclino1": "Inclinometer 01",
+    "inclino2": "Inclinometer 02",
+    "inclino3": "Inclinometer 03",
   };
 
   // ignore: non_constant_identifier_names
@@ -211,5 +235,18 @@ mixin LocalData {
     "content": "Nội dung và quy mô đầu tư phạm vi đoạn tuyến",
     "content1":
         "Quy mô thiết kế theo quy hoạch: tiêu chuẩn đường cấp II đồng bằng (theo TCVN 4054-2005), tốc độ thiết kế châm chước V=80 Km/h. Mặt cắt ngang bao gồm 4 làn xe cơ giới, 2 làn xe thô sơ.",
+    "gnss1": "Quan trắc vệ tinh 01",
+    "gnss2": "Quan trắc vệ tinh 02",
+    "gnss3": "Quan trắc vệ tinh 03",
+    "warn1": "Cảm biến cảnh báo 01",
+    "warn2": "Cảm biến cảnh báo 02",
+    "piez1": "Áp lực nước lỗ rỗng 01",
+    "piez2": "Áp lực nước lỗ rỗng 02",
+    "piez3": "Áp lực nước lỗ rỗng 03",
+    "inclino1": "Đo nghiêng sâu 01",
+    "inclino2": "Đo nghiêng sâu 02",
+    "inclino3": "Đo nghiêng sâu 03",
+    "wL1": "Đo mưa 01",
+    "wL2": "Đo mưa 02"
   };
 }
