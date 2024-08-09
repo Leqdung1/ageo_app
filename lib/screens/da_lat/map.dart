@@ -1,47 +1,28 @@
-import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:Ageo_solutions/components/localization.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 enum MapSelected {
-  // ignore: constant_identifier_names
   WaterLevel1,
-  // ignore: constant_identifier_names
   WaterLevel2,
-  // ignore: constant_identifier_names
   Gnss1,
-  // ignore: constant_identifier_names
   Gnss2,
-  // ignore: constant_identifier_names
   Gnss3,
-  // ignore: constant_identifier_names
   Camera1,
-  // ignore: constant_identifier_names
   Camera2,
-  // ignore: constant_identifier_names
   Camera3,
-  // ignore: constant_identifier_names
   Camera4,
-  // ignore: constant_identifier_names
   Camera5,
-  // ignore: constant_identifier_names
   WarningSensor1,
-  // ignore: constant_identifier_names
   WarningSensor2,
-  // ignore: constant_identifier_names
   Raingauge,
-  // ignore: constant_identifier_names
   Piezometer1,
-  // ignore: constant_identifier_names
   Piezometer2,
-  // ignore: constant_identifier_names
   Piezometer3,
-  // ignore: constant_identifier_names
   Inclinometer1,
-  // ignore: constant_identifier_names
   Inclinometer2,
-  // ignore: constant_identifier_names
   Inclinometer3,
 }
 
@@ -86,7 +67,6 @@ extension MapSelectedExtension on MapSelected {
         return LocalData.inclino2.getString(context);
       case MapSelected.Inclinometer3:
         return LocalData.inclino3.getString(context);
-
       default:
         return '';
     }
@@ -102,6 +82,29 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   MapSelected _selectedMap = MapSelected.WaterLevel1;
+
+  // Store the LatLng coordinates for each MapSelected value
+  final Map<MapSelected, LatLng> _markerLocations = {
+    MapSelected.WaterLevel1: LatLng(11.939528977396272, 108.45900523689106),
+    MapSelected.WaterLevel2: LatLng(11.93946247331182, 108.45895587948053),
+    MapSelected.Gnss1: LatLng(11.939580805012907, 108.45894555773921),
+    MapSelected.Gnss2: LatLng(11.939466606143682, 108.45905641578773),
+    MapSelected.Gnss3: LatLng(11.939597862202428, 108.4591085019392),
+    MapSelected.Camera1: LatLng(11.939021913175509, 108.45918398707114),
+    MapSelected.Camera2: LatLng(11.939083079165579, 108.45895756917062),
+    MapSelected.Camera3: LatLng(11.93965953049003, 108.45907363322084),
+    MapSelected.Camera4: LatLng(11.939086018567691, 108.45858028556479),
+    MapSelected.Camera5: LatLng(11.939082252599732, 108.45858499344662),
+    MapSelected.WarningSensor1: LatLng(11.939697581128717, 108.45902736511498),
+    MapSelected.WarningSensor2: LatLng(11.93949305625895, 108.45916624536686),
+    MapSelected.Raingauge: LatLng(11.939849127581523, 108.4590910675802),
+    MapSelected.Piezometer1: LatLng(11.939616887526727, 108.45911654856624),
+    MapSelected.Piezometer2: LatLng(11.93946247331182, 108.45895587948053),
+    MapSelected.Piezometer3: LatLng(11.939333528955688, 108.45878099699925),
+    MapSelected.Inclinometer1: LatLng(11.939556531320394, 108.45907095101221),
+    MapSelected.Inclinometer2: LatLng(11.939515856479114, 108.45899786081614),
+    MapSelected.Inclinometer3: LatLng(11.939414532468547, 108.45889167142003),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -178,27 +181,27 @@ class _MapScreenState extends State<MapScreen> {
                 initialSelection: _selectedMap.name,
                 onSelected: (value) {
                   setState(() {
-                    _selectedMap = MapSelected.values
-                        .firstWhere((e) => e.label(context) == value as String);
+                    _selectedMap =
+                        MapSelected.values.firstWhere((e) => e.name == value);
+                    print("Selected map item: $_selectedMap");
                   });
                 },
                 dropdownMenuEntries: MapSelected.values
                     .map(
                       (e) => DropdownMenuEntry(
-                          value: e.name,
-                          labelWidget: Padding(
-                            padding: const EdgeInsets.all(0),
-                            child: Text(
-                              e.label(context),
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
-                              ),
+                        value: e.name,
+                        labelWidget: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Text(
+                            e.label(context),
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
                             ),
                           ),
-                          label: e.label(context)),
+                        ),
+                        label: e.label(context),
+                      ),
                     )
                     .toList(),
               ),
@@ -206,244 +209,66 @@ class _MapScreenState extends State<MapScreen> {
           ),
           Expanded(
             child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(-1, 1),
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 4,
-                    ),
-                  ],
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
                 ),
-                child: Expanded(
-                  child: Stack(
+                boxShadow: [
+                  BoxShadow(
+                    offset: const Offset(-1, 1),
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  FlutterMap(
+                    options: const MapOptions(
+                      initialCenter: LatLng(11.939386, 108.458788),
+                      initialZoom: 18,
+                    ),
                     children: [
-                      FlutterMap(
-                        options: const MapOptions(
-                          initialCenter: LatLng(11.939386, 108.458788),
-                          initialZoom: 18,
-                        ),
-                        children: [
-                          TileLayer(
-                            urlTemplate:
-                                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                            userAgentPackageName: 'com.example.app',
-                          ),
-                          CircleLayer(
-                            circles: [
-                              CircleMarker(
-                                point: const LatLng(11.939445, 108.458775),
-                                radius: 70,
-                                useRadiusInMeter: true,
-                                color: Colors.blue.withOpacity(0.3),
-                                borderColor: Colors.blue,
-                                borderStrokeWidth: 2,
-                              ),
-                            ],
-                          ),
-                          // Rain gauge
-                          const MarkerLayer(
-                            markers: [
-                              Marker(
-                                point: LatLng(
-                                    11.939849127581523, 108.4590910675802),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.maps_home_work,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              // Warning sensor 01
-                              Marker(
-                                point: LatLng(
-                                    11.939697581128717, 108.45902736511498),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.map,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              // Camera 03
-                              Marker(
-                                point: LatLng(
-                                    11.93965953049003, 108.45907363322084),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              // Piezometer 01
-                              Marker(
-                                point: LatLng(
-                                    11.939616887526727, 108.45911654856624),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              // gnss 03
-                              Marker(
-                                point: LatLng(
-                                    11.939597862202428, 108.4591085019392),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              // Inclinometer 01
-                              Marker(
-                                point: LatLng(
-                                    11.939556531320394, 108.45907095101221),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              // GNSS 01
-                              Marker(
-                                point: LatLng(
-                                    11.939580805012907, 108.45894555773921),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-
-// Inclinometer 02
-                              Marker(
-                                point: LatLng(
-                                    11.939515856479114, 108.45899786081614),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              //Water level 02
-                              Marker(
-                                point: LatLng(
-                                    11.939528977396272, 108.45900523689106),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              //GNSS 02
-                              Marker(
-                                point: LatLng(
-                                    11.939466606143682, 108.45905641578773),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              //Warning sensor 02
-                              Marker(
-                                point: LatLng(
-                                    11.93949305625895, 108.45916624536686),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-
-// Piezometer 02
-                              Marker(
-                                point: LatLng(
-                                    11.93946247331182, 108.45895587948053),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              //Inclinometer 03
-                              Marker(
-                                point: LatLng(
-                                    11.939414532468547, 108.45889167142003),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              // Piezometer 03
-                              Marker(
-                                point: LatLng(
-                                    11.939333528955688, 108.45878099699925),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              // Camera 05
-                              Marker(
-                                point: LatLng(
-                                    11.939082252599732, 108.45858499344662),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              //Camera 02
-                              Marker(
-                                point: LatLng(
-                                    11.939083079165579, 108.45895756917062),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              //Camera 01
-                              Marker(
-                                point: LatLng(
-                                    11.939021913175509, 108.45918398707114),
-                                width: 80,
-                                height: 80,
-                                child: Icon(
-                                  Icons.location_on,
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ],
+                      TileLayer(
+                        urlTemplate:
+                            "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        userAgentPackageName: 'com.example.app',
+                      ),
+                      CircleLayer(
+                        circles: [
+                          CircleMarker(
+                            point: const LatLng(11.939445, 108.458775),
+                            radius: 70,
+                            useRadiusInMeter: true,
+                            color: Colors.blue.withOpacity(0.3),
+                            borderColor: Colors.blue,
+                            borderStrokeWidth: 2,
                           ),
                         ],
                       ),
+                      MarkerLayer(
+                        markers: _markerLocations.entries.map((entry) {
+                          final selectedColor = _selectedMap == entry.key
+                              ? Colors.green
+                              : Colors.red;
+                          return Marker(
+                            point: entry.value,
+                            width: 80,
+                            height: 80,
+                            child: Icon(
+                              Icons.location_on,
+                              color: selectedColor,
+                            ),
+                          );
+                        }).toList(),
+                      ),
                     ],
                   ),
-                )),
+                ],
+              ),
+            ),
           ),
         ],
       ),
