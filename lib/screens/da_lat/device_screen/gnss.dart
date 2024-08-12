@@ -497,8 +497,10 @@ class _GnssScreenState extends State<GnssScreen> {
                           ),
 
                           // draw chart
+                          // Draw chart
                           Column(
                             children: [
+                              // dX chart
                               Container(
                                 margin:
                                     const EdgeInsets.only(left: 15, top: 30),
@@ -542,7 +544,111 @@ class _GnssScreenState extends State<GnssScreen> {
                                           width: 0,
                                         ),
                                       ),
-                                      series: _getSeries(_chartData),
+                                      series: _getXSeries(_chartData),
+                                      tooltipBehavior: _tooltipBehavior,
+                                      zoomPanBehavior: _zoomPanBehavior,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              // dY chart
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(left: 15, top: 30),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SizedBox(
+                                    width: 1000,
+                                    child: SfCartesianChart(
+                                      plotAreaBorderWidth: 0,
+                                      primaryXAxis: const CategoryAxis(
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorGridLines:
+                                            MajorGridLines(width: 0),
+                                        majorTickLines: MajorTickLines(
+                                          width: 1,
+                                          color: Colors.grey,
+                                          size: 5,
+                                        ),
+                                        isVisible: true,
+                                        axisLine: AxisLine(
+                                          color: Colors.grey,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      primaryYAxis: const NumericAxis(
+                                        majorGridLines: MajorGridLines(
+                                          width: 1,
+                                          dashArray: [8, 8],
+                                          color: Colors.grey,
+                                        ),
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorTickLines: MajorTickLines(
+                                          width: 0,
+                                        ),
+                                        axisLine: AxisLine(
+                                          color: Colors.transparent,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      series: _getYSeries(_chartData),
+                                      tooltipBehavior: _tooltipBehavior,
+                                      zoomPanBehavior: _zoomPanBehavior,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              // dZ chart
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(left: 15, top: 30),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SizedBox(
+                                    width: 1000,
+                                    child: SfCartesianChart(
+                                      plotAreaBorderWidth: 0,
+                                      primaryXAxis: const CategoryAxis(
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorGridLines:
+                                            MajorGridLines(width: 0),
+                                        majorTickLines: MajorTickLines(
+                                          width: 1,
+                                          color: Colors.grey,
+                                          size: 5,
+                                        ),
+                                        isVisible: true,
+                                        axisLine: AxisLine(
+                                          color: Colors.grey,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      primaryYAxis: const NumericAxis(
+                                        majorGridLines: MajorGridLines(
+                                          width: 1,
+                                          dashArray: [8, 8],
+                                          color: Colors.grey,
+                                        ),
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorTickLines: MajorTickLines(
+                                          width: 0,
+                                        ),
+                                        axisLine: AxisLine(
+                                          color: Colors.transparent,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      series: _getZSeries(_chartData),
                                       tooltipBehavior: _tooltipBehavior,
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
@@ -567,6 +673,27 @@ class _GnssScreenState extends State<GnssScreen> {
     );
   }
 
+  List<CartesianSeries<GnssData, String>> _getXSeries(List<GnssData> data) {
+    debugPrint("Data for X: ${data.map((d) => d.dX).toList()}");
+    return [
+      _getLineSeries('X', data, (gnssData) => gnssData.dX),
+    ];
+  }
+
+  List<CartesianSeries<GnssData, String>> _getYSeries(List<GnssData> data) {
+    debugPrint("Data for Y: ${data.map((d) => d.dY).toList()}");
+    return [
+      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
+    ];
+  }
+
+  List<CartesianSeries<GnssData, String>> _getZSeries(List<GnssData> data) {
+    debugPrint("Data for Z: ${data.map((d) => d.dZ).toList()}");
+    return [
+      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
+    ];
+  }
+
   List<CartesianSeries<GnssData, String>> _getSeries(List<GnssData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:
@@ -584,154 +711,62 @@ class _GnssScreenState extends State<GnssScreen> {
 
   List<CartesianSeries<GnssData, String>> _getHoursSeries(List<GnssData> data) {
     return [
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dX,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'X',
-        color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dY,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'Y',
-        color: const Color.fromRGBO(145, 204, 117, 1),
-      ),
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dZ,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'Z',
-        color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
+      _getLineSeries('X', data, (gnssData) => gnssData.dX),
+      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
+      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
     ];
   }
 
   List<CartesianSeries<GnssData, String>> _getDaySeries(List<GnssData> data) {
     return [
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dX,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'X',
-        color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dY,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'Y',
-        color: const Color.fromRGBO(145, 204, 117, 1),
-      ),
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dZ,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'Z',
-        color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
+      _getLineSeries('X', data, (gnssData) => gnssData.dX),
+      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
+      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
     ];
   }
 
   List<CartesianSeries<GnssData, String>> _getMonthSeries(List<GnssData> data) {
     return [
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dX,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'X',
-        color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dY,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'Y',
-        color: const Color.fromRGBO(145, 204, 117, 1),
-      ),
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dZ,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'Z',
-        color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
+      _getLineSeries('X', data, (gnssData) => gnssData.dX),
+      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
+      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
     ];
   }
 
   List<CartesianSeries<GnssData, String>> _getYearSeries(List<GnssData> data) {
     return [
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dX,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'X',
-        color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dY,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'Y',
-        color: const Color.fromRGBO(145, 204, 117, 1),
-      ),
-      LineSeries<GnssData, String>(
-        dataSource: data,
-        xValueMapper: (GnssData data, _) => data.logTime,
-        yValueMapper: (GnssData data, _) => data.dZ,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'Z',
-        color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
+      _getLineSeries('X', data, (gnssData) => gnssData.dX),
+      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
+      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
     ];
+  }
+
+  LineSeries<GnssData, String> _getLineSeries(String name, List<GnssData> data,
+      double Function(GnssData) yValueMapper) {
+    return LineSeries<GnssData, String>(
+      dataSource: data,
+      xValueMapper: (GnssData data, _) => data.logTime,
+      yValueMapper: (GnssData data, _) => yValueMapper(data),
+      markerSettings: const MarkerSettings(
+        isVisible: true,
+        shape: DataMarkerType.circle,
+      ),
+      name: name,
+      color: _getColorForName(name),
+    );
+  }
+
+  Color _getColorForName(String name) {
+    switch (name) {
+      case 'X':
+        return const Color.fromRGBO(84, 112, 198, 1);
+      case 'Y':
+        return const Color.fromRGBO(145, 204, 117, 1);
+      case 'Z':
+        return const Color.fromRGBO(250, 200, 88, 1);
+      default:
+        return Colors.blue;
+    }
   }
 }
 
