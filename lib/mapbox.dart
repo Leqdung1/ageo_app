@@ -87,42 +87,73 @@ class _MapBoxWidgetState extends State<MapBoxWidget> {
   String selectedStyle = MapboxStyles.SATELLITE;
   final LatLng _initialCameraPosition = const LatLng(11.939545, 108.458877);
 
-  void _onMapCreated(MapboxMapController controller) {
-    mapController = controller;
-  _loadImage("assets/images/Avater.png").then((image) {
-    mapController.addImage("marker", image);
-    _addCircle(); 
-    _addMarker(); 
-  });
+  @override
+  void initState() {
+    super.initState();
   }
 
-Future<Uint8List> _loadImage(String assetPath) async {
-  final Completer<Uint8List> completer = Completer();
-  final ByteData data = await rootBundle.load(assetPath);
-  completer.complete(data.buffer.asUint8List());
-  return completer.future;
-}
-  void _addMarker() {
-    mapController.addSymbols([
-      const SymbolOptions(
+  Future<Uint8List> loadMarkerImage(String assetPath) async {
+    final ByteData byteData = await rootBundle.load(assetPath);
+    return byteData.buffer.asUint8List();
+  }
+
+  void _onMapCreated(MapboxMapController controller) async {
+    mapController = controller;
+    await _addMarkersAndCircles();
+  }
+
+  Future<void> _addMarkersAndCircles() async {
+    // Load marker images
+    final Uint8List markerImage1 =
+        await loadMarkerImage("assets/images/Avater.png");
+    final Uint8List markerImage2 =
+        await loadMarkerImage("assets/images/ava.jpg");
+    final Uint8List markerImage3 =
+        await loadMarkerImage("assets/images/ava.jpg");
+
+    // Add the marker images to the map
+    mapController.addImage('marker1', markerImage1);
+    mapController.addImage('marker2', markerImage2);
+    mapController.addImage('marker3', markerImage3);
+
+    // Add the first marker
+    await mapController.addSymbol(
+      SymbolOptions(
         iconSize: 0.3,
-        iconImage: "marker",
-        geometry: LatLng(11.939545, 108.458877),
-        iconAnchor: "bottom",
+        iconImage: 'marker1',
+        geometry: LatLng(9.939545, 108.458877), // First location
+        iconAnchor: 'bottom',
       ),
-      const SymbolOptions(
+    );
+
+    // Add the second marker
+    await mapController.addSymbol(
+      SymbolOptions(
         iconSize: 0.3,
-        iconImage: "marker",
-        geometry: LatLng(11.939528977396272, 108.45900523689106),
-        iconAnchor: "bottom",
+        iconImage: 'marker2',
+        geometry: LatLng(2.939555, 108.458887), // Slightly different location
+        iconAnchor: 'bottom',
       ),
-    ]);
+    );
+
+    // Add the third marker
+    await mapController.addSymbol(
+      SymbolOptions(
+        iconSize: 0.3,
+        iconImage: 'marker3',
+        geometry: LatLng(11.939525, 108.458887), // Slightly different location
+        iconAnchor: 'bottom',
+      ),
+    );
+
+    // Add a circle to the map
+    _addCircle();
   }
 
   void _addCircle() {
     mapController.addCircle(
       CircleOptions(
-        geometry: _initialCameraPosition,
+        geometry: _initialCameraPosition, // Ensure this is a valid position
         circleRadius: 50,
         circleColor: "#4E31AA",
         circleOpacity: 0.2,
@@ -132,9 +163,8 @@ Future<Uint8List> _loadImage(String assetPath) async {
     );
   }
 
-  void _onStyleLoadedCallback() {
-    _addCircle(); 
-    _addMarker();
+  void _onStyleLoadedCallback() async {
+    await _addMarkersAndCircles();
   }
 
   @override
@@ -144,12 +174,15 @@ Future<Uint8List> _loadImage(String assetPath) async {
         children: [
           MapboxMap(
             styleString: selectedStyle,
+            trackCameraPosition: true,
             onMapCreated: _onMapCreated,
             onStyleLoadedCallback: _onStyleLoadedCallback,
             initialCameraPosition: CameraPosition(
               target: _initialCameraPosition,
               zoom: 16,
             ),
+            myLocationEnabled: true,
+            myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
           ),
           SafeArea(
             child: Row(
@@ -244,9 +277,9 @@ Future<Uint8List> _loadImage(String assetPath) async {
                   ),
                 ),
                 FloatingActionButton(
-                  child: const Icon(
-                    Icons.change_circle,
-                    color: Colors.blue,
+                  child: Icon(
+                    Icons.layers_outlined,
+                    color: Theme.of(context).iconTheme.color,
                   ),
                   onPressed: () {
                     setState(() {
