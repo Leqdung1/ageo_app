@@ -1,21 +1,19 @@
 import 'package:Ageo_solutions/components/localization.dart';
-import 'package:Ageo_solutions/components/menu_side_bar.dart';
-import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/screens/da_lat/camera.dart';
 import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
 import 'package:Ageo_solutions/screens/da_lat/device.dart';
-import 'package:Ageo_solutions/screens/da_lat/map.dart';
+import 'package:Ageo_solutions/screens/da_lat/mapDL.dart';
+import 'package:Ageo_solutions/screens/da_lat/warn.dart';
 import 'package:Ageo_solutions/screens/hung_yen/camera_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/control_panel_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/map_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/warn_hy.dart';
 import 'package:Ageo_solutions/screens/settings.dart';
-import 'package:Ageo_solutions/screens/da_lat/warn.dart';
-import 'package:flutter_localization/flutter_localization.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,12 +24,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
-  String selectedSystem = 'dalat'; // Default system
+  String selectedSystem = 'dalat'; 
 
   void _updateSelectedSystem(String system) {
     setState(() {
       selectedSystem = system;
     });
+  }
+
+  void _navigateToMapScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => selectedSystem == 'dalat'
+            ? const MapDaLatScreen()
+            : const MapHyScreen(),
+      ),
+    );
   }
 
   @override
@@ -43,10 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: PersistentTabView(
               navBarHeight: 80,
-              onTabChanged: (value) => {
-                setState(() {
-                  currentPageIndex = value;
-                })
+              onTabChanged: (value) {
+                if (value == 1) {
+                  _navigateToMapScreen();
+                } else {
+                  setState(() {
+                    currentPageIndex = value;
+                  });
+                }
               },
               tabs: [
                 PersistentTabConfig(
@@ -71,9 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: selectedSystem == "dalat"
-                      ? const MapScreen()
-                      : const MapHyScreen(),
+                  screen: Container(), 
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 1
@@ -111,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: selectedSystem == "dalat"
+                  screen: selectedSystem == 'dalat'
                       ? const DeviceScreen()
                       : const DeviceHyScreen(),
                   item: ItemConfig(
@@ -151,8 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen:
-                      SettingsScreen(onSystemSelected: _updateSelectedSystem),
+                  screen: SettingsScreen(onSystemSelected: _updateSelectedSystem),
                   item: ItemConfig(
                     icon: const Icon(Icons.more_horiz_outlined),
                     title: LocalData.bottomLabel6.getString(context),
@@ -167,7 +177,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
               navBarBuilder: (navBarConfig) => Style2BottomNavBar(
-                
                 navBarDecoration: NavBarDecoration(
                   color: Theme.of(context).colorScheme.primary,
                   borderRadius: const BorderRadius.only(
@@ -183,9 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 navBarConfig: navBarConfig,
-                
               ),
-              
             ),
           ),
         ],

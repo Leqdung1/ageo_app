@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
+import 'package:Ageo_solutions/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -74,14 +76,14 @@ extension MapSelectedExtension on MapSelected {
   }
 }
 
-class MapBoxWidget extends StatefulWidget {
-  const MapBoxWidget({super.key});
+class MapDaLatScreen extends StatefulWidget {
+  const MapDaLatScreen({super.key});
 
   @override
-  State<MapBoxWidget> createState() => _MapBoxWidgetState();
+  State<MapDaLatScreen> createState() => _MapDaLatScreenState();
 }
 
-class _MapBoxWidgetState extends State<MapBoxWidget> {
+class _MapDaLatScreenState extends State<MapDaLatScreen> {
   MapSelected _selectedMap = MapSelected.WaterLevel1;
   late MapboxMapController mapController;
   String selectedStyle = MapboxStyles.SATELLITE;
@@ -102,9 +104,9 @@ class _MapBoxWidgetState extends State<MapBoxWidget> {
     mapController = controller;
     _addCircles(); // Add circles first
     await _addMarkers(); // Then add markers
-      _highlightSelectedMarker();
+    _highlightSelectedMarker();
 
-  mapController.onSymbolTapped.add(_onMarkerTapped);
+    mapController.onSymbolTapped.add(_onMarkerTapped);
 
     mapController.onSymbolTapped.add(_onMarkerTapped);
   }
@@ -133,7 +135,6 @@ class _MapBoxWidgetState extends State<MapBoxWidget> {
       ),
     ));
 
-
     // Add the second marker
     _symbols.add(await mapController.addSymbol(
       SymbolOptions(
@@ -155,8 +156,6 @@ class _MapBoxWidgetState extends State<MapBoxWidget> {
     ));
   }
 
-  
-
   void _addCircles() {
     mapController.addCircle(
       CircleOptions(
@@ -175,101 +174,99 @@ class _MapBoxWidgetState extends State<MapBoxWidget> {
     await _addMarkers();
   }
 
-  
-void _highlightSelectedMarker() {
-  // Reset all markers to their default state
-  for (int i = 0; i < _symbols.length; i++) {
-    mapController.updateSymbol(
-      _symbols[i],
-      SymbolOptions(
-        iconSize: 0.3,
-        iconImage: 'marker${i + 1}',
-      ),
-    );
-  }
+  void _highlightSelectedMarker() {
+    // Reset all markers to their default state
+    for (int i = 0; i < _symbols.length; i++) {
+      mapController.updateSymbol(
+        _symbols[i],
+        SymbolOptions(
+          iconSize: 0.3,
+          iconImage: 'marker${i + 1}',
+        ),
+      );
+    }
 
-  // Highlight the marker based on the selected map item
-  switch (_selectedMap) {
-    case MapSelected.WaterLevel1:
-      mapController.updateSymbol(
-        _symbols[0],
-        const SymbolOptions(
-          iconSize: 0.5,
-        ),
-      );
-      break;
-    case MapSelected.WaterLevel2:
-      mapController.updateSymbol(
-        _symbols[1],
-        const SymbolOptions(
-          iconSize: 0.5,
-        ),
-      );
-      break;
-    case MapSelected.Gnss1:
-      mapController.updateSymbol(
-        _symbols[2],
-        const SymbolOptions(
-          iconSize: 0.5,
-        ),
-      );
-      break;
-    default:
-      break;
+    // Highlight the marker based on the selected map item
+    switch (_selectedMap) {
+      case MapSelected.WaterLevel1:
+        mapController.updateSymbol(
+          _symbols[0],
+          const SymbolOptions(
+            iconSize: 0.5,
+          ),
+        );
+        break;
+      case MapSelected.WaterLevel2:
+        mapController.updateSymbol(
+          _symbols[1],
+          const SymbolOptions(
+            iconSize: 0.5,
+          ),
+        );
+        break;
+      case MapSelected.Gnss1:
+        mapController.updateSymbol(
+          _symbols[2],
+          const SymbolOptions(
+            iconSize: 0.5,
+          ),
+        );
+        break;
+      default:
+        break;
+    }
   }
-}
 
   void _onMarkerTapped(Symbol symbol) {
-  int index = _symbols.indexOf(symbol);
+    int index = _symbols.indexOf(symbol);
 
-  String name;
-  switch (index) {
-    case 0:
-      name = "First Marker";
-      break;
-    case 1:
-      name = "Second Marker";
-      break;
-    case 2:
-      name = "Third Marker";
-      break;
-    default:
-      name = "Unknown Marker";
-      break;
+    String name;
+    switch (index) {
+      case 0:
+        name = "First Marker";
+        break;
+      case 1:
+        name = "Second Marker";
+        break;
+      case 2:
+        name = "Third Marker";
+        break;
+      default:
+        name = "Unknown Marker";
+        break;
+    }
+
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          margin: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Marker Name: $name",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "Location: ${symbol.options.geometry?.latitude}, ${symbol.options.geometry?.longitude}",
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
-
-  showModalBottomSheet(
-    backgroundColor: Colors.transparent,
-    context: context,
-    builder: (BuildContext context) {
-      return Container(
-        margin: EdgeInsets.all(16),
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Marker Name: $name",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Location: ${symbol.options.geometry?.latitude}, ${symbol.options.geometry?.longitude}",
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -302,7 +299,12 @@ void _highlightSelectedMarker() {
                   child: Center(
                     child: IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                             MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
+                            );
                       },
                       icon: Icon(
                         Icons.arrow_back_ios,
@@ -356,7 +358,7 @@ void _highlightSelectedMarker() {
                       setState(() {
                         _selectedMap = MapSelected.values
                             .firstWhere((e) => e.name == value);
-                             _highlightSelectedMarker();
+                        _highlightSelectedMarker();
                       });
                     },
                     dropdownMenuEntries: MapSelected.values
@@ -391,7 +393,7 @@ void _highlightSelectedMarker() {
                       if (selectedStyle == MapboxStyles.SATELLITE) {
                         selectedStyle = MapboxStyles.MAPBOX_STREETS;
                       } else {
-                        selectedStyle = MapboxStyles.SATELLITE; 
+                        selectedStyle = MapboxStyles.SATELLITE;
                       }
                     });
                   },

@@ -1,6 +1,6 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
-import 'package:Ageo_solutions/mapbox.dart';
+import 'package:Ageo_solutions/screens/da_lat/mapDL.dart';
 import 'package:Ageo_solutions/screens/home.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: localization.supportedLocales,
       locale: const Locale('vi', ''),
 
-      home: MapBoxWidget(),
+      home: HomeScreen(),
     );
   }
 
