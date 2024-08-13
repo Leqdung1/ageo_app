@@ -86,6 +86,7 @@ class _MapBoxWidgetState extends State<MapBoxWidget> {
   late MapboxMapController mapController;
   String selectedStyle = MapboxStyles.SATELLITE;
   final LatLng _initialCameraPosition = const LatLng(11.939545, 108.458877);
+  final List<Symbol> _symbols = [];
 
   @override
   void initState() {
@@ -100,6 +101,8 @@ class _MapBoxWidgetState extends State<MapBoxWidget> {
   void _onMapCreated(MapboxMapController controller) async {
     mapController = controller;
     await _addMarkersAndCircles();
+
+    mapController.onSymbolTapped.add(_onMarkerTapped);
   }
 
   Future<void> _addMarkersAndCircles() async {
@@ -117,34 +120,34 @@ class _MapBoxWidgetState extends State<MapBoxWidget> {
     mapController.addImage('marker3', markerImage3);
 
     // Add the first marker
-    await mapController.addSymbol(
+    _symbols.add(await mapController.addSymbol(
       SymbolOptions(
         iconSize: 0.3,
         iconImage: 'marker1',
         geometry: LatLng(9.939545, 108.458877), // First location
         iconAnchor: 'bottom',
       ),
-    );
+    ));
 
     // Add the second marker
-    await mapController.addSymbol(
+    _symbols.add(await mapController.addSymbol(
       SymbolOptions(
         iconSize: 0.3,
         iconImage: 'marker2',
         geometry: LatLng(2.939555, 108.458887), // Slightly different location
         iconAnchor: 'bottom',
       ),
-    );
+    ));
 
     // Add the third marker
-    await mapController.addSymbol(
+    _symbols.add(await mapController.addSymbol(
       SymbolOptions(
         iconSize: 0.3,
         iconImage: 'marker3',
         geometry: LatLng(11.939525, 108.458887), // Slightly different location
         iconAnchor: 'bottom',
       ),
-    );
+    ));
 
     // Add a circle to the map
     _addCircle();
@@ -165,6 +168,42 @@ class _MapBoxWidgetState extends State<MapBoxWidget> {
 
   void _onStyleLoadedCallback() async {
     await _addMarkersAndCircles();
+  }
+
+  void _onMarkerTapped(Symbol symbol) {
+    int index = _symbols.indexOf(symbol);
+
+    String name;
+    switch (index) {
+      case 0:
+        name = "First Marker";
+        break;
+      case 1:
+        name = "Second Marker";
+        break;
+      case 2:
+        name = "Third Marker";
+        break;
+      default:
+        name = "Unknown Marker";
+        break;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Card(
+          margin: EdgeInsets.all(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "Marker Name: $name\nLocation: ${symbol.options.geometry?.latitude}, ${symbol.options.geometry?.longitude}",
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
