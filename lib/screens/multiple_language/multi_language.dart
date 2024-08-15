@@ -80,7 +80,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               height: 50,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
-                border: Border.all(color: Colors.grey.shade400),
+                border: selectedLanguage == "vi"
+                    ? Border.all(
+                        color: const Color(0xFF4e86af),
+                      )
+                    : Border.all(color: Colors.grey.shade400),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -126,7 +130,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               height: 50,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
-                border: Border.all(color: Colors.grey.shade400),
+                border: selectedLanguage == "en"
+                    ? Border.all(
+                        color: const Color(0xFF4e86af),
+                      )
+                    : Border.all(color: Colors.grey.shade400),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(

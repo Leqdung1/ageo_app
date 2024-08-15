@@ -541,15 +541,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             const EdgeInsets.symmetric(horizontal: 16),
                         title: Text(
                           LocalData.logOut.getString(context),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            color: Colors.redAccent,
                           ),
                         ),
-                        leading: Icon(
+                        leading: const Icon(
                           Icons.logout_outlined,
-                          color: Theme.of(context).iconTheme.color,
+                          color: Colors.redAccent,
                         ),
                         onTap: () {
                           pushWithoutNavBar(
