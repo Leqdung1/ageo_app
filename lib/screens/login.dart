@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: EdgeInsets.fromLTRB(
                           24, _checkLastLoggedInData() ? 0 : 24, 24, 24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
