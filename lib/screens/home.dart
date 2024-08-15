@@ -108,8 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 2
-                          ? 'assets/icons/cam_fill.svg'
-                          : 'assets/icons/camera.svg',
+                          ? 'assets/icons/camfill.svg'
+                          : 'assets/icons/cam.svg',
                     ),
                     title: LocalData.bottomlabel3.getString(context),
                     textStyle: TextStyle(
@@ -165,7 +165,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   screen:
                       SettingsScreen(onSystemSelected: _updateSelectedSystem),
                   item: ItemConfig(
-                    icon: const Icon(Icons.more_horiz_outlined),
+                    icon: SvgPicture.asset(
+                      currentPageIndex == 5
+                          ? 'assets/icons/userFill.svg'
+                          : 'assets/icons/userNotFill.svg',
+                    ),
                     title: LocalData.bottomLabel6.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
@@ -177,13 +181,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ],
-              navBarBuilder: (navBarConfig) => Style2BottomNavBar(
+              navBarBuilder: (navBarConfig) => Style6BottomNavBar(
                 navBarDecoration: NavBarDecoration(
                   color: Theme.of(context).colorScheme.primary,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
+                  // borderRadius: const BorderRadius.only(
+                  //   topLeft: Radius.circular(20),
+                  //   topRight: Radius.circular(20),
+                  // ),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                       color: Colors.black.withAlpha(25),

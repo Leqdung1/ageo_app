@@ -274,7 +274,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 AppBar(
                   title: Text(
-                    LocalData.setting.getString(context),
+                    LocalData.bottomLabel6.getString(context),
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
