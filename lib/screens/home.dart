@@ -24,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
-  String selectedSystem = 'dalat'; 
+  String selectedSystem = 'dalat';
 
   void _updateSelectedSystem(String system) {
     setState(() {
@@ -84,12 +84,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: Container(), 
+                  screen: Container(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 1
-                          ? 'assets/icons/map_fill.svg'
-                          : 'assets/icons/map.svg',
+                          ? 'assets/icons/map-pin_fill.svg'
+                          : 'assets/icons/map-pin.svg',
                     ),
                     title: LocalData.bottomlabel2.getString(context),
                     textStyle: TextStyle(
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 2
-                          ? 'assets/icons/camera_fill.svg'
+                          ? 'assets/icons/cam_fill.svg'
                           : 'assets/icons/camera.svg',
                     ),
                     title: LocalData.bottomlabel3.getString(context),
@@ -128,8 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 3
-                          ? 'assets/icons/thiet_bi_fill.svg'
-                          : 'assets/icons/thiet_bi.svg',
+                          ? 'assets/icons/signal-alt-3_fill.svg'
+                          : 'assets/icons/signal-alt-3.svg',
                     ),
                     title: LocalData.bottomlabel4.getString(context),
                     textStyle: TextStyle(
@@ -148,8 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 4
-                          ? 'assets/icons/waring_fill.svg'
-                          : 'assets/icons/warning.svg',
+                          ? 'assets/icons/alert-triangle_fill.svg'
+                          : 'assets/icons/alert-triangle.svg',
                     ),
                     title: LocalData.bottomlabel5.getString(context),
                     textStyle: TextStyle(
@@ -162,7 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: SettingsScreen(onSystemSelected: _updateSelectedSystem),
+                  screen:
+                      SettingsScreen(onSystemSelected: _updateSelectedSystem),
                   item: ItemConfig(
                     icon: const Icon(Icons.more_horiz_outlined),
                     title: LocalData.bottomLabel6.getString(context),
