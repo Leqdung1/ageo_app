@@ -49,6 +49,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
           Container(
             margin: const EdgeInsets.symmetric(
               vertical: 5,
+              horizontal: 12,
             ),
             height: 70,
             decoration: BoxDecoration(
@@ -119,7 +120,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 child: IndexedStack(
                   index: _itemsSelected,
                   children: [
-                  GnssScreen(),
+                    GnssScreen(),
                     const ApLucLoRongScreen(),
                     //nghiengSauScreen(),
                     const RaingaugeScreen(),

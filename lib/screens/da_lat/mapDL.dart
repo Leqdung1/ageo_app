@@ -1,31 +1,52 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
 import 'package:Ageo_solutions/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 enum MapSelected {
+  // ignore: constant_identifier_names
   WaterLevel1,
+  // ignore: constant_identifier_names
   WaterLevel2,
+  // ignore: constant_identifier_names
   Gnss1,
+  // ignore: constant_identifier_names
   Gnss2,
+  // ignore: constant_identifier_names
   Gnss3,
+  // ignore: constant_identifier_names
   Camera1,
+  // ignore: constant_identifier_names
   Camera2,
+  // ignore: constant_identifier_names
   Camera3,
+  // ignore: constant_identifier_names
   Camera4,
+  // ignore: constant_identifier_names
   Camera5,
+  // ignore: constant_identifier_names
   WarningSensor1,
+  // ignore: constant_identifier_names
   WarningSensor2,
+  // ignore: constant_identifier_names
   Raingauge,
+  // ignore: constant_identifier_names
   Piezometer1,
+  // ignore: constant_identifier_names
   Piezometer2,
+  // ignore: constant_identifier_names
   Piezometer3,
+  // ignore: constant_identifier_names
   Inclinometer1,
+  // ignore: constant_identifier_names
   Inclinometer2,
+  // ignore: constant_identifier_names
   Inclinometer3,
 }
 
@@ -33,15 +54,15 @@ extension MapSelectedExtension on MapSelected {
   String label(BuildContext context) {
     switch (this) {
       case MapSelected.WaterLevel1:
-        return 'Water Level 1';
+        return LocalData.waterLevel1.getString(context);
       case MapSelected.WaterLevel2:
-        return 'Water Level 2';
+        return LocalData.waterLevel2.getString(context);
       case MapSelected.Gnss1:
-        return 'GNSS 1';
+        return LocalData.gnss1.getString(context);
       case MapSelected.Gnss2:
-        return 'GNSS 2';
+        return LocalData.gnss2.getString(context);
       case MapSelected.Gnss3:
-        return 'GNSS 3';
+        return LocalData.gnss3.getString(context);
       case MapSelected.Camera1:
         return 'Camera 01';
       case MapSelected.Camera2:
@@ -53,23 +74,23 @@ extension MapSelectedExtension on MapSelected {
       case MapSelected.Camera5:
         return 'Camera 05';
       case MapSelected.WarningSensor1:
-        return 'Warning Sensor 1';
+        return LocalData.warn1.getString(context);
       case MapSelected.WarningSensor2:
-        return 'Warning Sensor 2';
+        return LocalData.warn2.getString(context);
       case MapSelected.Raingauge:
-        return 'Raingauge';
+        return LocalData.mua.getString(context);
       case MapSelected.Piezometer1:
-        return 'Piezometer 1';
+        return LocalData.piez1.getString(context);
       case MapSelected.Piezometer2:
-        return 'Piezometer 2';
+        return LocalData.piez2.getString(context);
       case MapSelected.Piezometer3:
-        return 'Piezometer 3';
+        return LocalData.piez3.getString(context);
       case MapSelected.Inclinometer1:
-        return 'Inclinometer 1';
+        return LocalData.inclino1.getString(context);
       case MapSelected.Inclinometer2:
-        return 'Inclinometer 2';
+        return LocalData.inclino2.getString(context);
       case MapSelected.Inclinometer3:
-        return 'Inclinometer 3';
+        return LocalData.inclino3.getString(context);
       default:
         return '';
     }
@@ -127,7 +148,7 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
 
     // Add the first marker
     _symbols.add(await mapController.addSymbol(
-      SymbolOptions(
+      const SymbolOptions(
         iconSize: 0.3,
         iconImage: 'marker1',
         geometry: LatLng(9.939545, 108.458877), // First location
@@ -137,7 +158,7 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
 
     // Add the second marker
     _symbols.add(await mapController.addSymbol(
-      SymbolOptions(
+      const SymbolOptions(
         iconSize: 0.3,
         iconImage: 'marker2',
         geometry: LatLng(2.939555, 108.458887), // Slightly different location
@@ -147,7 +168,7 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
 
     // Add the third marker
     _symbols.add(await mapController.addSymbol(
-      SymbolOptions(
+      const SymbolOptions(
         iconSize: 0.3,
         iconImage: 'marker3',
         geometry: LatLng(11.939525, 108.458887), // Slightly different location
