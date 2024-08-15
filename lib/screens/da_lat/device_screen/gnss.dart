@@ -604,7 +604,7 @@ class _GnssScreenState extends State<GnssScreen> {
                                 ),
                               ),
 
-                              // dZ chart
+                              // dH chart
                               Container(
                                 margin:
                                     const EdgeInsets.only(left: 15, top: 30),
@@ -676,7 +676,7 @@ class _GnssScreenState extends State<GnssScreen> {
   List<CartesianSeries<GnssData, String>> _getXSeries(List<GnssData> data) {
     debugPrint("Data for X: ${data.map((d) => d.dX).toList()}");
     return [
-      _getLineSeries('X', data, (gnssData) => gnssData.dX),
+      _getLineSeries('X', data, (gnssData) => gnssData.dX * 1000),
     ];
   }
 
@@ -688,9 +688,9 @@ class _GnssScreenState extends State<GnssScreen> {
   }
 
   List<CartesianSeries<GnssData, String>> _getZSeries(List<GnssData> data) {
-    debugPrint("Data for Z: ${data.map((d) => d.dZ).toList()}");
+    debugPrint("Data for Z: ${data.map((d) => d.dH).toList()}");
     return [
-      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
+      _getLineSeries('Z', data, (gnssData) => gnssData.dH * 1000),
     ];
   }
 
@@ -713,7 +713,7 @@ class _GnssScreenState extends State<GnssScreen> {
     return [
       _getLineSeries('X', data, (gnssData) => gnssData.dX),
       _getLineSeries('Y', data, (gnssData) => gnssData.dY),
-      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
+      _getLineSeries('Z', data, (gnssData) => gnssData.dH),
     ];
   }
 
@@ -721,7 +721,7 @@ class _GnssScreenState extends State<GnssScreen> {
     return [
       _getLineSeries('X', data, (gnssData) => gnssData.dX),
       _getLineSeries('Y', data, (gnssData) => gnssData.dY),
-      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
+      _getLineSeries('Z', data, (gnssData) => gnssData.dH),
     ];
   }
 
@@ -729,7 +729,7 @@ class _GnssScreenState extends State<GnssScreen> {
     return [
       _getLineSeries('X', data, (gnssData) => gnssData.dX),
       _getLineSeries('Y', data, (gnssData) => gnssData.dY),
-      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
+      _getLineSeries('Z', data, (gnssData) => gnssData.dH),
     ];
   }
 
@@ -737,7 +737,7 @@ class _GnssScreenState extends State<GnssScreen> {
     return [
       _getLineSeries('X', data, (gnssData) => gnssData.dX),
       _getLineSeries('Y', data, (gnssData) => gnssData.dY),
-      _getLineSeries('Z', data, (gnssData) => gnssData.dZ),
+      _getLineSeries('Z', data, (gnssData) => gnssData.dH),
     ];
   }
 
@@ -772,23 +772,23 @@ class _GnssScreenState extends State<GnssScreen> {
 
 // Data class
 class GnssData {
-  GnssData(this.logTime, this.dX, this.dY, this.dZ);
+  GnssData(this.logTime, this.dX, this.dY, this.dH);
   final String logTime;
   final double dX;
   final double dY;
-  final double dZ;
+  final double dH;
 
   factory GnssData.fromJson(Map<String, dynamic> json) => GnssData(
         json["logTime"],
         (json["dX"] ?? 0.0).toDouble(),
         (json["dY"] ?? 0.0).toDouble(),
-        (json["dZ"] ?? 0.0).toDouble(),
+        (json["dH"] ?? 0.0).toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
         "logTime": logTime,
         "dX": dX,
         "dY": dY,
-        "dZ": dZ,
+        "dH": dH,
       };
 }
