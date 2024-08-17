@@ -110,6 +110,24 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
   String selectedStyle = MapboxStyles.SATELLITE;
   final LatLng _initialCameraPosition = const LatLng(11.939545, 108.458877);
   final List<Symbol> _symbols = [];
+  final LatLngBounds _cameraBounds = LatLngBounds(
+    southwest: LatLng(11.929545, 108.448877), // Southwest boundary
+    northeast: LatLng(11.949545, 108.468877), // Northeast boundary
+  );
+  bool isWithinBounds(LatLng position, LatLngBounds bounds) {
+    return position.latitude >= bounds.southwest.latitude &&
+        position.latitude <= bounds.northeast.latitude &&
+        position.longitude >= bounds.southwest.longitude &&
+        position.longitude <= bounds.northeast.longitude;
+  }
+
+  LatLng nearestPointWithinBounds(LatLng position, LatLngBounds bounds) {
+    double lat = position.latitude
+        .clamp(bounds.southwest.latitude, bounds.northeast.latitude);
+    double lng = position.longitude
+        .clamp(bounds.southwest.longitude, bounds.northeast.longitude);
+    return LatLng(lat, lng);
+  }
 
   @override
   void initState() {
@@ -124,7 +142,7 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
   void _onMapCreated(MapboxMapController controller) async {
     mapController = controller;
     _addCircles(); // Add circles first
-    await _addMarkers(); // Then add markers
+    await _addMarkers(); // add markers
     _highlightSelectedMarker();
 
     mapController.onSymbolTapped.add(_onMarkerTapped);
@@ -289,6 +307,16 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
     );
   }
 
+  //
+  void _onCameraIdle() {
+    final LatLng currentPosition = mapController.cameraPosition!.target;
+    if (!isWithinBounds(currentPosition, _cameraBounds)) {
+      final LatLng nearestPoint =
+          nearestPointWithinBounds(currentPosition, _cameraBounds);
+      mapController.animateCamera(CameraUpdate.newLatLng(nearestPoint));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -298,45 +326,46 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
             styleString: selectedStyle,
             trackCameraPosition: true,
             onMapCreated: _onMapCreated,
+            onCameraIdle: _onCameraIdle,
             onStyleLoadedCallback: _onStyleLoadedCallback,
+            minMaxZoomPreference: const MinMaxZoomPreference(10, 20),
             initialCameraPosition: CameraPosition(
               target: _initialCameraPosition,
               zoom: 16,
+              bearing: 16,
+              tilt: 90,
             ),
-            myLocationEnabled: true,
-            myLocationTrackingMode: MyLocationTrackingMode.TrackingGPS,
           ),
           SafeArea(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  height: 50,
+                SizedBox(
                   width: 50,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                             MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
-                            ),
-                            );
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Theme.of(context).iconTheme.color,
-                      ),
+                  height: 50,
+                  child: FloatingActionButton(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: const CircleBorder(),
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 20,
+                      color: Theme.of(context).iconTheme.color,
                     ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const HomeScreen(),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 12,
+                  ),
                   child: DropdownMenu(
                     textStyle: TextStyle(
                       color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -404,21 +433,28 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
                         .toList(),
                   ),
                 ),
-                FloatingActionButton(
-                  child: Icon(
-                    Icons.layers_outlined,
-                    color: Theme.of(context).iconTheme.color,
+                SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: FloatingActionButton(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: const CircleBorder(),
+                    child: Icon(
+                      Icons.layers_outlined,
+                      size: 25,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        if (selectedStyle == MapboxStyles.SATELLITE) {
+                          selectedStyle = MapboxStyles.MAPBOX_STREETS;
+                        } else {
+                          selectedStyle = MapboxStyles.SATELLITE;
+                        }
+                      });
+                    },
                   ),
-                  onPressed: () {
-                    setState(() {
-                      if (selectedStyle == MapboxStyles.SATELLITE) {
-                        selectedStyle = MapboxStyles.MAPBOX_STREETS;
-                      } else {
-                        selectedStyle = MapboxStyles.SATELLITE;
-                      }
-                    });
-                  },
-                ),
+                )
               ],
             ),
           ),
