@@ -307,7 +307,7 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
     );
   }
 
-  //
+  // idle camera
   void _onCameraIdle() {
     final LatLng currentPosition = mapController.cameraPosition!.target;
     if (!isWithinBounds(currentPosition, _cameraBounds)) {
@@ -338,17 +338,19 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
           ),
           SafeArea(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                const SizedBox(
+                  width: 25,
+                ),
                 SizedBox(
-                  width: 50,
-                  height: 50,
+                  width: 40,
+                  height: 40,
                   child: FloatingActionButton(
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     shape: const CircleBorder(),
                     child: Icon(
                       Icons.arrow_back_ios,
-                      size: 20,
+                      size: 18,
                       color: Theme.of(context).iconTheme.color,
                     ),
                     onPressed: () {
@@ -433,6 +435,14 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
                         .toList(),
                   ),
                 ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 SizedBox(
                   height: 50,
                   width: 50,
@@ -454,10 +464,51 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
                       });
                     },
                   ),
-                )
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: FloatingActionButton(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: const CircleBorder(),
+                    child: Icon(
+                      Icons.zoom_in,
+                      size: 25,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    onPressed: () {
+                      mapController.animateCamera(CameraUpdate.zoomIn());
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: FloatingActionButton(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: const CircleBorder(),
+                    child: Icon(
+                      Icons.zoom_out,
+                      size: 25,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    onPressed: () {
+                      mapController.animateCamera(CameraUpdate.zoomOut());
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
-          ),
+          )
         ],
       ),
     );
