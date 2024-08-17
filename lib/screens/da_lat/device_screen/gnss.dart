@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 
 enum DataSelected {
+  RealTime,
   // ignore: constant_identifier_names
   Hours,
   // ignore: constant_identifier_names
@@ -21,6 +22,8 @@ enum DataSelected {
 extension DataSelectedExtension on DataSelected {
   String label(BuildContext context) {
     switch (this) {
+      case DataSelected.RealTime:
+        return LocalData.realtime.getString(context);
       case DataSelected.Hours:
         return LocalData.hours.getString(context);
       case DataSelected.Day:
@@ -76,6 +79,8 @@ class _GnssScreenState extends State<GnssScreen> {
     final Map<String, dynamic> response;
 
     switch (_dataSelected) {
+      case DataSelected.RealTime:
+        response = await apiClient.getGnssbyRealTime('HH:mm:ss');
       case DataSelected.Hours:
         response = await apiClient.getGnssByHours('yy/MM/dd HH');
         break;
@@ -97,22 +102,41 @@ class _GnssScreenState extends State<GnssScreen> {
       // Filter data based on the date range
       return data.where((gnssData) {
         switch (_dataSelected) {
+          case DataSelected.RealTime:
+            DateTime logTime = DateFormat('HH:mm:ss').parse(gnssData.logTime);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
+
           case DataSelected.Hours:
             DateTime logTime =
                 DateFormat('yy/MM/dd HH').parse(gnssData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Day:
             DateTime logTime = DateFormat('yy/MM/dd').parse(gnssData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Month:
             DateTime logTime = DateFormat('yy/MM').parse(gnssData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Year:
             DateTime logTime = DateFormat('yyyy').parse(gnssData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
         }
       }).toList();
     } else {
@@ -496,7 +520,6 @@ class _GnssScreenState extends State<GnssScreen> {
                             ),
                           ),
 
-                          // draw chart
                           // Draw chart
                           Column(
                             children: [
@@ -675,6 +698,7 @@ class _GnssScreenState extends State<GnssScreen> {
 
   List<CartesianSeries<GnssData, String>> _getXSeries(List<GnssData> data) {
     debugPrint("Data for X: ${data.map((d) => d.dX).toList()}");
+
     return [
       _getLineSeries('X', data, (gnssData) => gnssData.dX * 1000),
     ];
@@ -691,53 +715,6 @@ class _GnssScreenState extends State<GnssScreen> {
     debugPrint("Data for Z: ${data.map((d) => d.dH).toList()}");
     return [
       _getLineSeries('Z', data, (gnssData) => gnssData.dH * 1000),
-    ];
-  }
-
-  List<CartesianSeries<GnssData, String>> _getSeries(List<GnssData> data) {
-    switch (_dataSelected) {
-      case DataSelected.Hours:
-        return _getHoursSeries(data);
-      case DataSelected.Day:
-        return _getDaySeries(data);
-      case DataSelected.Month:
-        return _getMonthSeries(data);
-      case DataSelected.Year:
-        return _getYearSeries(data);
-      default:
-        return [];
-    }
-  }
-
-  List<CartesianSeries<GnssData, String>> _getHoursSeries(List<GnssData> data) {
-    return [
-      _getLineSeries('X', data, (gnssData) => gnssData.dX),
-      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
-      _getLineSeries('Z', data, (gnssData) => gnssData.dH),
-    ];
-  }
-
-  List<CartesianSeries<GnssData, String>> _getDaySeries(List<GnssData> data) {
-    return [
-      _getLineSeries('X', data, (gnssData) => gnssData.dX),
-      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
-      _getLineSeries('Z', data, (gnssData) => gnssData.dH),
-    ];
-  }
-
-  List<CartesianSeries<GnssData, String>> _getMonthSeries(List<GnssData> data) {
-    return [
-      _getLineSeries('X', data, (gnssData) => gnssData.dX),
-      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
-      _getLineSeries('Z', data, (gnssData) => gnssData.dH),
-    ];
-  }
-
-  List<CartesianSeries<GnssData, String>> _getYearSeries(List<GnssData> data) {
-    return [
-      _getLineSeries('X', data, (gnssData) => gnssData.dX),
-      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
-      _getLineSeries('Z', data, (gnssData) => gnssData.dH),
     ];
   }
 

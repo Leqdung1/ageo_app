@@ -114,6 +114,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   horizontal: 5,
                 ),
               ),
+
               // index screen
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.75,
@@ -121,10 +122,10 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   index: _itemsSelected,
                   children: [
                     GnssScreen(),
-                    const ApLucLoRongScreen(),
+                     ApLucLoRongScreen(),
                     //nghiengSauScreen(),
-                    const RaingaugeScreen(),
-                    const WaterLevelScreen(),
+                     RaingaugeScreen(),
+                     WaterLevelScreen(),
                   ],
                 ),
               ),

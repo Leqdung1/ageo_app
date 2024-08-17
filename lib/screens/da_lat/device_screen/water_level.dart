@@ -105,19 +105,31 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
           case DataSelected.Hours:
             DateTime logTime =
                 DateFormat('yy/MM/dd HH').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Day:
             DateTime logTime = DateFormat('yy/MM/dd').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Month:
             DateTime logTime = DateFormat('yy/MM').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Year:
             DateTime logTime = DateFormat('yyyy').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
         }
       }).toList();
     } else {

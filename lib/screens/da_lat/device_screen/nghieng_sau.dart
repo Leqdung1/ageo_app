@@ -1,4 +1,5 @@
 // import 'package:Ageo_solutions/core/api_client.dart';
+// import 'package:Ageo_solutions/screens/da_lat/device_screen/ap_lu_lo_rong.dart';
 // import 'package:flutter/material.dart';
 // import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -461,7 +462,8 @@
 //   final List<ICData> ic3Data;
 //   final List<ICData> ic4Data;
 
-//  InclinometerData({
+  
+//  InclinometerData(this.logTime, {
 //     required this.,
 //     required this.ic1Data,
 //     required this.ic2Data,

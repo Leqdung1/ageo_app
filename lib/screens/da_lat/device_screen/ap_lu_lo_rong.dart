@@ -715,24 +715,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz7,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz8,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
+      
     ];
   }
 
@@ -805,24 +788,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz7,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz8,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
+    
     ];
   }
 
@@ -895,24 +861,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz7,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz8,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
+    
     ];
   }
 
@@ -985,24 +934,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz7,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz8,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
+     
     ];
   }
 }

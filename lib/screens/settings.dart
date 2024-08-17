@@ -113,7 +113,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return SizedBox(
+        return 
+        SizedBox(
           height: MediaQuery.sizeOf(context).height * 0.48,
           child: Wrap(
             children: [
