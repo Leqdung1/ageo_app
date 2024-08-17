@@ -125,7 +125,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   Future<void> showDateTime(BuildContext context, bool isStart) async {
     DateTime? pickedDate = await showOmniDateTimePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: isStart ? _startDate : _endDate,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
       is24HourMode: true,
@@ -173,8 +173,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No data available'));
           } else {
             _chartData = snapshot.data!;
             return SingleChildScrollView(
@@ -715,7 +713,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-      
     ];
   }
 
@@ -788,7 +785,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-    
     ];
   }
 
@@ -861,7 +857,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-    
     ];
   }
 
@@ -934,7 +929,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
-     
     ];
   }
 }
