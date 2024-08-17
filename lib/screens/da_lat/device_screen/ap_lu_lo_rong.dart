@@ -140,10 +140,13 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
       },
       transitionDuration: const Duration(milliseconds: 200),
       theme: ThemeData(
-        colorScheme: const ColorScheme.light(
+        colorScheme:  ColorScheme.light(
           primary: Color.fromRGBO(21, 101, 192, 1),
           onPrimary: Colors.white,
-          surface: Colors.white,
+          
+           surface: Theme.of(context).colorScheme.primary,
+          onSurface:
+              Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
         ),
       ),
     );
