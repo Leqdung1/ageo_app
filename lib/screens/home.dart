@@ -2,6 +2,7 @@ import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/screens/da_lat/camera.dart';
 import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
 import 'package:Ageo_solutions/screens/da_lat/device.dart';
+import 'package:Ageo_solutions/screens/da_lat/map.dart';
 import 'package:Ageo_solutions/screens/da_lat/mapDL.dart';
 import 'package:Ageo_solutions/screens/da_lat/warn.dart';
 import 'package:Ageo_solutions/screens/hung_yen/camera_hy.dart';
@@ -38,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       MaterialPageRoute(
         builder: (context) => selectedSystem == 'dalat'
             ? const MapDaLatScreen()
-            : const MapHyScreen(),
+            : const MapScreen(),
       ),
     );
   }

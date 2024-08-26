@@ -111,8 +111,8 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
   final LatLng _initialCameraPosition = const LatLng(11.939545, 108.458877);
   final List<Symbol> _symbols = [];
   final LatLngBounds _cameraBounds = LatLngBounds(
-    southwest: LatLng(11.929545, 108.448877), // Southwest boundary
-    northeast: LatLng(11.949545, 108.468877), // Northeast boundary
+    southwest: const LatLng(11.929545, 108.448877), // Southwest boundary
+    northeast: const LatLng(11.949545, 108.468877), // Northeast boundary
   );
   bool isWithinBounds(LatLng position, LatLngBounds bounds) {
     return position.latitude >= bounds.southwest.latitude &&
@@ -165,34 +165,40 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
     mapController.addImage('marker3', markerImage3);
 
     // Add the first marker
-    _symbols.add(await mapController.addSymbol(
-      const SymbolOptions(
-        iconSize: 0.3,
-        iconImage: 'marker1',
-        geometry: LatLng(9.939545, 108.458877), // First location
-        iconAnchor: 'bottom',
+    _symbols.add(
+      await mapController.addSymbol(
+        const SymbolOptions(
+          iconSize: 0.3,
+          iconImage: 'marker1',
+          geometry: LatLng(9.939545, 108.458877),
+          iconAnchor: 'bottom',
+        ),
       ),
-    ));
+    );
 
     // Add the second marker
-    _symbols.add(await mapController.addSymbol(
-      const SymbolOptions(
-        iconSize: 0.3,
-        iconImage: 'marker2',
-        geometry: LatLng(2.939555, 108.458887), // Slightly different location
-        iconAnchor: 'bottom',
+    _symbols.add(
+      await mapController.addSymbol(
+        const SymbolOptions(
+          iconSize: 0.3,
+          iconImage: 'marker2',
+          geometry: LatLng(2.939555, 108.458887),
+          iconAnchor: 'bottom',
+        ),
       ),
-    ));
+    );
 
     // Add the third marker
-    _symbols.add(await mapController.addSymbol(
-      const SymbolOptions(
-        iconSize: 0.3,
-        iconImage: 'marker3',
-        geometry: LatLng(11.939525, 108.458887), // Slightly different location
-        iconAnchor: 'bottom',
+    _symbols.add(
+      await mapController.addSymbol(
+        const SymbolOptions(
+          iconSize: 0.03,
+          iconImage: 'marker3',
+          geometry: LatLng(11.939525, 108.458887),
+          iconAnchor: 'bottom',
+        ),
       ),
-    ));
+    );
   }
 
   void _addCircles() {
@@ -324,6 +330,7 @@ class _MapDaLatScreenState extends State<MapDaLatScreen> {
         children: [
           MapboxMap(
             styleString: selectedStyle,
+            rotateGesturesEnabled: true,
             trackCameraPosition: true,
             onMapCreated: _onMapCreated,
             onCameraIdle: _onCameraIdle,

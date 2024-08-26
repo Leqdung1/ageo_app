@@ -84,25 +84,19 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
   Widget overViewTab() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      height: MediaQuery.sizeOf(context).height * 0.5,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onSurface,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.25),
-            offset: const Offset(0, 1),
-            blurRadius: 4,
-          ),
-        ],
       ),
       child: InteractiveViewer(
         boundaryMargin: const EdgeInsets.all(20),
         minScale: 0.5,
         maxScale: 2,
-        child: Image.asset(
-          "assets/images/background.png",
-          fit: BoxFit.cover,
+        child: Align(
+          alignment: Alignment.centerLeft, // Aligns the image to the left
+          child: Image.asset(
+            "assets/images/dalat.PNG",
+            fit: BoxFit.contain, // Keeps the image in its aspect ratio
+          ),
         ),
       ),
     );
@@ -127,9 +121,9 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             const SizedBox(
-              height: 25,
-             ),
+              const SizedBox(
+                height: 25,
+              ),
               Container(
                 margin: const EdgeInsets.symmetric(
                   horizontal: 29,

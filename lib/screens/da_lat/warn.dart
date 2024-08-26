@@ -66,15 +66,16 @@ class _WarningScreenState extends State<WarningScreen> {
             margin: const EdgeInsets.symmetric(vertical: 10),
             height: size.height * 0.3,
             decoration: BoxDecoration(
-              color: Colors.green,
               borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.25),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-              ],
+            ),
+            child: InteractiveViewer(
+              boundaryMargin: const EdgeInsets.all(20),
+              minScale: 0.5,
+              maxScale: 2,
+              child: Image.asset(
+                "assets/images/dalat.PNG",
+                fit: BoxFit.contain,
+              ),
             ),
           ),
 

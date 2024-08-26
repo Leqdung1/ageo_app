@@ -41,14 +41,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  calendar_date_picker2:
-    dependency: "direct main"
-    description:
-      name: calendar_date_picker2
-      sha256: c7684d1a6bae19dc78c0b59101b272b47d78713d4aa0fcca55e55cf2dde9e3e4
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.5"
   characters:
     dependency: transitive
     description:
@@ -175,7 +167,7 @@ packages:
     source: hosted
     version: "0.2.1"
   flutter_localizations:
-    dependency: "direct main"
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -253,14 +245,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  get:
-    dependency: "direct main"
-    description:
-      name: get
-      sha256: e4e7335ede17452b391ed3b2ede016545706c01a02292a6c97619705e7d2a85e
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.6.6"
   go_router:
     dependency: transitive
     description:
@@ -270,7 +254,7 @@ packages:
     source: hosted
     version: "14.2.1"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       sha256: b9c29a161230ee03d3ccf545097fccd9b87a5264228c5d348202e0f0c28f9010
@@ -686,18 +670,18 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: c26cd2bb40fbe5e786a2bfeacedba9fafda21eb3b6ca473f0439f9dbe44730c8
+      sha256: b5b48d8eb6a1482ebbf4d6bfc69345462377e161e076b4ec4e69496e2d234dc2
       url: "https://pub.dev"
     source: hosted
-    version: "26.1.42"
+    version: "26.2.10"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: "76c0efa89c79108f043602b0170512f88fcb83156cca7f5ca6dfe17e840bc63d"
+      sha256: ca34210d70dd7ecb77489c21c8131a7f5546dea47780cd5f510326348091cb42
       url: "https://pub.dev"
     source: hosted
-    version: "26.1.42"
+    version: "26.2.10"
   term_glyph:
     dependency: transitive
     description:

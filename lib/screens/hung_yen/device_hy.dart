@@ -52,7 +52,10 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
         children: [
           // Choose devices screen
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
+            margin: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 5,
+            ),
             height: 70,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onSurface,
@@ -64,7 +67,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                 bool isSelected = _itemsSelected == index;
                 return Container(
                   margin: const EdgeInsets.symmetric(
-                    horizontal: 12,
+                    horizontal: 5,
                     vertical: 15,
                   ),
                   decoration: BoxDecoration(
