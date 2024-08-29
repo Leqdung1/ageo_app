@@ -25,18 +25,22 @@ class _WarningScreenState extends State<WarningScreen>
 
   // fetch api
   Future<List<warnData>> fetchWarnData() async {
-    final response = await apiClient.getDeviceData();
+    try {
+      final response = await apiClient.getDeviceData();
 
-    if (response['success']) {
-      List<warnData> data = (response['data'] as List)
-          .map((data) => warnData.fromJson(data))
-          .toList();
+      if (response['success']) {
+        List<warnData> data = (response['data'] as List)
+            .map((data) => warnData.fromJson(data))
+            .toList();
 
-      setState(() {
-        _items = data;
-      });
-      return data;
-    } else {
+        setState(() {
+          _items = data;
+        });
+        return data;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
       throw Exception('Failed to load data');
     }
   }
@@ -400,7 +404,7 @@ class _WarningScreenState extends State<WarningScreen>
     if (_items.isEmpty) {
       return const Center(
         child: Text(
-          'No data available',
+          'Không có dữ liệu',
           style: TextStyle(color: Colors.black),
         ),
       );
@@ -431,7 +435,7 @@ class _WarningScreenState extends State<WarningScreen>
               style: const TextStyle(color: Colors.black),
             ),
             subtitle: Text(
-              DateFormat('yyyy-MM-dd – kk:mm').format(item.time),
+              DateFormat('dd/MM/yyyy – HH:mm').format(item.time),
               style: const TextStyle(color: Colors.black),
             ),
             trailing: Icon(

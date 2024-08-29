@@ -22,17 +22,18 @@ class warnData {
   });
 
   factory warnData.fromJson(Map<String, dynamic> json) => warnData(
-      status: json["status"],
-      code: json["deviceCode"],
-      title: json["deviceTitle"],
-      lat: (json["lat"] as num).toDouble(),
-      lng: (json["lng"] as num).toDouble(),
-      v1: (json["v1"] as num).toDouble(),
-      v2: (json["v2"] as num).toDouble(),
-      v3: (json["v3"] as num).toDouble(),
-      time: DateTime.parse(
-        json["logTime"],
-      ));
+        status: json["status"] ?? 0,
+        code: json["deviceCode"] ?? '',
+        title: json["deviceTitle"] ?? '',
+        lat: (json["lat"] as num?)?.toDouble() ?? 0.0,
+        lng: (json["lng"] as num?)?.toDouble() ?? 0.0,
+        v1: (json["v1"] as num?)?.toDouble() ?? 0.0,
+        v2: (json["v2"] as num?)?.toDouble() ?? 0.0,
+        v3: (json["v3"] as num?)?.toDouble() ?? 0.0,
+        time: json["logTime"] != null
+            ? DateTime.parse(json["logTime"])
+            : DateTime.now(),
+      );
 
   Map<String, dynamic> toJson() => {
         "status": status,
