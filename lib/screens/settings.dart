@@ -110,11 +110,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 // modal bottom sheet
   void _openModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
+      useRootNavigator: true,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return 
-        SizedBox(
+        return SizedBox(
           height: MediaQuery.sizeOf(context).height * 0.48,
           child: Wrap(
             children: [
@@ -126,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     height: 4,
                     width: 50,
-                    decoration: BoxDecoration(
+                    decoration: BoxDecoration(       
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(50),
                     ),

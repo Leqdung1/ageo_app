@@ -79,9 +79,10 @@ class ApiClient {
   Future<Map<String, dynamic>> getPiezometerData(timeFormat) async {
     final apiToken = await _ss.readSecureData("access_token");
     final toDate = DateTime.now().toIso8601String();
+
     final Map<String, dynamic> details = {
       'deviceId': "",
-      'fromDate': "2024-06-30T17:00:00.000Z",
+      'fromDate': "2024-06-06T17:00:00.000Z",
       'tagName': "",
       'timeFormat': timeFormat,
       'toDate': toDate,
@@ -379,7 +380,7 @@ class ApiClient {
     return await getGnss('yyyy');
   }
 
-   Future<Map<String, dynamic>> getGnssByRealtime(timeFormat) async {
+  Future<Map<String, dynamic>> getGnssByRealtime(timeFormat) async {
     final apiToken = await _ss.readSecureData('access_token');
     final toDate = DateTime.now().toIso8601String();
     final details = {
@@ -410,6 +411,35 @@ class ApiClient {
           return false;
         },
       );
+      return response.data;
+    } on DioException catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  // warn
+  Future<Map<String, dynamic>> getDeviceData() async {
+    final apiToken = await _ss.readSecureData("access_token");
+    try {
+      final response = await _r.retry(
+        () async => await _dio.get(
+          "$_apiUrl/IA/Device/GetByProject/DL01",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $apiToken",
+            },
+          ),
+        ),
+        retryIf: (e) {
+          if (e is DioException) {
+            return e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.connectionTimeout;
+          }
+          return false;
+        },
+      );
+
       return response.data;
     } on DioException catch (e) {
       return e.response!.data;
