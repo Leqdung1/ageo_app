@@ -4,6 +4,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
+const MAPBOX_ACCESS_TOKEN =
+    'sk.eyJ1IjoiZHVuZzEyMyIsImEiOiJjbHpxc252eWMwd2ZwMm1zM2p6a3MyaDI0In0.VVgBTGJ0X1qSPwZwZuxmZg';
+
 enum MapSelected {
   // ignore: constant_identifier_names
   WaterLevel1,
@@ -101,28 +104,105 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   MapSelected _selectedMap = MapSelected.WaterLevel1;
+  final MapController _mapController = MapController();
 
   // Store the LatLng coordinates for each MapSelected value
   final Map<MapSelected, LatLng> _markerLocations = {
-    MapSelected.WaterLevel1: LatLng(11.939528977396272, 108.45900523689106),
-    MapSelected.WaterLevel2: LatLng(11.93946247331182, 108.45895587948053),
-    MapSelected.Gnss1: LatLng(11.939580805012907, 108.45894555773921),
-    MapSelected.Gnss2: LatLng(11.939466606143682, 108.45905641578773),
-    MapSelected.Gnss3: LatLng(11.939597862202428, 108.4591085019392),
-    MapSelected.Camera1: LatLng(11.939021913175509, 108.45918398707114),
-    MapSelected.Camera2: LatLng(11.939083079165579, 108.45895756917062),
-    MapSelected.Camera3: LatLng(11.93965953049003, 108.45907363322084),
-    MapSelected.Camera4: LatLng(11.939086018567691, 108.45858028556479),
-    MapSelected.Camera5: LatLng(11.939082252599732, 108.45858499344662),
-    MapSelected.WarningSensor1: LatLng(11.939697581128717, 108.45902736511498),
-    MapSelected.WarningSensor2: LatLng(11.93949305625895, 108.45916624536686),
-    MapSelected.Raingauge: LatLng(11.939849127581523, 108.4590910675802),
-    MapSelected.Piezometer1: LatLng(11.939616887526727, 108.45911654856624),
-    MapSelected.Piezometer2: LatLng(11.93946247331182, 108.45895587948053),
-    MapSelected.Piezometer3: LatLng(11.939333528955688, 108.45878099699925),
-    MapSelected.Inclinometer1: LatLng(11.939556531320394, 108.45907095101221),
-    MapSelected.Inclinometer2: LatLng(11.939515856479114, 108.45899786081614),
-    MapSelected.Inclinometer3: LatLng(11.939414532468547, 108.45889167142003),
+    // Water Level 01
+    MapSelected.WaterLevel1: const LatLng(
+      11.939511100000,
+      108.458991666667,
+    ),
+    // Water Level 02
+    MapSelected.WaterLevel2: const LatLng(
+      11.939505600000,
+      108.458986111111,
+    ),
+    // GNSS 01
+    MapSelected.Gnss1: const LatLng(
+      11.939577800000,
+      108.458930555556,
+    ),
+    // GNSS 02
+    MapSelected.Gnss2: const LatLng(
+      11.939458300000,
+      108.459038888889,
+    ),
+    // GNSS 03
+    MapSelected.Gnss3: const LatLng(
+      11.939580600000,
+      108.459080555556,
+    ),
+    // Camera 01
+    MapSelected.Camera1: const LatLng(
+      11.938997200000,
+      108.459172222222,
+    ),
+    // Camera 02
+    MapSelected.Camera2: const LatLng(
+      11.939072200000,
+      108.458936111111,
+    ),
+    // Camera 03
+    MapSelected.Camera3: const LatLng(
+      11.939633300000,
+      108.459041666667,
+    ),
+    // Camera 04
+    MapSelected.Camera4: const LatLng(
+      11.939058300000,
+      108.458569444444,
+    ),
+    // Camera 05
+    MapSelected.Camera5: const LatLng(
+      11.939058300000,
+      108.458569444444,
+    ),
+    // Warn 01
+    MapSelected.WarningSensor1: const LatLng(
+      11.939686110000,
+      108.459011110000,
+    ),
+    // Warn 02
+    MapSelected.WarningSensor2: const LatLng(
+      11.939466670000,
+      108.459155560000,
+    ),
+    // Raingauge
+    MapSelected.Raingauge: const LatLng(
+      11.939827800000,
+      108.459050000000,
+    ),
+    // Piez 01
+    MapSelected.Piezometer1: const LatLng(
+      11.939605600000,
+      108.459100000000,
+    ),
+    // Piez 02
+    MapSelected.Piezometer2: const LatLng(
+      11.939461100000,
+      108.458933333333,
+    ),
+    // Piez 03
+    MapSelected.Piezometer3: const LatLng(
+      11.939277800000,
+      108.458736111111,
+    ),
+    // Incli 01
+    MapSelected.Inclinometer1: const LatLng(
+      11.939552800000,
+      108.459050000000,
+    ),
+    // Incli 02
+    MapSelected.Inclinometer2: const LatLng(
+      11.939494400000,
+      108.458980555556,
+    ),
+    // Incli 03
+    MapSelected.Inclinometer3: const LatLng(
+      11.939402800000,
+      108.458875000000,
+    ),
   };
 
   @override
@@ -131,6 +211,7 @@ class _MapScreenState extends State<MapScreen> {
       backgroundColor: Theme.of(context).colorScheme.onSurface,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
+        automaticallyImplyLeading: false,
         title: Text(
           LocalData.title1.getString(context),
           style: TextStyle(
@@ -139,27 +220,58 @@ class _MapScreenState extends State<MapScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 12),
-            width: MediaQuery.sizeOf(context).width,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
+      body: Expanded(
+        child: Stack(
+          children: [
+            FlutterMap(
+              mapController: _mapController,
+              options: const MapOptions(
+                initialCenter: LatLng(11.939386, 108.458788),
+                initialZoom: 18,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.45),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
+              children: [
+                TileLayer(
+                  urlTemplate:
+                      'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
+                  additionalOptions: const {
+                    'accessToken': MAPBOX_ACCESS_TOKEN,
+                    'id': 'mapbox/satellite-streets-v12',
+                  },
+                ),
+                CircleLayer(
+                  circles: [
+                    CircleMarker(
+                      point: const LatLng(11.939445, 108.458775),
+                      radius: 70,
+                      useRadiusInMeter: true,
+                      color: Colors.blue.withOpacity(0.3),
+                      borderColor: Colors.blue,
+                      borderStrokeWidth: 2,
+                    ),
+                  ],
+                ),
+                MarkerLayer(
+                  markers: _markerLocations.entries.map((entry) {
+                    final selectedColor =
+                        _selectedMap == entry.key ? Colors.green : Colors.red;
+                    return Marker(
+                      point: entry.value,
+                      width: 80,
+                      height: 80,
+                      child: Icon(
+                        Icons.location_on,
+                        color: selectedColor,
+                      ),
+                    );
+                  }).toList(),
                 ),
               ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 15,
+                horizontal: 12,
+              ),
               child: DropdownMenu(
                 textStyle: TextStyle(
                   color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -224,71 +336,8 @@ class _MapScreenState extends State<MapScreen> {
                     .toList(),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(-1, 1),
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 4,
-                  ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  FlutterMap(
-                    options: const MapOptions(
-                      initialCenter: LatLng(11.939386, 108.458788),
-                      initialZoom: 18,
-                    ),
-                    children: [
-                      TileLayer(
-                        urlTemplate:
-                            "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                        userAgentPackageName: 'com.example.app',
-                      ),
-                      CircleLayer(
-                        circles: [
-                          CircleMarker(
-                            point: const LatLng(11.939445, 108.458775),
-                            radius: 70,
-                            useRadiusInMeter: true,
-                            color: Colors.blue.withOpacity(0.3),
-                            borderColor: Colors.blue,
-                            borderStrokeWidth: 2,
-                          ),
-                        ],
-                      ),
-                      MarkerLayer(
-                        markers: _markerLocations.entries.map((entry) {
-                          final selectedColor = _selectedMap == entry.key
-                              ? Colors.green
-                              : Colors.red;
-                          return Marker(
-                            point: entry.value,
-                            width: 80,
-                            height: 80,
-                            child: Icon(
-                              Icons.location_on,
-                              color: selectedColor,
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

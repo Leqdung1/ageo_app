@@ -620,56 +620,11 @@ class _WarningScreenState extends State<WarningScreen>
                                                                             ?.color,
                                                                       ),
                                                                     )
-                                                                    : item.title == 'Piezometer 01'
-                                                                    ? Text(
-                                                                      LocalData.piez1.getString(context),
-                                                                        style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: Theme.of(context)
-                                                                            .textTheme
-                                                                            .bodyLarge
-                                                                            ?.color,
-                                                                      ),
-                                                                    )
-                                                                    : item.title == 'Piezometer 02'
-                                                                    ? Text(
-                                                                      LocalData.piez2.getString(context),
-                                                                        style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: Theme.of(context)
-                                                                            .textTheme
-                                                                            .bodyLarge
-                                                                            ?.color,
-                                                                      ),
-                                                                    )
-                                                                    : item.title == 'Piezometer 03'
-                                                                    ? Text(
-                                                                      LocalData.piez3.getString(context),
-                                                                        style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: Theme.of(context)
-                                                                            .textTheme
-                                                                            .bodyLarge
-                                                                            ?.color,
-                                                                      ),
-                                                                    )
                                                                   : item.title ==
-                                                                          'Inclinometer 01'
+                                                                          'Piezometer 01'
                                                                       ? Text(
                                                                           LocalData
-                                                                              .inclino1
+                                                                              .piez1
                                                                               .getString(context),
                                                                           style:
                                                                               TextStyle(
@@ -682,23 +637,50 @@ class _WarningScreenState extends State<WarningScreen>
                                                                           ),
                                                                         )
                                                                       : item.title ==
-                                                                              'Inclinometer 02'
+                                                                              'Piezometer 02'
                                                                           ? Text(
-                                                                              LocalData.inclino2.getString(context),
+                                                                              LocalData.piez2.getString(context),
                                                                               style: TextStyle(
                                                                                 fontWeight: FontWeight.bold,
                                                                                 fontSize: 15,
                                                                                 color: Theme.of(context).textTheme.bodyLarge?.color,
                                                                               ),
                                                                             )
-                                                                          : Text(
-                                                                              LocalData.inclino3.getString(context),
-                                                                              style: TextStyle(
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontSize: 15,
-                                                                                color: Theme.of(context).textTheme.bodyLarge?.color,
-                                                                              ),
-                                                                            ),
+                                                                          : item.title == 'Piezometer 03'
+                                                                              ? Text(
+                                                                                  LocalData.piez3.getString(context),
+                                                                                  style: TextStyle(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 15,
+                                                                                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                                                                                  ),
+                                                                                )
+                                                                              : item.title == 'Inclinometer 01'
+                                                                                  ? Text(
+                                                                                      LocalData.inclino1.getString(context),
+                                                                                      style: TextStyle(
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        fontSize: 15,
+                                                                                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                                                                                      ),
+                                                                                    )
+                                                                                  : item.title == 'Inclinometer 02'
+                                                                                      ? Text(
+                                                                                          LocalData.inclino2.getString(context),
+                                                                                          style: TextStyle(
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontSize: 15,
+                                                                                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                                                                                          ),
+                                                                                        )
+                                                                                      : Text(
+                                                                                          LocalData.inclino3.getString(context),
+                                                                                          style: TextStyle(
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontSize: 15,
+                                                                                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                                                                                          ),
+                                                                                        ),
               subtitle: Text(
                 DateFormat('dd/MM/yyyy – HH:mm').format(item.time),
                 style: title,

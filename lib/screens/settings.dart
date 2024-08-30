@@ -104,7 +104,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         index == '0' ? 'dalat' : 'hy',
       );
     });
-    Navigator.pop(context);
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
 // modal bottom sheet
@@ -126,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     height: 4,
                     width: 50,
-                    decoration: BoxDecoration(       
+                    decoration: BoxDecoration(
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(50),
                     ),

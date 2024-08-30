@@ -32,18 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
       selectedSystem = system;
     });
   }
-
-  void _navigateToMapScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => selectedSystem == 'dalat'
-            ? const MapDaLatScreen()
-            : const MapScreen(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,13 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: PersistentTabView(
               navBarHeight: 80,
               onTabChanged: (value) {
-                if (value == 1) {
-                  _navigateToMapScreen();
-                } else {
+                
                   setState(() {
                     currentPageIndex = value;
                   });
-                }
+              
               },
               tabs: [
                 PersistentTabConfig(
@@ -85,7 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: Container(),
+                  screen: selectedSystem == 'dalat'
+                      ? const MapScreen()
+                      : const CameraHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 1

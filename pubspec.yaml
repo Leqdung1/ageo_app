@@ -25,6 +25,7 @@ dependencies:
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
   mapbox_gl: ^0.16.0
+  lucide_icons: ^0.257.0
  
   
 dev_dependencies:
