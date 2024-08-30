@@ -84,6 +84,9 @@ mixin LocalData {
   static String inclino1 = "inclino1";
   static String inclino2 = "inclino2";
   static String inclino3 = "inclino3";
+  static String code = 'code';
+  static String lat = 'lat';
+  static String lng = 'lng';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -139,7 +142,7 @@ mixin LocalData {
     "gnss": "GNSS",
     "loRong": "Piezometer",
     "nghiengSau": "Inclinometer",
-    "mua": "Rain Gauge",
+    "mua": "Rain gauge",
     "mucNuoc": "Water Level",
     "overView": "Overview",
     "news": "News",
@@ -168,6 +171,9 @@ mixin LocalData {
     "wL1": "Water level 01",
     "wL2": "Water level 02",
     "realtime": "Realtime",
+    "code ": "Code",
+    "lat": "Latitude",
+    "lng": "Longtitude",
   };
 
   // ignore: non_constant_identifier_names
@@ -252,6 +258,9 @@ mixin LocalData {
     "inclino3": "Đo nghiêng sâu 03",
     "wL1": "Đo mưa 01",
     "wL2": "Đo mưa 02",
-    "realtime": "Thời gian thực"
+    "realtime": "Thời gian thực",
+    "code": "Mã cảm biến",
+    "lat": "Vĩ độ",
+    "lng": "Kinh độ"
   };
 }
