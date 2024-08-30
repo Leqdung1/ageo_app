@@ -401,6 +401,14 @@ class _WarningScreenState extends State<WarningScreen>
   }
 
   Widget tableTab() {
+    var title = TextStyle(
+      fontSize: 15,
+      color: Theme.of(context).textTheme.bodyLarge?.color,
+    );
+    var subTitle = const TextStyle(
+      fontSize: 12,
+      color: Colors.grey,
+    );
     if (_items.isEmpty) {
       return const Center(
         child: Text(
@@ -415,76 +423,139 @@ class _WarningScreenState extends State<WarningScreen>
       itemBuilder: (context, index) {
         final item = _items[index];
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          margin: const EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 8,
+          ),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: ExpansionTile(
-            leading: Container(
-              width: 15,
-              height: 15,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: item.status == 1 ? Colors.green : Colors.red,
-              ),
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              dividerColor: Colors.transparent,
             ),
-            title: Text(
-              item.title,
-              style: const TextStyle(color: Colors.black),
+            child: ExpansionTile(
+              leading: Container(
+                width: 15,
+                height: 15,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: item.status == 1 ? Colors.green : Colors.red,
+                ),
+              ),
+              title: Text(
+                item.title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
+                ),
+              ),
+              subtitle: Text(
+                DateFormat('dd/MM/yyyy – HH:mm').format(item.time),
+                style: title,
+              ),
+              trailing: Icon(
+                _customTileExpanded
+                    ? Icons.arrow_drop_up
+                    : Icons.arrow_drop_down,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              onExpansionChanged: (bool expanded) {
+                setState(() {
+                  _customTileExpanded = expanded;
+                });
+              },
+              children: [
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Code',
+                        style: subTitle,
+                      ),
+                      Text(
+                        item.code,
+                        style: title,
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Latitude',
+                        style: subTitle,
+                      ),
+                      Text(
+                        '${item.lat}',
+                        style: title,
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Longtitude',
+                        style: subTitle,
+                      ),
+                      Text('${item.lng}', style: title),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'V1',
+                        style: subTitle,
+                      ),
+                      Text(
+                        '${item.v1}',
+                        style: title,
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                    title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                      Text(
+                        'V2',
+                        style: subTitle,
+                      ),
+                      Text(
+                        '${item.v2}',
+                        style: title,
+                      ),
+                    ])),
+                ListTile(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'V3',
+                        style: subTitle,
+                      ),
+                      Text(
+                        '${item.v3}',
+                        style: title,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            subtitle: Text(
-              DateFormat('dd/MM/yyyy – HH:mm').format(item.time),
-              style: const TextStyle(color: Colors.black),
-            ),
-            trailing: Icon(
-              _customTileExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-              color: Colors.black,
-            ),
-            onExpansionChanged: (bool expanded) {
-              setState(() {
-                _customTileExpanded = expanded;
-              });
-            },
-            children: [
-              ListTile(
-                title: Text(
-                  'Code: ${item.code}',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  'Lat: ${item.lat}',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  'Lng: ${item.lng}',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  'V1: ${item.v1}',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  'V2: ${item.v2}',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  'V3: ${item.v3}',
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-            ],
           ),
         );
       },
