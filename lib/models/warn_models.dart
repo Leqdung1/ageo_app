@@ -31,7 +31,7 @@ class warnData {
         v2: (json["v2"] as num?)?.toDouble() ?? 0.0,
         v3: (json["v3"] as num?)?.toDouble() ?? 0.0,
         time: json["logTime"] != null
-            ? DateTime.parse(json["logTime"])
+            ? DateTime.parse(json["logTime"]).toLocal()
             : DateTime.now(),
       );
 
