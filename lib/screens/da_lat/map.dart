@@ -110,7 +110,14 @@ class _MapScreenState extends State<MapScreen> {
   List<warnData> _items = [];
   final apiClient = ApiClient();
 
-  Future<List<warnData>> fetchWarnData() async {
+  @override
+  void initState() {
+    super.initState();
+    fetchWarnData();
+  }
+
+  // fetch api
+  Future<void> fetchWarnData() async {
     try {
       final response = await apiClient.getDeviceData();
 
@@ -122,7 +129,6 @@ class _MapScreenState extends State<MapScreen> {
         setState(() {
           _items = data;
         });
-        return data;
       } else {
         throw Exception('Failed to load data');
       }
@@ -131,19 +137,10 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  LatLng? getMarkerLocation(MapSelected selectedMap) {
-    for (var item in _items) {
-      if (item.title == selectedMap.label(context)) {
-        return LatLng(item.lat ?? 0.0, item.lng ?? 0.0);
-      }
-    }
-    return null; // Return null if no match is found
-  }
-
   // Marker
   final Map<MapSelected, LatLng> _markerLocations = {
     // Water Level 01
-    MapSelected.WaterLevel1: LatLng(
+    MapSelected.WaterLevel1: const LatLng(
       11.939511100000,
       108.458991666667,
     ),
@@ -239,15 +236,24 @@ class _MapScreenState extends State<MapScreen> {
     ),
   };
 
-  void _showMarkerDetails(
-    String name,
-    LatLng value,
-  ) {
-    // Find the item that matches the provided LatLng value
+  void _showMarkerDetails(String name, LatLng value) {
+    // Find the matching item based on latitude and longitude
     final matchingItem = _items.firstWhere(
       (item) => item.lat == value.latitude && item.lng == value.longitude,
+      orElse: () => warnData(
+        status: -1,
+        code: 'N/A',
+        title: 'No data available',
+        lat: value.latitude,
+        lng: value.longitude,
+        v1: 0.0,
+        v2: 0.0,
+        v3: 0.0,
+        time: DateTime.now().toLocal(),
+      ),
     );
 
+    // Show the modal bottom sheet with the relevant details
     showModalBottomSheet(
       barrierColor: Colors.transparent,
       backgroundColor: Colors.transparent,
@@ -267,36 +273,50 @@ class _MapScreenState extends State<MapScreen> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: matchingItem != null
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Device Title: ${matchingItem.title}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      'Last connect: ${matchingItem.time}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  ],
-                )
-              : Center(
-                  child: Text(
-                    'No data available for this marker.',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 16,
-                    ),
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Device Title: ${matchingItem.title}',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Last connect: ${matchingItem.time}',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'V1: ${matchingItem.v1}',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'V2: ${matchingItem.v2}',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'V3: ${matchingItem.v3}',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
