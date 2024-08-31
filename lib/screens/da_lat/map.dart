@@ -1,3 +1,5 @@
+import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/models/warn_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -105,11 +107,43 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   MapSelected _selectedMap = MapSelected.WaterLevel1;
   final MapController _mapController = MapController();
+  List<warnData> _items = [];
+  final apiClient = ApiClient();
 
-  // Store the LatLng coordinates for each MapSelected value
+  Future<List<warnData>> fetchWarnData() async {
+    try {
+      final response = await apiClient.getDeviceData();
+
+      if (response['success']) {
+        List<warnData> data = (response['data'] as List)
+            .map((data) => warnData.fromJson(data))
+            .toList();
+
+        setState(() {
+          _items = data;
+        });
+        return data;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  LatLng? getMarkerLocation(MapSelected selectedMap) {
+    for (var item in _items) {
+      if (item.title == selectedMap.label(context)) {
+        return LatLng(item.lat ?? 0.0, item.lng ?? 0.0);
+      }
+    }
+    return null; // Return null if no match is found
+  }
+
+  // Marker
   final Map<MapSelected, LatLng> _markerLocations = {
     // Water Level 01
-    MapSelected.WaterLevel1: const LatLng(
+    MapSelected.WaterLevel1: LatLng(
       11.939511100000,
       108.458991666667,
     ),
@@ -205,6 +239,80 @@ class _MapScreenState extends State<MapScreen> {
     ),
   };
 
+  void _showMarkerDetails(
+    String name,
+    LatLng value,
+  ) {
+    // Find the item that matches the provided LatLng value
+    final matchingItem = _items.firstWhere(
+      (item) => item.lat == value.latitude && item.lng == value.longitude,
+    );
+
+    showModalBottomSheet(
+      barrierColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.sizeOf(context).height * 0.3,
+          width: MediaQuery.sizeOf(context).width * 0.8,
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height * 0.1,
+            left: 15,
+            right: 15,
+          ),
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: matchingItem != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Device Title: ${matchingItem.title}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Last connect: ${matchingItem.time}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                )
+              : Center(
+                  child: Text(
+                    'No data available for this marker.',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+        );
+      },
+    );
+  }
+
+  void _updateMarkerDetails(MapSelected selected) {
+    final location = _markerLocations[selected];
+    if (location != null) {
+      _mapController.move(location, 18);
+      _showMarkerDetails(
+        selected.label(context),
+        location,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -238,18 +346,18 @@ class _MapScreenState extends State<MapScreen> {
                     'id': 'mapbox/satellite-streets-v12',
                   },
                 ),
-                CircleLayer(
-                  circles: [
-                    CircleMarker(
-                      point: const LatLng(11.939445, 108.458775),
-                      radius: 70,
-                      useRadiusInMeter: true,
-                      color: Colors.blue.withOpacity(0.3),
-                      borderColor: Colors.blue,
-                      borderStrokeWidth: 2,
-                    ),
-                  ],
-                ),
+                // CircleLayer(
+                //   circles: [
+                //     CircleMarker(
+                //       point: const LatLng(11.939445, 108.458775),
+                //       radius: 70,
+                //       useRadiusInMeter: true,
+                //       color: Colors.blue.withOpacity(0.3),
+                //       borderColor: Colors.blue,
+                //       borderStrokeWidth: 2,
+                //     ),
+                //   ],
+                // ),
                 MarkerLayer(
                   markers: _markerLocations.entries.map((entry) {
                     final selectedColor =
@@ -258,9 +366,18 @@ class _MapScreenState extends State<MapScreen> {
                       point: entry.value,
                       width: 80,
                       height: 80,
-                      child: Icon(
-                        Icons.location_on,
-                        color: selectedColor,
+                      child: GestureDetector(
+                        onTap: () {
+                          _showMarkerDetails(
+                            entry.key.label(context),
+                            entry.value,
+                          );
+                        },
+                        child: Icon(
+                          Icons.location_on,
+                          color: selectedColor,
+                          size: 20,
+                        ),
                       ),
                     );
                   }).toList(),
@@ -314,6 +431,7 @@ class _MapScreenState extends State<MapScreen> {
                   setState(() {
                     _selectedMap =
                         MapSelected.values.firstWhere((e) => e.name == value);
+                    _updateMarkerDetails(_selectedMap);
                   });
                 },
                 dropdownMenuEntries: MapSelected.values

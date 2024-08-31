@@ -1,4 +1,5 @@
 import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/rain_gauge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
@@ -652,20 +653,4 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
   }
 }
 
-// Data class
-class RainData {
-  RainData(this.logTime, this.rainAmount);
 
-  final String logTime;
-  final double rainAmount;
-
-  factory RainData.fromJson(Map<String, dynamic> json) => RainData(
-        json["logTime"],
-        (json["rain_mm_Tot"] as num).toDouble(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'logTime': logTime,
-        'rain_mm_Tot': rainAmount,
-      };
-}

@@ -1,5 +1,6 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -933,43 +934,4 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
       ),
     ];
   }
-}
-
-// Data class
-class PiezometerData {
-  PiezometerData(this.logTime, this.pz1, this.pz2, this.pz3, this.pz4, this.pz5,
-      this.pz6, this.pz7, this.pz8);
-  final String logTime;
-  final double pz1;
-  final double pz2;
-  final double pz3;
-  final double pz4;
-  final double pz5;
-  final double pz6;
-  final double pz7;
-  final double pz8;
-
-  factory PiezometerData.fromJson(Map<String, dynamic> json) => PiezometerData(
-        json["logTime"],
-        json["pz1"],
-        json["pz2"],
-        json["pz3"],
-        json["pz4"],
-        json["pz5"],
-        json["pz6"],
-        json["pz7"],
-        json["pz8"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "logTime": logTime,
-        "pz1": pz1,
-        "pz2": pz2,
-        "pz3": pz3,
-        "pz4": pz4,
-        "pz5": pz5,
-        "pz6": pz6,
-        "pz7": pz7,
-        "pz8": pz8,
-      };
 }

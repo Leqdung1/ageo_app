@@ -1,5 +1,6 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/models/gnss_models.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
@@ -746,27 +747,4 @@ class _GnssScreenState extends State<GnssScreen> {
         return Colors.blue;
     }
   }
-}
-
-// Data class
-class GnssData {
-  GnssData(this.logTime, this.dX, this.dY, this.dH);
-  final String logTime;
-  final double dX;
-  final double dY;
-  final double dH;
-
-  factory GnssData.fromJson(Map<String, dynamic> json) => GnssData(
-        json["logTime"],
-        (json["dX"] ?? 0.0).toDouble(),
-        (json["dY"] ?? 0.0).toDouble(),
-        (json["dH"] ?? 0.0).toDouble(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "logTime": logTime,
-        "dX": dX,
-        "dY": dY,
-        "dH": dH,
-      };
 }
