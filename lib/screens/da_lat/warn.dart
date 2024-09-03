@@ -20,7 +20,6 @@ class _WarningScreenState extends State<WarningScreen>
     with TickerProviderStateMixin {
   late final TabController _tabController;
   late List<warnData> _items = [];
-  bool _customTileExpanded = false;
   final apiClient = ApiClient();
 
   // fetch api
@@ -431,7 +430,6 @@ class _WarningScreenState extends State<WarningScreen>
     try {
       await fetchWarnData();
     } catch (e) {
-      // Handle any errors here, such as showing a snackbar or alert
       print('Failed to refresh data: $e');
     }
   }
@@ -441,12 +439,10 @@ class _WarningScreenState extends State<WarningScreen>
       fontSize: 15,
       color: Theme.of(context).textTheme.bodyLarge?.color,
     );
-    var subTitle = const TextStyle(
-      fontSize: 12,
-      color: Colors.grey,
-    );
 
     return RefreshIndicator(
+      color: Colors.white,
+      backgroundColor: const Color(0xFF4e86af),
       onRefresh: _refreshData,
       child: _items.isEmpty
           ? const Center(
@@ -488,14 +484,14 @@ class _WarningScreenState extends State<WarningScreen>
                         style: title,
                       ),
                       trailing: Icon(
-                        _customTileExpanded
+                        item.isExpanded
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
                         color: Theme.of(context).iconTheme.color,
                       ),
                       onExpansionChanged: (bool expanded) {
                         setState(() {
-                          _customTileExpanded = expanded;
+                          item.isExpanded = expanded;
                         });
                       },
                       children: _buildChildren(item),
@@ -560,7 +556,9 @@ class _WarningScreenState extends State<WarningScreen>
     var title = TextStyle(
       fontSize: 15,
       color: Theme.of(context).textTheme.bodyLarge?.color,
+      fontWeight: FontWeight.w500,
     );
+
     var subTitle = const TextStyle(
       fontSize: 12,
       color: Colors.grey,

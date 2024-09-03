@@ -8,6 +8,7 @@ class warnData {
   final double v2;
   final double v3;
   final DateTime time;
+  bool isExpanded = false;
 
   warnData({
     required this.status,
