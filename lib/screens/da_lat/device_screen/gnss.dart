@@ -171,7 +171,6 @@ class _GnssScreenState extends State<GnssScreen> {
           onSurface:
               Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
         ),
-       
       ),
     );
 
@@ -729,6 +728,8 @@ class _GnssScreenState extends State<GnssScreen> {
       markerSettings: const MarkerSettings(
         isVisible: true,
         shape: DataMarkerType.circle,
+        height: 5,
+        width: 5,
       ),
       name: name,
       color: _getColorForName(name),

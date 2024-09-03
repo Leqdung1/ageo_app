@@ -265,7 +265,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                             bottom: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.02),
+                                                0.002),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -360,7 +360,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                             bottom: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.02),
+                                                0.002),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -652,5 +652,3 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
     ];
   }
 }
-
-

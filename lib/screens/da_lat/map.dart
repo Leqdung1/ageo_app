@@ -627,8 +627,26 @@ class _MapScreenState extends State<MapScreen> {
                 // ),
                 MarkerLayer(
                   markers: _markerLocations.entries.map((entry) {
+                    IconData iconData;
+                    switch (entry.key) {
+                      case MapSelected.Camera1:
+                      case MapSelected.Camera2:
+                      case MapSelected.Camera3:
+                      case MapSelected.Camera4:
+                      case MapSelected.Camera5:
+                        iconData = Icons.camera;
+                        break;
+                      case MapSelected.WaterLevel1:
+                      case MapSelected.WaterLevel2:
+                        iconData = Icons.water;
+                        break;
+                      // Add more cases for other titles
+                      default:
+                        iconData = Icons.location_on;
+                    }
                     final selectedColor =
                         _selectedMap == entry.key ? Colors.green : Colors.red;
+
                     return Marker(
                       point: entry.value,
                       width: 80,
@@ -641,7 +659,7 @@ class _MapScreenState extends State<MapScreen> {
                           );
                         },
                         child: Icon(
-                          Icons.location_on,
+                          iconData,
                           color: selectedColor,
                           size: 20,
                         ),

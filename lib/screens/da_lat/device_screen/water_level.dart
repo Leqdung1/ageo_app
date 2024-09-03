@@ -656,6 +656,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
+          height: 5,
+          width: 5,
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -666,6 +668,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
+          height: 5,
+          width: 5,
         ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -682,6 +686,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
+          height: 5,
+          width: 5,
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -692,6 +698,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
+          height: 5,
+          width: 5,
         ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -708,6 +716,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
+          height: 5,
+          width: 5,
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -718,6 +728,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
+          height: 5,
+          width: 5,
         ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -734,6 +746,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
+          height: 5,
+          width: 5,
         ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -744,11 +758,11 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         markerSettings: const MarkerSettings(
           isVisible: true,
           shape: DataMarkerType.circle,
+          height: 5,
+          width: 5,
         ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }
 }
-
-

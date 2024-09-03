@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/warn_models.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
@@ -425,12 +426,14 @@ class _WarningScreenState extends State<WarningScreen>
     );
   }
 
-  // Function to refresh data
+  // Refresh data
   Future<void> _refreshData() async {
     try {
       await fetchWarnData();
     } catch (e) {
-      print('Failed to refresh data: $e');
+      if (kDebugMode) {
+        print('Failed to refresh data: $e');
+      }
     }
   }
 
