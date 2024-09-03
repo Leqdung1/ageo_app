@@ -426,6 +426,16 @@ class _WarningScreenState extends State<WarningScreen>
     );
   }
 
+  // Function to refresh data
+  Future<void> _refreshData() async {
+    try {
+      await fetchWarnData();
+    } catch (e) {
+      // Handle any errors here, such as showing a snackbar or alert
+      print('Failed to refresh data: $e');
+    }
+  }
+
   Widget tableTab() {
     var title = TextStyle(
       fontSize: 15,
@@ -435,384 +445,182 @@ class _WarningScreenState extends State<WarningScreen>
       fontSize: 12,
       color: Colors.grey,
     );
-    if (_items.isEmpty) {
-      return const Center(
-        child: Text(
-          'Không có dữ liệu',
-          style: TextStyle(color: Colors.black),
-        ),
-      );
-    }
 
-    return ListView.builder(
-      itemCount: _items.length,
-      itemBuilder: (context, index) {
-        final item = _items[index];
-        return Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: 15,
-            vertical: 8,
-          ),
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              dividerColor: Colors.transparent,
-            ),
-            child: ExpansionTile(
-              leading: Container(
-                width: 15,
-                height: 15,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: item.status == 1 ? Colors.green : Colors.red,
-                ),
+    return RefreshIndicator(
+      onRefresh: _refreshData,
+      child: _items.isEmpty
+          ? const Center(
+              child: Text(
+                'Không có dữ liệu',
+                style: TextStyle(color: Colors.black),
               ),
-              title: item.title == 'Water Level 01'
-                  ? Text(
-                      LocalData.waterLevel1.getString(context),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        color: Theme.of(context).textTheme.bodyLarge?.color,
+            )
+          : ListView.builder(
+              itemCount: _items.length,
+              itemBuilder: (context, index) {
+                final item = _items[index];
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 8,
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      dividerColor: Colors.transparent,
+                    ),
+                    child: ExpansionTile(
+                      leading: Container(
+                        width: 15,
+                        height: 15,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: item.status == 1 ? Colors.green : Colors.red,
+                        ),
                       ),
-                    )
-                  : item.title == 'Water Level 02'
-                      ? Text(
-                          LocalData.waterLevel2.getString(context),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
-                        )
-                      : item.title == 'GNSS 01'
-                          ? Text(
-                              LocalData.gnss1.getString(context),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
-                              ),
-                            )
-                          : item.title == 'GNSS 02'
-                              ? Text(
-                                  LocalData.gnss2.getString(context),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
-                                  ),
-                                )
-                              : item.title == 'GNSS 03'
-                                  ? Text(
-                                      LocalData.gnss3.getString(context),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.color,
-                                      ),
-                                    )
-                                  : item.title == 'Camera 01'
-                                      ? Text(
-                                          'Camera 01',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge
-                                                ?.color,
-                                          ),
-                                        )
-                                      : item.title == 'Camera 02'
-                                          ? Text(
-                                              'Camera 02',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
-                                              ),
-                                            )
-                                          : item.title == 'Camera 03'
-                                              ? Text(
-                                                  'Camera 03',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.color,
-                                                  ),
-                                                )
-                                              : item.title == 'Camera 04'
-                                                  ? Text(
-                                                      'Camera 04',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                        color: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyLarge
-                                                            ?.color,
-                                                      ),
-                                                    )
-                                                  : item.title == 'Camera 05'
-                                                      ? Text(
-                                                          'Camera 05',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 15,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyLarge
-                                                                ?.color,
-                                                          ),
-                                                        )
-                                                      : item.title ==
-                                                              'Warning sensor 01'
-                                                          ? Text(
-                                                              LocalData.warn1
-                                                                  .getString(
-                                                                      context),
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 15,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .bodyLarge
-                                                                    ?.color,
-                                                              ),
-                                                            )
-                                                          : item.title ==
-                                                                  'Warning sensor 02'
-                                                              ? Text(
-                                                                  LocalData
-                                                                      .warn2
-                                                                      .getString(
-                                                                          context),
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        15,
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .bodyLarge
-                                                                        ?.color,
-                                                                  ),
-                                                                )
-                                                              : item.title ==
-                                                                      'Rain gauge'
-                                                                  ? Text(
-                                                                      LocalData
-                                                                          .mua
-                                                                          .getString(
-                                                                              context),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontSize:
-                                                                            15,
-                                                                        color: Theme.of(context)
-                                                                            .textTheme
-                                                                            .bodyLarge
-                                                                            ?.color,
-                                                                      ),
-                                                                    )
-                                                                  : item.title ==
-                                                                          'Piezometer 01'
-                                                                      ? Text(
-                                                                          LocalData
-                                                                              .piez1
-                                                                              .getString(context),
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize:
-                                                                                15,
-                                                                            color:
-                                                                                Theme.of(context).textTheme.bodyLarge?.color,
-                                                                          ),
-                                                                        )
-                                                                      : item.title ==
-                                                                              'Piezometer 02'
-                                                                          ? Text(
-                                                                              LocalData.piez2.getString(context),
-                                                                              style: TextStyle(
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontSize: 15,
-                                                                                color: Theme.of(context).textTheme.bodyLarge?.color,
-                                                                              ),
-                                                                            )
-                                                                          : item.title == 'Piezometer 03'
-                                                                              ? Text(
-                                                                                  LocalData.piez3.getString(context),
-                                                                                  style: TextStyle(
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    fontSize: 15,
-                                                                                    color: Theme.of(context).textTheme.bodyLarge?.color,
-                                                                                  ),
-                                                                                )
-                                                                              : item.title == 'Inclinometer 01'
-                                                                                  ? Text(
-                                                                                      LocalData.inclino1.getString(context),
-                                                                                      style: TextStyle(
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                        fontSize: 15,
-                                                                                        color: Theme.of(context).textTheme.bodyLarge?.color,
-                                                                                      ),
-                                                                                    )
-                                                                                  : item.title == 'Inclinometer 02'
-                                                                                      ? Text(
-                                                                                          LocalData.inclino2.getString(context),
-                                                                                          style: TextStyle(
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            fontSize: 15,
-                                                                                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                                                                                          ),
-                                                                                        )
-                                                                                      : Text(
-                                                                                          LocalData.inclino3.getString(context),
-                                                                                          style: TextStyle(
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            fontSize: 15,
-                                                                                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                                                                                          ),
-                                                                                        ),
-              subtitle: Text(
-                DateFormat('dd/MM/yyyy – HH:mm').format(item.time),
-                style: title,
-              ),
-              trailing: Icon(
-                _customTileExpanded
-                    ? Icons.arrow_drop_up
-                    : Icons.arrow_drop_down,
-                color: Theme.of(context).iconTheme.color,
-              ),
-              onExpansionChanged: (bool expanded) {
-                setState(() {
-                  _customTileExpanded = expanded;
-                });
+                      title: _buildTitle(item),
+                      subtitle: Text(
+                        DateFormat('dd/MM/yyyy – HH:mm').format(item.time),
+                        style: title,
+                      ),
+                      trailing: Icon(
+                        _customTileExpanded
+                            ? Icons.arrow_drop_up
+                            : Icons.arrow_drop_down,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                      onExpansionChanged: (bool expanded) {
+                        setState(() {
+                          _customTileExpanded = expanded;
+                        });
+                      },
+                      children: _buildChildren(item),
+                    ),
+                  ),
+                );
               },
-              children: [
-                ListTile(
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        LocalData.code.getString(context),
-                        style: subTitle,
-                      ),
-                      Text(
-                        item.code,
-                        style: title,
-                      ),
-                    ],
-                  ),
-                ),
-                ListTile(
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        LocalData.lat.getString(context),
-                        style: subTitle,
-                      ),
-                      Text(
-                        '${item.lat}',
-                        style: title,
-                      ),
-                    ],
-                  ),
-                ),
-                ListTile(
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        LocalData.lng.getString(context),
-                        style: subTitle,
-                      ),
-                      Text('${item.lng}', style: title),
-                    ],
-                  ),
-                ),
-                ListTile(
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'V1',
-                        style: subTitle,
-                      ),
-                      Text(
-                        '${item.v1}',
-                        style: title,
-                      ),
-                    ],
-                  ),
-                ),
-                ListTile(
-                    title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      Text(
-                        'V2',
-                        style: subTitle,
-                      ),
-                      Text(
-                        '${item.v2}',
-                        style: title,
-                      ),
-                    ])),
-                ListTile(
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'V3',
-                        style: subTitle,
-                      ),
-                      Text(
-                        '${item.v3}',
-                        style: title,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
             ),
-          ),
-        );
-      },
     );
+  }
+
+  Widget _buildTitle(warnData item) {
+    var title = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 15,
+      color: Theme.of(context).textTheme.bodyLarge?.color,
+    );
+
+    switch (item.title) {
+      case 'Water Level 01':
+        return Text(LocalData.waterLevel1.getString(context), style: title);
+      case 'Water Level 02':
+        return Text(LocalData.waterLevel2.getString(context), style: title);
+      case 'GNSS 01':
+        return Text(LocalData.gnss1.getString(context), style: title);
+      case 'GNSS 02':
+        return Text(LocalData.gnss2.getString(context), style: title);
+      case 'GNSS 03':
+        return Text(LocalData.gnss3.getString(context), style: title);
+      case 'Camera 01':
+        return Text('Camera 01', style: title);
+      case 'Camera 02':
+        return Text('Camera 02', style: title);
+      case 'Camera 03':
+        return Text('Camera 03', style: title);
+      case 'Camera 04':
+        return Text('Camera 04', style: title);
+      case 'Camera 05':
+        return Text('Camera 05', style: title);
+      case 'Warning sensor 01':
+        return Text(LocalData.warn1.getString(context), style: title);
+      case 'Warning sensor 02':
+        return Text(LocalData.warn2.getString(context), style: title);
+      case 'Rain gauge':
+        return Text(LocalData.mua.getString(context), style: title);
+      case 'Piezometer 01':
+        return Text(LocalData.piez1.getString(context), style: title);
+      case 'Piezometer 02':
+        return Text(LocalData.piez2.getString(context), style: title);
+      case 'Piezometer 03':
+        return Text(LocalData.piez3.getString(context), style: title);
+      case 'Inclinometer 01':
+        return Text(LocalData.inclino1.getString(context), style: title);
+      case 'Inclinometer 02':
+        return Text(LocalData.inclino2.getString(context), style: title);
+      default:
+        return Text(LocalData.inclino3.getString(context), style: title);
+    }
+  }
+
+  List<Widget> _buildChildren(warnData item) {
+    var title = TextStyle(
+      fontSize: 15,
+      color: Theme.of(context).textTheme.bodyLarge?.color,
+    );
+    var subTitle = const TextStyle(
+      fontSize: 12,
+      color: Colors.grey,
+    );
+
+    return [
+      ListTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(LocalData.code.getString(context), style: subTitle),
+            Text(item.code, style: title),
+          ],
+        ),
+      ),
+      ListTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(LocalData.lat.getString(context), style: subTitle),
+            Text('${item.lat}', style: title),
+          ],
+        ),
+      ),
+      ListTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(LocalData.lng.getString(context), style: subTitle),
+            Text('${item.lng}', style: title),
+          ],
+        ),
+      ),
+      ListTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('V1', style: subTitle),
+            Text('${item.v1}', style: title),
+          ],
+        ),
+      ),
+      ListTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('V2', style: subTitle),
+            Text('${item.v2}', style: title),
+          ],
+        ),
+      ),
+      ListTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('V3', style: subTitle),
+            Text('${item.v3}', style: title),
+          ],
+        ),
+      ),
+    ];
   }
 }

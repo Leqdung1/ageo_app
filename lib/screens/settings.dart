@@ -5,6 +5,7 @@ import 'package:Ageo_solutions/components/theme.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/screens/changePassword.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
 import 'package:flutter/cupertino.dart';
@@ -528,7 +529,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           size: 18,
                         ),
                         onTap: () {
-                          // TODO: add screen change password
+                          pushWithoutNavBar(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ChangePWScreen(),
+                            ),
+                          );
                         },
                       ),
                       Divider(

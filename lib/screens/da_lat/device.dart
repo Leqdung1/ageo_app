@@ -1,6 +1,7 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/ap_lu_lo_rong.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/gnss.dart';
+import 'package:Ageo_solutions/screens/da_lat/device_screen/nghieng_sau.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/rain_gauge.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/water_level.dart';
 import 'package:flutter/material.dart';
@@ -122,10 +123,10 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   index: _itemsSelected,
                   children: [
                     GnssScreen(),
-                     ApLucLoRongScreen(),
-                    //nghiengSauScreen(),
-                     RaingaugeScreen(),
-                     WaterLevelScreen(),
+                    ApLucLoRongScreen(),
+                    NghiengSauScreen(),
+                    RaingaugeScreen(),
+                    WaterLevelScreen(),
                   ],
                 ),
               ),

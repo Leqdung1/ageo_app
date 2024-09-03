@@ -1,501 +1,923 @@
-// import 'package:Ageo_solutions/core/api_client.dart';
-// import 'package:Ageo_solutions/screens/da_lat/device_screen/ap_lu_lo_rong.dart';
-// import 'package:flutter/material.dart';
-// import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
 
-// enum DataSelected {
-//   Hours,
-//   Day,
-//   Month,
-//   Year,
-// }
+enum DataSelected {
+  // ignore: constant_identifier_names
+  Day,
+  // ignore: constant_identifier_names
+  Month,
+  // ignore: constant_identifier_names
+  Year,
+}
 
-// enum IcSelected {
-//   IC1,
-//   IC2,
-//   IC3,
-// }
+extension DataSelectedExtension on DataSelected {
+  String label(BuildContext context) {
+    switch (this) {
+      case DataSelected.Day:
+        return LocalData.day.getString(context);
+      case DataSelected.Month:
+        return LocalData.month.getString(context);
+      case DataSelected.Year:
+        return LocalData.year.getString(context);
+      default:
+        return '';
+    }
+  }
+}
 
-// extension DataSelectedExtension on DataSelected {
-//   String get label {
-//     switch (this) {
-//       case DataSelected.Hours:
-//         return 'Hours';
-//       case DataSelected.Day:
-//         return 'Day';
-//       case DataSelected.Month:
-//         return 'Month';
-//       case DataSelected.Year:
-//         return 'Year';
-//       default:
-//         return '';
-//     }
-//   }
-// }
+class NghiengSauScreen extends StatefulWidget {
+  const NghiengSauScreen({super.key});
 
-// extension IcSelectedExtension on IcSelected {
-//   String get label {
-//     switch (this) {
-//       case IcSelected.IC1:
-//         return 'IC1';
-//       case IcSelected.IC2:
-//         return 'IC2';
-//       case IcSelected.IC3:
-//         return 'IC3';
-//     }
-//   }
-// }
+  @override
+  State<NghiengSauScreen> createState() => _NghiengSauScreenState();
+}
 
-// class nghiengSauScreen extends StatefulWidget {
-//   const nghiengSauScreen({super.key});
+class _NghiengSauScreenState extends State<NghiengSauScreen> {
+  DataSelected _dataSelected = DataSelected.Day;
+  late List<PiezometerData> _chartData;
+  late TooltipBehavior _tooltipBehavior;
+  late ZoomPanBehavior _zoomPanBehavior;
+  Future<List<PiezometerData>>? _piezmometerBuilder;
+  DateTime _startDate = DateTime.now().subtract(
+    const Duration(days: 7),
+  );
+  DateTime _endDate = DateTime.now();
+  final DateTime _startTime = DateTime.now().subtract(
+    const Duration(days: 7),
+  );
+  final DateTime _endTime = DateTime.now();
 
-//   @override
-//   State<nghiengSauScreen> createState() => _nghiengSauScreenState();
-// }
+  @override
+  void initState() {
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    _zoomPanBehavior = ZoomPanBehavior(
+      enablePinching: true,
+      enableDoubleTapZooming: true,
+      enablePanning: true,
+      zoomMode: ZoomMode.xy,
+    );
+    _piezmometerBuilder =
+        fetchPiezometer(startDate: _startDate, endDate: _endDate);
+    super.initState();
+  }
 
-// // ignore: camel_case_types
-// class _nghiengSauScreenState extends State<nghiengSauScreen> {
-//   DataSelected _dataSelected = DataSelected.Day;
-//   IcSelected _icSelected = IcSelected.IC1;
-//   late TooltipBehavior _tooltipBehavior;
-//   late ZoomPanBehavior _zoomPanBehavior;
-//   Future<Map<String, dynamic>>? _piezometerData;
+  Future<List<PiezometerData>> fetchPiezometer(
+      {required DateTime startDate, required DateTime endDate}) async {
+    final apiClient = ApiClient();
+    final Map<String, dynamic> response;
 
-//   @override
-//   void initState() {
-//     _tooltipBehavior = TooltipBehavior(enable: true);
-//     _zoomPanBehavior = ZoomPanBehavior(enableSelectionZooming: true);
-//    // _piezometerData = ApiClient().getPiezometerData();
-//     super.initState();
-//   }
+    switch (_dataSelected) {
+      case DataSelected.Day:
+        response = await apiClient.getPiezometerbyDay('yy/MM/dd');
+        break;
+      case DataSelected.Month:
+        response = await apiClient.getPiezometerbyMonth('yy/MM');
+        break;
+      case DataSelected.Year:
+        response = await apiClient.getPiezometerbyYear('yyyy');
+    }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Row(
-//             children: [
-//               // data selected
-//               Expanded(
-//                 child: Container(
-//                   margin:
-//                       const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-//                   child: DropdownMenu(
-//                     textStyle: const TextStyle(
-//                       fontSize: 15,
-//                       fontWeight: FontWeight.normal,
-//                     ),
-//                     selectedTrailingIcon: const Icon(Icons.expand_less),
-//                     trailingIcon: const Icon(Icons.expand_more),
-//                     menuStyle: MenuStyle(
-//                       maximumSize: const WidgetStatePropertyAll(
-//                         Size.fromHeight(150),
-//                       ),
-//                       surfaceTintColor: const WidgetStatePropertyAll(
-//                         Color.fromARGB(255, 255, 255, 255),
-//                       ),
-//                       shape: WidgetStatePropertyAll(
-//                         RoundedRectangleBorder(
-//                           borderRadius: BorderRadius.circular(8),
-//                         ),
-//                       ),
-//                     ),
-//                     inputDecorationTheme: InputDecorationTheme(
-//                       contentPadding: const EdgeInsets.symmetric(
-//                         vertical: 0,
-//                         horizontal: 10,
-//                       ),
-//                       fillColor: const Color.fromARGB(255, 255, 255, 255),
-//                       filled: true,
-//                       border: OutlineInputBorder(
-//                         borderRadius: BorderRadius.circular(8),
-//                         borderSide: const BorderSide(
-//                           color: Colors.lightBlueAccent,
-//                         ),
-//                       ),
-//                     ),
-//                     initialSelection: _dataSelected.name,
-//                     onSelected: (value) {
-//                       setState(() {
-//                         _dataSelected =
-//                             DataSelected.values.byName(value as String);
-//                       });
-//                     },
-//                     dropdownMenuEntries: DataSelected.values
-//                         .map(
-//                           (e) =>
-//                               DropdownMenuEntry(value: e.name, label: e.label),
-//                         )
-//                         .toList(),
-//                   ),
-//                 ),
-//               ),
+    if (response['success']) {
+      List<PiezometerData> data = (response['data'] as List)
+          .map((data) => PiezometerData.fromJson(data))
+          .toList();
 
-//               // IC selected
+      // Filter data based on the date range
+      return data.where((rainData) {
+        switch (_dataSelected) {
+          case DataSelected.Day:
+            DateTime logTime = DateFormat('yy/MM/dd').parse(rainData.logTime);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
 
-//               Container(
-//                 margin:
-//                     const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-//                 child: DropdownMenu(
-//                   textStyle: const TextStyle(
-//                     fontSize: 15,
-//                     fontWeight: FontWeight.normal,
-//                   ),
-//                   selectedTrailingIcon: const Icon(Icons.expand_less),
-//                   trailingIcon: const Icon(Icons.expand_more),
-//                   menuStyle: MenuStyle(
-//                     surfaceTintColor: const WidgetStatePropertyAll(
-//                       Color.fromARGB(255, 255, 255, 255),
-//                     ),
-//                     shape: WidgetStatePropertyAll(
-//                       RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(8),
-//                       ),
-//                     ),
-//                   ),
-//                   inputDecorationTheme: InputDecorationTheme(
-//                     contentPadding: const EdgeInsets.symmetric(
-//                       vertical: 0,
-//                       horizontal: 10,
-//                     ),
-//                     fillColor: const Color.fromARGB(255, 255, 255, 255),
-//                     filled: true,
-//                     border: OutlineInputBorder(
-//                       borderRadius: BorderRadius.circular(8),
-//                       borderSide: const BorderSide(
-//                         color: Colors.lightBlueAccent,
-//                       ),
-//                     ),
-//                   ),
-//                   initialSelection: _icSelected.name,
-//                   onSelected: (value) {
-//                     setState(() {
-//                       _icSelected = IcSelected.values.byName(value as String);
-//                     });
-//                   },
-//                   dropdownMenuEntries: IcSelected.values
-//                       .map(
-//                         (e) => DropdownMenuEntry(value: e.name, label: e.label),
-//                       )
-//                       .toList(),
-//                 ),
-//               ),
-//             ],
-//           ),
+          case DataSelected.Month:
+            DateTime logTime = DateFormat('yy/MM').parse(rainData.logTime);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
 
-//           // draw chart
-//           Column(
-//             children: [
-//               Container(
-//                 margin: const EdgeInsets.only(left: 15, top: 30),
-//                 child: SingleChildScrollView(
-//                   scrollDirection: Axis.horizontal,
-//                   child: SizedBox(
-//                     width: 1000,
-//                     child: FutureBuilder<Map<String, dynamic>>(
-//                       future: _piezometerData,
-//                       builder: (context, snapshot) {
-//                         if (snapshot.connectionState ==
-//                             ConnectionState.waiting) {
-//                           return const Center(
-//                               child: CircularProgressIndicator());
-//                         } else if (snapshot.hasError) {
-//                           return const Center(
-//                               child: Text('Error fetching data'));
-//                         } else if (!snapshot.hasData ||
-//                             snapshot.data!.isEmpty) {
-//                           return const Center(child: Text('No data available'));
-//                         } else {
-//                           final data = (snapshot.data!['data'] as List)
-//                               .map((e) => PiezometerData.fromJson(e))
-//                               .toList();
-//                           return SfCartesianChart(
-//                             zoomPanBehavior: _zoomPanBehavior,
-//                             primaryXAxis: const CategoryAxis(
-//                               majorGridLines: MajorGridLines(width: 0),
-//                               isVisible: true,
-//                               axisLine: AxisLine(
-//                                 color: Colors.black,
-//                                 width: 1,
-//                               ),
-//                             ),
-//                             series: _getSeries(data),
-//                             tooltipBehavior: _tooltipBehavior,
-//                           );
-//                         }
-//                       },
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               SingleChildScrollView(
-//                 padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
-//                 scrollDirection: Axis.horizontal,
-//                 child: _buildCustomLegend(),
-//               ),
-//               SizedBox(
-//                 height: MediaQuery.sizeOf(context).height * 0.3,
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
+          case DataSelected.Year:
+            DateTime logTime = DateFormat('yyyy').parse(rainData.logTime);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+        }
+      }).toList();
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
-//   Widget _buildCustomLegend() {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         _buildLegendItem(
-//           'PZ 1-1',
-//           const Color.fromRGBO(84, 112, 198, 1),
-//         ),
-//         const SizedBox(width: 20),
-//         _buildLegendItem(
-//           'PZ 1-2',
-//           const Color.fromRGBO(145, 204, 117, 1),
-//         ),
-//         const SizedBox(width: 20),
-//         _buildLegendItem(
-//           'PZ 2-1',
-//           const Color.fromRGBO(250, 200, 88, 1),
-//         ),
-//         const SizedBox(width: 20),
-//         _buildLegendItem(
-//           'PZ 2-2',
-//           const Color.fromRGBO(238, 102, 102, 1),
-//         ),
-//         const SizedBox(width: 20),
-//         _buildLegendItem(
-//           'PZ 3-1',
-//           const Color.fromRGBO(115, 192, 222, 1),
-//         ),
-//         const SizedBox(width: 20),
-//         _buildLegendItem(
-//           'PZ 3-2',
-//           const Color.fromRGBO(59, 162, 114, 1),
-//         ),
-//       ],
-//     );
-//   }
+  // show date picker
+  Future<void> showDateTime(BuildContext context, bool isStart) async {
+    DateTime? pickedDate = await showOmniDateTimePicker(
+      context: context,
+      initialDate: isStart ? _startDate : _endDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+      is24HourMode: true,
+      minutesInterval: 1,
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
+      constraints: const BoxConstraints(maxWidth: 350, maxHeight: 650),
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(
+          opacity: anim1.drive(Tween(begin: 0, end: 1)),
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 200),
+      theme: ThemeData(
+        colorScheme: ColorScheme.light(
+          primary: const Color.fromRGBO(21, 101, 192, 1),
+          onPrimary: Colors.white,
+          surface: Theme.of(context).colorScheme.primary,
+          onSurface:
+              Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+        ),
+      ),
+    );
 
-//   Widget _buildLegendItem(String text, Color color) {
-//     return Row(
-//       children: [
-//         Container(
-//           width: 10,
-//           height: 10,
-//           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-//         ),
-//         const SizedBox(width: 5),
-//         Text(
-//           text,
-//           style: const TextStyle(color: Colors.black),
-//         ),
-//       ],
-//     );
-//   }
+    if (pickedDate != null) {
+      setState(() {
+        if (isStart) {
+          _startDate = pickedDate;
+        } else {
+          _endDate = pickedDate;
+        }
+        // Fetch and filter data based on the new date range
+        _piezmometerBuilder =
+            fetchPiezometer(startDate: _startDate, endDate: _endDate);
+      });
+    }
+  }
 
-//   List<CartesianSeries<Data, String>> _getSeries(List<PiezometerData> data) {
-//     switch (_dataSelected) {
-//       case DataSelected.Hours:
-//         return _getHoursSeries(data);
-//       case DataSelected.Month:
-//         return _getMonthSeries();
-//       case DataSelected.Year:
-//         return _getYearSeries();
-//       default:
-//         return [];
-//     }
-//   }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: FutureBuilder(
+        future: _piezmometerBuilder,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            _chartData = snapshot.data!;
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // pick date
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                    ),
+                    padding: const EdgeInsetsDirectional.symmetric(
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: TextButton(
+                            onPressed: () => showDateTime(context, true),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/calender.svg',
+                                      height: 20),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.008),
+                                        child: Text(
+                                          LocalData.fromDate.getString(context),
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                DateFormat('dd/MM/yyyy')
+                                                    .format(_startDate),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_startTime),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 2,
+                          color: Colors.grey.withOpacity(0.5),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: TextButton(
+                            onPressed: () => showDateTime(context, false),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/calender.svg',
+                                      height: 20),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.005),
+                                        child: Text(
+                                          LocalData.toDate.getString(context),
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                DateFormat('dd/MM/yyyy')
+                                                    .format(_endDate),
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_endTime),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
-//   List<CartesianSeries<Data, String>> _getHoursSeries(
-//       List<PiezometerData> data) {
-//     return [
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC1', 0),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 1-1',
-//         color: const Color.fromRGBO(84, 112, 198, 1),
-//       ),
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC1', 1),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 1-2',
-//         color: const Color.fromRGBO(145, 204, 117, 1),
-//       ),
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC2', 0),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 2-1',
-//         color: const Color.fromRGBO(250, 200, 88, 1),
-//       ),
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC2', 1),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 2-2',
-//         color: const Color.fromRGBO(238, 102, 102, 1),
-//       ),
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC3', 0),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 3-1',
-//         color: const Color.fromRGBO(115, 192, 222, 1),
-//       ),
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForHour(data, _icSelected.label, 'IC3', 1),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 3-2',
-//         color: const Color.fromRGBO(59, 162, 114, 1),
-//       ),
-//     ];
-//   }
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 15,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 15,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          offset: const Offset(0, 1),
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // drop down menu
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 15, bottom: 20),
+                            child: Expanded(
+                              child: DropdownMenu(
+                                textStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                selectedTrailingIcon: Icon(
+                                  Icons.expand_less,
+                                  color: Theme.of(context).iconTheme.color,
+                                ),
+                                trailingIcon: Icon(
+                                  Icons.expand_more,
+                                  color: Theme.of(context).iconTheme.color,
+                                ),
+                                menuStyle: MenuStyle(
+                                  maximumSize: const WidgetStatePropertyAll(
+                                    Size.fromHeight(160),
+                                  ),
+                                  surfaceTintColor:
+                                      const WidgetStatePropertyAll(
+                                    Colors.white,
+                                  ),
+                                  shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ),
+                                inputDecorationTheme: InputDecorationTheme(
+                                  fillColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  filled: true,
+                                  border: InputBorder.none,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: const BorderSide(
+                                      color: Colors.transparent,
+                                      width: 0,
+                                    ),
+                                  ),
+                                ),
+                                initialSelection: _dataSelected.label(context),
+                                onSelected: (value) {
+                                  setState(() {
+                                    _dataSelected = DataSelected.values
+                                        .firstWhere((e) =>
+                                            e.label(context) ==
+                                            value as String);
 
-//   List<Data> _getDataSourceForHour(List<PiezometerData> data, String selectedIC,
-//       String compareIC, int hourIndex) {
-//     final filteredData = data.where((e) => e.id == selectedIC).toList();
-//     if (filteredData.isEmpty) {
-//       return [];
-//     }
-//     return [
-//       Data(time: '7:00', amount: filteredData[0].ic1Data[hourIndex].value),
-//       Data(time: '8:00', amount: filteredData[0].ic2Data[hourIndex].value),
-//       Data(time: '9:00', amount: filteredData[0].ic3Data[hourIndex].value),
-//       Data(time: '10:00', amount: filteredData[0].ic4Data[hourIndex].value),
-//     ];
-//   }
+                                    _piezmometerBuilder = fetchPiezometer(
+                                      startDate: _startDate,
+                                      endDate: _endDate,
+                                    );
+                                  });
+                                },
+                                dropdownMenuEntries: DataSelected.values
+                                    .map(
+                                      (e) => DropdownMenuEntry(
+                                        value: e.label(context),
+                                        labelWidget: Padding(
+                                          padding: const EdgeInsets.all(0),
+                                          child: Text(
+                                            e.label(context),
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color,
+                                            ),
+                                          ),
+                                        ),
+                                        label: e.label(context),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ),
 
-//   List<CartesianSeries<Data, String>> _getMonthSeries() {
-//     return [
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForMonth(_icSelected.label, 'IC1'),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 1-1',
-//         color: const Color.fromRGBO(84, 112, 198, 1),
-//       ),
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForMonth(_icSelected.label, 'IC2'),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 2-1',
-//         color: const Color.fromRGBO(145, 204, 117, 1),
-//       ),
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForMonth(_icSelected.label, 'IC3'),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 3-1',
-//         color: const Color.fromRGBO(250, 200, 88, 1),
-//       ),
-//     ];
-//   }
+                          // draw chart
+                          Column(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(left: 15, top: 30),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SizedBox(
+                                    width: 1000,
+                                    child: SfCartesianChart(
+                                      plotAreaBorderWidth: 0,
+                                      primaryXAxis: const CategoryAxis(
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorGridLines:
+                                            MajorGridLines(width: 0),
+                                        majorTickLines: MajorTickLines(
+                                          width: 1,
+                                          color: Colors.grey,
+                                          size: 5,
+                                        ),
+                                        isVisible: true,
+                                        axisLine: AxisLine(
+                                          color: Colors.grey,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      primaryYAxis: const NumericAxis(
+                                        majorGridLines: MajorGridLines(
+                                          width: 1,
+                                          dashArray: [8, 8],
+                                          color: Colors.grey,
+                                        ),
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorTickLines: MajorTickLines(
+                                          width: 0,
+                                        ),
+                                        axisLine: AxisLine(
+                                          color: Colors.transparent,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      series: _getSeries(_chartData),
+                                      tooltipBehavior: _tooltipBehavior,
+                                      zoomPanBehavior: _zoomPanBehavior,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                padding: const EdgeInsets.only(
+                                    top: 15, left: 20, right: 20),
+                                scrollDirection: Axis.horizontal,
+                                child: _buildCustomLegend(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height * 0.2,
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
 
-//   List<Data> _getDataSourceForMonth(String selectedIC, String compareIC) {
-//     // Adjust the implementation based on your data structure and requirements
-//     return [
-//       Data(time: 'Week 1', amount: 10),
-//       Data(time: 'Week 2', amount: 15),
-//       Data(time: 'Week 3', amount: 25),
-//       Data(time: 'Week 4', amount: 20),
-//     ];
-//   }
+  Widget _buildCustomLegend() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildLegendItem(
+          'PZ 1-1',
+          const Color.fromRGBO(84, 112, 198, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'PZ 1-2',
+          const Color.fromRGBO(145, 204, 117, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'PZ 2-1',
+          const Color.fromRGBO(250, 200, 88, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'PZ 2-2',
+          const Color.fromRGBO(238, 102, 102, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'PZ 3-1',
+          const Color.fromRGBO(115, 192, 222, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'PZ 3-2',
+          const Color.fromRGBO(59, 162, 114, 1),
+        ),
+      ],
+    );
+  }
 
-//   List<CartesianSeries<Data, String>> _getYearSeries() {
-//     return [
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForYear(_icSelected.label, 'IC1'),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 1-1',
-//         color: const Color.fromRGBO(84, 112, 198, 1),
-//       ),
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForYear(_icSelected.label, 'IC2'),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 2-1',
-//         color: const Color.fromRGBO(145, 204, 117, 1),
-//       ),
-//       LineSeries<Data, String>(
-//         dataSource: _getDataSourceForYear(_icSelected.label, 'IC3'),
-//         xValueMapper: (Data data, _) => data.time,
-//         yValueMapper: (Data data, _) => data.amount,
-//         name: 'PZ 3-1',
-//         color: const Color.fromRGBO(250, 200, 88, 1),
-//       ),
-//     ];
-//   }
+  Widget _buildLegendItem(String text, Color color) {
+    return Row(
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 5),
+        Text(
+          text,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+          ),
+        ),
+      ],
+    );
+  }
 
-//   List<Data> _getDataSourceForYear(String selectedIC, String compareIC) {
-//     // Adjust the implementation based on your data structure and requirements
-//     return [
-//       Data(time: 'Jan', amount: 10),
-//       Data(time: 'Feb', amount: 15),
-//       Data(time: 'Mar', amount: 25),
-//       Data(time: 'Apr', amount: 20),
-//       Data(time: 'May', amount: 10),
-//       Data(time: 'Jun', amount: 15),
-//       Data(time: 'Jul', amount: 25),
-//       Data(time: 'Aug', amount: 20),
-//       Data(time: 'Sep', amount: 10),
-//       Data(time: 'Oct', amount: 15),
-//       Data(time: 'Nov', amount: 25),
-//       Data(time: 'Dec', amount: 20),
-//     ];
-//   }
-// }
+  List<CartesianSeries<PiezometerData, String>> _getSeries(
+      List<PiezometerData> data) {
+    switch (_dataSelected) {
+      case DataSelected.Day:
+        return _getDaySeries(data);
+      case DataSelected.Month:
+        return _getMonthSeries(data);
+      case DataSelected.Year:
+        return _getYearSeries(data);
+      default:
+        return [];
+    }
+  }
 
-// class InclinometerData {
-//   final String logTime;
-//   final List<ICData> ic1Data;
-//   final List<ICData> ic2Data;
-//   final List<ICData> ic3Data;
-//   final List<ICData> ic4Data;
+  List<CartesianSeries<PiezometerData, String>> _getHoursSeries(
+      List<PiezometerData> data) {
+    return [
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz1,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz2,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz3,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz4,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-2',
+        color: const Color.fromRGBO(238, 102, 102, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz5,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(115, 192, 222, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz6,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-2',
+        color: const Color.fromRGBO(59, 162, 114, 1),
+      ),
+    ];
+  }
 
-  
-//  InclinometerData(this.logTime, {
-//     required this.,
-//     required this.ic1Data,
-//     required this.ic2Data,
-//     required this.ic3Data,
-//     required this.ic4Data,
-//   });
+  List<CartesianSeries<PiezometerData, String>> _getDaySeries(
+      List<PiezometerData> data) {
+    return [
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz1,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz2,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz3,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz4,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-2',
+        color: const Color.fromRGBO(238, 102, 102, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz5,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(115, 192, 222, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz6,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-2',
+        color: const Color.fromRGBO(59, 162, 114, 1),
+      ),
+    ];
+  }
 
-//   factory InclinometerData.fromJson(Map<String, dynamic> json) {
-//     return InclinometerData(
-//       id: json['id'],
-//       ic1Data:
-//           (json['ic1Data'] as List).map((e) => ICData.fromJson(e)).toList(),
-//       ic2Data:
-//           (json['ic2Data'] as List).map((e) => ICData.fromJson(e)).toList(),
-//       ic3Data:
-//           (json['ic3Data'] as List).map((e) => ICData.fromJson(e)).toList(),
-//       ic4Data:
-//           (json['ic4Data'] as List).map((e) => ICData.fromJson(e)).toList(),
-//     );
-//   }
-// }
+  List<CartesianSeries<PiezometerData, String>> _getMonthSeries(
+      List<PiezometerData> data) {
+    return [
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz1,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz2,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz3,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz4,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-2',
+        color: const Color.fromRGBO(238, 102, 102, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz5,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(115, 192, 222, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz6,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-2',
+        color: const Color.fromRGBO(59, 162, 114, 1),
+      ),
+    ];
+  }
 
-// class ICData {
-//   final String time;
-//   final double value;
-
-//   ICData({required this.time, required this.value});
-
-//   factory ICData.fromJson(Map<String, dynamic> json) {
-//     return ICData(
-//       time: json['time'],
-//       value: json['value'],
-//     );
-  
-// }}
+  List<CartesianSeries<PiezometerData, String>> _getYearSeries(
+      List<PiezometerData> data) {
+    return [
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz1,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz2,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 1-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz3,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-1',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz4,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 2-2',
+        color: const Color.fromRGBO(238, 102, 102, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz5,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-1',
+        color: const Color.fromRGBO(115, 192, 222, 1),
+      ),
+      LineSeries<PiezometerData, String>(
+        dataSource: data,
+        xValueMapper: (PiezometerData data, _) => data.logTime,
+        yValueMapper: (PiezometerData data, _) => data.pz6,
+        markerSettings: const MarkerSettings(
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        name: 'PZ 3-2',
+        color: const Color.fromRGBO(59, 162, 114, 1),
+      ),
+    ];
+  }
+}
