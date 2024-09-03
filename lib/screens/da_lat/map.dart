@@ -2,6 +2,7 @@ import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/warn_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -106,6 +107,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   MapSelected _selectedMap = MapSelected.WaterLevel1;
+  MapSelected? _clickedMarker;
   final MapController _mapController = MapController();
   List<warnData> _items = [];
   final apiClient = ApiClient();
@@ -627,42 +629,101 @@ class _MapScreenState extends State<MapScreen> {
                 // ),
                 MarkerLayer(
                   markers: _markerLocations.entries.map((entry) {
-                    IconData iconData;
-                    switch (entry.key) {
-                      case MapSelected.Camera1:
-                      case MapSelected.Camera2:
-                      case MapSelected.Camera3:
-                      case MapSelected.Camera4:
-                      case MapSelected.Camera5:
-                        iconData = Icons.camera;
-                        break;
-                      case MapSelected.WaterLevel1:
-                      case MapSelected.WaterLevel2:
-                        iconData = Icons.water;
-                        break;
-                      // Add more cases for other titles
-                      default:
-                        iconData = Icons.location_on;
+                    Widget iconWidget;
+
+                    if (_clickedMarker == entry.key ||
+                        (_selectedMap == entry.key && _clickedMarker == null)) {
+                      iconWidget = SvgPicture.asset(
+                        'assets/icons/map_pin.svg',
+                      );
+                    } else {
+                      switch (entry.key) {
+                        case MapSelected.Camera1:
+                        case MapSelected.Camera2:
+                        case MapSelected.Camera3:
+                        case MapSelected.Camera4:
+                        case MapSelected.Camera5:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_cam.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.WaterLevel1:
+                        case MapSelected.WaterLevel2:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_water.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.Raingauge:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_rain.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.Inclinometer1:
+                        case MapSelected.Inclinometer2:
+                        case MapSelected.Inclinometer3:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_inclino.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.Piezometer1:
+                        case MapSelected.Piezometer2:
+                        case MapSelected.Piezometer3:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_piez.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.Gnss1:
+                        case MapSelected.Gnss2:
+                        case MapSelected.Gnss3:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_gnss.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.WarningSensor1:
+                        case MapSelected.WarningSensor2:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_warn.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                      }
                     }
-                    final selectedColor =
-                        _selectedMap == entry.key ? Colors.green : Colors.red;
 
                     return Marker(
                       point: entry.value,
-                      width: 80,
-                      height: 80,
+                      width: 30,
+                      height: 30,
+                      rotate: false,
                       child: GestureDetector(
                         onTap: () {
+                          setState(() {
+                            _clickedMarker = entry.key;
+                          });
+                          _mapController.move(
+                            entry.value,
+                            18,
+                          );
+
                           _showMarkerDetails(
                             entry.key.label(context),
                             entry.value,
                           );
+                        
                         },
-                        child: Icon(
-                          iconData,
-                          color: selectedColor,
-                          size: 20,
-                        ),
+                        child: iconWidget,
                       ),
                     );
                   }).toList(),
@@ -716,6 +777,7 @@ class _MapScreenState extends State<MapScreen> {
                   setState(() {
                     _selectedMap =
                         MapSelected.values.firstWhere((e) => e.name == value);
+                    _clickedMarker = null;
                     _updateMarkerDetails(_selectedMap);
                   });
                 },
