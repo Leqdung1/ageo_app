@@ -1,13 +1,14 @@
-import 'dart:async';
-import 'dart:typed_data';
-
-import 'package:Ageo_solutions/components/localization.dart';
-import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
-import 'package:Ageo_solutions/screens/home.dart';
+import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/models/warn_models.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
+
+const MAPBOX_ACCESS_TOKEN =
+    'sk.eyJ1IjoiZHVuZzEyMyIsImEiOiJjbHpxc252eWMwd2ZwMm1zM2p6a3MyaDI0In0.VVgBTGJ0X1qSPwZwZuxmZg';
 
 enum MapSelected {
   // ignore: constant_identifier_names
@@ -97,215 +98,510 @@ extension MapSelectedExtension on MapSelected {
   }
 }
 
-class MapHYScreen extends StatefulWidget {
-  const MapHYScreen({super.key});
+class MapHyScreen extends StatefulWidget {
+  const MapHyScreen({super.key});
 
   @override
-  State<MapHYScreen> createState() => _MapHYScreenState();
+  State<MapHyScreen> createState() => _MapHyScreenState();
 }
 
-class _MapHYScreenState extends State<MapHYScreen> {
+class _MapHyScreenState extends State<MapHyScreen> {
   MapSelected _selectedMap = MapSelected.WaterLevel1;
-  late MapboxMapController mapController;
-  String selectedStyle = MapboxStyles.SATELLITE;
-  final LatLng _initialCameraPosition =
-      const LatLng(20.715015145512091, 105.99609375);
-  final List<Symbol> _symbols = [];
-  final LatLngBounds _cameraBounds = LatLngBounds(
-    southwest: const LatLng(11.929545, 108.448877), // Southwest boundary
-    northeast: const LatLng(11.949545, 108.468877), // Northeast boundary
-  );
-  bool isWithinBounds(LatLng position, LatLngBounds bounds) {
-    return position.latitude >= bounds.southwest.latitude &&
-        position.latitude <= bounds.northeast.latitude &&
-        position.longitude >= bounds.southwest.longitude &&
-        position.longitude <= bounds.northeast.longitude;
-  }
-
-  LatLng nearestPointWithinBounds(LatLng position, LatLngBounds bounds) {
-    double lat = position.latitude
-        .clamp(bounds.southwest.latitude, bounds.northeast.latitude);
-    double lng = position.longitude
-        .clamp(bounds.southwest.longitude, bounds.northeast.longitude);
-    return LatLng(lat, lng);
-  }
+  MapSelected? _clickedMarker;
+  final MapController _mapController = MapController();
+  List<warnData> _items = [];
+  final apiClient = ApiClient();
 
   @override
   void initState() {
     super.initState();
+    fetchWarnData();
   }
 
-  Future<Uint8List> loadMarkerImage(String assetPath) async {
-    final ByteData byteData = await rootBundle.load(assetPath);
-    return byteData.buffer.asUint8List();
-  }
+  // fetch api
+  Future<void> fetchWarnData() async {
+    try {
+      final response = await apiClient.getDeviceData();
 
-  void _onMapCreated(MapboxMapController controller) async {
-    mapController = controller;
-    _addCircles(); // Add circles first
-    await _addMarkers(); // add markers
-    _highlightSelectedMarker();
+      if (response['success']) {
+        List<warnData> data = (response['data'] as List)
+            .map((data) => warnData.fromJson(data))
+            .toList();
 
-    mapController.onSymbolTapped.add(_onMarkerTapped);
-
-    mapController.onSymbolTapped.add(_onMarkerTapped);
-  }
-
-  Future<void> _addMarkers() async {
-    // Load marker images
-    final Uint8List markerImage1 =
-        await loadMarkerImage("assets/images/Avater.png");
-    final Uint8List markerImage2 =
-        await loadMarkerImage("assets/images/ava.jpg");
-    final Uint8List markerImage3 =
-        await loadMarkerImage("assets/images/ava.jpg");
-
-    // Add the marker images to the map
-    mapController.addImage('marker1', markerImage1);
-    mapController.addImage('marker2', markerImage2);
-    mapController.addImage('marker3', markerImage3);
-
-    // Add the first marker
-    _symbols.add(
-      await mapController.addSymbol(
-        const SymbolOptions(
-          iconSize: 0.3,
-          iconImage: 'marker1',
-          geometry: LatLng(9.939545, 108.458877),
-          iconAnchor: 'bottom',
-        ),
-      ),
-    );
-
-    // Add the second marker
-    _symbols.add(
-      await mapController.addSymbol(
-        const SymbolOptions(
-          iconSize: 0.3,
-          iconImage: 'marker2',
-          geometry: LatLng(2.939555, 108.458887),
-          iconAnchor: 'bottom',
-        ),
-      ),
-    );
-
-    // Add the third marker
-    _symbols.add(
-      await mapController.addSymbol(
-        const SymbolOptions(
-          iconSize: 0.03,
-          iconImage: 'marker3',
-          geometry: LatLng(11.939525, 108.458887),
-          iconAnchor: 'bottom',
-        ),
-      ),
-    );
-  }
-
-  void _addCircles() {
-    mapController.addCircle(
-      CircleOptions(
-        geometry: _initialCameraPosition,
-        circleRadius: 50,
-        circleColor: "#4E31AA",
-        circleOpacity: 0.2,
-        circleStrokeColor: "#4E31AA",
-        circleStrokeWidth: 2.0,
-      ),
-    );
-  }
-
-  void _onStyleLoadedCallback() async {
-    _addCircles();
-    await _addMarkers();
-  }
-
-  void _highlightSelectedMarker() {
-    // Reset all markers to their default state
-    for (int i = 0; i < _symbols.length; i++) {
-      mapController.updateSymbol(
-        _symbols[i],
-        SymbolOptions(
-          iconSize: 0.3,
-          iconImage: 'marker${i + 1}',
-        ),
-      );
-    }
-
-    // Highlight the marker based on the selected map item
-    switch (_selectedMap) {
-      case MapSelected.WaterLevel1:
-        mapController.updateSymbol(
-          _symbols[0],
-          const SymbolOptions(
-            iconSize: 0.5,
-          ),
-        );
-        break;
-      case MapSelected.WaterLevel2:
-        mapController.updateSymbol(
-          _symbols[1],
-          const SymbolOptions(
-            iconSize: 0.5,
-          ),
-        );
-        break;
-      case MapSelected.Gnss1:
-        mapController.updateSymbol(
-          _symbols[2],
-          const SymbolOptions(
-            iconSize: 0.5,
-          ),
-        );
-        break;
-      default:
-        break;
+        setState(() {
+          _items = data;
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      throw Exception('Failed to load data');
     }
   }
 
-  void _onMarkerTapped(Symbol symbol) {
-    int index = _symbols.indexOf(symbol);
+  // Marker
+  final Map<MapSelected, LatLng> _markerLocations = {
+    // Water Level 01
+    MapSelected.WaterLevel1: const LatLng(
+      11.939511100000,
+      108.458991666667,
+    ),
+    // Water Level 02
+    MapSelected.WaterLevel2: const LatLng(
+      11.939505600000,
+      108.458986111111,
+    ),
+    // GNSS 01
+    MapSelected.Gnss1: const LatLng(
+      11.939577800000,
+      108.458930555556,
+    ),
+    // GNSS 02
+    MapSelected.Gnss2: const LatLng(
+      11.939458300000,
+      108.459038888889,
+    ),
+    // GNSS 03
+    MapSelected.Gnss3: const LatLng(
+      11.939580600000,
+      108.459080555556,
+    ),
+    // Camera 01
+    MapSelected.Camera1: const LatLng(
+      11.938997200000,
+      108.459172222222,
+    ),
+    // Camera 02
+    MapSelected.Camera2: const LatLng(
+      11.939072200000,
+      108.458936111111,
+    ),
+    // Camera 03
+    MapSelected.Camera3: const LatLng(
+      11.939633300000,
+      108.459041666667,
+    ),
+    // Camera 04
+    MapSelected.Camera4: const LatLng(
+      11.939058300000,
+      108.458569444444,
+    ),
+    // Camera 05
+    MapSelected.Camera5: const LatLng(
+      11.939058300000,
+      108.458569444444,
+    ),
+    // Warn 01
+    MapSelected.WarningSensor1: const LatLng(
+      11.939686110000,
+      108.459011110000,
+    ),
+    // Warn 02
+    MapSelected.WarningSensor2: const LatLng(
+      11.939466670000,
+      108.459155560000,
+    ),
+    // Raingauge
+    MapSelected.Raingauge: const LatLng(
+      11.939827800000,
+      108.459050000000,
+    ),
+    // Piez 01
+    MapSelected.Piezometer1: const LatLng(
+      11.939605600000,
+      108.459100000000,
+    ),
+    // Piez 02
+    MapSelected.Piezometer2: const LatLng(
+      11.939461100000,
+      108.458933333333,
+    ),
+    // Piez 03
+    MapSelected.Piezometer3: const LatLng(
+      11.939277800000,
+      108.458736111111,
+    ),
+    // Incli 01
+    MapSelected.Inclinometer1: const LatLng(
+      11.939552800000,
+      108.459050000000,
+    ),
+    // Incli 02
+    MapSelected.Inclinometer2: const LatLng(
+      11.939494400000,
+      108.458980555556,
+    ),
+    // Incli 03
+    MapSelected.Inclinometer3: const LatLng(
+      11.939402800000,
+      108.458875000000,
+    ),
+  };
 
-    String name;
-    switch (index) {
-      case 0:
-        name = "First Marker";
-        break;
-      case 1:
-        name = "Second Marker";
-        break;
-      case 2:
-        name = "Third Marker";
-        break;
-      default:
-        name = "Unknown Marker";
-        break;
-    }
+  void _showMarkerDetails(String name, LatLng value) {
+    // Find the matching item based on latitude and longitude
+    final matchingItem = _items.firstWhere(
+      (item) => item.lat == value.latitude && item.lng == value.longitude,
+      orElse: () => warnData(
+        status: -1,
+        code: 'N/A',
+        title: 'No data available',
+        lat: value.latitude,
+        lng: value.longitude,
+        v1: 0.0,
+        v2: 0.0,
+        v3: 0.0,
+        time: DateTime.now().toLocal(),
+      ),
+    );
 
+    // Show the modal bottom sheet with info of sensor
     showModalBottomSheet(
+      barrierColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext context) {
         return Container(
-          margin: EdgeInsets.all(16),
-          padding: EdgeInsets.all(16),
+          height: MediaQuery.sizeOf(context).height * 0.3,
+          width: MediaQuery.sizeOf(context).width * 0.8,
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height * 0.1,
+            left: 15,
+            right: 15,
+          ),
+          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Marker Name: $name",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              matchingItem.title == 'Water Level 01'
+                  ? Text(
+                      LocalData.waterLevel1.getString(context),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    )
+                  : matchingItem.title == 'Water Level 02'
+                      ? Text(
+                          LocalData.waterLevel2.getString(context),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                          ),
+                        )
+                      : matchingItem.title == 'GNSS 01'
+                          ? Text(
+                              LocalData.gnss1.getString(context),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            )
+                          : matchingItem.title == 'GNSS 02'
+                              ? Text(
+                                  LocalData.gnss2.getString(context),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
+                                  ),
+                                )
+                              : matchingItem.title == 'GNSS 03'
+                                  ? Text(
+                                      LocalData.gnss3.getString(context),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color,
+                                      ),
+                                    )
+                                  : matchingItem.title == 'Camera 01'
+                                      ? Text(
+                                          'Camera 01',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.color,
+                                          ),
+                                        )
+                                      : matchingItem.title == 'Camera 02'
+                                          ? Text(
+                                              'Camera 02',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
+                                              ),
+                                            )
+                                          : matchingItem.title == 'Camera 03'
+                                              ? Text(
+                                                  'Camera 03',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge
+                                                        ?.color,
+                                                  ),
+                                                )
+                                              : matchingItem.title ==
+                                                      'Camera 04'
+                                                  ? Text(
+                                                      'Camera 04',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15,
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge
+                                                            ?.color,
+                                                      ),
+                                                    )
+                                                  : matchingItem.title ==
+                                                          'Camera 05'
+                                                      ? Text(
+                                                          'Camera 05',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 15,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyLarge
+                                                                ?.color,
+                                                          ),
+                                                        )
+                                                      : matchingItem.title ==
+                                                              'Warning sensor 01'
+                                                          ? Text(
+                                                              LocalData.warn1
+                                                                  .getString(
+                                                                      context),
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 15,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyLarge
+                                                                    ?.color,
+                                                              ),
+                                                            )
+                                                          : matchingItem
+                                                                      .title ==
+                                                                  'Warning sensor 02'
+                                                              ? Text(
+                                                                  LocalData
+                                                                      .warn2
+                                                                      .getString(
+                                                                          context),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyLarge
+                                                                        ?.color,
+                                                                  ),
+                                                                )
+                                                              : matchingItem
+                                                                          .title ==
+                                                                      'Rain gauge'
+                                                                  ? Text(
+                                                                      LocalData
+                                                                          .mua
+                                                                          .getString(
+                                                                              context),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        fontSize:
+                                                                            15,
+                                                                        color: Theme.of(context)
+                                                                            .textTheme
+                                                                            .bodyLarge
+                                                                            ?.color,
+                                                                      ),
+                                                                    )
+                                                                  : matchingItem
+                                                                              .title ==
+                                                                          'Piezometer 01'
+                                                                      ? Text(
+                                                                          LocalData
+                                                                              .piez1
+                                                                              .getString(context),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize:
+                                                                                15,
+                                                                            color:
+                                                                                Theme.of(context).textTheme.bodyLarge?.color,
+                                                                          ),
+                                                                        )
+                                                                      : matchingItem.title ==
+                                                                              'Piezometer 02'
+                                                                          ? Text(
+                                                                              LocalData.piez2.getString(context),
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 15,
+                                                                                color: Theme.of(context).textTheme.bodyLarge?.color,
+                                                                              ),
+                                                                            )
+                                                                          : matchingItem.title == 'Piezometer 03'
+                                                                              ? Text(
+                                                                                  LocalData.piez3.getString(context),
+                                                                                  style: TextStyle(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 15,
+                                                                                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                                                                                  ),
+                                                                                )
+                                                                              : matchingItem.title == 'Inclinometer 01'
+                                                                                  ? Text(
+                                                                                      LocalData.inclino1.getString(context),
+                                                                                      style: TextStyle(
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        fontSize: 15,
+                                                                                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                                                                                      ),
+                                                                                    )
+                                                                                  : matchingItem.title == 'Inclinometer 02'
+                                                                                      ? Text(
+                                                                                          LocalData.inclino2.getString(context),
+                                                                                          style: TextStyle(
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontSize: 15,
+                                                                                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                                                                                          ),
+                                                                                        )
+                                                                                      : Text(
+                                                                                          LocalData.inclino3.getString(context),
+                                                                                          style: TextStyle(
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontSize: 15,
+                                                                                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                                                                                          ),
+                                                                                        ),
+              const SizedBox(height: 8),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Last connect: ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${matchingItem.time}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 10),
-              Text(
-                "Location: ${symbol.options.geometry?.latitude}, ${symbol.options.geometry?.longitude}",
-                style: TextStyle(fontSize: 16),
+              const SizedBox(height: 8),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'V1: ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${matchingItem.v1}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'V2: ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${matchingItem.v2}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'V3: ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${matchingItem.v3}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -314,210 +610,248 @@ class _MapHYScreenState extends State<MapHYScreen> {
     );
   }
 
-  // idle camera
-  void _onCameraIdle() {
-    final LatLng currentPosition = mapController.cameraPosition!.target;
-    if (!isWithinBounds(currentPosition, _cameraBounds)) {
-      final LatLng nearestPoint =
-          nearestPointWithinBounds(currentPosition, _cameraBounds);
-      mapController.animateCamera(CameraUpdate.newLatLng(nearestPoint));
+  void _updateMarkerDetails(MapSelected selected) {
+    final location = _markerLocations[selected];
+    if (location != null) {
+      _mapController.move(location, 18);
+      _showMarkerDetails(
+        selected.label(context),
+        location,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          MapboxMap(
-            styleString: selectedStyle,
-            rotateGesturesEnabled: true,
-            trackCameraPosition: true,
-            onMapCreated: _onMapCreated,
-            onCameraIdle: _onCameraIdle,
-            onStyleLoadedCallback: _onStyleLoadedCallback,
-            minMaxZoomPreference: const MinMaxZoomPreference(10, 20),
-            initialCameraPosition: CameraPosition(
-              target: _initialCameraPosition,
-              zoom: 16,
-              bearing: 16,
-              tilt: 90,
-            ),
+      backgroundColor: Theme.of(context).colorScheme.onSurface,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        automaticallyImplyLeading: false,
+        title: Text(
+          LocalData.title1.getString(context),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            fontSize: 20,
           ),
-          SafeArea(
-            child: Row(
+        ),
+      ),
+      body: Expanded(
+        child: Stack(
+          children: [
+            FlutterMap(
+              mapController: _mapController,
+              options: const MapOptions(
+                initialCenter: LatLng(11.939386, 108.458788),
+                initialZoom: 18,
+              ),
               children: [
-                const SizedBox(
-                  width: 25,
+                TileLayer(
+                  urlTemplate:
+                      'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
+                  additionalOptions: const {
+                    'accessToken': MAPBOX_ACCESS_TOKEN,
+                    'id': 'mapbox/satellite-streets-v12',
+                  },
                 ),
-                SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: FloatingActionButton(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    shape: const CircleBorder(),
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      size: 18,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const HomeScreen(),
-                        ),
+                // CircleLayer(
+                //   circles: [
+                //     CircleMarker(
+                //       point: const LatLng(11.939445, 108.458775),
+                //       radius: 70,
+                //       useRadiusInMeter: true,
+                //       color: Colors.blue.withOpacity(0.3),
+                //       borderColor: Colors.blue,
+                //       borderStrokeWidth: 2,
+                //     ),
+                //   ],
+                // ),
+                MarkerLayer(
+                  markers: _markerLocations.entries.map((entry) {
+                    Widget iconWidget;
+
+                    if (_clickedMarker == entry.key ||
+                        (_selectedMap == entry.key && _clickedMarker == null)) {
+                      iconWidget = SvgPicture.asset(
+                        'assets/icons/map_pin.svg',
                       );
-                    },
+                    } else {
+                      switch (entry.key) {
+                        case MapSelected.Camera1:
+                        case MapSelected.Camera2:
+                        case MapSelected.Camera3:
+                        case MapSelected.Camera4:
+                        case MapSelected.Camera5:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_cam.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.WaterLevel1:
+                        case MapSelected.WaterLevel2:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_water.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.Raingauge:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_rain.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.Inclinometer1:
+                        case MapSelected.Inclinometer2:
+                        case MapSelected.Inclinometer3:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_inclino.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.Piezometer1:
+                        case MapSelected.Piezometer2:
+                        case MapSelected.Piezometer3:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_piez.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.Gnss1:
+                        case MapSelected.Gnss2:
+                        case MapSelected.Gnss3:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_gnss.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                        case MapSelected.WarningSensor1:
+                        case MapSelected.WarningSensor2:
+                          iconWidget = SvgPicture.asset(
+                            'assets/icons/map_warn.svg',
+                            width: 15,
+                            height: 15,
+                          );
+                          break;
+                      }
+                    }
+
+                    return Marker(
+                      point: entry.value,
+                      width: 40,
+                      height: 40,
+                      rotate: false,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _clickedMarker = entry.key;
+                          });
+                          _mapController.move(
+                            entry.value,
+                            18,
+                          );
+
+                          _showMarkerDetails(
+                            entry.key.label(context),
+                            entry.value,
+                          );
+                        },
+                        child: iconWidget,
+                      ),
+                    );
+                  }).toList()
+
+                    // marker is clicked on top
+                    ..sort((a, b) {
+                      if (a.point == _markerLocations[_clickedMarker]) return 1;
+                      if (b.point == _markerLocations[_clickedMarker]) {
+                        return -1;
+                      }
+                      if (a.point == _markerLocations[_selectedMap]) return 1;
+                      if (b.point == _markerLocations[_selectedMap]) return -1;
+                      return 0;
+                    }),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 15,
+                horizontal: 12,
+              ),
+              child: DropdownMenu(
+                textStyle: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
+                  fontSize: 15,
+                  fontWeight: FontWeight.normal,
+                ),
+                selectedTrailingIcon: Icon(
+                  Icons.expand_less,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                trailingIcon: Icon(
+                  Icons.expand_more,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+                menuStyle: MenuStyle(
+                  maximumSize:
+                      const WidgetStatePropertyAll(Size.fromHeight(200)),
+                  surfaceTintColor: const WidgetStatePropertyAll(
+                      Color.fromARGB(255, 255, 255, 255)),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 15,
-                    horizontal: 12,
+                inputDecorationTheme: InputDecorationTheme(
+                  fillColor: Theme.of(context).colorScheme.primary,
+                  filled: true,
+                  border: InputBorder.none,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Colors.transparent,
+                      width: 0,
+                    ),
                   ),
-                  child: DropdownMenu(
-                    textStyle: TextStyle(
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    selectedTrailingIcon: Icon(
-                      Icons.expand_less,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    trailingIcon: Icon(
-                      Icons.expand_more,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    menuStyle: MenuStyle(
-                      maximumSize:
-                          const WidgetStatePropertyAll(Size.fromHeight(200)),
-                      surfaceTintColor: const WidgetStatePropertyAll(
-                          Color.fromARGB(255, 255, 255, 255)),
-                      shape: WidgetStatePropertyAll(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    inputDecorationTheme: InputDecorationTheme(
-                      fillColor: Theme.of(context).colorScheme.primary,
-                      filled: true,
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.transparent,
-                          width: 0,
-                        ),
-                      ),
-                    ),
-                    initialSelection: _selectedMap.name,
-                    onSelected: (value) {
-                      setState(() {
-                        _selectedMap = MapSelected.values
-                            .firstWhere((e) => e.name == value);
-                        _highlightSelectedMarker();
-                      });
-                    },
-                    dropdownMenuEntries: MapSelected.values
-                        .map(
-                          (e) => DropdownMenuEntry(
-                            value: e.name,
-                            labelWidget: Padding(
-                              padding: const EdgeInsets.all(0),
-                              child: Text(
-                                e.label(context),
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color,
-                                ),
-                              ),
+                ),
+                initialSelection: _selectedMap.name,
+                onSelected: (value) {
+                  setState(() {
+                    _selectedMap =
+                        MapSelected.values.firstWhere((e) => e.name == value);
+                    _clickedMarker = null;
+                    _updateMarkerDetails(_selectedMap);
+                  });
+                },
+                dropdownMenuEntries: MapSelected.values
+                    .map(
+                      (e) => DropdownMenuEntry(
+                        value: e.name,
+                        labelWidget: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Text(
+                            e.label(context),
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
                             ),
-                            label: e.label(context),
                           ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ],
+                        ),
+                        label: e.label(context),
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 50,
-                  width: 50,
-                  child: FloatingActionButton(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    shape: const CircleBorder(),
-                    child: Icon(
-                      Icons.layers_outlined,
-                      size: 25,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        if (selectedStyle == MapboxStyles.SATELLITE) {
-                          selectedStyle = MapboxStyles.MAPBOX_STREETS;
-                        } else {
-                          selectedStyle = MapboxStyles.SATELLITE;
-                        }
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 50,
-                  width: 50,
-                  child: FloatingActionButton(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    shape: const CircleBorder(),
-                    child: Icon(
-                      Icons.zoom_in,
-                      size: 25,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    onPressed: () {
-                      mapController.animateCamera(CameraUpdate.zoomIn());
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 50,
-                  width: 50,
-                  child: FloatingActionButton(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    shape: const CircleBorder(),
-                    child: Icon(
-                      Icons.zoom_out,
-                      size: 25,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    onPressed: () {
-                      mapController.animateCamera(CameraUpdate.zoomOut());
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

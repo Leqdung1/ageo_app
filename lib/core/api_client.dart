@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:retry/retry.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
@@ -47,8 +48,13 @@ class ApiClient {
     }
   }
 
-  Future<Map<String, dynamic>> getUserData(String userId) async {
+
+
+  // User Data 
+  Future<Map<String, dynamic>> getUserData(int userId) async {
     final apiToken = await _ss.readSecureData("access_token");
+   
+
     try {
       final response = await _r.retry(
         () async => await _dio.get(
@@ -58,6 +64,7 @@ class ApiClient {
               "Authorization": "Bearer $apiToken",
             },
           ),
+        
         ),
         retryIf: (e) {
           if (e is DioException) {
@@ -65,6 +72,102 @@ class ApiClient {
                 e.type == DioExceptionType.receiveTimeout ||
                 e.type == DioExceptionType.connectionTimeout;
           }
+          return false;
+        },
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        return response.data;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } on DioException catch (e) {
+      print("DioException: ${e.message}");
+      return e.response?.data ?? {'error': 'Unknown error occurred'};
+    } catch (e) {
+      print("Error: $e");
+      return {'error': 'Failed to fetch data'};
+    }
+  }
+
+  Future<int?> getUserIdFromToken() async {
+    final apiToken = await _ss.readSecureData("access_token");
+    if (apiToken != null && JwtDecoder.isExpired(apiToken) == false) {
+      final decodedToken = JwtDecoder.decode(apiToken);
+      return decodedToken['userId'] as int?;
+    }
+    return null;
+  }
+
+  // User 
+  Future<Map<String, dynamic>> getUser(int userId) async {
+    final apiToken = await _ss.readSecureData("access_token");
+   
+
+    try {
+      final response = await _r.retry(
+        () async => await _dio.get(
+          "$_apiUrl/core/users/$userId",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $apiToken",
+            },
+          ),
+        
+        ),
+        retryIf: (e) {
+          if (e is DioException) {
+            return e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.connectionTimeout;
+          }
+          return false;
+        },
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        return response.data;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } on DioException catch (e) {
+      print("DioException: ${e.message}");
+      return e.response?.data ?? {'error': 'Unknown error occurred'};
+    } catch (e) {
+      print("Error: $e");
+      return {'error': 'Failed to fetch data'};
+    }
+  }
+
+  // Change password
+  Future<Map<String, dynamic>> changePassWord(
+    Map<String, dynamic> userData,
+    String password,
+  ) async {
+    final apiToken = await _ss.readSecureData("access_token");
+    var details = userData;
+
+    details["oldPassword"] = password;
+    details["newPassword"] = password;
+
+    try {
+      final response = await _r.retry(
+        () async => await _dio.post(
+          "$_apiUrl/core/users/ChangePassword",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $apiToken",
+            },
+          ),
+          data: details,
+        ),
+        retryIf: (e) {
+          if (e is DioException) {
+            return e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.connectionTimeout;
+          }
+
           return false;
         },
       );

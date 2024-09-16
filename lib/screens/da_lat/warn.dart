@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class WarningScreen extends StatefulWidget {
   const WarningScreen({super.key});
@@ -488,9 +489,10 @@ class _WarningScreenState extends State<WarningScreen>
                       ),
                       trailing: Icon(
                         item.isExpanded
-                            ? Icons.arrow_drop_up
-                            : Icons.arrow_drop_down,
+                            ? LucideIcons.chevronUp
+                            : LucideIcons.chevronDown,
                         color: Theme.of(context).iconTheme.color,
+                        size: 18,
                       ),
                       onExpansionChanged: (bool expanded) {
                         setState(() {

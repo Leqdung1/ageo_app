@@ -32,7 +32,7 @@ class _AccountScreenState extends State<AccountScreen> {
   void initState() {
     super.initState();
 
-    _userData = ApiClient().getUserData('1');
+   // _userData = ApiClient().getUserData('1');
   }
 
   @override

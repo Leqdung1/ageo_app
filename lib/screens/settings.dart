@@ -1,18 +1,19 @@
 import 'dart:async';
-import 'dart:math';
+
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/components/theme.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
+
 import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/models/user_data.dart';
 import 'package:Ageo_solutions/screens/changePassword.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,7 @@ class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key, required this.onSystemSelected});
 
   @override
+
   // ignore: library_private_types_in_public_api
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -30,57 +32,73 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Map<String, dynamic>? response;
   bool isLoading = true;
   String selectedIndex = "";
+  final apiClient = ApiClient();
+  int? userId;
+
+  Future<List<UserData>>? _userDataBuilder;
+  late List<UserData> _userData = [];
+  final SecureStorage _ss = SecureStorage();
 
   @override
   void initState() {
     super.initState();
     _loadSelectedIndex();
+
+    _userDataBuilder = fetchUserData();
+    _initializeUserIdAndFetchData();
   }
 
-  Future<void> fetchUserData() async {
-    if (response == null || response!['userId'] == null) {
-      setState(() {
-        isLoading = false;
-      });
-      if (kDebugMode) {
-        print("User ID is null");
-      }
-      return;
+  Future<int?> _getUserIdFromToken() async {
+    final token = await _ss
+        .readSecureData("access_token"); // Read the token from secure storage
+    if (token != null && JwtDecoder.isExpired(token)) {
+      print("Token is expired");
+      return null;
     }
-
-    final apiClient = ApiClient();
-    final userId = response!['userId'].toString();
-    final res = await apiClient.getUserData(userId);
-
-    setState(() {
-      response = res['data'];
-      isLoading = false;
-    });
-
-    if (!res['success']) {
-      if (kDebugMode) {
-        print("Failed to fetch user data: ${res['message']}");
-      }
+    if (token != null) {
+      final decodedToken = JwtDecoder.decode(token);
+      final userIdString = decodedToken['userid'];
+      return int.tryParse(userIdString); // Convert string to int
     }
+    return null;
   }
 
-  Widget _getAvatarWidget() {
-    if (response?["imageURL"] != null && response?["imageURL"].isNotEmpty) {
-      return Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(
-              response?["imageURL"],
-            ),
-          ),
-        ),
-      );
+  Future<void> _initializeUserIdAndFetchData() async {
+    userId = await _getUserIdFromToken();
+    if (userId != null) {
+      _userDataBuilder = fetchUserData();
+      setState(() {}); // Trigger a rebuild to update the UI after userId is set
     } else {
-      return const Icon(Icons.account_circle, size: 40);
+      print('Error: userId is still null after loading');
+    }
+  }
+
+  Future<List<UserData>> fetchUserData() async {
+    if (userId == null) {
+      print('Error: userId is null');
+      return [];
+    }
+
+    try {
+      final response = await apiClient.getUser(userId!);
+      print(response);
+
+      if (response['success']) {
+        UserData data = UserData.fromJson(response['data']);
+
+        print('UserData: $data');
+        print('Updated UserId: $userId');
+
+        setState(() {
+          _userData = [data];
+        });
+        return _userData;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Failed to load UserData');
     }
   }
 
@@ -304,20 +322,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       horizontal: 10,
                       vertical: 10,
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            _getAvatarWidget(),
-                            SizedBox(width: size.width * 0.02),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(LocalData.hello.getString(context)),
-                                isLoading
-                                    ? const CircularProgressIndicator()
-                                    : Text(
-                                        response?["staffName"] ?? "N/A",
+                    child: FutureBuilder<List<UserData>>(
+                      future: _userDataBuilder,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else if (snapshot.hasData &&
+                            snapshot.data!.isNotEmpty) {
+                          _userData = snapshot.data!;
+
+                          var userData = _userData[0];
+                          return Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.02),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Hello, User ID: $userId'),
+                                      Text(
+                                        userData.name ?? "N/A",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Theme.of(context)
@@ -326,11 +359,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                               ?.color,
                                         ),
                                       ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        } else {
+                          return const Center(child: Text('No data available'));
+                        }
+                      },
                     ),
                   ),
                 ),

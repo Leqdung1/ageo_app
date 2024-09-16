@@ -1,6 +1,7 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/screens/home.dart';
+import 'package:Ageo_solutions/screens/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';

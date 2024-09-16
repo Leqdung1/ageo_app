@@ -272,7 +272,7 @@ class _MapScreenState extends State<MapScreen> {
           ),
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -541,27 +541,66 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                'V1: ${matchingItem.v1}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'V1: ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${matchingItem.v1}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                'V2: ${matchingItem.v2}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'V2: ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${matchingItem.v2}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                'V3: ${matchingItem.v3}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'V3: ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    TextSpan(
+                      text: '${matchingItem.v3}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -704,8 +743,8 @@ class _MapScreenState extends State<MapScreen> {
 
                     return Marker(
                       point: entry.value,
-                      width: 30,
-                      height: 30,
+                      width: 40,
+                      height: 40,
                       rotate: false,
                       child: GestureDetector(
                         onTap: () {
@@ -721,12 +760,22 @@ class _MapScreenState extends State<MapScreen> {
                             entry.key.label(context),
                             entry.value,
                           );
-                        
                         },
                         child: iconWidget,
                       ),
                     );
-                  }).toList(),
+                  }).toList()
+
+                    // marker is clicked on top
+                    ..sort((a, b) {
+                      if (a.point == _markerLocations[_clickedMarker]) return 1;
+                      if (b.point == _markerLocations[_clickedMarker]) {
+                        return -1;
+                      }
+                      if (a.point == _markerLocations[_selectedMap]) return 1;
+                      if (b.point == _markerLocations[_selectedMap]) return -1;
+                      return 0;
+                    }),
                 ),
               ],
             ),
