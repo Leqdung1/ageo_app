@@ -75,13 +75,13 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
 
     switch (_dataSelected) {
       case DataSelected.Day:
-        response = await apiClient.getPiezometerbyDay('yy/MM/dd');
+        response = await apiClient.getPiezometerbyDay(startDate);
         break;
       case DataSelected.Month:
-        response = await apiClient.getPiezometerbyMonth('yy/MM');
+        response = await apiClient.getPiezometerbyMonth(startDate);
         break;
       case DataSelected.Year:
-        response = await apiClient.getPiezometerbyYear('yyyy');
+        response = await apiClient.getPiezometerbyYear(startDate);
     }
 
     if (response['success']) {

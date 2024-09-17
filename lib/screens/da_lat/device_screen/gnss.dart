@@ -81,18 +81,18 @@ class _GnssScreenState extends State<GnssScreen> {
 
     switch (_dataSelected) {
       case DataSelected.RealTime:
-        response = await apiClient.getGnssbyRealTime('HH:mm:ss');
+        response = await apiClient.getGnssbyRealTime(startDate);
       case DataSelected.Hours:
-        response = await apiClient.getGnssByHours('yy/MM/dd HH');
+        response = await apiClient.getGnssByHours(startDate);
         break;
       case DataSelected.Day:
-        response = await apiClient.getGnssByDay('yy/MM/dd');
+        response = await apiClient.getGnssByDay(startDate);
         break;
       case DataSelected.Month:
-        response = await apiClient.getGnssByMonth('yy/MM');
+        response = await apiClient.getGnssByMonth(startDate);
         break;
       case DataSelected.Year:
-        response = await apiClient.getGnssByYear('yyyy');
+        response = await apiClient.getGnssByYear(startDate);
     }
 
     if (response['success']) {

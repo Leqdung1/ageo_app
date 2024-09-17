@@ -80,16 +80,16 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
 
     switch (_dataSelected) {
       case DataSelected.Hours:
-        response = await apiClient.getWaterLevelByHours('yy/MM/dd HH');
+        response = await apiClient.getWaterLevelByHours(startDate);
         break;
       case DataSelected.Day:
-        response = await apiClient.getWaterLevelByDay('yy/MM/dd');
+        response = await apiClient.getWaterLevelByDay(startDate);
         break;
       case DataSelected.Month:
-        response = await apiClient.getWaterLevelByMonth('yy/MM');
+        response = await apiClient.getWaterLevelByMonth(startDate);
         break;
       case DataSelected.Year:
-        response = await apiClient.getWaterLevelByYear('yyyy');
+        response = await apiClient.getWaterLevelByYear(startDate);
         break;
       default:
         throw Exception('Invalid data selection');
