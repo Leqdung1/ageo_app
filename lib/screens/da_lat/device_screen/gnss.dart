@@ -165,7 +165,7 @@ class _GnssScreenState extends State<GnssScreen> {
       transitionDuration: const Duration(milliseconds: 200),
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: Color.fromRGBO(21, 101, 192, 1),
+          primary: const Color.fromRGBO(21, 101, 192, 1),
           onPrimary: Colors.white,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
@@ -212,7 +212,7 @@ class _GnssScreenState extends State<GnssScreen> {
                       horizontal: 12,
                     ),
                     padding: const EdgeInsetsDirectional.symmetric(
-                      vertical: 10,
+                      vertical: 5,
                     ),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
@@ -227,74 +227,64 @@ class _GnssScreenState extends State<GnssScreen> {
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          flex: 1,
                           child: TextButton(
                             onPressed: () => showDateTime(context, true),
                             child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/calender.svg',
-                                      height: 20),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02,
-                                            bottom: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.008),
-                                        child: Text(
-                                          LocalData.fromDate.getString(context),
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Color.fromRGBO(
-                                                  21, 101, 192, 1)),
-                                        ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 5,
+                                        bottom: 5,
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                      child: Text(
+                                        LocalData.fromDate.getString(context),
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color.fromRGBO(
+                                                21, 101, 192, 1)),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.02),
+                                      child: Text.rich(
+                                        TextSpan(
                                           children: [
-                                            Expanded(
-                                              child: Text(
-                                                DateFormat('dd/MM/yyyy')
-                                                    .format(_startDate),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                            TextSpan(
+                                              text: DateFormat('dd/MM/yyyy')
+                                                  .format(_startDate),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
                                               ),
                                             ),
-                                            Text(
-                                              DateFormat('hh:mm')
+                                            TextSpan(
+                                              text: " - ",
+                                              style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: DateFormat('hh:mm')
                                                   .format(_startTime),
                                               style: TextStyle(
-                                                fontSize: 12,
+                                                fontSize: 14,
                                                 color: Theme.of(context)
                                                     .textTheme
                                                     .bodyLarge
@@ -304,8 +294,8 @@ class _GnssScreenState extends State<GnssScreen> {
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -313,94 +303,67 @@ class _GnssScreenState extends State<GnssScreen> {
                         ),
                         Container(
                           height: 40,
-                          width: 2,
+                          width: 1.5,
                           color: Colors.grey.withOpacity(0.5),
                         ),
                         Expanded(
-                          flex: 1,
                           child: TextButton(
                             onPressed: () => showDateTime(context, false),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/calender.svg',
-                                      height: 20),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02,
-                                            top: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02,
-                                            bottom: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.005),
-                                        child: Text(
-                                          LocalData.toDate.getString(context),
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Color.fromRGBO(
-                                                  21, 101, 192, 1)),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02,
-                                            bottom: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                DateFormat('dd/MM/yyyy')
-                                                    .format(_endDate),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              DateFormat('hh:mm')
-                                                  .format(_endTime),
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 5,
+                                    bottom: 5,
                                   ),
+                                  child: Text(
+                                    LocalData.toDate.getString(context),
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color.fromRGBO(21, 101, 192, 1),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom:
+                                          MediaQuery.of(context).size.width *
+                                              0.02),
+                                  child: Text.rich(TextSpan(children: [
+                                    TextSpan(
+                                      text: DateFormat('dd/MM/yyyy')
+                                          .format(_endDate),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: " - ",
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          DateFormat('hh:mm').format(_endTime),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color,
+                                      ),
+                                    ),
+                                  ])),
                                 ),
                               ],
                             ),
@@ -437,7 +400,10 @@ class _GnssScreenState extends State<GnssScreen> {
                           // drop down menu
                           Container(
                             margin: const EdgeInsets.only(
-                                left: 20, right: 15, bottom: 20),
+                              left: 10,
+                              right: 15,
+                              bottom: 20,
+                            ),
                             child: Expanded(
                               child: DropdownMenu(
                                 textStyle: TextStyle(
@@ -526,8 +492,10 @@ class _GnssScreenState extends State<GnssScreen> {
                             children: [
                               // dX chart
                               Container(
-                                margin:
-                                    const EdgeInsets.only(left: 15, top: 30),
+                                margin: const EdgeInsets.only(
+                                  left: 10,
+                                  top: 30,
+                                ),
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: SizedBox(

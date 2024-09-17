@@ -1,4 +1,5 @@
 import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/screens/da_lat/camera.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/ap_lu_lo_rong.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/gnss.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/nghieng_sau.dart';
@@ -30,6 +31,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       LocalData.nghiengSau.getString(context),
       LocalData.mua.getString(context),
       LocalData.mucNuoc.getString(context),
+      "Camera",
     ];
 
     return Scaffold(
@@ -121,12 +123,13 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 height: MediaQuery.sizeOf(context).height * 0.75,
                 child: IndexedStack(
                   index: _itemsSelected,
-                  children: [
+                  children: const [
                     GnssScreen(),
                     ApLucLoRongScreen(),
                     NghiengSauScreen(),
                     RaingaugeScreen(),
                     WaterLevelScreen(),
+                    CameraScreen(),
                   ],
                 ),
               ),

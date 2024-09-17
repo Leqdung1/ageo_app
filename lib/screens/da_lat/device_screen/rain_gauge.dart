@@ -1,4 +1,5 @@
 import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/models/rainGauge_models.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/rain_gauge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -79,16 +80,16 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
 
     switch (_dataSelected) {
       case DataSelected.Hours:
-        response = await apiClient.getRainDataByHours('yy/MM/dd HH');
+        response = await apiClient.getRainDataByHours(startDate);
         break;
       case DataSelected.Day:
-        response = await apiClient.getRainDataByDay('yy/MM/dd');
+        response = await apiClient.getRainDataByDay(startDate);
         break;
       case DataSelected.Month:
-        response = await apiClient.getRainDataByMonth('yy/MM');
+        response = await apiClient.getRainDataByMonth(startDate);
         break;
       case DataSelected.Year:
-        response = await apiClient.getRainDataByYear('yyyy');
+        response = await apiClient.getRainDataByYear(startDate);
         break;
       default:
         throw Exception('Invalid data selection');
@@ -429,7 +430,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                         children: <Widget>[
                           Container(
                             margin: const EdgeInsets.only(
-                                left: 20, right: 15, bottom: 20),
+                                left: 10, right: 15, bottom: 20),
                             child: Expanded(
                               // drop down menu
                               child: DropdownMenu(

@@ -87,6 +87,7 @@ mixin LocalData {
   static String code = 'code';
   static String lat = 'lat';
   static String lng = 'lng';
+  static String info = 'info';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -174,6 +175,7 @@ mixin LocalData {
     "code ": "Code",
     "lat": "Latitude",
     "lng": "Longtitude",
+  
   };
 
   // ignore: non_constant_identifier_names

@@ -290,12 +290,12 @@ class ApiClient {
   }
 
   // Rain gauge
-  Future<Map<String, dynamic>> getRainData(timeFormat) async {
+  Future<Map<String, dynamic>> getRainData(timeFormat,DateTime fromDate) async {
     final apiToken = await _ss.readSecureData("access_token");
     final toDate = DateTime.now().toIso8601String();
     final Map<String, dynamic> details = {
       'deviceId': "175_NTH/QT_04",
-      'fromDate': "2024-06-30T17:00:00.000Z",
+        'fromDate': fromDate.toIso8601String(),
       'toDate': toDate,
       'tagName': "MUCNUOC",
       'timeFormat': timeFormat
@@ -328,21 +328,22 @@ class ApiClient {
     }
   }
 
-  Future<Map<String, dynamic>> getRainDataByHours(String s) async {
-    return await getRainData('yy/MM/dd HH');
-  }
+ Future<Map<String, dynamic>> getRainDataByHours(DateTime fromDate) async {
+  return await getRainData('yy/MM/dd HH', fromDate);
+}
 
-  Future<Map<String, dynamic>> getRainDataByDay(String s) async {
-    return await getRainData('yy/MM/dd');
-  }
+Future<Map<String, dynamic>> getRainDataByDay(DateTime fromDate) async {
+  return await getRainData('yy/MM/dd', fromDate);
+}
 
-  Future<Map<String, dynamic>> getRainDataByMonth(String s) async {
-    return await getRainData('yy/MM');
-  }
+Future<Map<String, dynamic>> getRainDataByMonth(DateTime fromDate) async {
+  return await getRainData('yy/MM', fromDate);
+}
 
-  Future<Map<String, dynamic>> getRainDataByYear(String s) async {
-    return await getRainData('yyyy');
-  }
+Future<Map<String, dynamic>> getRainDataByYear(DateTime fromDate) async {
+  return await getRainData('yyyy', fromDate);
+}
+
 
   // Water Leverl
   Future<Map<String, dynamic>> getWaterLevel(timeFormat) async {

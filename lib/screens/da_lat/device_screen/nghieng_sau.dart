@@ -402,7 +402,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
                           // drop down menu
                           Container(
                             margin: const EdgeInsets.only(
-                                left: 20, right: 15, bottom: 20),
+                                left: 10, right: 15, bottom: 20),
                             child: Expanded(
                               child: DropdownMenu(
                                 textStyle: TextStyle(

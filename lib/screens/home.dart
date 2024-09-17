@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       selectedSystem = system;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: PersistentTabView(
               navBarHeight: 80,
               onTabChanged: (value) {
-                
-                  setState(() {
-                    currentPageIndex = value;
-                  });
-              
+                setState(() {
+                  currentPageIndex = value;
+                });
               },
               tabs: [
                 PersistentTabConfig(
@@ -89,17 +88,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+                // PersistentTabConfig(
+                //   screen: selectedSystem == 'dalat'
+                //       ? const CameraScreen()
+                //       : const CameraHyScreen(),
+                //   item: ItemConfig(
+                //     icon: SvgPicture.asset(
+                //       currentPageIndex == 2
+                //           ? 'assets/icons/camfill.svg'
+                //           : 'assets/icons/cam.svg',
+                //     ),
+                //     title: LocalData.bottomlabel3.getString(context),
+                //     textStyle: TextStyle(
+                //       fontSize: 12,
+                //       color: currentPageIndex == 2 ? Colors.black : Colors.grey,
+                //       fontWeight: currentPageIndex == 2
+                //           ? FontWeight.bold
+                //           : FontWeight.normal,
+                //     ),
+                //   ),
+                // ),
                 PersistentTabConfig(
                   screen: selectedSystem == 'dalat'
-                      ? const CameraScreen()
-                      : const CameraHyScreen(),
+                      ? const DeviceScreen()
+                      : const DeviceHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 2
-                          ? 'assets/icons/camfill.svg'
-                          : 'assets/icons/cam.svg',
+                          ? 'assets/icons/signal-alt-3_fill.svg'
+                          : 'assets/icons/signal-alt-3.svg',
                     ),
-                    title: LocalData.bottomlabel3.getString(context),
+                    title: LocalData.bottomlabel4.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
                       color: currentPageIndex == 2 ? Colors.black : Colors.grey,
@@ -111,15 +130,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 PersistentTabConfig(
                   screen: selectedSystem == 'dalat'
-                      ? const DeviceScreen()
-                      : const DeviceHyScreen(),
+                      ? const WarningScreen()
+                      : const WarningHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 3
-                          ? 'assets/icons/signal-alt-3_fill.svg'
-                          : 'assets/icons/signal-alt-3.svg',
+                          ? 'assets/icons/alert-triangle_fill.svg'
+                          : 'assets/icons/alert-triangle.svg',
                     ),
-                    title: LocalData.bottomlabel4.getString(context),
+                    title: LocalData.bottomlabel5.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
                       color: currentPageIndex == 3 ? Colors.black : Colors.grey,
@@ -130,39 +149,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 PersistentTabConfig(
-                  screen: selectedSystem == 'dalat'
-                      ? const WarningScreen()
-                      : const WarningHyScreen(),
-                  item: ItemConfig(
-                    icon: SvgPicture.asset(
-                      currentPageIndex == 4
-                          ? 'assets/icons/alert-triangle_fill.svg'
-                          : 'assets/icons/alert-triangle.svg',
-                    ),
-                    title: LocalData.bottomlabel5.getString(context),
-                    textStyle: TextStyle(
-                      fontSize: 12,
-                      color: currentPageIndex == 4 ? Colors.black : Colors.grey,
-                      fontWeight: currentPageIndex == 4
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                    ),
-                  ),
-                ),
-                PersistentTabConfig(
                   screen:
                       SettingsScreen(onSystemSelected: _updateSelectedSystem),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
-                      currentPageIndex == 5
+                      currentPageIndex == 4
                           ? 'assets/icons/userFill.svg'
                           : 'assets/icons/userNotFill.svg',
                     ),
                     title: LocalData.bottomLabel6.getString(context),
                     textStyle: TextStyle(
                       fontSize: 12,
-                      color: currentPageIndex == 5 ? Colors.black : Colors.grey,
-                      fontWeight: currentPageIndex == 5
+                      color: currentPageIndex == 4 ? Colors.black : Colors.grey,
+                      fontWeight: currentPageIndex == 4
                           ? FontWeight.bold
                           : FontWeight.normal,
                     ),

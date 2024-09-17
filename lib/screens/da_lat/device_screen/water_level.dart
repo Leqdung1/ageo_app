@@ -429,7 +429,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                         children: [
                           Container(
                             margin: const EdgeInsets.only(
-                                left: 20, right: 15, bottom: 20),
+                                left: 10, right: 15, bottom: 20),
                             child: Expanded(
                               // drop down menu
                               child: DropdownMenu(

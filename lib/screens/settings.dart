@@ -7,6 +7,7 @@ import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/user_data.dart';
+import 'package:Ageo_solutions/screens/account.dart';
 import 'package:Ageo_solutions/screens/changePassword.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
@@ -34,7 +35,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String selectedIndex = "";
   final apiClient = ApiClient();
   int? userId;
-
   Future<List<UserData>>? _userDataBuilder;
   late List<UserData> _userData = [];
   final SecureStorage _ss = SecureStorage();
@@ -43,7 +43,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     _loadSelectedIndex();
-
     _userDataBuilder = fetchUserData();
     _initializeUserIdAndFetchData();
   }
@@ -58,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (token != null) {
       final decodedToken = JwtDecoder.decode(token);
       final userIdString = decodedToken['userid'];
-      return int.tryParse(userIdString); // Convert string to int
+      return int.tryParse(userIdString);
     }
     return null;
   }
@@ -67,7 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     userId = await _getUserIdFromToken();
     if (userId != null) {
       _userDataBuilder = fetchUserData();
-      setState(() {}); // Trigger a rebuild to update the UI after userId is set
+      setState(() {});
     } else {
       print('Error: userId is still null after loading');
     }
@@ -331,16 +330,63 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
                           return Center(
-                              child: Text('Error: ${snapshot.error}'));
+                            child: Text('Error: ${snapshot.error}'),
+                          );
                         } else if (snapshot.hasData &&
                             snapshot.data!.isNotEmpty) {
                           _userData = snapshot.data!;
 
                           var userData = _userData[0];
+
                           return Column(
                             children: [
                               Row(
                                 children: [
+                                  // if (userData.imageUrl != null)
+                                  //   Container(
+                                  //     width: 50,
+                                  //     height: 50,
+                                  //     decoration: BoxDecoration(
+                                  //       shape: BoxShape.circle,
+                                  //       image: DecorationImage(
+                                  //         fit: BoxFit.cover,
+                                  //         image: NetworkImage(
+                                  //           userData.imageUrl ?? '',
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   )
+                                  // else
+                                  //   Container(
+                                  //     width: 50,
+                                  //     height: 50,
+                                  //     decoration: const BoxDecoration(
+                                  //       shape: BoxShape.circle,
+                                  //       color: Colors.grey,
+                                  //     ),
+                                  //     child: const Icon(
+                                  //       Icons.person,
+                                  //       size: 80,
+                                  //       color: Colors.white,
+                                  //     ),
+                                  //   ),
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 10,
+                                    ),
+                                    width: 40,
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.grey,
+                                    ),
+                                    child: const Icon(
+                                      Icons.person,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width *
                                           0.02),
@@ -348,7 +394,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('Hello, User ID: $userId'),
+                                      Text(
+                                        LocalData.hello.getString(context),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey.shade600,
+                                        ),
+                                      ),
                                       Text(
                                         userData.name ?? "N/A",
                                         style: TextStyle(
@@ -424,7 +476,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           size: 18,
                         ),
                         onTap: () {
-                          // TODO: add screen user information
+                          pushWithoutNavBar(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AccountScreen(),
+                            ),
+                          );
                         },
                       ),
                       Divider(

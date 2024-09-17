@@ -1,8 +1,11 @@
-import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:io';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'dart:typed_data';
+import 'package:video_player/video_player.dart';
 
 class VideoStreamPage extends StatefulWidget {
   @override
@@ -11,27 +14,21 @@ class VideoStreamPage extends StatefulWidget {
 
 class _VideoStreamPageState extends State<VideoStreamPage> {
   WebSocketChannel? _channel;
-  RTCPeerConnection? _peerConnection;
-  RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
   bool _isConnected = false;
+  late String _hlsUrl;
+  VideoPlayerController? _videoController;
 
   @override
   void initState() {
     super.initState();
-    _initializeRenderer();
     _connectToWebSocket();
   }
 
   @override
   void dispose() {
-    _remoteRenderer.dispose();
     _channel?.sink.close();
-    _peerConnection?.close();
+    _videoController?.dispose();
     super.dispose();
-  }
-
-  Future<void> _initializeRenderer() async {
-    await _remoteRenderer.initialize();
   }
 
   void _connectToWebSocket() {
@@ -41,12 +38,10 @@ class _VideoStreamPageState extends State<VideoStreamPage> {
 
     _channel!.stream.listen(
       (message) {
-        if (message is String) {
-          _handleSignalingMessage(jsonDecode(message));
-        } else if (message is Uint8List) {
-          _handleBinaryData(message);
+        if (message is Uint8List) {
+          _processRawStreamData(message);
         } else {
-          print('Unknown message type received');
+          print('Received non-binary message.');
         }
       },
       onError: (error) {
@@ -58,94 +53,64 @@ class _VideoStreamPageState extends State<VideoStreamPage> {
     );
   }
 
-  void _handleBinaryData(Uint8List data) {
+  void _processRawStreamData(Uint8List data) {
     print('Received binary data of length: ${data.length}');
-    // Handle the binary media stream data here
+    _pipeToFFmpeg(data);
   }
 
-  Future<void> _handleSignalingMessage(Map<String, dynamic> message) async {
-    if (message.containsKey('sdp')) {
-      var sessionDescription = RTCSessionDescription(
-        message['sdp'],
-        message['type'],
-      );
-      await _peerConnection?.setRemoteDescription(sessionDescription);
+  void _pipeToFFmpeg(Uint8List rawData) async {
+    try {
+      // Get the temporary directory
+      Directory tempDir = await getTemporaryDirectory();
+      String tempFilePath = '${tempDir.path}/input.ts';
+      File tempFile = File(tempFilePath);
 
-      if (sessionDescription.type == 'offer') {
-        var answer = await _peerConnection!.createAnswer();
-        await _peerConnection!.setLocalDescription(answer);
-        _sendSignalingMessage({
-          'sdp': answer.sdp,
-          'type': answer.type,
+      // Write raw data to file
+      await tempFile.writeAsBytes(rawData);
+
+      // Use FFmpeg to convert the file
+      FFmpegKit.execute(
+              '-i $tempFilePath -hls_time 2 -hls_list_size 0 -f hls /storage/emulated/0/Movies/output.m3u8')
+          .then((session) {
+        session.getReturnCode().then((returnCode) {
+          if (ReturnCode.isSuccess(returnCode)) {
+            print('FFmpeg processing completed.');
+            setState(() {
+              _hlsUrl = '/storage/emulated/0/Movies/output.m3u8';
+              _isConnected = true;
+              _initializeVideoPlayer();
+            });
+          } else {
+            print('FFmpeg processing failed.');
+          }
         });
-      }
-    } else if (message.containsKey('candidate')) {
-      var candidate = RTCIceCandidate(
-        message['candidate'],
-        message['sdpMid'],
-        message['sdpMLineIndex'],
-      );
-      await _peerConnection?.addCandidate(candidate);
+      });
+    } catch (e) {
+      print('Error while processing video: $e');
     }
   }
 
-  void _sendSignalingMessage(Map<String, dynamic> message) {
-    _channel!.sink.add(jsonEncode(message));
-  }
-
-  Future<void> _createPeerConnection() async {
-    var configuration = {
-      'iceServers': [
-        {'urls': 'stun:stun.l.google.com:19302'},
-      ],
-    };
-    _peerConnection?.onIceConnectionState = (RTCIceConnectionState state) {
-      print('ICE connection state: $state');
-    };
-
-    _peerConnection?.onConnectionState = (RTCPeerConnectionState state) {
-      print('Peer connection state: $state');
-    };
-
-    _peerConnection = await createPeerConnection(configuration);
-
-    _peerConnection?.onTrack = (RTCTrackEvent event) {
-      if (event.track.kind == 'video') {
-        setState(() {
-          _remoteRenderer.srcObject = event.streams.first;
-        });
-      }
-    };
-
-    _peerConnection?.onIceCandidate = (RTCIceCandidate candidate) {
-      _sendSignalingMessage({
-        'candidate': candidate.candidate,
-        'sdpMid': candidate.sdpMid,
-        'sdpMLineIndex': candidate.sdpMLineIndex,
+  void _initializeVideoPlayer() {
+    _videoController = VideoPlayerController.file(File(_hlsUrl))
+      ..initialize().then((_) {
+        setState(() {});
       });
-    };
-
-    var offer = await _peerConnection!.createOffer();
-    await _peerConnection!.setLocalDescription(offer);
-    _sendSignalingMessage({
-      'sdp': offer.sdp,
-      'type': offer.type,
-    });
-
-    setState(() {
-      _isConnected = true;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Real-time Video Stream'),
+        title: Text('Video Stream via FFmpeg'),
       ),
       body: Center(
         child: _isConnected
-            ? RTCVideoView(_remoteRenderer)
+            ? _videoController != null && _videoController!.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _videoController!.value.aspectRatio,
+                    child: VideoPlayer(_videoController!),
+                  )
+                : CircularProgressIndicator()
             : CircularProgressIndicator(),
       ),
     );
