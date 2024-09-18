@@ -545,7 +545,17 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                         ),
                                       ),
                                       series: _getSeries(_chartData),
-                                      tooltipBehavior: _tooltipBehavior,
+                                      tooltipBehavior: TooltipBehavior(
+                              enable: true,
+                              color: Theme.of(context).colorScheme.surface,
+                              borderColor: Colors.grey.shade600,
+                              textStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            ),
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),

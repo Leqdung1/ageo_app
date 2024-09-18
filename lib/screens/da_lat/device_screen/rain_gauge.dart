@@ -62,7 +62,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(enable: true);
     _zoomPanBehavior = ZoomPanBehavior(
       enablePinching: true,
       enableDoubleTapZooming: true,
@@ -73,6 +72,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
     super.initState();
   }
 
+  // fetch rain data
   Future<List<RainData>> fetchRainData(
       {required DateTime startDate, required DateTime endDate}) async {
     final apiClient = ApiClient();
@@ -158,7 +158,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
       transitionDuration: const Duration(milliseconds: 200),
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: Color.fromRGBO(21, 101, 192, 1),
+          primary: const Color.fromRGBO(21, 101, 192, 1),
           onPrimary: Colors.white,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
@@ -174,7 +174,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
         } else {
           _endDate = pickedDate;
         }
-        // Fetch and filter data based on the new date range
+
         _rainDataBuilder =
             fetchRainData(startDate: _startDate, endDate: _endDate);
       });
@@ -517,6 +517,17 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
 
                           // Draw chart
                           SfCartesianChart(
+                            tooltipBehavior: TooltipBehavior(
+                              enable: true,
+                              color: Theme.of(context).colorScheme.surface,
+                              borderColor: Colors.grey.shade600,
+                              textStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            ),
                             plotAreaBorderWidth: 0,
                             margin: const EdgeInsets.symmetric(
                               horizontal: 15,
@@ -557,7 +568,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                                 width: 0,
                               ),
                             ),
-                            tooltipBehavior: _tooltipBehavior,
                             zoomPanBehavior: _zoomPanBehavior,
                             series: _getSeries(_chartData),
                           ),

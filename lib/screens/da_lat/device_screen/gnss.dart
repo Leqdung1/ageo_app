@@ -239,7 +239,7 @@ class _GnssScreenState extends State<GnssScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                         top: 5,
                                         bottom: 5,
                                       ),
@@ -314,7 +314,7 @@ class _GnssScreenState extends State<GnssScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(
+                                  padding: const EdgeInsets.only(
                                     top: 5,
                                     bottom: 5,
                                   ),
@@ -537,7 +537,19 @@ class _GnssScreenState extends State<GnssScreen> {
                                         ),
                                       ),
                                       series: _getXSeries(_chartData),
-                                      tooltipBehavior: _tooltipBehavior,
+                                      tooltipBehavior: TooltipBehavior(
+                                        enable: true,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        borderColor: Colors.grey.shade600,
+                                        textStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),
@@ -589,7 +601,19 @@ class _GnssScreenState extends State<GnssScreen> {
                                         ),
                                       ),
                                       series: _getYSeries(_chartData),
-                                      tooltipBehavior: _tooltipBehavior,
+                                      tooltipBehavior: TooltipBehavior(
+                                        enable: true,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        borderColor: Colors.grey.shade600,
+                                        textStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),
@@ -641,7 +665,19 @@ class _GnssScreenState extends State<GnssScreen> {
                                         ),
                                       ),
                                       series: _getZSeries(_chartData),
-                                      tooltipBehavior: _tooltipBehavior,
+                                      tooltipBehavior: TooltipBehavior(
+                                        enable: true,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        borderColor: Colors.grey.shade600,
+                                        textStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),

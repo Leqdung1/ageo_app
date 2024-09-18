@@ -533,7 +533,17 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
                                         ),
                                       ),
                                       series: _getSeries(_chartData),
-                                      tooltipBehavior: _tooltipBehavior,
+                                      tooltipBehavior: TooltipBehavior(
+                              enable: true,
+                              color: Theme.of(context).colorScheme.surface,
+                              borderColor: Colors.grey.shade600,
+                              textStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            ),
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),

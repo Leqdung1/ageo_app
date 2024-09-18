@@ -144,7 +144,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
       context: context,
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: Color.fromRGBO(21, 101, 192, 1),
+          primary: const Color.fromRGBO(21, 101, 192, 1),
           onPrimary: Colors.white,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
@@ -564,7 +564,17 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                           rangePadding:
                                               ChartRangePadding.additional),
                                       series: _getSeries(_chartData),
-                                      tooltipBehavior: _tooltipBehavior,
+                                     tooltipBehavior: TooltipBehavior(
+                              enable: true,
+                              color: Theme.of(context).colorScheme.surface,
+                              borderColor: Colors.grey.shade600,
+                              textStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            ),
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),
