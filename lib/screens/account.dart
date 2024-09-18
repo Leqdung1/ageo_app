@@ -170,6 +170,9 @@ class _AccountScreenState extends State<AccountScreen> {
                       //   ),
                       Center(
                         child: Container(
+                          margin: EdgeInsets.symmetric(
+                            vertical: MediaQuery.sizeOf(context).height * 0.02,
+                          ),
                           width: 100,
                           height: 100,
                           decoration: const BoxDecoration(
@@ -184,7 +187,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                       ),
 
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                      // SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                       Padding(
                         padding: EdgeInsets.only(
                           left: 24,
@@ -208,11 +211,12 @@ class _AccountScreenState extends State<AccountScreen> {
                           left: 15,
                         ),
                         decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
                           border: Border.all(
                             color:
                                 Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                           ),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
                           userData.name ?? "N/A",
@@ -242,11 +246,12 @@ class _AccountScreenState extends State<AccountScreen> {
                           left: 15,
                         ),
                         decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
                           border: Border.all(
                             color:
                                 Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                           ),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
                           userData.email ?? "N/A",
@@ -277,11 +282,12 @@ class _AccountScreenState extends State<AccountScreen> {
                           left: 15,
                         ),
                         decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
                           border: Border.all(
                             color:
                                 Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                           ),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
                           userData.phoneNumber ?? "N/A",

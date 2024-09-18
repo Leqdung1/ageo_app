@@ -210,13 +210,13 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     blurRadius: 8,
+                      //     offset: const Offset(0, 1),
+                      //   ),
+                      // ],
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -415,13 +415,13 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: const Offset(0, 1),
-                          blurRadius: 8,
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     offset: const Offset(0, 1),
+                      //     blurRadius: 8,
+                      //   ),
+                      // ],
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -663,24 +663,24 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-          height: 5,
-          width: 5,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-          height: 5,
-          width: 5,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
@@ -693,24 +693,24 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-          height: 5,
-          width: 5,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-          height: 5,
-          width: 5,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
@@ -723,24 +723,24 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-          height: 5,
-          width: 5,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-          height: 5,
-          width: 5,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
@@ -753,24 +753,24 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-          height: 5,
-          width: 5,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-          height: 5,
-          width: 5,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];

@@ -217,13 +217,13 @@ class _GnssScreenState extends State<GnssScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     blurRadius: 8,
+                      //     offset: const Offset(0, 1),
+                      //   ),
+                      // ],
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -385,13 +385,13 @@ class _GnssScreenState extends State<GnssScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: const Offset(0, 1),
-                          blurRadius: 8,
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     offset: const Offset(0, 1),
+                      //     blurRadius: 8,
+                      //   ),
+                      // ],
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -729,12 +729,12 @@ class _GnssScreenState extends State<GnssScreen> {
       dataSource: data,
       xValueMapper: (GnssData data, _) => data.logTime,
       yValueMapper: (GnssData data, _) => yValueMapper(data),
-      markerSettings: const MarkerSettings(
-        isVisible: true,
-        shape: DataMarkerType.circle,
-        height: 5,
-        width: 5,
-      ),
+      // markerSettings: const MarkerSettings(
+      //   isVisible: true,
+      //   shape: DataMarkerType.circle,
+      //   height: 5,
+      //   width: 5,
+      // ),
       name: name,
       color: _getColorForName(name),
     );

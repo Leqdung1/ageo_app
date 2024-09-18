@@ -167,13 +167,13 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                     color: const Color.fromRGBO(255, 217, 157, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
-                      offset: const Offset(0, 1),
-                      blurRadius: 8,
-                    )
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.black.withOpacity(0.15),
+                  //     offset: const Offset(0, 1),
+                  //     blurRadius: 8,
+                  //   )
+                  // ],
                 ),
                 child: Column(
                   children: [
@@ -285,13 +285,13 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                     color: const Color.fromRGBO(255, 217, 157, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
-                      offset: const Offset(0, 1),
-                      blurRadius: 8,
-                    )
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.black.withOpacity(0.15),
+                  //     offset: const Offset(0, 1),
+                  //     blurRadius: 8,
+                  //   )
+                  // ],
                 ),
                 child: Column(
                   children: [
@@ -343,13 +343,13 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                     color: const Color.fromRGBO(255, 217, 157, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
-                      offset: const Offset(0, 1),
-                      blurRadius: 8,
-                    )
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.black.withOpacity(0.15),
+                  //     offset: const Offset(0, 1),
+                  //     blurRadius: 8,
+                  //   )
+                  // ],
                 ),
                 child: Column(
                   children: [

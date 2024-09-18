@@ -71,8 +71,8 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: isSelected
-                          ? const Color.fromRGBO(0, 65, 130, 1)
-                          : Colors.grey.shade200,
+                          ? const Color.fromRGBO(42, 98, 154, 1)
+                          : Colors.grey,
                     ),
                     color: isSelected
                         ? const Color.fromRGBO(42, 98, 154, 1)
@@ -98,7 +98,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
                           items[index],
                           style: TextStyle(
                             fontSize: 15,
-                            color: isSelected ? Colors.white : Colors.grey,
+                            color: isSelected
+                                ? Colors.white
+                                : Theme.of(context).textTheme.bodyLarge?.color,
                             fontWeight:
                                 isSelected ? FontWeight.bold : FontWeight.w400,
                           ),

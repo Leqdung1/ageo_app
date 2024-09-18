@@ -237,13 +237,13 @@ class _WarningScreenState extends State<WarningScreen>
                           color: const Color.fromRGBO(285, 235, 245, 1),
                         ),
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            offset: const Offset(0, 1),
-                            blurRadius: 8,
-                          )
-                        ],
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black.withOpacity(0.1),
+                        //     offset: const Offset(0, 1),
+                        //     blurRadius: 8,
+                        //   )
+                        // ],
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -298,13 +298,13 @@ class _WarningScreenState extends State<WarningScreen>
                           color: const Color.fromRGBO(255, 217, 157, 1),
                         ),
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            offset: const Offset(0, 1),
-                            blurRadius: 8,
-                          )
-                        ],
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black.withOpacity(0.1),
+                        //     offset: const Offset(0, 1),
+                        //     blurRadius: 8,
+                        //   )
+                        // ],
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -365,13 +365,13 @@ class _WarningScreenState extends State<WarningScreen>
                           color: const Color.fromRGBO(247, 187, 186, 1),
                         ),
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            offset: const Offset(0, 1),
-                            blurRadius: 8,
-                          )
-                        ],
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black.withOpacity(0.1),
+                        //     offset: const Offset(0, 1),
+                        //     blurRadius: 8,
+                        //   )
+                        // ],
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

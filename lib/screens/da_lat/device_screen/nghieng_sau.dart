@@ -182,13 +182,13 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     blurRadius: 8,
+                      //     offset: const Offset(0, 1),
+                      //   ),
+                      // ],
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -387,13 +387,13 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: const Offset(0, 1),
-                          blurRadius: 8,
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     offset: const Offset(0, 1),
+                      //     blurRadius: 8,
+                      //   ),
+                      // ],
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -650,10 +650,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -661,10 +661,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -672,10 +672,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
@@ -683,10 +683,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
@@ -694,10 +694,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
@@ -705,10 +705,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
@@ -722,10 +722,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -733,10 +733,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -744,10 +744,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
@@ -755,10 +755,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
@@ -766,10 +766,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
@@ -777,10 +777,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
@@ -794,10 +794,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -805,10 +805,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -816,10 +816,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
@@ -827,10 +827,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
@@ -838,10 +838,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
@@ -849,10 +849,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
@@ -866,10 +866,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -877,10 +877,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -888,10 +888,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 2-1',
         color: const Color.fromRGBO(250, 200, 88, 1),
       ),
@@ -899,10 +899,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
@@ -910,10 +910,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
@@ -921,10 +921,10 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
