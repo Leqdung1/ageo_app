@@ -73,12 +73,12 @@ class _GnssScreenState extends State<GnssScreen> {
       enablePanning: true,
       zoomMode: ZoomMode.xy,
     );
-    _piezmometerBuilder = fetchGnss(startDate: _startDate, endDate: _endDate);
+    _piezmometerBuilder = fetchGnss(startDate: _startDate, endDate: _endDate, selectedSegment: selectedSegment!,);
     super.initState();
   }
 
   Future<List<GnssData>> fetchGnss(
-      {required DateTime startDate, required DateTime endDate}) async {
+      {required DateTime startDate, required DateTime endDate, required int selectedSegment,}) async {
     final apiClient = ApiClient();
     final Map<String, dynamic> response;
 
@@ -234,7 +234,7 @@ class _GnssScreenState extends State<GnssScreen> {
         }
         // Fetch and filter data based on the new date range
         _piezmometerBuilder =
-            fetchGnss(startDate: _startDate, endDate: _endDate);
+            fetchGnss(startDate: _startDate, endDate: _endDate, selectedSegment: selectedSegment!,);
       });
     }
   }
@@ -518,6 +518,11 @@ class _GnssScreenState extends State<GnssScreen> {
                                 onValueChanged: (v) {
                                   setState(() {
                                     selectedSegment = v;
+                                     _piezmometerBuilder = fetchGnss(
+      startDate: _startDate,
+      endDate: _endDate,
+      selectedSegment: selectedSegment!,
+    );
                                     getGnssChart();
                                   });
                                 },
@@ -588,6 +593,7 @@ class _GnssScreenState extends State<GnssScreen> {
                                     _piezmometerBuilder = fetchGnss(
                                       startDate: _startDate,
                                       endDate: _endDate,
+                                       selectedSegment: selectedSegment!,
                                     );
                                   });
                                 },
@@ -881,11 +887,363 @@ class _GnssScreenState extends State<GnssScreen> {
 
   // gnss 02
   Widget gnss02() {
-    return Text('hello');
+    return Column(
+      children: [
+        // dX chart
+        Container(
+          margin: const EdgeInsets.only(
+            left: 10,
+            top: 30,
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 1000,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                primaryXAxis: const CategoryAxis(
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorGridLines: MajorGridLines(width: 0),
+                  majorTickLines: MajorTickLines(
+                    width: 1,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  isVisible: true,
+                  axisLine: AxisLine(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                ),
+                primaryYAxis: const NumericAxis(
+                  majorGridLines: MajorGridLines(
+                    width: 1,
+                    dashArray: [8, 8],
+                    color: Colors.grey,
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorTickLines: MajorTickLines(
+                    width: 0,
+                  ),
+                  axisLine: AxisLine(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                ),
+                series: _getXSeries(_chartData),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderColor: Colors.grey.shade600,
+                  textStyle: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+                zoomPanBehavior: _zoomPanBehavior,
+              ),
+            ),
+          ),
+        ),
+
+        // dY chart
+        Container(
+          margin: const EdgeInsets.only(left: 15, top: 30),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 1000,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                primaryXAxis: const CategoryAxis(
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorGridLines: MajorGridLines(width: 0),
+                  majorTickLines: MajorTickLines(
+                    width: 1,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  isVisible: true,
+                  axisLine: AxisLine(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                ),
+                primaryYAxis: const NumericAxis(
+                  majorGridLines: MajorGridLines(
+                    width: 1,
+                    dashArray: [8, 8],
+                    color: Colors.grey,
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorTickLines: MajorTickLines(
+                    width: 0,
+                  ),
+                  axisLine: AxisLine(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                ),
+                series: _getYSeries(_chartData),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderColor: Colors.grey.shade600,
+                  textStyle: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+                zoomPanBehavior: _zoomPanBehavior,
+              ),
+            ),
+          ),
+        ),
+
+        // dH chart
+        Container(
+          margin: const EdgeInsets.only(left: 15, top: 30),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 1000,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                primaryXAxis: const CategoryAxis(
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorGridLines: MajorGridLines(width: 0),
+                  majorTickLines: MajorTickLines(
+                    width: 1,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  isVisible: true,
+                  axisLine: AxisLine(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                ),
+                primaryYAxis: const NumericAxis(
+                  majorGridLines: MajorGridLines(
+                    width: 1,
+                    dashArray: [8, 8],
+                    color: Colors.grey,
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorTickLines: MajorTickLines(
+                    width: 0,
+                  ),
+                  axisLine: AxisLine(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                ),
+                series: _getZSeries(_chartData),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderColor: Colors.grey.shade600,
+                  textStyle: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+                zoomPanBehavior: _zoomPanBehavior,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   // gnss03
   Widget gnss03() {
-    return Text('hi');
+     return Column(
+      children: [
+        // dX chart
+        Container(
+          margin: const EdgeInsets.only(
+            left: 10,
+            top: 30,
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 1000,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                primaryXAxis: const CategoryAxis(
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorGridLines: MajorGridLines(width: 0),
+                  majorTickLines: MajorTickLines(
+                    width: 1,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  isVisible: true,
+                  axisLine: AxisLine(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                ),
+                primaryYAxis: const NumericAxis(
+                  majorGridLines: MajorGridLines(
+                    width: 1,
+                    dashArray: [8, 8],
+                    color: Colors.grey,
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorTickLines: MajorTickLines(
+                    width: 0,
+                  ),
+                  axisLine: AxisLine(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                ),
+                series: _getXSeries(_chartData),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderColor: Colors.grey.shade600,
+                  textStyle: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+                zoomPanBehavior: _zoomPanBehavior,
+              ),
+            ),
+          ),
+        ),
+
+        // dY chart
+        Container(
+          margin: const EdgeInsets.only(left: 15, top: 30),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 1000,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                primaryXAxis: const CategoryAxis(
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorGridLines: MajorGridLines(width: 0),
+                  majorTickLines: MajorTickLines(
+                    width: 1,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  isVisible: true,
+                  axisLine: AxisLine(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                ),
+                primaryYAxis: const NumericAxis(
+                  majorGridLines: MajorGridLines(
+                    width: 1,
+                    dashArray: [8, 8],
+                    color: Colors.grey,
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorTickLines: MajorTickLines(
+                    width: 0,
+                  ),
+                  axisLine: AxisLine(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                ),
+                series: _getYSeries(_chartData),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderColor: Colors.grey.shade600,
+                  textStyle: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+                zoomPanBehavior: _zoomPanBehavior,
+              ),
+            ),
+          ),
+        ),
+
+        // dH chart
+        Container(
+          margin: const EdgeInsets.only(left: 15, top: 30),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 1000,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                primaryXAxis: const CategoryAxis(
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorGridLines: MajorGridLines(width: 0),
+                  majorTickLines: MajorTickLines(
+                    width: 1,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  isVisible: true,
+                  axisLine: AxisLine(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                ),
+                primaryYAxis: const NumericAxis(
+                  majorGridLines: MajorGridLines(
+                    width: 1,
+                    dashArray: [8, 8],
+                    color: Colors.grey,
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorTickLines: MajorTickLines(
+                    width: 0,
+                  ),
+                  axisLine: AxisLine(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                ),
+                series: _getZSeries(_chartData),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderColor: Colors.grey.shade600,
+                  textStyle: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+                zoomPanBehavior: _zoomPanBehavior,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
