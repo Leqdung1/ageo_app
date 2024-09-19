@@ -1,5 +1,6 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/models/gnss02_models.dart';
 import 'package:Ageo_solutions/models/gnss_models.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
@@ -83,18 +84,66 @@ class _GnssScreenState extends State<GnssScreen> {
 
     switch (_dataSelected) {
       case DataSelected.RealTime:
-        response = await apiClient.getGnssbyRealTime01(startDate);
+        if (selectedSegment == 1) {
+          response = await apiClient.getGnssbyRealTime(startDate, "M1");
+        } else if (selectedSegment == 2) {
+          response = await apiClient.getGnssbyRealTime(startDate, "M2");
+        } else if (selectedSegment == 3) {
+          response = await apiClient.getGnssbyRealTime(startDate, "M3");
+        } else {
+          throw Exception('Invalid selectedSegment');
+        }
+        break;
+
       case DataSelected.Hours:
-        response = await apiClient.getGnssByHours01(startDate);
+        if (selectedSegment == 1) {
+          response = await apiClient.getGnssByHours(startDate, "M1");
+        } else if (selectedSegment == 2) {
+          response = await apiClient.getGnssByHours(startDate, "M2");
+        } else if (selectedSegment == 3) {
+          response = await apiClient.getGnssByHours(startDate, "M3");
+        } else {
+          throw Exception('Invalid selectedSegment');
+        }
         break;
+
       case DataSelected.Day:
-        response = await apiClient.getGnssByDay01(startDate);
+        if (selectedSegment == 1) {
+          response = await apiClient.getGnssByDay(startDate, "M1");
+        } else if (selectedSegment == 2) {
+          response = await apiClient.getGnssByDay(startDate, "M2");
+        } else if (selectedSegment == 3) {
+          response = await apiClient.getGnssByDay(startDate, "M3");
+        } else {
+          throw Exception('Invalid selectedSegment');
+        }
         break;
+
       case DataSelected.Month:
-        response = await apiClient.getGnssByMonth01(startDate);
+        if (selectedSegment == 1) {
+          response = await apiClient.getGnssByMonth(startDate, "M1");
+        } else if (selectedSegment == 2) {
+          response = await apiClient.getGnssByMonth(startDate, "M2");
+        } else if (selectedSegment == 3) {
+          response = await apiClient.getGnssByMonth(startDate, "M3");
+        } else {
+          throw Exception('Invalid selectedSegment');
+        }
         break;
       case DataSelected.Year:
-        response = await apiClient.getGnssByYear01(startDate);
+        if (selectedSegment == 1) {
+          response = await apiClient.getGnssByYear(startDate, "M1");
+        } else if (selectedSegment == 2) {
+          response = await apiClient.getGnssByYear(startDate, "M2");
+        } else if (selectedSegment == 3) {
+          response = await apiClient.getGnssByYear(startDate, "M3");
+        } else {
+          throw Exception('Invalid selectedSegment');
+        }
+        break;
+
+      default:
+        throw Exception('Invalid DataSelected');
     }
 
     if (response['success']) {
@@ -595,14 +644,14 @@ class _GnssScreenState extends State<GnssScreen> {
   List<CartesianSeries<GnssData, String>> _getYSeries(List<GnssData> data) {
     debugPrint("Data for Y: ${data.map((d) => d.dY).toList()}");
     return [
-      _getLineSeries('Y', data, (gnssData) => gnssData.dY),
+      _getLineSeries('Y', data, (gnssData) => gnssData.dY * 1000),
     ];
   }
 
   List<CartesianSeries<GnssData, String>> _getZSeries(List<GnssData> data) {
-    debugPrint("Data for Z: ${data.map((d) => d.dH).toList()}");
+    debugPrint("Data for H: ${data.map((d) => d.dH).toList()}");
     return [
-      _getLineSeries('Z', data, (gnssData) => gnssData.dH * 1000),
+      _getLineSeries('H', data, (gnssData) => gnssData.dH * 1000),
     ];
   }
 
@@ -629,7 +678,7 @@ class _GnssScreenState extends State<GnssScreen> {
         return const Color.fromRGBO(84, 112, 198, 1);
       case 'Y':
         return const Color.fromRGBO(145, 204, 117, 1);
-      case 'Z':
+      case 'H':
         return const Color.fromRGBO(250, 200, 88, 1);
       default:
         return Colors.blue;

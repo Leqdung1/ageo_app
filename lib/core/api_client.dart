@@ -48,12 +48,9 @@ class ApiClient {
     }
   }
 
-
-
-  // User Data 
+  // User Data
   Future<Map<String, dynamic>> getUserData(int userId) async {
     final apiToken = await _ss.readSecureData("access_token");
-   
 
     try {
       final response = await _r.retry(
@@ -64,7 +61,6 @@ class ApiClient {
               "Authorization": "Bearer $apiToken",
             },
           ),
-        
         ),
         retryIf: (e) {
           if (e is DioException) {
@@ -99,10 +95,9 @@ class ApiClient {
     return null;
   }
 
-  // User 
+  // User
   Future<Map<String, dynamic>> getUser(int userId) async {
     final apiToken = await _ss.readSecureData("access_token");
-   
 
     try {
       final response = await _r.retry(
@@ -113,7 +108,6 @@ class ApiClient {
               "Authorization": "Bearer $apiToken",
             },
           ),
-        
         ),
         retryIf: (e) {
           if (e is DioException) {
@@ -179,7 +173,8 @@ class ApiClient {
   }
 
   // Piezometer
-  Future<Map<String, dynamic>> getPiezometerData(timeFormat, DateTime fromDate) async {
+  Future<Map<String, dynamic>> getPiezometerData(
+      timeFormat, DateTime fromDate) async {
     final apiToken = await _ss.readSecureData("access_token");
     final toDate = DateTime.now().toIso8601String();
 
@@ -219,23 +214,24 @@ class ApiClient {
   }
 
   Future<Map<String, dynamic>> getPiezometerbyHours(DateTime fromDate) async {
-    return await getPiezometerData("yy/MM/dd HH",fromDate);
+    return await getPiezometerData("yy/MM/dd HH", fromDate);
   }
 
   Future<Map<String, dynamic>> getPiezometerbyDay(DateTime fromDate) async {
-    return await getPiezometerData("yy/MM/dd",fromDate);
+    return await getPiezometerData("yy/MM/dd", fromDate);
   }
 
   Future<Map<String, dynamic>> getPiezometerbyMonth(DateTime fromDate) async {
-    return await getPiezometerData("yy/MM",fromDate);
+    return await getPiezometerData("yy/MM", fromDate);
   }
 
   Future<Map<String, dynamic>> getPiezometerbyYear(DateTime fromDate) async {
-    return await getPiezometerData("yyyy",fromDate);
+    return await getPiezometerData("yyyy", fromDate);
   }
 
   // Inclinometer
-  Future<Map<String, dynamic>> getInclinometerData(timeFormat, DateTime fromDate) async {
+  Future<Map<String, dynamic>> getInclinometerData(
+      timeFormat, DateTime fromDate) async {
     final apiToken = await _ss.readSecureData("access_token");
     final toDate = DateTime.now().toIso8601String();
     final Map<String, dynamic> details = {
@@ -274,23 +270,24 @@ class ApiClient {
   }
 
   Future<Map<String, dynamic>> getInclinometerbyHours(DateTime fromDate) async {
-    return await getInclinometerData("yy/MM/dd HH",fromDate);
+    return await getInclinometerData("yy/MM/dd HH", fromDate);
   }
 
   Future<Map<String, dynamic>> getInclinometerbyDay(DateTime fromDate) async {
-    return await getInclinometerData("yy/MM/dd",fromDate);
+    return await getInclinometerData("yy/MM/dd", fromDate);
   }
 
   Future<Map<String, dynamic>> getInclinometerbyMonth(DateTime fromDate) async {
-    return await getInclinometerData("yy/MM",fromDate);
+    return await getInclinometerData("yy/MM", fromDate);
   }
 
   Future<Map<String, dynamic>> getInclinometerbyYear(DateTime fromDate) async {
-    return await getInclinometerData("yyyy",fromDate);
+    return await getInclinometerData("yyyy", fromDate);
   }
 
   // Rain gauge
-  Future<Map<String, dynamic>> getRainData(timeFormat,DateTime fromDate) async {
+  Future<Map<String, dynamic>> getRainData(
+      timeFormat, DateTime fromDate) async {
     final apiToken = await _ss.readSecureData("access_token");
     final toDate = DateTime.now().toIso8601String();
     final Map<String, dynamic> details = {
@@ -328,25 +325,25 @@ class ApiClient {
     }
   }
 
- Future<Map<String, dynamic>> getRainDataByHours(DateTime fromDate) async {
-  return await getRainData('yy/MM/dd HH', fromDate);
-}
+  Future<Map<String, dynamic>> getRainDataByHours(DateTime fromDate) async {
+    return await getRainData('yy/MM/dd HH', fromDate);
+  }
 
-Future<Map<String, dynamic>> getRainDataByDay(DateTime fromDate) async {
-  return await getRainData('yy/MM/dd', fromDate);
-}
+  Future<Map<String, dynamic>> getRainDataByDay(DateTime fromDate) async {
+    return await getRainData('yy/MM/dd', fromDate);
+  }
 
-Future<Map<String, dynamic>> getRainDataByMonth(DateTime fromDate) async {
-  return await getRainData('yy/MM', fromDate);
-}
+  Future<Map<String, dynamic>> getRainDataByMonth(DateTime fromDate) async {
+    return await getRainData('yy/MM', fromDate);
+  }
 
-Future<Map<String, dynamic>> getRainDataByYear(DateTime fromDate) async {
-  return await getRainData('yyyy', fromDate);
-}
-
+  Future<Map<String, dynamic>> getRainDataByYear(DateTime fromDate) async {
+    return await getRainData('yyyy', fromDate);
+  }
 
   // Water Leverl
-  Future<Map<String, dynamic>> getWaterLevel(timeFormat, DateTime fromDate) async {
+  Future<Map<String, dynamic>> getWaterLevel(
+      timeFormat, DateTime fromDate) async {
     final apiToken = await _ss.readSecureData('access_token');
     final toDate = DateTime.now().toIso8601String();
     final details = {
@@ -384,25 +381,99 @@ Future<Map<String, dynamic>> getRainDataByYear(DateTime fromDate) async {
   }
 
   Future<Map<String, dynamic>> getWaterLevelByHours(DateTime fromDate) async {
-    return await getWaterLevel('yy/MM/dd HH',fromDate);
+    return await getWaterLevel('yy/MM/dd HH', fromDate);
   }
 
   Future<Map<String, dynamic>> getWaterLevelByDay(DateTime fromDate) async {
-    return await getWaterLevel('yy/MM/dd',fromDate);
+    return await getWaterLevel('yy/MM/dd', fromDate);
   }
 
   Future<Map<String, dynamic>> getWaterLevelByMonth(DateTime fromDate) async {
-    return await getWaterLevel('yy/MM',fromDate);
+    return await getWaterLevel('yy/MM', fromDate);
   }
 
   Future<Map<String, dynamic>> getWaterLevelByYear(DateTime fromDate) async {
-    return await getWaterLevel('yyyy',fromDate);
+    return await getWaterLevel('yyyy', fromDate);
   }
 
- 
+  // GNSS
+  Future<Map<String, dynamic>> getGnss(
+      timeFormat, DateTime fromDate, deviceId) async {
+    final apiToken = await _ss.readSecureData('access_token');
+    final toDate = DateTime.now().toIso8601String();
+    final details = {
+      'iaDeviceId': deviceId,
+      'fromDate': fromDate.toIso8601String(),
+      'tagName': "",
+      'timeFormat': timeFormat,
+      'toDate': toDate,
+    };
+    try {
+      final response = await _r.retry(
+        () async => await _dio.post(
+          "$_apiUrl/IA/DataLogger/GetGNSSByHourDataLogger",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $apiToken",
+              'Content-Type': 'application/json',
+            },
+          ),
+          data: details,
+        ),
+        retryIf: (e) {
+          if (e is DioException) {
+            return e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.connectionTimeout;
+          }
+          return false;
+        },
+      );
+      return response.data;
+    } on DioException catch (e) {
+      return e.response!.data;
+    }
+  }
 
-  // GNSS 01
-  Future<Map<String, dynamic>> getGnss01(timeFormat, DateTime fromDate) async {
+  Future<Map<String, dynamic>> getGnssbyRealTime(
+      DateTime fromDate, String deviceId) async {
+    return await getGnss('HH:mm:ss', fromDate, deviceId);
+  }
+
+  Future<Map<String, dynamic>> getGnssByHours(
+      DateTime fromDate, String deviceId) async {
+    return await getGnss('yy/MM/dd HH', fromDate, deviceId);
+  }
+
+  Future<Map<String, dynamic>> getGnssByDay(
+      DateTime fromDate, String deviceId) async {
+    return await getGnss(
+      'yy/MM/dd',
+      fromDate,
+      deviceId
+    );
+  }
+
+  Future<Map<String, dynamic>> getGnssByMonth(
+      DateTime fromDate, String deviceId) async {
+    return await getGnss(
+      'yy/MM',
+      fromDate,
+      deviceId
+    );
+  }
+
+  Future<Map<String, dynamic>> getGnssByYear(
+      DateTime fromDate, String deviceId) async {
+    return await getGnss(
+      'yyyy',
+      fromDate,
+      deviceId
+    );
+  }
+
+  Future<Map<String, dynamic>> getGnssByRealtime(
+      timeFormat, DateTime fromDate) async {
     final apiToken = await _ss.readSecureData('access_token');
     final toDate = DateTime.now().toIso8601String();
     final details = {
@@ -439,165 +510,7 @@ Future<Map<String, dynamic>> getRainDataByYear(DateTime fromDate) async {
     }
   }
 
-  Future<Map<String, dynamic>> getGnssbyRealTime01(DateTime fromDate) async {
-    return await getGnss01('HH:mm:ss', fromDate);
-  }
-
-  Future<Map<String, dynamic>> getGnssByHours01(DateTime fromDate) async {
-    return await getGnss01('yy/MM/dd HH', fromDate);
-  }
-
-  Future<Map<String, dynamic>> getGnssByDay01(DateTime fromDate) async {
-    return await getGnss01('yy/MM/dd', fromDate);
-  }
-
-  Future<Map<String, dynamic>> getGnssByMonth01(DateTime fromDate) async {
-    return await getGnss01('yy/MM', fromDate);
-  }
-
-  Future<Map<String, dynamic>> getGnssByYear01(DateTime fromDate) async {
-    return await getGnss01('yyyy', fromDate);
-  }
-
-  // GNSS 02
-  Future<Map<String, dynamic>> getGnss02(timeFormat, DateTime fromDate) async {
-    final apiToken = await _ss.readSecureData('access_token');
-    final toDate = DateTime.now().toIso8601String();
-    final details = {
-      'iaDeviceId': "M2",
-      'fromDate': fromDate.toIso8601String(),
-      'tagName': "",
-      'timeFormat': timeFormat,
-      'toDate': toDate,
-    };
-    try {
-      final response = await _r.retry(
-        () async => await _dio.post(
-          "$_apiUrl/IA/DataLogger/GetGNSSByHourDataLogger",
-          options: Options(
-            headers: {
-              "Authorization": "Bearer $apiToken",
-              'Content-Type': 'application/json',
-            },
-          ),
-          data: details,
-        ),
-        retryIf: (e) {
-          if (e is DioException) {
-            return e.type == DioExceptionType.sendTimeout ||
-                e.type == DioExceptionType.receiveTimeout ||
-                e.type == DioExceptionType.connectionTimeout;
-          }
-          return false;
-        },
-      );
-      return response.data;
-    } on DioException catch (e) {
-      return e.response!.data;
-    }
-  }
-
-  // GNSS 03
-  Future<Map<String, dynamic>> getGnss03(timeFormat, DateTime fromDate) async {
-    final apiToken = await _ss.readSecureData('access_token');
-    final toDate = DateTime.now().toIso8601String();
-    final details = {
-      'iaDeviceId': "M3",
-      'fromDate': fromDate.toIso8601String(),
-      'tagName': "",
-      'timeFormat': timeFormat,
-      'toDate': toDate,
-    };
-    try {
-      final response = await _r.retry(
-        () async => await _dio.post(
-          "$_apiUrl/IA/DataLogger/GetGNSSByHourDataLogger",
-          options: Options(
-            headers: {
-              "Authorization": "Bearer $apiToken",
-              'Content-Type': 'application/json',
-            },
-          ),
-          data: details,
-        ),
-        retryIf: (e) {
-          if (e is DioException) {
-            return e.type == DioExceptionType.sendTimeout ||
-                e.type == DioExceptionType.receiveTimeout ||
-                e.type == DioExceptionType.connectionTimeout;
-          }
-          return false;
-        },
-      );
-      return response.data;
-    } on DioException catch (e) {
-      return e.response!.data;
-    }
-  }
-
-  Future<Map<String, dynamic>> getGnssbyRealTime03(DateTime fromDate) async {
-    return await getGnss03('HH:mm:ss', fromDate);
-  }
-
-  Future<Map<String, dynamic>> getGnssByHours03(DateTime fromDate) async {
-    return await getGnss03('yy/MM/dd HH', fromDate);
-  }
-
-  Future<Map<String, dynamic>> getGnssByDay03(DateTime fromDate) async {
-    return await getGnss03('yy/MM/dd', fromDate);
-  }
-
-  Future<Map<String, dynamic>> getGnssByMonth03(DateTime fromDate) async {
-    return await getGnss03('yy/MM', fromDate);
-  }
-
-  Future<Map<String, dynamic>> getGnssByYear(DateTime fromDate) async {
-    return await getGnss03('yyyy', fromDate);
-  }
-
-
-  
-  Future<Map<String, dynamic>> getGnssByRealtime01(timeFormat, DateTime fromDate) async {
-    final apiToken = await _ss.readSecureData('access_token');
-    final toDate = DateTime.now().toIso8601String();
-    final details = {
-      'iaDeviceId': "M1",
-      'fromDate': fromDate.toIso8601String(),
-      'tagName': "",
-      'timeFormat': timeFormat,
-      'toDate': toDate,
-    };
-    try {
-      final response = await _r.retry(
-        () async => await _dio.post(
-          "$_apiUrl/IA/DataLogger/GetGNSSByHourDataLogger",
-          options: Options(
-            headers: {
-              "Authorization": "Bearer $apiToken",
-              'Content-Type': 'application/json',
-            },
-          ),
-          data: details,
-        ),
-        retryIf: (e) {
-          if (e is DioException) {
-            return e.type == DioExceptionType.sendTimeout ||
-                e.type == DioExceptionType.receiveTimeout ||
-                e.type == DioExceptionType.connectionTimeout;
-          }
-          return false;
-        },
-      );
-      return response.data;
-    } on DioException catch (e) {
-      return e.response!.data;
-    }
-  }
-
-  
-
-
-   // Camera
+  // Camera
   Stream<Uint8List> getCamera(String url) async* {
     final channel = WebSocketChannel.connect(Uri.parse(url));
     try {
