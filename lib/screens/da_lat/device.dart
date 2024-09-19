@@ -72,7 +72,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     border: Border.all(
                       color: isSelected
                           ? const Color.fromRGBO(42, 98, 154, 1)
-                          : Colors.grey,
+                          : Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                     ),
                     color: isSelected
                         ? const Color.fromRGBO(42, 98, 154, 1)
