@@ -7,7 +7,7 @@ import 'package:Ageo_solutions/screens/da_lat/device_screen/rain_gauge.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/water_level.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/nghieng_sau.dart';
-import 'package:Ageo_solutions/screens/hung_yen/device_screen/rain_gauge.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/do_lun.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/water_level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -32,7 +32,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
     final List<String> items = [
       LocalData.loRong.getString(context),
       LocalData.nghiengSau.getString(context),
-      LocalData.mua.getString(context),
+      'do lun',
       LocalData.mucNuoc.getString(context),
     ];
 
@@ -130,7 +130,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                   children: const [
                     ApLucLoRongHyScreen(),
                     NghiengSauHyScreen(),
-                    RaingaugeHyScreen(),
+                    DoLunHyScreen(),
                     WaterLevelHyScreen(),
                   ],
                 ),

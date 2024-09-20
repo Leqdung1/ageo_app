@@ -1,6 +1,7 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/apLucLoRong_models.dart';
+import 'package:Ageo_solutions/models/commonData_models.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +11,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 
 enum DataSelected {
+  // ignore: constant_identifier_names
+  Hours,
   // ignore: constant_identifier_names
   Day,
   // ignore: constant_identifier_names
@@ -21,6 +24,8 @@ enum DataSelected {
 extension DataSelectedExtension on DataSelected {
   String label(BuildContext context) {
     switch (this) {
+      case DataSelected.Hours:
+        return LocalData.hours.getString(context);
       case DataSelected.Day:
         return LocalData.day.getString(context);
       case DataSelected.Month:
@@ -42,10 +47,10 @@ class NghiengSauHyScreen extends StatefulWidget {
 
 class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
   DataSelected _dataSelected = DataSelected.Day;
-  late List<PiezometerData> _chartData;
+  late List<CommonData> _chartData;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
-  Future<List<PiezometerData>>? _piezmometerBuilder;
+  Future<List<CommonData>>? _commonBuilder;
   DateTime _startDate = DateTime.now().subtract(
     const Duration(days: 7),
   );
@@ -64,35 +69,42 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
       enablePanning: true,
       zoomMode: ZoomMode.xy,
     );
-    _piezmometerBuilder =
-        fetchPiezometer(startDate: _startDate, endDate: _endDate);
+    _commonBuilder = fetchCommonData(startDate: _startDate, endDate: _endDate);
     super.initState();
   }
 
-  Future<List<PiezometerData>> fetchPiezometer(
+  Future<List<CommonData>> fetchCommonData(
       {required DateTime startDate, required DateTime endDate}) async {
     final apiClient = ApiClient();
     final Map<String, dynamic> response;
 
     switch (_dataSelected) {
+      case DataSelected.Hours:
+        response = await apiClient.getCommonDataByHours(startDate);
+        break;
       case DataSelected.Day:
-        response = await apiClient.getPiezometerbyDay(startDate);
+        response = await apiClient.getCommonDataByDay(startDate);
         break;
       case DataSelected.Month:
-        response = await apiClient.getPiezometerbyMonth(startDate);
+        response = await apiClient.getCommonDataByMonth(startDate);
         break;
       case DataSelected.Year:
-        response = await apiClient.getPiezometerbyYear(startDate);
+        response = await apiClient.getCommonDataByYear(startDate);
     }
 
     if (response['success']) {
-      List<PiezometerData> data = (response['data'] as List)
-          .map((data) => PiezometerData.fromJson(data))
+      List<CommonData> data = (response['data'] as List)
+          .map((data) => CommonData.fromJson(data))
           .toList();
 
       // Filter data based on the date range
       return data.where((rainData) {
         switch (_dataSelected) {
+          case DataSelected.Hours:
+            DateTime logTime =
+                DateFormat('yy/MM/dd HH').parse(rainData.logTime);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+
           case DataSelected.Day:
             DateTime logTime = DateFormat('yy/MM/dd').parse(rainData.logTime);
             return logTime.isAfter(startDate) && logTime.isBefore(endDate);
@@ -148,8 +160,8 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
           _endDate = pickedDate;
         }
         // Fetch and filter data based on the new date range
-        _piezmometerBuilder =
-            fetchPiezometer(startDate: _startDate, endDate: _endDate);
+        _commonBuilder =
+            fetchCommonData(startDate: _startDate, endDate: _endDate);
       });
     }
   }
@@ -159,7 +171,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: FutureBuilder(
-        future: _piezmometerBuilder,
+        future: _commonBuilder,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -457,7 +469,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                                             e.label(context) ==
                                             value as String);
 
-                                    _piezmometerBuilder = fetchPiezometer(
+                                    _commonBuilder = fetchCommonData(
                                       startDate: _startDate,
                                       endDate: _endDate,
                                     );
@@ -535,16 +547,18 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                                       ),
                                       series: _getSeries(_chartData),
                                       tooltipBehavior: TooltipBehavior(
-                              enable: true,
-                              color: Theme.of(context).colorScheme.surface,
-                              borderColor: Colors.grey.shade600,
-                              textStyle: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
-                              ),
-                            ),
+                                        enable: true,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        borderColor: Colors.grey.shade600,
+                                        textStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),
@@ -579,33 +593,18 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildLegendItem(
-          'PZ 1-1',
+          'D39-INC-1',
           const Color.fromRGBO(84, 112, 198, 1),
         ),
         const SizedBox(width: 20),
         _buildLegendItem(
-          'PZ 1-2',
+          'D39-INC-2',
           const Color.fromRGBO(145, 204, 117, 1),
         ),
         const SizedBox(width: 20),
         _buildLegendItem(
-          'PZ 2-1',
+          'D39-INC-3',
           const Color.fromRGBO(250, 200, 88, 1),
-        ),
-        const SizedBox(width: 20),
-        _buildLegendItem(
-          'PZ 2-2',
-          const Color.fromRGBO(238, 102, 102, 1),
-        ),
-        const SizedBox(width: 20),
-        _buildLegendItem(
-          'PZ 3-1',
-          const Color.fromRGBO(115, 192, 222, 1),
-        ),
-        const SizedBox(width: 20),
-        _buildLegendItem(
-          'PZ 3-2',
-          const Color.fromRGBO(59, 162, 114, 1),
         ),
       ],
     );
@@ -630,9 +629,10 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
     );
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getSeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getSeries(List<CommonData> data) {
     switch (_dataSelected) {
+      case DataSelected.Hours:
+        return _getHoursSeries(data);
       case DataSelected.Day:
         return _getDaySeries(data);
       case DataSelected.Month:
@@ -644,290 +644,158 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
     }
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getHoursSeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getHoursSeries(
+      List<CommonData> data) {
     return [
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz1,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v10,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 1-1',
+        name: 'D39-INC-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz2,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v11,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 1-2',
+        name: 'D39-INC-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz3,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v12,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 2-1',
+        name: 'D39-INC-3',
         color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz4,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 2-2',
-        color: const Color.fromRGBO(238, 102, 102, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz5,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 3-1',
-        color: const Color.fromRGBO(115, 192, 222, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz6,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 3-2',
-        color: const Color.fromRGBO(59, 162, 114, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getDaySeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getDaySeries(
+      List<CommonData> data) {
     return [
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz1,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v10,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 1-1',
+        name: 'D39-INC-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz2,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v11,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 1-2',
+        name: 'D39-INC-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz3,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v12,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 2-1',
+        name: 'D39-INC-3',
         color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz4,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 2-2',
-        color: const Color.fromRGBO(238, 102, 102, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz5,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 3-1',
-        color: const Color.fromRGBO(115, 192, 222, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz6,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 3-2',
-        color: const Color.fromRGBO(59, 162, 114, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getMonthSeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getMonthSeries(
+      List<CommonData> data) {
     return [
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz1,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v10,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 1-1',
+        name: 'D39-INC-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz2,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v11,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 1-2',
+        name: 'D39-INC-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz3,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v12,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 2-1',
+        name: 'D39-INC-3',
         color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz4,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 2-2',
-        color: const Color.fromRGBO(238, 102, 102, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz5,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 3-1',
-        color: const Color.fromRGBO(115, 192, 222, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz6,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 3-2',
-        color: const Color.fromRGBO(59, 162, 114, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getYearSeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getYearSeries(
+      List<CommonData> data) {
     return [
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz1,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v10,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 1-1',
+        name: 'D39-INC-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz2,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v11,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 1-2',
+        name: 'D39-INC-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
-      LineSeries<PiezometerData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz3,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v12,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
         // ),
-        name: 'PZ 2-1',
+        name: 'D39-INC-3',
         color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz4,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 2-2',
-        color: const Color.fromRGBO(238, 102, 102, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz5,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 3-1',
-        color: const Color.fromRGBO(115, 192, 222, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz6,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
-        name: 'PZ 3-2',
-        color: const Color.fromRGBO(59, 162, 114, 1),
       ),
     ];
   }

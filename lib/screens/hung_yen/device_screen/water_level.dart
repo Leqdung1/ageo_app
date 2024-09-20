@@ -1,14 +1,14 @@
-import 'dart:async';
 import 'package:Ageo_solutions/components/localization.dart';
-import 'package:Ageo_solutions/models/waterLevel_models.dart';
-import 'package:Ageo_solutions/screens/hung_yen/device_screen/water_level.dart';
+import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/models/apLucLoRong_models.dart';
+import 'package:Ageo_solutions/models/commonData_models.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
-import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:intl/intl.dart';
 
 enum DataSelected {
   // ignore: constant_identifier_names
@@ -46,11 +46,11 @@ class WaterLevelHyScreen extends StatefulWidget {
 }
 
 class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
-  DataSelected _dataSelected = DataSelected.Hours;
-  Future<List<WaterLevelData>>? _waterLevelBuilder;
-  late List<WaterLevelData> _chartData;
+  DataSelected _dataSelected = DataSelected.Day;
+  late List<CommonData> _chartData;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
+  Future<List<CommonData>>? _commonBuilder;
   DateTime _startDate = DateTime.now().subtract(
     const Duration(days: 7),
   );
@@ -62,43 +62,39 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(enable: true, shouldAlwaysShow: true);
+    _tooltipBehavior = TooltipBehavior(enable: true);
     _zoomPanBehavior = ZoomPanBehavior(
       enablePinching: true,
       enableDoubleTapZooming: true,
       enablePanning: true,
       zoomMode: ZoomMode.xy,
     );
-    _waterLevelBuilder =
-        fetchWaterLevelData(startDate: _startDate, endDate: _endDate);
+    _commonBuilder = fetchCommonData(startDate: _startDate, endDate: _endDate);
     super.initState();
   }
 
-  Future<List<WaterLevelData>> fetchWaterLevelData(
+  Future<List<CommonData>> fetchCommonData(
       {required DateTime startDate, required DateTime endDate}) async {
     final apiClient = ApiClient();
     final Map<String, dynamic> response;
 
     switch (_dataSelected) {
       case DataSelected.Hours:
-        response = await apiClient.getWaterLevelByHours(startDate);
+        response = await apiClient.getCommonDataByHours(startDate);
         break;
       case DataSelected.Day:
-        response = await apiClient.getWaterLevelByDay(startDate);
+        response = await apiClient.getCommonDataByDay(startDate);
         break;
       case DataSelected.Month:
-        response = await apiClient.getWaterLevelByMonth(startDate);
+        response = await apiClient.getCommonDataByMonth(startDate);
         break;
       case DataSelected.Year:
-        response = await apiClient.getWaterLevelByYear(startDate);
-        break;
-      default:
-        throw Exception('Invalid data selection');
+        response = await apiClient.getCommonDataByYear(startDate);
     }
 
     if (response['success']) {
-      List<WaterLevelData> data = (response['data'] as List)
-          .map((data) => WaterLevelData.fromJson(data))
+      List<CommonData> data = (response['data'] as List)
+          .map((data) => CommonData.fromJson(data))
           .toList();
 
       // Filter data based on the date range
@@ -107,31 +103,19 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
           case DataSelected.Hours:
             DateTime logTime =
                 DateFormat('yy/MM/dd HH').parse(rainData.logTime);
-            return logTime.isAtSameMomentAs(startDate) ||
-                logTime.isAfter(startDate) &&
-                    logTime.isAtSameMomentAs(endDate) ||
-                logTime.isBefore(endDate);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
 
           case DataSelected.Day:
             DateTime logTime = DateFormat('yy/MM/dd').parse(rainData.logTime);
-            return logTime.isAtSameMomentAs(startDate) ||
-                logTime.isAfter(startDate) &&
-                    logTime.isAtSameMomentAs(endDate) ||
-                logTime.isBefore(endDate);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
 
           case DataSelected.Month:
             DateTime logTime = DateFormat('yy/MM').parse(rainData.logTime);
-            return logTime.isAtSameMomentAs(startDate) ||
-                logTime.isAfter(startDate) &&
-                    logTime.isAtSameMomentAs(endDate) ||
-                logTime.isBefore(endDate);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
 
           case DataSelected.Year:
             DateTime logTime = DateFormat('yyyy').parse(rainData.logTime);
-            return logTime.isAtSameMomentAs(startDate) ||
-                logTime.isAfter(startDate) &&
-                    logTime.isAtSameMomentAs(endDate) ||
-                logTime.isBefore(endDate);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
         }
       }).toList();
     } else {
@@ -143,15 +127,6 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
   Future<void> showDateTime(BuildContext context, bool isStart) async {
     DateTime? pickedDate = await showOmniDateTimePicker(
       context: context,
-      theme: ThemeData(
-        colorScheme: ColorScheme.light(
-          primary: const Color.fromRGBO(21, 101, 192, 1),
-          onPrimary: Colors.white,
-          surface: Theme.of(context).colorScheme.primary,
-          onSurface:
-              Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
-        ),
-      ),
       initialDate: isStart ? _startDate : _endDate,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
@@ -166,6 +141,15 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
         );
       },
       transitionDuration: const Duration(milliseconds: 200),
+      theme: ThemeData(
+        colorScheme: ColorScheme.light(
+          primary: const Color.fromRGBO(21, 101, 192, 1),
+          onPrimary: Colors.white,
+          surface: Theme.of(context).colorScheme.primary,
+          onSurface:
+              Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+        ),
+      ),
     );
 
     if (pickedDate != null) {
@@ -176,8 +160,8 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
           _endDate = pickedDate;
         }
         // Fetch and filter data based on the new date range
-        _waterLevelBuilder =
-            fetchWaterLevelData(startDate: _startDate, endDate: _endDate);
+        _commonBuilder =
+            fetchCommonData(startDate: _startDate, endDate: _endDate);
       });
     }
   }
@@ -186,8 +170,8 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: FutureBuilder<List<WaterLevelData>>(
-        future: _waterLevelBuilder,
+      body: FutureBuilder(
+        future: _commonBuilder,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -427,12 +411,12 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
+                          // drop down menu
                           Container(
                             margin: const EdgeInsets.only(
                                 left: 10, right: 15, bottom: 20),
                             child: Expanded(
-                              // drop down menu
                               child: DropdownMenu(
                                 textStyle: TextStyle(
                                   color: Theme.of(context)
@@ -485,7 +469,7 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
                                             e.label(context) ==
                                             value as String);
 
-                                    _waterLevelBuilder = fetchWaterLevelData(
+                                    _commonBuilder = fetchCommonData(
                                       startDate: _startDate,
                                       endDate: _endDate,
                                     );
@@ -527,8 +511,6 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
                                     width: 1000,
                                     child: SfCartesianChart(
                                       plotAreaBorderWidth: 0,
-                                      margin: const EdgeInsets.all(15),
-                                      enableAxisAnimation: true,
                                       primaryXAxis: const CategoryAxis(
                                         labelStyle: TextStyle(
                                           color: Colors.grey,
@@ -536,46 +518,47 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
                                         majorGridLines:
                                             MajorGridLines(width: 0),
                                         majorTickLines: MajorTickLines(
-                                            width: 1,
-                                            color: Colors.grey,
-                                            size: 5),
+                                          width: 1,
+                                          color: Colors.grey,
+                                          size: 5,
+                                        ),
                                         isVisible: true,
                                         axisLine: AxisLine(
                                           color: Colors.grey,
                                           width: 1,
                                         ),
                                       ),
-                                      primaryYAxis: NumericAxis(
-                                          majorGridLines: const MajorGridLines(
-                                            width: 1,
-                                            dashArray: [8, 8],
-                                            color: Colors.grey,
-                                          ),
-                                          majorTickLines: const MajorTickLines(
-                                            width: 0,
-                                          ),
-                                          axisLine: const AxisLine(
-                                            color: Colors.transparent,
-                                          ),
-                                          labelStyle: const TextStyle(
-                                            color: Colors.grey,
-                                          ),
-                                          maximum: getMaxYAxisValue(_chartData)
-                                              .toDouble(),
-                                          rangePadding:
-                                              ChartRangePadding.additional),
+                                      primaryYAxis: const NumericAxis(
+                                        majorGridLines: MajorGridLines(
+                                          width: 1,
+                                          dashArray: [8, 8],
+                                          color: Colors.grey,
+                                        ),
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorTickLines: MajorTickLines(
+                                          width: 0,
+                                        ),
+                                        axisLine: AxisLine(
+                                          color: Colors.transparent,
+                                          width: 0,
+                                        ),
+                                      ),
                                       series: _getSeries(_chartData),
-                                     tooltipBehavior: TooltipBehavior(
-                              enable: true,
-                              color: Theme.of(context).colorScheme.surface,
-                              borderColor: Colors.grey.shade600,
-                              textStyle: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
-                              ),
-                            ),
+                                      tooltipBehavior: TooltipBehavior(
+                                        enable: true,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        borderColor: Colors.grey.shade600,
+                                        textStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),
@@ -610,13 +593,8 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildLegendItem(
-          'W2 (Cao độ miệng 1484.24mm)',
+          'D39-GW-1',
           const Color.fromRGBO(84, 112, 198, 1),
-        ),
-        const SizedBox(width: 20),
-        _buildLegendItem(
-          'W2 (Cao độ miệng 1487.23mm)',
-          const Color.fromRGBO(145, 204, 117, 1),
         ),
       ],
     );
@@ -641,8 +619,7 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
     );
   }
 
-  List<CartesianSeries<WaterLevelData, String>> _getSeries(
-      List<WaterLevelData> data) {
+  List<CartesianSeries<CommonData, String>> _getSeries(List<CommonData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:
         return _getHoursSeries(data);
@@ -657,122 +634,70 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
     }
   }
 
-  List<CartesianSeries<WaterLevelData, String>> _getHoursSeries(
-      List<WaterLevelData> data) {
+  List<CartesianSeries<CommonData, String>> _getHoursSeries(
+      List<CommonData> data) {
     return [
-      LineSeries<WaterLevelData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w1,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v1,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
         // ),
+        name: 'D39-GW-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
-        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<WaterLevelData, String>> _getDaySeries(
-      List<WaterLevelData> data) {
+  List<CartesianSeries<CommonData, String>> _getDaySeries(
+      List<CommonData> data) {
     return [
-      LineSeries<WaterLevelData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w1,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v1,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
         // ),
+        name: 'D39-GW-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
-        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<WaterLevelData, String>> _getMonthSeries(
-      List<WaterLevelData> data) {
+  List<CartesianSeries<CommonData, String>> _getMonthSeries(
+      List<CommonData> data) {
     return [
-      LineSeries<WaterLevelData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w1,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v1,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
         // ),
+        name: 'D39-GW-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
-        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<WaterLevelData, String>> _getYearSeries(
-      List<WaterLevelData> data) {
+  List<CartesianSeries<CommonData, String>> _getYearSeries(
+      List<CommonData> data) {
     return [
-      LineSeries<WaterLevelData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w1,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v1,
         // markerSettings: const MarkerSettings(
         //   isVisible: true,
         //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
         // ),
+        name: 'D39-GW-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
-        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }

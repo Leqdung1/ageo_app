@@ -1,14 +1,13 @@
 import 'package:Ageo_solutions/components/localization.dart';
-
-import 'package:Ageo_solutions/models/rainGauge_models.dart';
-import 'package:Ageo_solutions/screens/hung_yen/device_screen/rain_gauge.dart';
-import 'package:flutter/material.dart';
+import 'package:Ageo_solutions/core/api_client.dart';
+import 'package:Ageo_solutions/models/apLucLoRong_models.dart';
+import 'package:Ageo_solutions/models/commonData_models.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:Ageo_solutions/core/api_client.dart';
-// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 enum DataSelected {
@@ -39,19 +38,19 @@ extension DataSelectedExtension on DataSelected {
   }
 }
 
-class RaingaugeHyScreen extends StatefulWidget {
-  const RaingaugeHyScreen({super.key});
+class DoLunHyScreen extends StatefulWidget {
+  const DoLunHyScreen({super.key});
 
   @override
-  State<RaingaugeHyScreen> createState() => _RaingaugeHyScreenState();
+  State<DoLunHyScreen> createState() => _DoLunHyScreenState();
 }
 
-class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
-  DataSelected _dataSelected = DataSelected.Hours;
-  late List<RainData> _chartData;
+class _DoLunHyScreenState extends State<DoLunHyScreen> {
+  DataSelected _dataSelected = DataSelected.Day;
+  late List<CommonData> _chartData;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
-  Future<List<RainData>>? _rainDataBuilder;
+  Future<List<CommonData>>? _commonBuilder;
   DateTime _startDate = DateTime.now().subtract(
     const Duration(days: 7),
   );
@@ -63,42 +62,39 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
 
   @override
   void initState() {
+    _tooltipBehavior = TooltipBehavior(enable: true);
     _zoomPanBehavior = ZoomPanBehavior(
       enablePinching: true,
       enableDoubleTapZooming: true,
       enablePanning: true,
       zoomMode: ZoomMode.xy,
     );
-    _rainDataBuilder = fetchRainData(startDate: _startDate, endDate: _endDate);
+    _commonBuilder = fetchCommonData(startDate: _startDate, endDate: _endDate);
     super.initState();
   }
 
-  // fetch rain data
-  Future<List<RainData>> fetchRainData(
+  Future<List<CommonData>> fetchCommonData(
       {required DateTime startDate, required DateTime endDate}) async {
     final apiClient = ApiClient();
     final Map<String, dynamic> response;
 
     switch (_dataSelected) {
       case DataSelected.Hours:
-        response = await apiClient.getRainDataByHours(startDate);
+        response = await apiClient.getCommonDataByHours(startDate);
         break;
       case DataSelected.Day:
-        response = await apiClient.getRainDataByDay(startDate);
+        response = await apiClient.getCommonDataByDay(startDate);
         break;
       case DataSelected.Month:
-        response = await apiClient.getRainDataByMonth(startDate);
+        response = await apiClient.getCommonDataByMonth(startDate);
         break;
       case DataSelected.Year:
-        response = await apiClient.getRainDataByYear(startDate);
-        break;
-      default:
-        throw Exception('Invalid data selection');
+        response = await apiClient.getCommonDataByYear(startDate);
     }
 
     if (response['success']) {
-      List<RainData> data = (response['data'] as List)
-          .map((data) => RainData.fromJson(data))
+      List<CommonData> data = (response['data'] as List)
+          .map((data) => CommonData.fromJson(data))
           .toList();
 
       // Filter data based on the date range
@@ -107,31 +103,19 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
           case DataSelected.Hours:
             DateTime logTime =
                 DateFormat('yy/MM/dd HH').parse(rainData.logTime);
-            return logTime.isAtSameMomentAs(startDate) ||
-                logTime.isAfter(startDate) &&
-                    logTime.isAtSameMomentAs(endDate) ||
-                logTime.isBefore(endDate);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
 
           case DataSelected.Day:
             DateTime logTime = DateFormat('yy/MM/dd').parse(rainData.logTime);
-            return logTime.isAtSameMomentAs(startDate) ||
-                logTime.isAfter(startDate) &&
-                    logTime.isAtSameMomentAs(endDate) ||
-                logTime.isBefore(endDate);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
 
           case DataSelected.Month:
             DateTime logTime = DateFormat('yy/MM').parse(rainData.logTime);
-            return logTime.isAtSameMomentAs(startDate) ||
-                logTime.isAfter(startDate) &&
-                    logTime.isAtSameMomentAs(endDate) ||
-                logTime.isBefore(endDate);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
 
           case DataSelected.Year:
             DateTime logTime = DateFormat('yyyy').parse(rainData.logTime);
-            return logTime.isAtSameMomentAs(startDate) ||
-                logTime.isAfter(startDate) &&
-                    logTime.isAtSameMomentAs(endDate) ||
-                logTime.isBefore(endDate);
+            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
         }
       }).toList();
     } else {
@@ -148,7 +132,7 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
       lastDate: DateTime.now(),
       is24HourMode: true,
       minutesInterval: 1,
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
       constraints: const BoxConstraints(maxWidth: 350, maxHeight: 650),
       transitionBuilder: (context, anim1, anim2, child) {
         return FadeTransition(
@@ -175,9 +159,9 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
         } else {
           _endDate = pickedDate;
         }
-
-        _rainDataBuilder =
-            fetchRainData(startDate: _startDate, endDate: _endDate);
+        // Fetch and filter data based on the new date range
+        _commonBuilder =
+            fetchCommonData(startDate: _startDate, endDate: _endDate);
       });
     }
   }
@@ -186,18 +170,17 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: FutureBuilder<List<RainData>>(
-        future: _rainDataBuilder,
+      body: FutureBuilder(
+        future: _commonBuilder,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
+            return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             _chartData = snapshot.data!;
             return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -267,7 +250,7 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
                                             bottom: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.002),
+                                                0.02),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -362,7 +345,7 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
                                             bottom: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.002),
+                                                0.02),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -410,7 +393,7 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
                       horizontal: 12,
                       vertical: 15,
                     ),
-                    padding: const EdgeInsetsDirectional.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 15,
                     ),
@@ -429,11 +412,11 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          // drop down menu
                           Container(
                             margin: const EdgeInsets.only(
                                 left: 10, right: 15, bottom: 20),
                             child: Expanded(
-                              // drop down menu
                               child: DropdownMenu(
                                 textStyle: TextStyle(
                                   color: Theme.of(context)
@@ -486,7 +469,7 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
                                             e.label(context) ==
                                             value as String);
 
-                                    _rainDataBuilder = fetchRainData(
+                                    _commonBuilder = fetchCommonData(
                                       startDate: _startDate,
                                       endDate: _endDate,
                                     );
@@ -516,61 +499,140 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
                             ),
                           ),
 
-                          // Draw chart
-                          SfCartesianChart(
-                            tooltipBehavior: TooltipBehavior(
-                              enable: true,
-                              color: Theme.of(context).colorScheme.surface,
-                              borderColor: Colors.grey.shade600,
-                              textStyle: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
+                          // draw chart
+                          Column(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(left: 15, top: 30),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SizedBox(
+                                    width: 1000,
+                                    child: SfCartesianChart(
+                                      plotAreaBorderWidth: 0,
+                                      primaryXAxis: const CategoryAxis(
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorGridLines:
+                                            MajorGridLines(width: 0),
+                                        majorTickLines: MajorTickLines(
+                                          width: 1,
+                                          color: Colors.grey,
+                                          size: 5,
+                                        ),
+                                        isVisible: true,
+                                        axisLine: AxisLine(
+                                          color: Colors.grey,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      primaryYAxis: const NumericAxis(
+                                        majorGridLines: MajorGridLines(
+                                          width: 1,
+                                          dashArray: [8, 8],
+                                          color: Colors.grey,
+                                        ),
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorTickLines: MajorTickLines(
+                                          width: 0,
+                                        ),
+                                        axisLine: AxisLine(
+                                          color: Colors.transparent,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      series: _getSeries(_chartData),
+                                      tooltipBehavior: TooltipBehavior(
+                                        enable: true,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        borderColor: Colors.grey.shade600,
+                                        textStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
+                                      zoomPanBehavior: _zoomPanBehavior,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                            plotAreaBorderWidth: 0,
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 15,
-                              vertical: 20,
-                            ),
-                            primaryXAxis: const CategoryAxis(
-                              majorGridLines: MajorGridLines(
-                                width: 0,
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(left: 15, top: 30),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SizedBox(
+                                    width: 1000,
+                                    child: SfCartesianChart(
+                                      plotAreaBorderWidth: 0,
+                                      primaryXAxis: const CategoryAxis(
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorGridLines:
+                                            MajorGridLines(width: 0),
+                                        majorTickLines: MajorTickLines(
+                                          width: 1,
+                                          color: Colors.grey,
+                                          size: 5,
+                                        ),
+                                        isVisible: true,
+                                        axisLine: AxisLine(
+                                          color: Colors.grey,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      primaryYAxis: const NumericAxis(
+                                        majorGridLines: MajorGridLines(
+                                          width: 1,
+                                          dashArray: [8, 8],
+                                          color: Colors.grey,
+                                        ),
+                                        labelStyle: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                        majorTickLines: MajorTickLines(
+                                          width: 0,
+                                        ),
+                                        axisLine: AxisLine(
+                                          color: Colors.transparent,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      series: _getSeries02(_chartData),
+                                      tooltipBehavior: TooltipBehavior(
+                                        enable: true,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        borderColor: Colors.grey.shade600,
+                                        textStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
+                                      zoomPanBehavior: _zoomPanBehavior,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              labelStyle: TextStyle(
-                                color: Colors.grey,
+                              SingleChildScrollView(
+                                padding: const EdgeInsets.only(
+                                    top: 15, left: 20, right: 20),
+                                scrollDirection: Axis.horizontal,
+                                child: _buildCustomLegend(),
                               ),
-                              rangePadding: ChartRangePadding.auto,
-                              majorTickLines: MajorTickLines(
-                                width: 1,
-                                color: Colors.grey,
-                                size: 5,
-                              ),
-                              axisLine: AxisLine(
-                                color: Colors.grey,
-                                width: 1,
-                              ),
-                            ),
-                            primaryYAxis: const NumericAxis(
-                              majorGridLines: MajorGridLines(
-                                width: 1,
-                                dashArray: [8, 8],
-                                color: Colors.grey,
-                              ),
-                              labelStyle: TextStyle(
-                                color: Colors.grey,
-                              ),
-                              majorTickLines: MajorTickLines(
-                                width: 0,
-                              ),
-                              axisLine: AxisLine(
-                                color: Colors.transparent,
-                                width: 0,
-                              ),
-                            ),
-                            zoomPanBehavior: _zoomPanBehavior,
-                            series: _getSeries(_chartData),
+                            ],
                           ),
                         ],
                       ),
@@ -588,8 +650,48 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
     );
   }
 
-  // Chart corresponding data selected
-  List<CartesianSeries<RainData, String>> _getSeries(List<RainData> data) {
+  Widget _buildCustomLegend() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildLegendItem(
+          'D39-INC-1',
+          const Color.fromRGBO(84, 112, 198, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'D39-INC-2',
+          const Color.fromRGBO(145, 204, 117, 1),
+        ),
+        const SizedBox(width: 20),
+        _buildLegendItem(
+          'D39-INC-3',
+          const Color.fromRGBO(250, 200, 88, 1),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLegendItem(String text, Color color) {
+    return Row(
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 5),
+        Text(
+          text,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<CartesianSeries<CommonData, String>> _getSeries(List<CommonData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:
         return _getHoursSeries(data);
@@ -604,62 +706,330 @@ class _RaingaugeHyScreenState extends State<RaingaugeHyScreen> {
     }
   }
 
-  List<CartesianSeries<RainData, String>> _getHoursSeries(List<RainData> data) {
+  List<CartesianSeries<CommonData, String>> _getHoursSeries(
+      List<CommonData> data) {
     return [
-      ColumnSeries<RainData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (RainData rain, _) => rain.logTime,
-        yValueMapper: (RainData rain, _) => rain.rainAmount,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-        ),
-        color: const Color.fromRGBO(21, 101, 192, 1),
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v4,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v5,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v6,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-3',
+        color: const Color.fromRGBO(250, 200, 88, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<RainData, String>> _getDaySeries(List<RainData> data) {
+  List<CartesianSeries<CommonData, String>> _getDaySeries(
+      List<CommonData> data) {
     return [
-      ColumnSeries<RainData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (RainData rain, _) => rain.logTime,
-        yValueMapper: (RainData rain, _) => rain.rainAmount,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
-        ),
-        color: const Color.fromRGBO(21, 101, 192, 1),
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v4,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v5,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v6,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-3',
+        color: const Color.fromRGBO(250, 200, 88, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<RainData, String>> _getMonthSeries(List<RainData> data) {
+  List<CartesianSeries<CommonData, String>> _getMonthSeries(
+      List<CommonData> data) {
     return [
-      ColumnSeries<RainData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (RainData rain, _) => rain.logTime,
-        yValueMapper: (RainData rain, _) => rain.rainAmount,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
-        ),
-        color: const Color.fromRGBO(21, 101, 192, 1),
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v4,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v5,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v6,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-3',
+        color: const Color.fromRGBO(250, 200, 88, 1),
       ),
     ];
   }
 
-  List<CartesianSeries<RainData, String>> _getYearSeries(List<RainData> data) {
+  List<CartesianSeries<CommonData, String>> _getYearSeries(
+      List<CommonData> data) {
     return [
-      ColumnSeries<RainData, String>(
+      LineSeries<CommonData, String>(
         dataSource: data,
-        xValueMapper: (RainData rain, _) => rain.logTime,
-        yValueMapper: (RainData rain, _) => rain.rainAmount,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
-        ),
-        color: const Color.fromRGBO(21, 101, 192, 1),
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v4,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v5,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v6,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-3',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+    ];
+  }
+
+  List<CartesianSeries<CommonData, String>> _getSeries02(
+      List<CommonData> data) {
+    switch (_dataSelected) {
+      case DataSelected.Hours:
+        return _getHoursSeries02(data);
+      case DataSelected.Day:
+        return _getDaySeries02(data);
+      case DataSelected.Month:
+        return _getMonthSeries02(data);
+      case DataSelected.Year:
+        return _getYearSeries02(data);
+      default:
+        return [];
+    }
+  }
+
+  List<CartesianSeries<CommonData, String>> _getHoursSeries02(
+      List<CommonData> data) {
+    return [
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v7,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v8,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v6,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-3',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+    ];
+  }
+
+  List<CartesianSeries<CommonData, String>> _getDaySeries02(
+      List<CommonData> data) {
+    return [
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v7,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v8,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v9,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-3',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+    ];
+  }
+
+  List<CartesianSeries<CommonData, String>> _getMonthSeries02(
+      List<CommonData> data) {
+    return [
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v7,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v8,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v9,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-3',
+        color: const Color.fromRGBO(250, 200, 88, 1),
+      ),
+    ];
+  }
+
+  List<CartesianSeries<CommonData, String>> _getYearSeries02(
+      List<CommonData> data) {
+    return [
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v7,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-1',
+        color: const Color.fromRGBO(84, 112, 198, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v8,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-2',
+        color: const Color.fromRGBO(145, 204, 117, 1),
+      ),
+      LineSeries<CommonData, String>(
+        dataSource: data,
+        xValueMapper: (CommonData data, _) => data.logTime,
+        yValueMapper: (CommonData data, _) => data.v9,
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        // ),
+        name: 'D39-INC-3',
+        color: const Color.fromRGBO(250, 200, 88, 1),
       ),
     ];
   }
