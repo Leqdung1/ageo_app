@@ -1,6 +1,5 @@
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
-import 'package:Ageo_solutions/models/gnss02_models.dart';
 import 'package:Ageo_solutions/models/gnss_models.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
@@ -73,12 +72,19 @@ class _GnssScreenState extends State<GnssScreen> {
       enablePanning: true,
       zoomMode: ZoomMode.xy,
     );
-    _piezmometerBuilder = fetchGnss(startDate: _startDate, endDate: _endDate, selectedSegment: selectedSegment!,);
+    _piezmometerBuilder = fetchGnss(
+      startDate: _startDate,
+      endDate: _endDate,
+      selectedSegment: selectedSegment!,
+    );
     super.initState();
   }
 
-  Future<List<GnssData>> fetchGnss(
-      {required DateTime startDate, required DateTime endDate, required int selectedSegment,}) async {
+  Future<List<GnssData>> fetchGnss({
+    required DateTime startDate,
+    required DateTime endDate,
+    required int selectedSegment,
+  }) async {
     final apiClient = ApiClient();
     final Map<String, dynamic> response;
 
@@ -233,8 +239,11 @@ class _GnssScreenState extends State<GnssScreen> {
           _endDate = pickedDate;
         }
         // Fetch and filter data based on the new date range
-        _piezmometerBuilder =
-            fetchGnss(startDate: _startDate, endDate: _endDate, selectedSegment: selectedSegment!,);
+        _piezmometerBuilder = fetchGnss(
+          startDate: _startDate,
+          endDate: _endDate,
+          selectedSegment: selectedSegment!,
+        );
       });
     }
   }
@@ -518,11 +527,11 @@ class _GnssScreenState extends State<GnssScreen> {
                                 onValueChanged: (v) {
                                   setState(() {
                                     selectedSegment = v;
-                                     _piezmometerBuilder = fetchGnss(
-      startDate: _startDate,
-      endDate: _endDate,
-      selectedSegment: selectedSegment!,
-    );
+                                    _piezmometerBuilder = fetchGnss(
+                                      startDate: _startDate,
+                                      endDate: _endDate,
+                                      selectedSegment: selectedSegment!,
+                                    );
                                     getGnssChart();
                                   });
                                 },
@@ -593,7 +602,7 @@ class _GnssScreenState extends State<GnssScreen> {
                                     _piezmometerBuilder = fetchGnss(
                                       startDate: _startDate,
                                       endDate: _endDate,
-                                       selectedSegment: selectedSegment!,
+                                      selectedSegment: selectedSegment!,
                                     );
                                   });
                                 },
@@ -1068,7 +1077,7 @@ class _GnssScreenState extends State<GnssScreen> {
 
   // gnss03
   Widget gnss03() {
-     return Column(
+    return Column(
       children: [
         // dX chart
         Container(

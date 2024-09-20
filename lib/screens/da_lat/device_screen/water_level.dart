@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/models/waterLevel_models.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/water_level.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';

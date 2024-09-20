@@ -1,9 +1,14 @@
-import 'package:Ageo_solutions/core/api_client.dart';
+import 'dart:async';
+import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/models/commonData_models.dart';
+import 'package:Ageo_solutions/models/waterLevel_models.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:intl/intl.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
 enum DataSelected {
   // ignore: constant_identifier_names
@@ -17,35 +22,35 @@ enum DataSelected {
 }
 
 extension DataSelectedExtension on DataSelected {
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case DataSelected.Hours:
-        return 'Hours';
+        return LocalData.hours.getString(context);
       case DataSelected.Day:
-        return 'Day';
+        return LocalData.day.getString(context);
       case DataSelected.Month:
-        return 'Month';
+        return LocalData.month.getString(context);
       case DataSelected.Year:
-        return 'Year';
+        return LocalData.year.getString(context);
       default:
         return '';
     }
   }
 }
 
-class ApLucLoRongScreen extends StatefulWidget {
-  const ApLucLoRongScreen({super.key});
+class ApLucLoRongHyScreen extends StatefulWidget {
+  const ApLucLoRongHyScreen({super.key});
 
   @override
-  State<ApLucLoRongScreen> createState() => _ApLucLoRongScreenState();
+  State<ApLucLoRongHyScreen> createState() => _ApLucLoRongHyScreenState();
 }
 
-class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
+class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
   DataSelected _dataSelected = DataSelected.Hours;
-  late List<PiezometerData> _chartData;
+  Future<List<CommonData>>? _commonBuilder;
+  late List<CommonData> _chartData;
   late TooltipBehavior _tooltipBehavior;
   late ZoomPanBehavior _zoomPanBehavior;
-  Future<List<PiezometerData>>? _piezmometerBuilder;
   DateTime _startDate = DateTime.now().subtract(
     const Duration(days: 7),
   );
@@ -57,40 +62,42 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(enable: true);
+    _tooltipBehavior = TooltipBehavior(enable: true, shouldAlwaysShow: true);
     _zoomPanBehavior = ZoomPanBehavior(
       enablePinching: true,
       enableDoubleTapZooming: true,
       enablePanning: true,
       zoomMode: ZoomMode.xy,
     );
-    _piezmometerBuilder =
-        fetchPiezometer(startDate: _startDate, endDate: _endDate);
+    _commonBuilder = fetchCommonData(startDate: _startDate, endDate: _endDate);
     super.initState();
   }
 
-  Future<List<PiezometerData>> fetchPiezometer(
+  Future<List<CommonData>> fetchCommonData(
       {required DateTime startDate, required DateTime endDate}) async {
     final apiClient = ApiClient();
     final Map<String, dynamic> response;
 
     switch (_dataSelected) {
       case DataSelected.Hours:
-        response = await apiClient.getPiezometerbyHours(startDate);
+        response = await apiClient.getCommonDataByHours(startDate);
         break;
       case DataSelected.Day:
-        response = await apiClient.getPiezometerbyDay(startDate);
+        response = await apiClient.getCommonDataByDay(startDate);
         break;
       case DataSelected.Month:
-        response = await apiClient.getPiezometerbyMonth(startDate);
+        response = await apiClient.getCommonDataByMonth(startDate);
         break;
       case DataSelected.Year:
-        response = await apiClient.getPiezometerbyYear(startDate);
+        response = await apiClient.getCommonDataByYear(startDate);
+        break;
+      default:
+        throw Exception('Invalid data selection');
     }
 
     if (response['success']) {
-      List<PiezometerData> data = (response['data'] as List)
-          .map((data) => PiezometerData.fromJson(data))
+      List<CommonData> data = (response['data'] as List)
+          .map((data) => CommonData.fromJson(data))
           .toList();
 
       // Filter data based on the date range
@@ -99,19 +106,31 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
           case DataSelected.Hours:
             DateTime logTime =
                 DateFormat('yy/MM/dd HH').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Day:
             DateTime logTime = DateFormat('yy/MM/dd').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Month:
             DateTime logTime = DateFormat('yy/MM').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Year:
             DateTime logTime = DateFormat('yyyy').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
         }
       }).toList();
     } else {
@@ -123,7 +142,16 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   Future<void> showDateTime(BuildContext context, bool isStart) async {
     DateTime? pickedDate = await showOmniDateTimePicker(
       context: context,
-      initialDate: DateTime.now(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.light(
+          primary: const Color.fromRGBO(21, 101, 192, 1),
+          onPrimary: Colors.white,
+          surface: Theme.of(context).colorScheme.primary,
+          onSurface:
+              Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+        ),
+      ),
+      initialDate: isStart ? _startDate : _endDate,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
       is24HourMode: true,
@@ -137,13 +165,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         );
       },
       transitionDuration: const Duration(milliseconds: 200),
-      theme: ThemeData(
-        colorScheme: const ColorScheme.light(
-          primary: Color.fromRGBO(21, 101, 192, 1),
-          onPrimary: Colors.white,
-          surface: Colors.white,
-        ),
-      ),
     );
 
     if (pickedDate != null) {
@@ -154,8 +175,8 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
           _endDate = pickedDate;
         }
         // Fetch and filter data based on the new date range
-        _piezmometerBuilder =
-            fetchPiezometer(startDate: _startDate, endDate: _endDate);
+        _commonBuilder =
+            fetchCommonData(startDate: _startDate, endDate: _endDate);
       });
     }
   }
@@ -164,15 +185,13 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: FutureBuilder(
-        future: _piezmometerBuilder,
+      body: FutureBuilder<List<CommonData>>(
+        future: _commonBuilder,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No data available'));
           } else {
             _chartData = snapshot.data!;
             return SingleChildScrollView(
@@ -191,13 +210,13 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     blurRadius: 8,
+                      //     offset: const Offset(0, 1),
+                      //   ),
+                      // ],
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -207,53 +226,52 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                           flex: 1,
                           child: TextButton(
                             onPressed: () => showDateTime(context, true),
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: SvgPicture.asset(
-                                        'assets/icons/calender.svg',
-                                        height: 20),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.008),
-                                          child: const Text(
-                                            'Từ ngày',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color.fromRGBO(
-                                                    21, 101, 192, 1)),
-                                          ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/calender.svg',
+                                      height: 20),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.008),
+                                        child: Text(
+                                          LocalData.fromDate.getString(context),
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_startDate),
                                                 style: TextStyle(
@@ -264,25 +282,25 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                                       ?.color,
                                                 ),
                                               ),
-                                              Text(
-                                                DateFormat('hh:mm')
-                                                    .format(_startTime),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                            ),
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_startTime),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -295,61 +313,60 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                           flex: 1,
                           child: TextButton(
                             onPressed: () => showDateTime(context, false),
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: SvgPicture.asset(
-                                        'assets/icons/calender.svg',
-                                        height: 20),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.005),
-                                          child: const Text(
-                                            'Đến ngày',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color.fromRGBO(
-                                                    21, 101, 192, 1)),
-                                          ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/calender.svg',
+                                      height: 20),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.005),
+                                        child: Text(
+                                          LocalData.toDate.getString(context),
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_endDate),
                                                 style: TextStyle(
@@ -360,25 +377,25 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                                       ?.color,
                                                 ),
                                               ),
-                                              Text(
-                                                DateFormat('hh:mm')
-                                                    .format(_endTime),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                            ),
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_endTime),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -398,23 +415,23 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: const Offset(0, 1),
-                          blurRadius: 8,
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     offset: const Offset(0, 1),
+                      //     blurRadius: 8,
+                      //   ),
+                      // ],
                     ),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // drop down menu
+                        children: [
                           Container(
                             margin: const EdgeInsets.only(
-                                left: 20, right: 15, bottom: 20),
+                                left: 10, right: 15, bottom: 20),
                             child: Expanded(
+                              // drop down menu
                               child: DropdownMenu(
                                 textStyle: TextStyle(
                                   color: Theme.of(context)
@@ -422,7 +439,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                       .bodyLarge
                                       ?.color,
                                   fontSize: 15,
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.w500,
                                 ),
                                 selectedTrailingIcon: Icon(
                                   Icons.expand_less,
@@ -434,7 +451,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                 ),
                                 menuStyle: MenuStyle(
                                   maximumSize: const WidgetStatePropertyAll(
-                                    Size.fromHeight(150),
+                                    Size.fromHeight(160),
                                   ),
                                   surfaceTintColor:
                                       const WidgetStatePropertyAll(
@@ -459,20 +476,38 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                     ),
                                   ),
                                 ),
-                                initialSelection: _dataSelected.name,
+                                initialSelection: _dataSelected.label(context),
                                 onSelected: (value) {
                                   setState(() {
                                     _dataSelected = DataSelected.values
-                                        .byName(value as String);
-                                    _piezmometerBuilder = fetchPiezometer(
-                                        startDate: _startDate,
-                                        endDate: _endDate);
+                                        .firstWhere((e) =>
+                                            e.label(context) ==
+                                            value as String);
+
+                                    _commonBuilder = fetchCommonData(
+                                      startDate: _startDate,
+                                      endDate: _endDate,
+                                    );
                                   });
                                 },
                                 dropdownMenuEntries: DataSelected.values
                                     .map(
                                       (e) => DropdownMenuEntry(
-                                          value: e.name, label: e.label),
+                                        value: e.label(context),
+                                        labelWidget: Padding(
+                                          padding: const EdgeInsets.all(0),
+                                          child: Text(
+                                            e.label(context),
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color,
+                                            ),
+                                          ),
+                                        ),
+                                        label: e.label(context),
+                                      ),
                                     )
                                     .toList(),
                               ),
@@ -491,6 +526,8 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                     width: 1000,
                                     child: SfCartesianChart(
                                       plotAreaBorderWidth: 0,
+                                      margin: const EdgeInsets.all(15),
+                                      enableAxisAnimation: true,
                                       primaryXAxis: const CategoryAxis(
                                         labelStyle: TextStyle(
                                           color: Colors.grey,
@@ -498,10 +535,9 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                         majorGridLines:
                                             MajorGridLines(width: 0),
                                         majorTickLines: MajorTickLines(
-                                          width: 1,
-                                          color: Colors.grey,
-                                          size: 5,
-                                        ),
+                                            width: 1,
+                                            color: Colors.grey,
+                                            size: 5),
                                         isVisible: true,
                                         axisLine: AxisLine(
                                           color: Colors.grey,
@@ -509,24 +545,36 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                         ),
                                       ),
                                       primaryYAxis: const NumericAxis(
-                                        majorGridLines: MajorGridLines(
-                                          width: 1,
-                                          dashArray: [8, 8],
-                                          color: Colors.grey,
-                                        ),
-                                        labelStyle: TextStyle(
-                                          color: Colors.grey,
-                                        ),
-                                        majorTickLines: MajorTickLines(
-                                          width: 0,
-                                        ),
-                                        axisLine: AxisLine(
-                                          color: Colors.transparent,
-                                          width: 0,
+                                          majorGridLines: MajorGridLines(
+                                            width: 1,
+                                            dashArray: [8, 8],
+                                            color: Colors.grey,
+                                          ),
+                                          majorTickLines: MajorTickLines(
+                                            width: 0,
+                                          ),
+                                          axisLine: AxisLine(
+                                            color: Colors.transparent,
+                                          ),
+                                          labelStyle: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                          rangePadding:
+                                              ChartRangePadding.additional),
+                                      series: _getSeries(_chartData),
+                                      tooltipBehavior: TooltipBehavior(
+                                        enable: true,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        borderColor: Colors.grey.shade600,
+                                        textStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
                                         ),
                                       ),
-                                      series: _getSeries(_chartData),
-                                      tooltipBehavior: _tooltipBehavior,
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),
@@ -561,33 +609,13 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildLegendItem(
-          'PZ 1-1',
+          'D39-PZ-1',
           const Color.fromRGBO(84, 112, 198, 1),
         ),
         const SizedBox(width: 20),
         _buildLegendItem(
-          'PZ 1-2',
+          'D39-PZ-2',
           const Color.fromRGBO(145, 204, 117, 1),
-        ),
-        const SizedBox(width: 20),
-        _buildLegendItem(
-          'PZ 2-1',
-          const Color.fromRGBO(250, 200, 88, 1),
-        ),
-        const SizedBox(width: 20),
-        _buildLegendItem(
-          'PZ 2-2',
-          const Color.fromRGBO(238, 102, 102, 1),
-        ),
-        const SizedBox(width: 20),
-        _buildLegendItem(
-          'PZ 3-1',
-          const Color.fromRGBO(115, 192, 222, 1),
-        ),
-        const SizedBox(width: 20),
-        _buildLegendItem(
-          'PZ 3-2',
-          const Color.fromRGBO(59, 162, 114, 1),
         ),
       ],
     );
@@ -612,8 +640,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
     );
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getSeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getSeries(List<CommonData> data) {
     switch (_dataSelected) {
       case DataSelected.Hours:
         return _getHoursSeries(data);
@@ -628,402 +655,123 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
     }
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getHoursSeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getHoursSeries(
+      List<CommonData> data) {
     return [
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-1',
-        color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-2',
-        color: const Color.fromRGBO(145, 204, 117, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz3,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-1',
-        color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz4,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-2',
-        color: const Color.fromRGBO(238, 102, 102, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz5,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-1',
-        color: const Color.fromRGBO(115, 192, 222, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz6,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-2',
-        color: const Color.fromRGBO(59, 162, 114, 1),
-      ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz7,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz8,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
+      LineSeries<CommonData, String>(
+          dataSource: data,
+          xValueMapper: (CommonData data, _) => data.logTime,
+          yValueMapper: (CommonData data, _) => data.v2,
+          // markerSettings: const MarkerSettings(
+          //   isVisible: true,
+          //   shape: DataMarkerType.circle,
+          //   height: 5,
+          //   width: 5,
+          // ),
+          color: const Color.fromRGBO(84, 112, 198, 1),
+          name: 'D39-PZ-1'),
+      LineSeries<CommonData, String>(
+          dataSource: data,
+          xValueMapper: (CommonData data, _) => data.logTime,
+          yValueMapper: (CommonData data, _) => data.v3,
+          // markerSettings: const MarkerSettings(
+          //   isVisible: true,
+          //   shape: DataMarkerType.circle,
+          //   height: 5,
+          //   width: 5,
+          // ),
+          color: const Color.fromRGBO(145, 204, 117, 1),
+          name: 'D39-PZ-2'),
     ];
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getDaySeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getDaySeries(
+      List<CommonData> data) {
     return [
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-1',
-        color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-2',
-        color: const Color.fromRGBO(145, 204, 117, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz3,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-1',
-        color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz4,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-2',
-        color: const Color.fromRGBO(238, 102, 102, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz5,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-1',
-        color: const Color.fromRGBO(115, 192, 222, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz6,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-2',
-        color: const Color.fromRGBO(59, 162, 114, 1),
-      ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz7,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz8,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
+      LineSeries<CommonData, String>(
+          dataSource: data,
+          xValueMapper: (CommonData data, _) => data.logTime,
+          yValueMapper: (CommonData data, _) => data.v2,
+          // markerSettings: const MarkerSettings(
+          //   isVisible: true,
+          //   shape: DataMarkerType.circle,
+          //   height: 5,
+          //   width: 5,
+          // ),
+          color: const Color.fromRGBO(84, 112, 198, 1),
+          name: 'D39-PZ-1'),
+      LineSeries<CommonData, String>(
+          dataSource: data,
+          xValueMapper: (CommonData data, _) => data.logTime,
+          yValueMapper: (CommonData data, _) => data.v3,
+          // markerSettings: const MarkerSettings(
+          //   isVisible: true,
+          //   shape: DataMarkerType.circle,
+          //   height: 5,
+          //   width: 5,
+          // ),
+          color: const Color.fromRGBO(145, 204, 117, 1),
+          name: 'D39-PZ-2'),
     ];
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getMonthSeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getMonthSeries(
+      List<CommonData> data) {
     return [
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-1',
-        color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-2',
-        color: const Color.fromRGBO(145, 204, 117, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz3,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-1',
-        color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz4,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-2',
-        color: const Color.fromRGBO(238, 102, 102, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz5,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-1',
-        color: const Color.fromRGBO(115, 192, 222, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz6,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-2',
-        color: const Color.fromRGBO(59, 162, 114, 1),
-      ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz7,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz8,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
+      LineSeries<CommonData, String>(
+          dataSource: data,
+          xValueMapper: (CommonData data, _) => data.logTime,
+          yValueMapper: (CommonData data, _) => data.v2,
+          // markerSettings: const MarkerSettings(
+          //   isVisible: true,
+          //   shape: DataMarkerType.circle,
+          //   height: 5,
+          //   width: 5,
+          // ),
+          color: const Color.fromRGBO(84, 112, 198, 1),
+          name: 'D39-PZ-1'),
+      LineSeries<CommonData, String>(
+          dataSource: data,
+          xValueMapper: (CommonData data, _) => data.logTime,
+          yValueMapper: (CommonData data, _) => data.v3,
+          // markerSettings: const MarkerSettings(
+          //   isVisible: true,
+          //   shape: DataMarkerType.circle,
+          //   height: 5,
+          //   width: 5,
+          // ),
+          color: const Color.fromRGBO(145, 204, 117, 1),
+          name: 'D39-PZ-2'),
     ];
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getYearSeries(
-      List<PiezometerData> data) {
+  List<CartesianSeries<CommonData, String>> _getYearSeries(
+      List<CommonData> data) {
     return [
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-1',
-        color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-2',
-        color: const Color.fromRGBO(145, 204, 117, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz3,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-1',
-        color: const Color.fromRGBO(250, 200, 88, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz4,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-2',
-        color: const Color.fromRGBO(238, 102, 102, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz5,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-1',
-        color: const Color.fromRGBO(115, 192, 222, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz6,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-2',
-        color: const Color.fromRGBO(59, 162, 114, 1),
-      ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz7,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
-      //  LineSeries<PiezometerData, String>(
-      //   dataSource: data,
-      //   xValueMapper: (PiezometerData data, _) => data.logTime,
-      //   yValueMapper: (PiezometerData data, _) => data.pz8,
-      //   markerSettings: const MarkerSettings(
-      //     isVisible: true,
-      //     shape: DataMarkerType.circle,
-      //   ),
-      // ),
+      LineSeries<CommonData, String>(
+          dataSource: data,
+          xValueMapper: (CommonData data, _) => data.logTime,
+          yValueMapper: (CommonData data, _) => data.v2,
+          // markerSettings: const MarkerSettings(
+          //   isVisible: true,
+          //   shape: DataMarkerType.circle,
+          //   height: 5,
+          //   width: 5,
+          // ),
+          color: const Color.fromRGBO(84, 112, 198, 1),
+          name: 'D39-PZ-1'),
+      LineSeries<CommonData, String>(
+          dataSource: data,
+          xValueMapper: (CommonData data, _) => data.logTime,
+          yValueMapper: (CommonData data, _) => data.v3,
+          // markerSettings: const MarkerSettings(
+          //   isVisible: true,
+          //   shape: DataMarkerType.circle,
+          //   height: 5,
+          //   width: 5,
+          // ),
+          color: const Color.fromRGBO(145, 204, 117, 1),
+          name: 'D39-PZ-2'),
     ];
   }
-}
-
-// Data class
-class PiezometerData {
-  PiezometerData(this.logTime, this.pz1, this.pz2, this.pz3, this.pz4, this.pz5,
-      this.pz6, this.pz7, this.pz8);
-  final String logTime;
-  final double pz1;
-  final double pz2;
-  final double pz3;
-  final double pz4;
-  final double pz5;
-  final double pz6;
-  final double pz7;
-  final double pz8;
-
-  factory PiezometerData.fromJson(Map<String, dynamic> json) => PiezometerData(
-        json["logTime"],
-        json["pz1"],
-        json["pz2"],
-        json["pz3"],
-        json["pz4"],
-        json["pz5"],
-        json["pz6"],
-        json["pz7"],
-        json["pz8"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "logTime": logTime,
-        "pz1": pz1,
-        "pz2": pz2,
-        "pz3": pz3,
-        "pz4": pz4,
-        "pz5": pz5,
-        "pz6": pz6,
-        "pz7": pz7,
-        "pz8": pz8,
-      };
 }

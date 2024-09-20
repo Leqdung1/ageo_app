@@ -510,6 +510,62 @@ class ApiClient {
     }
   }
 
+
+  // Common data logger 
+   Future<Map<String, dynamic>> getCommonData(
+      timeFormat, DateTime fromDate) async {
+    final apiToken = await _ss.readSecureData('access_token');
+    final toDate = DateTime.now().toIso8601String();
+    final details = {
+      'deviceId': "",
+      'fromDate': fromDate.toIso8601String(),
+      'tagName': "",
+      'timeFormat': timeFormat,
+      'toDate': toDate,
+    };
+    try {
+      final response = await _r.retry(
+        () async => await _dio.post(
+          "$_apiUrl//IA/DataLogger/GetCommonDataLogger",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $apiToken",
+              'Content-Type': 'application/json',
+            },
+          ),
+          data: details,
+        ),
+        retryIf: (e) {
+          if (e is DioException) {
+            return e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.connectionTimeout;
+          }
+          return false;
+        },
+      );
+      return response.data;
+    } on DioException catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<Map<String, dynamic>> getCommonDataByHours(DateTime fromDate) async {
+    return await getCommonData('yy/MM/dd HH', fromDate);
+  }
+
+  Future<Map<String, dynamic>> getCommonDataByDay(DateTime fromDate) async {
+    return await getCommonData('yy/MM/dd', fromDate);
+  }
+
+  Future<Map<String, dynamic>> getCommonDataByMonth(DateTime fromDate) async {
+    return await getCommonData('yy/MM', fromDate);
+  }
+
+  Future<Map<String, dynamic>> getCommonDataByYear(DateTime fromDate) async {
+    return await getCommonData('yyyy', fromDate);
+  }
+
   // Camera
   Stream<Uint8List> getCamera(String url) async* {
     final channel = WebSocketChannel.connect(Uri.parse(url));

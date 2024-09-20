@@ -1,11 +1,16 @@
 import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/screens/da_lat/camera.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/ap_lu_lo_rong.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/gnss.dart';
+import 'package:Ageo_solutions/screens/da_lat/device_screen/nghieng_sau.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/rain_gauge.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/water_level.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/nghieng_sau.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/rain_gauge.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/water_level.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class DeviceHyScreen extends StatefulWidget {
@@ -21,21 +26,16 @@ final NumberFormat currencyFormat =
 
 class _DeviceHyScreenState extends State<DeviceHyScreen> {
   int? _itemsSelected = 0;
-  final List<String> items = [
-    'GNSS',
-    'Đo áp lực nước lỗ rỗng',
-    'Thiết bị đo nghiêng sâu',
-    'Rain gauge',
-    'Water level',
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    final List<String> items = [
+      LocalData.loRong.getString(context),
+      LocalData.nghiengSau.getString(context),
+      LocalData.mua.getString(context),
+      LocalData.mucNuoc.getString(context),
+    ];
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
       appBar: AppBar(
@@ -54,7 +54,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
           Container(
             margin: const EdgeInsets.symmetric(
               vertical: 5,
-              horizontal: 5,
+              horizontal: 12,
             ),
             height: 70,
             decoration: BoxDecoration(
@@ -73,8 +73,8 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: isSelected
-                          ? const Color.fromRGBO(0, 65, 130, 1)
-                          : Colors.grey.shade400,
+                          ? const Color.fromRGBO(42, 98, 154, 1)
+                          : Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                     ),
                     color: isSelected
                         ? const Color.fromRGBO(42, 98, 154, 1)
@@ -94,13 +94,15 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
-                          vertical: 6,
+                          // vertical: 6,
                         ),
                         child: Text(
                           items[index],
                           style: TextStyle(
                             fontSize: 15,
-                            color: isSelected ? Colors.white : Colors.grey,
+                            color: isSelected
+                                ? Colors.white
+                                : Theme.of(context).textTheme.bodyLarge?.color,
                             fontWeight:
                                 isSelected ? FontWeight.bold : FontWeight.w400,
                           ),
@@ -112,7 +114,6 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
               },
             ),
           ),
-
           Column(
             children: [
               const Padding(
@@ -120,17 +121,17 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                   horizontal: 5,
                 ),
               ),
+
               // index screen
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.75,
                 child: IndexedStack(
                   index: _itemsSelected,
-                  children: [
-                    GnssScreen(),
-                    ApLucLoRongScreen(),
-                    //nghiengSauScreen(),
-                    RaingaugeScreen(),
-                    WaterLevelScreen(),
+                  children: const [
+                    ApLucLoRongHyScreen(),
+                    NghiengSauHyScreen(),
+                    RaingaugeHyScreen(),
+                    WaterLevelHyScreen(),
                   ],
                 ),
               ),

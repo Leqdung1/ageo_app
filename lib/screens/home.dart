@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 PersistentTabConfig(
                   screen: selectedSystem == 'dalat'
                       ? const MapScreen()
-                      : const CameraHyScreen(),
+                      : const MapHyScreen(),
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 1

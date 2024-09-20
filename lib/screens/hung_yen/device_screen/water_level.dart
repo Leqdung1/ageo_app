@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/models/waterLevel_models.dart';
+import 'package:Ageo_solutions/screens/hung_yen/device_screen/water_level.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
@@ -18,30 +22,30 @@ enum DataSelected {
 }
 
 extension DataSelectedExtension on DataSelected {
-  String get label {
+  String label(BuildContext context) {
     switch (this) {
       case DataSelected.Hours:
-        return 'Hours';
+        return LocalData.hours.getString(context);
       case DataSelected.Day:
-        return 'Day';
+        return LocalData.day.getString(context);
       case DataSelected.Month:
-        return 'Month';
+        return LocalData.month.getString(context);
       case DataSelected.Year:
-        return 'Year';
+        return LocalData.year.getString(context);
       default:
         return '';
     }
   }
 }
 
-class WaterLevelScreen extends StatefulWidget {
-  const WaterLevelScreen({super.key});
+class WaterLevelHyScreen extends StatefulWidget {
+  const WaterLevelHyScreen({super.key});
 
   @override
-  State<WaterLevelScreen> createState() => _WaterLevelScreenState();
+  State<WaterLevelHyScreen> createState() => _WaterLevelHyScreenState();
 }
 
-class _WaterLevelScreenState extends State<WaterLevelScreen> {
+class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
   DataSelected _dataSelected = DataSelected.Hours;
   Future<List<WaterLevelData>>? _waterLevelBuilder;
   late List<WaterLevelData> _chartData;
@@ -103,19 +107,31 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
           case DataSelected.Hours:
             DateTime logTime =
                 DateFormat('yy/MM/dd HH').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Day:
             DateTime logTime = DateFormat('yy/MM/dd').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Month:
             DateTime logTime = DateFormat('yy/MM').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
 
           case DataSelected.Year:
             DateTime logTime = DateFormat('yyyy').parse(rainData.logTime);
-            return logTime.isAfter(startDate) && logTime.isBefore(endDate);
+            return logTime.isAtSameMomentAs(startDate) ||
+                logTime.isAfter(startDate) &&
+                    logTime.isAtSameMomentAs(endDate) ||
+                logTime.isBefore(endDate);
         }
       }).toList();
     } else {
@@ -128,13 +144,15 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
     DateTime? pickedDate = await showOmniDateTimePicker(
       context: context,
       theme: ThemeData(
-        colorScheme: const ColorScheme.light(
-          primary: Color.fromRGBO(21, 101, 192, 1),
+        colorScheme: ColorScheme.light(
+          primary: const Color.fromRGBO(21, 101, 192, 1),
           onPrimary: Colors.white,
-          surface: Colors.white,
+          surface: Theme.of(context).colorScheme.primary,
+          onSurface:
+              Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
         ),
       ),
-      initialDate: DateTime.now(),
+      initialDate: isStart ? _startDate : _endDate,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
       is24HourMode: true,
@@ -175,8 +193,6 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No data available'));
           } else {
             _chartData = snapshot.data!;
             return SingleChildScrollView(
@@ -195,13 +211,13 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     blurRadius: 8,
+                      //     offset: const Offset(0, 1),
+                      //   ),
+                      // ],
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -211,53 +227,52 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           flex: 1,
                           child: TextButton(
                             onPressed: () => showDateTime(context, true),
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: SvgPicture.asset(
-                                        'assets/icons/calender.svg',
-                                        height: 20),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.008),
-                                          child: const Text(
-                                            'Từ ngày',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color.fromRGBO(
-                                                    21, 101, 192, 1)),
-                                          ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/calender.svg',
+                                      height: 20),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.008),
+                                        child: Text(
+                                          LocalData.fromDate.getString(context),
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_startDate),
                                                 style: TextStyle(
@@ -268,25 +283,25 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                                       ?.color,
                                                 ),
                                               ),
-                                              Text(
-                                                DateFormat('hh:mm')
-                                                    .format(_startTime),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                            ),
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_startTime),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -299,61 +314,60 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           flex: 1,
                           child: TextButton(
                             onPressed: () => showDateTime(context, false),
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: SvgPicture.asset(
-                                        'assets/icons/calender.svg',
-                                        height: 20),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.005),
-                                          child: const Text(
-                                            'Đến ngày',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color.fromRGBO(
-                                                    21, 101, 192, 1)),
-                                          ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/calender.svg',
+                                      height: 20),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.005),
+                                        child: Text(
+                                          LocalData.toDate.getString(context),
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color.fromRGBO(
+                                                  21, 101, 192, 1)),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.02),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_endDate),
                                                 style: TextStyle(
@@ -364,25 +378,25 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                                       ?.color,
                                                 ),
                                               ),
-                                              Text(
-                                                DateFormat('hh:mm')
-                                                    .format(_endTime),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                            ),
+                                            Text(
+                                              DateFormat('hh:mm')
+                                                  .format(_endTime),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -402,13 +416,13 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: const Offset(0, 1),
-                          blurRadius: 8,
-                        ),
-                      ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.1),
+                      //     offset: const Offset(0, 1),
+                      //     blurRadius: 8,
+                      //   ),
+                      // ],
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -416,11 +430,15 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                         children: [
                           Container(
                             margin: const EdgeInsets.only(
-                                left: 20, right: 15, bottom: 20),
+                                left: 10, right: 15, bottom: 20),
                             child: Expanded(
                               // drop down menu
                               child: DropdownMenu(
-                                textStyle: const TextStyle(
+                                textStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -434,7 +452,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                 ),
                                 menuStyle: MenuStyle(
                                   maximumSize: const WidgetStatePropertyAll(
-                                    Size.fromHeight(150),
+                                    Size.fromHeight(160),
                                   ),
                                   surfaceTintColor:
                                       const WidgetStatePropertyAll(
@@ -459,20 +477,38 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                     ),
                                   ),
                                 ),
-                                initialSelection: _dataSelected.name,
+                                initialSelection: _dataSelected.label(context),
                                 onSelected: (value) {
                                   setState(() {
                                     _dataSelected = DataSelected.values
-                                        .byName(value as String);
+                                        .firstWhere((e) =>
+                                            e.label(context) ==
+                                            value as String);
+
                                     _waterLevelBuilder = fetchWaterLevelData(
-                                        startDate: _startDate,
-                                        endDate: _endDate);
+                                      startDate: _startDate,
+                                      endDate: _endDate,
+                                    );
                                   });
                                 },
                                 dropdownMenuEntries: DataSelected.values
                                     .map(
                                       (e) => DropdownMenuEntry(
-                                          value: e.name, label: e.label),
+                                        value: e.label(context),
+                                        labelWidget: Padding(
+                                          padding: const EdgeInsets.all(0),
+                                          child: Text(
+                                            e.label(context),
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color,
+                                            ),
+                                          ),
+                                        ),
+                                        label: e.label(context),
+                                      ),
                                     )
                                     .toList(),
                               ),
@@ -529,7 +565,17 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                           rangePadding:
                                               ChartRangePadding.additional),
                                       series: _getSeries(_chartData),
-                                      tooltipBehavior: _tooltipBehavior,
+                                     tooltipBehavior: TooltipBehavior(
+                              enable: true,
+                              color: Theme.of(context).colorScheme.surface,
+                              borderColor: Colors.grey.shade600,
+                              textStyle: TextStyle(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            ),
                                       zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),
@@ -618,20 +664,24 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
@@ -644,20 +694,24 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
@@ -670,20 +724,24 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
@@ -696,50 +754,26 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w1,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
         xValueMapper: (WaterLevelData data, _) => data.logTime,
         yValueMapper: (WaterLevelData data, _) => data.w2,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+        // markerSettings: const MarkerSettings(
+        //   isVisible: true,
+        //   shape: DataMarkerType.circle,
+        //   height: 5,
+        //   width: 5,
+        // ),
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }
-}
-
-class WaterLevelData {
-  WaterLevelData(this.logTime, this.w1, this.w2);
-  final String logTime;
-  final double w1;
-  final double w2;
-
-  factory WaterLevelData.fromJson(Map<String, dynamic> json) {
-    return WaterLevelData(
-      json['logTime'],
-      json['w1'],
-      json['w2'],
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        'logTime': logTime,
-        'w1': w1,
-        'w2': w2,
-      };
-}
-
-double getMaxYAxisValue(List<WaterLevelData> dataSource) {
-  return dataSource.fold(
-    0,
-    (max, current) => max > current.w2 ? max : current.w2,
-  );
 }
