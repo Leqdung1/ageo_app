@@ -518,7 +518,7 @@ class _WarningScreenState extends State<WarningScreen>
     switch (item.title) {
       case 'Water Level 01':
         return Text(LocalData.waterLevel1.getString(context), style: title);
-      case 'Water Level 02':
+      case 'Water level 02':
         return Text(LocalData.waterLevel2.getString(context), style: title);
       case 'GNSS 01':
         return Text(LocalData.gnss1.getString(context), style: title);

@@ -189,23 +189,23 @@ class _AccountScreenState extends State<AccountScreen> {
 
                       // SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           left: 24,
                           bottom: 5,
                           top: 24,
                         ),
                         child: Text(
-                          'Name',
+                          LocalData.nameInfo.getString(context),
                           style: title,
                         ),
                       ),
                       Container(
                         width: MediaQuery.sizeOf(context).width * 1,
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                           left: 24,
                           right: 24,
                         ),
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           top: 16,
                           bottom: 16,
                           left: 15,
@@ -214,7 +214,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           color: Theme.of(context).colorScheme.surface,
                           border: Border.all(
                             color:
-                                Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
+                                const Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -224,7 +224,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           left: 24,
                           bottom: 5,
                           top: 24,
@@ -236,11 +236,11 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       Container(
                         width: MediaQuery.sizeOf(context).width * 1,
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                           left: 24,
                           right: 24,
                         ),
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           top: 16,
                           bottom: 16,
                           left: 15,
@@ -249,7 +249,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           color: Theme.of(context).colorScheme.surface,
                           border: Border.all(
                             color:
-                                Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
+                                const Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -259,24 +259,24 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           left: 24,
                           bottom: 5,
                           top: 24,
                         ),
                         child: Text(
-                          'Phone',
+                          LocalData.phone.getString(context),
                           style: title,
                         ),
                       ),
                       Container(
                         width: MediaQuery.sizeOf(context).width * 1,
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                           left: 24,
                           right: 24,
                           bottom: 18,
                         ),
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           top: 16,
                           bottom: 16,
                           left: 15,
@@ -285,7 +285,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           color: Theme.of(context).colorScheme.surface,
                           border: Border.all(
                             color:
-                                Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
+                                const Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),

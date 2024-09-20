@@ -32,7 +32,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
     final List<String> items = [
       LocalData.loRong.getString(context),
       LocalData.nghiengSau.getString(context),
-      'do lun',
+    LocalData.doLun.getString(context),
       LocalData.mucNuoc.getString(context),
     ];
 

@@ -84,7 +84,9 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                     ? Border.all(
                         color: const Color(0xFF4e86af),
                       )
-                    : Border.all(color: Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14)),
+                    : Border.all(
+                        color: const Color.fromRGBO(84, 76, 76, 1)
+                            .withOpacity(0.14)),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -134,7 +136,9 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                     ? Border.all(
                         color: const Color(0xFF4e86af),
                       )
-                    : Border.all(color: Colors.grey.shade400),
+                    : Border.all(
+                        color: const Color.fromRGBO(84, 76, 76, 1)
+                            .withOpacity(0.14)),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(

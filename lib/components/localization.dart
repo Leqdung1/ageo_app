@@ -61,6 +61,7 @@ mixin LocalData {
   static String nghiengSau = "nghiengSau";
   static String mua = "mua";
   static String mucNuoc = "mucNuoc";
+  static String doLun = 'dolun';
   static String overView = "overView";
   static String news = "news";
   static String nameProject = "nP";
@@ -88,6 +89,8 @@ mixin LocalData {
   static String lat = 'lat';
   static String lng = 'lng';
   static String info = 'info';
+  static String nameInfo = 'nameInfo';
+  static String phone = 'phone';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -172,10 +175,12 @@ mixin LocalData {
     "wL1": "Water level 01",
     "wL2": "Water level 02",
     "realtime": "Realtime",
-    "code ": "Code",
+    "code": "Code",
     "lat": "Latitude",
     "lng": "Longtitude",
-  
+    'dolun': 'Settlement',
+    'nameInfo': 'Name',
+    'phone': 'Phone number',
   };
 
   // ignore: non_constant_identifier_names
@@ -263,6 +268,9 @@ mixin LocalData {
     "realtime": "Thời gian thực",
     "code": "Mã cảm biến",
     "lat": "Vĩ độ",
-    "lng": "Kinh độ"
+    "lng": "Kinh độ",
+    'dolun': 'Đo lún',
+    'nameInfo': 'Họ và tên',
+    'phone': 'Số điện thoại ',
   };
 }

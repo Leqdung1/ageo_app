@@ -395,7 +395,7 @@ class _MapScreenState extends State<MapScreen> {
     switch (title) {
       case 'Water Level 01':
         return LocalData.waterLevel1.getString(context);
-      case 'Water Level 02':
+      case 'Water level 02':
         return LocalData.waterLevel2.getString(context);
       case 'GNSS 01':
         return LocalData.gnss1.getString(context);
