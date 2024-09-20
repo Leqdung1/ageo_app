@@ -1,10 +1,4 @@
 import 'package:Ageo_solutions/components/localization.dart';
-import 'package:Ageo_solutions/screens/da_lat/camera.dart';
-import 'package:Ageo_solutions/screens/da_lat/device_screen/ap_lu_lo_rong.dart';
-import 'package:Ageo_solutions/screens/da_lat/device_screen/gnss.dart';
-import 'package:Ageo_solutions/screens/da_lat/device_screen/nghieng_sau.dart';
-import 'package:Ageo_solutions/screens/da_lat/device_screen/rain_gauge.dart';
-import 'package:Ageo_solutions/screens/da_lat/device_screen/water_level.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/nghieng_sau.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/do_lun.dart';
@@ -32,7 +26,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
     final List<String> items = [
       LocalData.loRong.getString(context),
       LocalData.nghiengSau.getString(context),
-    LocalData.doLun.getString(context),
+      LocalData.doLun.getString(context),
       LocalData.mucNuoc.getString(context),
     ];
 
@@ -73,11 +67,11 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: isSelected
-                          ? const Color.fromRGBO(42, 98, 154, 1)
+                          ? const Color.fromRGBO(250, 200, 88, 1)
                           : Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                     ),
                     color: isSelected
-                        ? const Color.fromRGBO(42, 98, 154, 1)
+                        ? const Color.fromRGBO(250, 200, 88, 1)
                         : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -101,7 +95,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                           style: TextStyle(
                             fontSize: 15,
                             color: isSelected
-                                ? Colors.white
+                                ? Colors.black
                                 : Theme.of(context).textTheme.bodyLarge?.color,
                             fontWeight:
                                 isSelected ? FontWeight.bold : FontWeight.w400,

@@ -71,11 +71,11 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: isSelected
-                          ? const Color.fromRGBO(42, 98, 154, 1)
+                          ? const Color.fromRGBO(250, 200, 88, 1)
                           : Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
                     ),
                     color: isSelected
-                        ? const Color.fromRGBO(42, 98, 154, 1)
+                        ? const Color.fromRGBO(250, 200, 88, 1)
                         : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -99,7 +99,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                           style: TextStyle(
                             fontSize: 15,
                             color: isSelected
-                                ? Colors.white
+                                ? Colors.black
                                 : Theme.of(context).textTheme.bodyLarge?.color,
                             fontWeight:
                                 isSelected ? FontWeight.bold : FontWeight.w400,

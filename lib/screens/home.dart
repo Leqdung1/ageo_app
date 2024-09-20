@@ -54,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 0
-                          ? 'assets/icons/logo_ageo.svg'
-                          : 'assets/icons/logo_ageo.svg',
+                          ? 'assets/icons/logo_yellow.svg'
+                          : 'assets/icons/logo_yellow.svg',
                     ),
                     title: LocalData.bottomlabel1.getString(context),
                     textStyle: TextStyle(
@@ -66,6 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? FontWeight.bold
                           : FontWeight.normal,
                     ),
+                    activeForegroundColor:
+                        const Color.fromRGBO(252, 188, 46, 1),
                   ),
                 ),
                 PersistentTabConfig(
@@ -75,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 1
-                          ? 'assets/icons/map-pin_fill.svg'
+                          ? 'assets/icons/map-pin_yellow.svg'
                           : 'assets/icons/map-pin.svg',
                     ),
                     title: LocalData.bottomlabel2.getString(context),
@@ -86,28 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? FontWeight.bold
                           : FontWeight.normal,
                     ),
+                    activeForegroundColor:
+                        const Color.fromRGBO(252, 188, 46, 1),
                   ),
                 ),
-                // PersistentTabConfig(
-                //   screen: selectedSystem == 'dalat'
-                //       ? const CameraScreen()
-                //       : const CameraHyScreen(),
-                //   item: ItemConfig(
-                //     icon: SvgPicture.asset(
-                //       currentPageIndex == 2
-                //           ? 'assets/icons/camfill.svg'
-                //           : 'assets/icons/cam.svg',
-                //     ),
-                //     title: LocalData.bottomlabel3.getString(context),
-                //     textStyle: TextStyle(
-                //       fontSize: 12,
-                //       color: currentPageIndex == 2 ? Colors.black : Colors.grey,
-                //       fontWeight: currentPageIndex == 2
-                //           ? FontWeight.bold
-                //           : FontWeight.normal,
-                //     ),
-                //   ),
-                // ),
                 PersistentTabConfig(
                   screen: selectedSystem == 'dalat'
                       ? const DeviceScreen()
@@ -115,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 2
-                          ? 'assets/icons/signal-alt-3_fill.svg'
+                          ? 'assets/icons/signal-alt-3_yellow.svg'
                           : 'assets/icons/signal-alt-3.svg',
                     ),
                     title: LocalData.bottomlabel4.getString(context),
@@ -126,6 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? FontWeight.bold
                           : FontWeight.normal,
                     ),
+                    activeForegroundColor:
+                        const Color.fromRGBO(252, 188, 46, 1),
                   ),
                 ),
                 PersistentTabConfig(
@@ -135,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 3
-                          ? 'assets/icons/alert-triangle_fill.svg'
+                          ? 'assets/icons/alert-triangle_yellow.svg'
                           : 'assets/icons/alert-triangle.svg',
                     ),
                     title: LocalData.bottomlabel5.getString(context),
@@ -146,6 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? FontWeight.bold
                           : FontWeight.normal,
                     ),
+                    activeForegroundColor:
+                        const Color.fromRGBO(252, 188, 46, 1),
                   ),
                 ),
                 PersistentTabConfig(
@@ -154,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 4
-                          ? 'assets/icons/userFill.svg'
+                          ? 'assets/icons/user_yellow.svg'
                           : 'assets/icons/userNotFill.svg',
                     ),
                     title: LocalData.bottomLabel6.getString(context),
@@ -165,16 +153,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           ? FontWeight.bold
                           : FontWeight.normal,
                     ),
+                    activeForegroundColor:
+                        const Color.fromRGBO(252, 188, 46, 1),
                   ),
                 ),
               ],
               navBarBuilder: (navBarConfig) => Style6BottomNavBar(
                 navBarDecoration: NavBarDecoration(
                   color: Theme.of(context).colorScheme.primary,
-                  // borderRadius: const BorderRadius.only(
-                  //   topLeft: Radius.circular(20),
-                  //   topRight: Radius.circular(20),
-                  // ),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                       color: Colors.black.withAlpha(25),

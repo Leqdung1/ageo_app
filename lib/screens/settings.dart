@@ -145,7 +145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 4,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
+                      color: Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(50),
                     ),
                   ),
@@ -552,9 +552,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               trackOutlineColor: const WidgetStatePropertyAll(
                                 Colors.transparent,
                               ),
-                              inactiveTrackColor: Colors.grey.shade300,
+                              inactiveTrackColor: Colors.grey.shade400,
                               activeTrackColor:
-                                  const Color.fromRGBO(21, 101, 192, 1),
+                                  const Color.fromRGBO(250, 200, 88, 1),
                               inactiveThumbColor: Colors.white,
                               activeColor: Colors.white,
                               value: isDarkMode,

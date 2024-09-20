@@ -446,7 +446,7 @@ class _WarningScreenState extends State<WarningScreen>
 
     return RefreshIndicator(
       color: Colors.white,
-      backgroundColor: const Color(0xFF4e86af),
+      backgroundColor: const Color.fromRGBO(145, 204, 117, 1),
       onRefresh: _refreshData,
       child: _items.isEmpty
           ? const Center(

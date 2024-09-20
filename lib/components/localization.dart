@@ -91,6 +91,13 @@ mixin LocalData {
   static String info = 'info';
   static String nameInfo = 'nameInfo';
   static String phone = 'phone';
+  static String time = 'time';
+  static String displacment = 'displacement';
+  static String poreWater = 'poreWater';
+  static String elevation = 'elevation';
+  static String rainFall = 'rainFall';
+  static String elevate = 'elevate';
+  static String wL = 'wlM';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -112,7 +119,7 @@ mixin LocalData {
     "titleChangeLanguage": "Change language",
     "language1": "Vietnamese",
     "language2": "English",
-    "bottomLabel1": "Control panel",
+    "bottomLabel1": "Home",
     "bottomLabel2": "Map",
     "bottomLabel3": "Camera",
     "bottomLabel4": "Device",
@@ -181,6 +188,13 @@ mixin LocalData {
     'dolun': 'Settlement',
     'nameInfo': 'Name',
     'phone': 'Phone number',
+    'time': 'Time',
+    'displacement': 'Displacement',
+    'poreWater': 'Pore water pressure (kPa)',
+    'elevation': 'Elevation (mm)',
+    'rainFall': 'Rain fall (mm)',
+    'elevate': 'Elevation',
+    'wlM': 'Water level (m)',
   };
 
   // ignore: non_constant_identifier_names
@@ -203,7 +217,7 @@ mixin LocalData {
     "titleChangeLanguage": "Thay đổi ngôn ngữ",
     "language1": "Tiếng việt",
     "language2": "Tiếng anh",
-    "bottomLabel1": "Bảng điều khiển",
+    "bottomLabel1": "Trang chủ",
     "bottomLabel2": "Bản đồ",
     "bottomLabel3": "Camera",
     "bottomLabel4": "Thiết bị",
@@ -232,8 +246,8 @@ mixin LocalData {
     "day": "Ngày",
     "month": "Tháng",
     "year": "Năm",
-    "fromDate": "Từ Ngày",
-    "toDate": "Đến ngày",
+    "fromDate": "Ngày bắt đầu",
+    "toDate": "Ngày kết thúc",
     "gnss": "Quan trắc vệ tinh",
     "loRong": "Áp lực nước lỗ rỗng",
     "nghiengSau": "Đo nghiêng sâu",
@@ -269,8 +283,15 @@ mixin LocalData {
     "code": "Mã cảm biến",
     "lat": "Vĩ độ",
     "lng": "Kinh độ",
-    'dolun': 'Đo lún',
+    'dolun': 'Cảm biến đo lún',
     'nameInfo': 'Họ và tên',
     'phone': 'Số điện thoại ',
+    'time': 'Thời gian',
+    'displacement': 'Sự dịch chuyển',
+    'poreWater': 'Áp lực nước lỗ rỗng (kPa)',
+    'elevation': 'Độ cao (mm)',
+    'rainFall': 'Lượng mưa (mm)',
+    'elevate': 'Độ cao',
+    'wlM': 'Mực nước (m)'
   };
 }

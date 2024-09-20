@@ -145,8 +145,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
       context: context,
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: const Color.fromRGBO(21, 101, 192, 1),
-          onPrimary: Colors.white,
+          primary: const Color.fromRGBO(250, 200, 88, 1),
+          onPrimary: Colors.black,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
               Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
@@ -192,188 +192,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // pick date
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 12,
-              ),
-              padding: const EdgeInsetsDirectional.symmetric(
-                vertical: 10,
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(12),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.1),
-                //     blurRadius: 8,
-                //     offset: const Offset(0, 1),
-                //   ),
-                // ],
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: TextButton(
-                      onPressed: () => showDateTime(context, true),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: SvgPicture.asset('assets/icons/calender.svg',
-                                height: 20),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.width *
-                                          0.02,
-                                      bottom:
-                                          MediaQuery.of(context).size.width *
-                                              0.008),
-                                  child: Text(
-                                    LocalData.fromDate.getString(context),
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Color.fromRGBO(21, 101, 192, 1)),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom:
-                                          MediaQuery.of(context).size.width *
-                                              0.02),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          DateFormat('dd/MM/yyyy')
-                                              .format(_startDate),
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge
-                                                ?.color,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        DateFormat('hh:mm').format(_startTime),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 40,
-                    width: 2,
-                    color: Colors.grey.withOpacity(0.5),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: TextButton(
-                      onPressed: () => showDateTime(context, false),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: SvgPicture.asset('assets/icons/calender.svg',
-                                height: 20),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width *
-                                          0.02,
-                                      top: MediaQuery.of(context).size.width *
-                                          0.02,
-                                      bottom:
-                                          MediaQuery.of(context).size.width *
-                                              0.005),
-                                  child: Text(
-                                    LocalData.toDate.getString(context),
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Color.fromRGBO(21, 101, 192, 1)),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width *
-                                          0.02,
-                                      bottom:
-                                          MediaQuery.of(context).size.width *
-                                              0.02),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          DateFormat('dd/MM/yyyy')
-                                              .format(_endDate),
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge
-                                                ?.color,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        DateFormat('hh:mm').format(_endTime),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            selectedDate(),
 
             Container(
                 margin: const EdgeInsets.symmetric(
@@ -512,44 +331,60 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                           plotAreaBorderWidth: 0,
                                           margin: const EdgeInsets.all(15),
                                           enableAxisAnimation: true,
-                                          primaryXAxis: const CategoryAxis(
-                                            labelStyle: TextStyle(
+                                          primaryXAxis: CategoryAxis(
+                                            labelStyle: const TextStyle(
                                               color: Colors.grey,
                                             ),
                                             majorGridLines:
-                                                MajorGridLines(width: 0),
-                                            majorTickLines: MajorTickLines(
-                                                width: 1,
-                                                color: Colors.grey,
-                                                size: 5),
+                                                const MajorGridLines(width: 0),
+                                            majorTickLines:
+                                                const MajorTickLines(
+                                                    width: 1,
+                                                    color: Colors.grey,
+                                                    size: 5),
                                             isVisible: true,
-                                            axisLine: AxisLine(
+                                            axisLine: const AxisLine(
                                               color: Colors.grey,
                                               width: 1,
                                             ),
+                                            title: AxisTitle(
+                                              text: LocalData.time
+                                                  .getString(context),
+                                              textStyle: const TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,
+                                              ),
+                                            ),
                                           ),
                                           primaryYAxis: NumericAxis(
-                                              majorGridLines:
-                                                  const MajorGridLines(
-                                                width: 1,
-                                                dashArray: [8, 8],
+                                            majorGridLines:
+                                                const MajorGridLines(
+                                              width: 1,
+                                              dashArray: [8, 8],
+                                              color: Colors.grey,
+                                            ),
+                                            majorTickLines:
+                                                const MajorTickLines(
+                                              width: 0,
+                                            ),
+                                            axisLine: const AxisLine(
+                                              color: Colors.transparent,
+                                            ),
+                                            labelStyle: const TextStyle(
+                                              color: Colors.grey,
+                                            ),
+                                            title: AxisTitle(
+                                              text: LocalData.elevate
+                                                  .getString(context),
+                                              textStyle: const TextStyle(
                                                 color: Colors.grey,
+                                                fontSize: 12,
                                               ),
-                                              majorTickLines:
-                                                  const MajorTickLines(
-                                                width: 0,
-                                              ),
-                                              axisLine: const AxisLine(
-                                                color: Colors.transparent,
-                                              ),
-                                              labelStyle: const TextStyle(
-                                                color: Colors.grey,
-                                              ),
-                                              maximum:
-                                                  getMaxYAxisValue(_chartData)
-                                                      .toDouble(),
-                                              rangePadding:
-                                                  ChartRangePadding.additional),
+                                            ),
+                                            // maximum:
+                                            //     getMaxYAxisValue(_chartData)
+                                            //         .toDouble(),
+                                          ),
                                           series: _getSeries(_chartData),
                                           tooltipBehavior: TooltipBehavior(
                                             enable: true,
@@ -769,5 +604,187 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
         name: 'W2 (Cao độ miệng 1487.23mm)',
       ),
     ];
+  }
+
+  Widget selectedDate() {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 12,
+      ),
+      padding: const EdgeInsetsDirectional.symmetric(
+        vertical: 12,
+      ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.1),
+        //     blurRadius: 8,
+        //     offset: const Offset(0, 1),
+        //   ),
+        // ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  child: Text(
+                    LocalData.fromDate.getString(context),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => showDateTime(context, true),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.secondary,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: const Color.fromRGBO(84, 76, 76, 1)
+                              .withOpacity(0.14),
+                        )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: DateFormat('dd/MM/yyyy')
+                                      .format(_startDate),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: " - ",
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: DateFormat('hh:mm').format(_startTime),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
+                    child: Text(
+                      LocalData.toDate.getString(context),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => showDateTime(context, false),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: const Color.fromRGBO(84, 76, 76, 1)
+                                .withOpacity(0.14),
+                          )),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: DateFormat('dd/MM/yyyy')
+                                        .format(_endDate),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.color,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: " - ",
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.color,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: DateFormat('hh:mm').format(_endTime),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.color,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+        ],
+      ),
+    );
   }
 }
