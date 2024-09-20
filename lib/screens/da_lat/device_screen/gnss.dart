@@ -252,398 +252,406 @@ class _GnssScreenState extends State<GnssScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: FutureBuilder(
-        future: _piezmometerBuilder,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            _chartData = snapshot.data!;
-            return SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // pick date
+            Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 12,
+              ),
+              padding: const EdgeInsetsDirectional.symmetric(
+                vertical: 5,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(12),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.black.withOpacity(0.1),
+                //     blurRadius: 8,
+                //     offset: const Offset(0, 1),
+                //   ),
+                // ],
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // pick date
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                    ),
-                    padding: const EdgeInsetsDirectional.symmetric(
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(12),
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.black.withOpacity(0.1),
-                      //     blurRadius: 8,
-                      //     offset: const Offset(0, 1),
-                      //   ),
-                      // ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: TextButton(
-                            onPressed: () => showDateTime(context, true),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 5,
-                                        bottom: 5,
-                                      ),
-                                      child: Text(
-                                        LocalData.fromDate.getString(context),
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Color.fromRGBO(
-                                                21, 101, 192, 1)),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.02),
-                                      child: Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: DateFormat('dd/MM/yyyy')
-                                                  .format(_startDate),
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: " - ",
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: DateFormat('hh:mm')
-                                                  .format(_startTime),
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => showDateTime(context, true),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 5,
+                                  bottom: 5,
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 40,
-                          width: 1.5,
-                          color: Colors.grey.withOpacity(0.5),
-                        ),
-                        Expanded(
-                          child: TextButton(
-                            onPressed: () => showDateTime(context, false),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 5,
-                                    bottom: 5,
-                                  ),
-                                  child: Text(
-                                    LocalData.toDate.getString(context),
-                                    style: const TextStyle(
+                                child: Text(
+                                  LocalData.fromDate.getString(context),
+                                  style: const TextStyle(
                                       fontSize: 12,
-                                      color: Color.fromRGBO(21, 101, 192, 1),
-                                    ),
-                                  ),
+                                      color: Color.fromRGBO(21, 101, 192, 1)),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom:
-                                          MediaQuery.of(context).size.width *
-                                              0.02),
-                                  child: Text.rich(TextSpan(children: [
-                                    TextSpan(
-                                      text: DateFormat('dd/MM/yyyy')
-                                          .format(_endDate),
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.color,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: " - ",
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.color,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text:
-                                          DateFormat('hh:mm').format(_endTime),
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.color,
-                                      ),
-                                    ),
-                                  ])),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 15,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(12),
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.black.withOpacity(0.1),
-                      //     offset: const Offset(0, 1),
-                      //     blurRadius: 8,
-                      //   ),
-                      // ],
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // Segment slide
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 10,
-                                bottom: 20,
                               ),
-                              child: CustomSlidingSegmentedControl<int>(
-                                initialValue: selectedSegment,
-                                children: {
-                                  1: Text(
-                                    'GNSS 01',
-                                    style: TextStyle(
-                                      fontWeight: selectedSegment == 1
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
-                                  ),
-                                  2: Text(
-                                    'GNSS 02',
-                                    style: TextStyle(
-                                      fontWeight: selectedSegment == 2
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
-                                  ),
-                                  3: Text(
-                                    'GNSS 03',
-                                    style: TextStyle(
-                                      fontWeight: selectedSegment == 3
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
-                                  ),
-                                },
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                thumbDecoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.surface,
-                                  borderRadius: BorderRadius.circular(6),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(.15),
-                                      blurRadius: 4.0,
-                                      offset: const Offset(
-                                        0.0,
-                                        1.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                duration: const Duration(milliseconds: 280),
-                                curve: Curves.linear,
-                                onValueChanged: (v) {
-                                  setState(() {
-                                    selectedSegment = v;
-                                    _piezmometerBuilder = fetchGnss(
-                                      startDate: _startDate,
-                                      endDate: _endDate,
-                                      selectedSegment: selectedSegment!,
-                                    );
-                                    getGnssChart();
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-
-                          // drop down menu
-                          Container(
-                            margin: const EdgeInsets.only(
-                              left: 10,
-                              right: 15,
-                              bottom: 20,
-                            ),
-                            child: Expanded(
-                              child: DropdownMenu(
-                                textStyle: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                selectedTrailingIcon: Icon(
-                                  Icons.expand_less,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                trailingIcon: Icon(
-                                  Icons.expand_more,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                menuStyle: MenuStyle(
-                                  maximumSize: const WidgetStatePropertyAll(
-                                    Size.fromHeight(160),
-                                  ),
-                                  surfaceTintColor:
-                                      const WidgetStatePropertyAll(
-                                    Colors.white,
-                                  ),
-                                  shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                ),
-                                inputDecorationTheme: InputDecorationTheme(
-                                  fillColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  filled: true,
-                                  border: InputBorder.none,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 0,
-                                    ),
-                                  ),
-                                ),
-                                initialSelection: _dataSelected.label(context),
-                                onSelected: (value) {
-                                  setState(() {
-                                    _dataSelected = DataSelected.values
-                                        .firstWhere((e) =>
-                                            e.label(context) ==
-                                            value as String);
-
-                                    _piezmometerBuilder = fetchGnss(
-                                      startDate: _startDate,
-                                      endDate: _endDate,
-                                      selectedSegment: selectedSegment!,
-                                    );
-                                  });
-                                },
-                                dropdownMenuEntries: DataSelected.values
-                                    .map(
-                                      (e) => DropdownMenuEntry(
-                                        value: e.label(context),
-                                        labelWidget: Padding(
-                                          padding: const EdgeInsets.all(0),
-                                          child: Text(
-                                            e.label(context),
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color,
-                                            ),
-                                          ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).size.width *
+                                        0.02),
+                                child: Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: DateFormat('dd/MM/yyyy')
+                                            .format(_startDate),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
                                         ),
-                                        label: e.label(context),
                                       ),
-                                    )
-                                    .toList(),
+                                      TextSpan(
+                                        text: " - ",
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: DateFormat('hh:mm')
+                                            .format(_startTime),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-
-                          // Draw chart
-                          getGnssChart(),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.2,
+                  Container(
+                    height: 40,
+                    width: 1.5,
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => showDateTime(context, false),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 5,
+                              bottom: 5,
+                            ),
+                            child: Text(
+                              LocalData.toDate.getString(context),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color.fromRGBO(21, 101, 192, 1),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.width * 0.02),
+                            child: Text.rich(TextSpan(children: [
+                              TextSpan(
+                                text: DateFormat('dd/MM/yyyy').format(_endDate),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
+                                ),
+                              ),
+                              TextSpan(
+                                text: " - ",
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
+                                ),
+                              ),
+                              TextSpan(
+                                text: DateFormat('hh:mm').format(_endTime),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
+                                ),
+                              ),
+                            ])),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
-            );
-          }
-        },
+            ),
+
+            Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 15,
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 15,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(12),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.black.withOpacity(0.1),
+                //     offset: const Offset(0, 1),
+                //     blurRadius: 8,
+                //   ),
+                // ],
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // Segment slide
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          bottom: 20,
+                        ),
+                        child: CustomSlidingSegmentedControl<int>(
+                          initialValue: selectedSegment,
+                          children: {
+                            1: Text(
+                              'GNSS 01',
+                              style: TextStyle(
+                                fontWeight: selectedSegment == 1
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            ),
+                            2: Text(
+                              'GNSS 02',
+                              style: TextStyle(
+                                fontWeight: selectedSegment == 2
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            ),
+                            3: Text(
+                              'GNSS 03',
+                              style: TextStyle(
+                                fontWeight: selectedSegment == 3
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            ),
+                          },
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          thumbDecoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.surface,
+                            borderRadius: BorderRadius.circular(6),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(.15),
+                                blurRadius: 4.0,
+                                offset: const Offset(
+                                  0.0,
+                                  1.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          duration: const Duration(milliseconds: 280),
+                          curve: Curves.linear,
+                          onValueChanged: (v) {
+                            setState(() {
+                              selectedSegment = v;
+                              _piezmometerBuilder = fetchGnss(
+                                startDate: _startDate,
+                                endDate: _endDate,
+                                selectedSegment: selectedSegment!,
+                              );
+                              getGnssChart();
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    FutureBuilder(
+                        future: _piezmometerBuilder,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          } else {
+                            _chartData = snapshot.data!;
+                            return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // drop down menu
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                      left: 10,
+                                      right: 15,
+                                      bottom: 20,
+                                    ),
+                                    child: Expanded(
+                                      child: DropdownMenu(
+                                        textStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        selectedTrailingIcon: Icon(
+                                          Icons.expand_less,
+                                          color:
+                                              Theme.of(context).iconTheme.color,
+                                        ),
+                                        trailingIcon: Icon(
+                                          Icons.expand_more,
+                                          color:
+                                              Theme.of(context).iconTheme.color,
+                                        ),
+                                        menuStyle: MenuStyle(
+                                          maximumSize:
+                                              const WidgetStatePropertyAll(
+                                            Size.fromHeight(160),
+                                          ),
+                                          surfaceTintColor:
+                                              const WidgetStatePropertyAll(
+                                            Colors.white,
+                                          ),
+                                          shape: WidgetStatePropertyAll(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                        ),
+                                        inputDecorationTheme:
+                                            InputDecorationTheme(
+                                          fillColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          filled: true,
+                                          border: InputBorder.none,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: const BorderSide(
+                                              color: Colors.transparent,
+                                              width: 0,
+                                            ),
+                                          ),
+                                        ),
+                                        initialSelection:
+                                            _dataSelected.label(context),
+                                        onSelected: (value) {
+                                          setState(() {
+                                            _dataSelected = DataSelected.values
+                                                .firstWhere((e) =>
+                                                    e.label(context) ==
+                                                    value as String);
+
+                                            _piezmometerBuilder = fetchGnss(
+                                              startDate: _startDate,
+                                              endDate: _endDate,
+                                              selectedSegment: selectedSegment!,
+                                            );
+                                          });
+                                        },
+                                        dropdownMenuEntries: DataSelected.values
+                                            .map(
+                                              (e) => DropdownMenuEntry(
+                                                value: e.label(context),
+                                                labelWidget: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(0),
+                                                  child: Text(
+                                                    e.label(context),
+                                                    style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge
+                                                          ?.color,
+                                                    ),
+                                                  ),
+                                                ),
+                                                label: e.label(context),
+                                              ),
+                                            )
+                                            .toList(),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Draw chart
+                                  getGnssChart(),
+                                ]);
+                          }
+                        })
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.2,
+            ),
+          ],
+        ),
       ),
     );
   }

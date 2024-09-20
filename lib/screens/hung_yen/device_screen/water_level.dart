@@ -170,116 +170,96 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: FutureBuilder(
-        future: _commonBuilder,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            _chartData = snapshot.data!;
-            return SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // pick date
+            Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 12,
+              ),
+              padding: const EdgeInsetsDirectional.symmetric(
+                vertical: 10,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(12),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.black.withOpacity(0.1),
+                //     blurRadius: 8,
+                //     offset: const Offset(0, 1),
+                //   ),
+                // ],
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // pick date
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                    ),
-                    padding: const EdgeInsetsDirectional.symmetric(
-                      vertical: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(12),
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.black.withOpacity(0.1),
-                      //     blurRadius: 8,
-                      //     offset: const Offset(0, 1),
-                      //   ),
-                      // ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: TextButton(
-                            onPressed: () => showDateTime(context, true),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                  Expanded(
+                    flex: 1,
+                    child: TextButton(
+                      onPressed: () => showDateTime(context, true),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: SvgPicture.asset('assets/icons/calender.svg',
+                                height: 20),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/calender.svg',
-                                      height: 20),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.width *
+                                          0.02,
+                                      bottom:
+                                          MediaQuery.of(context).size.width *
+                                              0.008),
+                                  child: Text(
+                                    LocalData.fromDate.getString(context),
+                                    style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Color.fromRGBO(21, 101, 192, 1)),
+                                  ),
                                 ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom:
+                                          MediaQuery.of(context).size.width *
+                                              0.02),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02,
-                                            bottom: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.008),
+                                      Expanded(
                                         child: Text(
-                                          LocalData.fromDate.getString(context),
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Color.fromRGBO(
-                                                  21, 101, 192, 1)),
+                                          DateFormat('dd/MM/yyyy')
+                                              .format(_startDate),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.color,
+                                          ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                DateFormat('dd/MM/yyyy')
-                                                    .format(_startDate),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              DateFormat('hh:mm')
-                                                  .format(_startTime),
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
-                                              ),
-                                            ),
-                                          ],
+                                      Text(
+                                        DateFormat('hh:mm').format(_startTime),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
                                         ),
                                       ),
                                     ],
@@ -288,127 +268,127 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
                               ],
                             ),
                           ),
-                        ),
-                        Container(
-                          height: 40,
-                          width: 2,
-                          color: Colors.grey.withOpacity(0.5),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: TextButton(
-                            onPressed: () => showDateTime(context, false),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/calender.svg',
-                                      height: 20),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02,
-                                            top: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02,
-                                            bottom: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.005),
-                                        child: Text(
-                                          LocalData.toDate.getString(context),
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Color.fromRGBO(
-                                                  21, 101, 192, 1)),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02,
-                                            bottom: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                DateFormat('dd/MM/yyyy')
-                                                    .format(_endDate),
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              DateFormat('hh:mm')
-                                                  .format(_endTime),
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge
-                                                    ?.color,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-
                   Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 15,
+                    height: 40,
+                    width: 2,
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: TextButton(
+                      onPressed: () => showDateTime(context, false),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: SvgPicture.asset('assets/icons/calender.svg',
+                                height: 20),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.02,
+                                      top: MediaQuery.of(context).size.width *
+                                          0.02,
+                                      bottom:
+                                          MediaQuery.of(context).size.width *
+                                              0.005),
+                                  child: Text(
+                                    LocalData.toDate.getString(context),
+                                    style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Color.fromRGBO(21, 101, 192, 1)),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.02,
+                                      bottom:
+                                          MediaQuery.of(context).size.width *
+                                              0.02),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          DateFormat('dd/MM/yyyy')
+                                              .format(_endDate),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.color,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        DateFormat('hh:mm').format(_endTime),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.color,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(12),
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.black.withOpacity(0.1),
-                      //     offset: const Offset(0, 1),
-                      //     blurRadius: 8,
-                      //   ),
-                      // ],
-                    ),
-                    child: SingleChildScrollView(
+                  ),
+                ],
+              ),
+            ),
+
+            Container(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 15,
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 15,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(12),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.black.withOpacity(0.1),
+                //     offset: const Offset(0, 1),
+                //     blurRadius: 8,
+                //   ),
+                // ],
+              ),
+              child: FutureBuilder(
+                future: _commonBuilder,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    _chartData = snapshot.data!;
+                    return SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -574,16 +554,16 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.2,
-                  ),
-                ],
+                    );
+                  }
+                },
               ),
-            );
-          }
-        },
+            ),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.2,
+            ),
+          ],
+        ),
       ),
     );
   }

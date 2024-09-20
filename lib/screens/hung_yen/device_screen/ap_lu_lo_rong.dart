@@ -185,16 +185,10 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: FutureBuilder<List<CommonData>>(
-        future: _commonBuilder,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            _chartData = snapshot.data!;
-            return SingleChildScrollView(
+      body: 
+        
+        
+            SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -404,203 +398,238 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
                   ),
 
                   Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 15,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(12),
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.black.withOpacity(0.1),
-                      //     offset: const Offset(0, 1),
-                      //     blurRadius: 8,
-                      //   ),
-                      // ],
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(
-                                left: 10, right: 15, bottom: 20),
-                            child: Expanded(
-                              // drop down menu
-                              child: DropdownMenu(
-                                textStyle: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                selectedTrailingIcon: Icon(
-                                  Icons.expand_less,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                trailingIcon: Icon(
-                                  Icons.expand_more,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                menuStyle: MenuStyle(
-                                  maximumSize: const WidgetStatePropertyAll(
-                                    Size.fromHeight(160),
-                                  ),
-                                  surfaceTintColor:
-                                      const WidgetStatePropertyAll(
-                                    Colors.white,
-                                  ),
-                                  shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                ),
-                                inputDecorationTheme: InputDecorationTheme(
-                                  fillColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  filled: true,
-                                  border: InputBorder.none,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 0,
-                                    ),
-                                  ),
-                                ),
-                                initialSelection: _dataSelected.label(context),
-                                onSelected: (value) {
-                                  setState(() {
-                                    _dataSelected = DataSelected.values
-                                        .firstWhere((e) =>
-                                            e.label(context) ==
-                                            value as String);
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 15,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.circular(12),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black.withOpacity(0.1),
+                        //     offset: const Offset(0, 1),
+                        //     blurRadius: 8,
+                        //   ),
+                        // ],
+                      ),
+                      child: FutureBuilder<List<CommonData>>(
+                          future: _commonBuilder,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                  child: Text('Error: ${snapshot.error}'));
+                            } else {
+                              _chartData = snapshot.data!;
+                              return SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 10, right: 15, bottom: 20),
+                                      child: Expanded(
+                                        // drop down menu
+                                        child: DropdownMenu(
+                                          textStyle: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.color,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          selectedTrailingIcon: Icon(
+                                            Icons.expand_less,
+                                            color: Theme.of(context)
+                                                .iconTheme
+                                                .color,
+                                          ),
+                                          trailingIcon: Icon(
+                                            Icons.expand_more,
+                                            color: Theme.of(context)
+                                                .iconTheme
+                                                .color,
+                                          ),
+                                          menuStyle: MenuStyle(
+                                            maximumSize:
+                                                const WidgetStatePropertyAll(
+                                              Size.fromHeight(160),
+                                            ),
+                                            surfaceTintColor:
+                                                const WidgetStatePropertyAll(
+                                              Colors.white,
+                                            ),
+                                            shape: WidgetStatePropertyAll(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                            ),
+                                          ),
+                                          inputDecorationTheme:
+                                              InputDecorationTheme(
+                                            fillColor: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            filled: true,
+                                            border: InputBorder.none,
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              borderSide: const BorderSide(
+                                                color: Colors.transparent,
+                                                width: 0,
+                                              ),
+                                            ),
+                                          ),
+                                          initialSelection:
+                                              _dataSelected.label(context),
+                                          onSelected: (value) {
+                                            setState(() {
+                                              _dataSelected = DataSelected
+                                                  .values
+                                                  .firstWhere((e) =>
+                                                      e.label(context) ==
+                                                      value as String);
 
-                                    _commonBuilder = fetchCommonData(
-                                      startDate: _startDate,
-                                      endDate: _endDate,
-                                    );
-                                  });
-                                },
-                                dropdownMenuEntries: DataSelected.values
-                                    .map(
-                                      (e) => DropdownMenuEntry(
-                                        value: e.label(context),
-                                        labelWidget: Padding(
-                                          padding: const EdgeInsets.all(0),
-                                          child: Text(
-                                            e.label(context),
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color,
+                                              _commonBuilder = fetchCommonData(
+                                                startDate: _startDate,
+                                                endDate: _endDate,
+                                              );
+                                            });
+                                          },
+                                          dropdownMenuEntries: DataSelected
+                                              .values
+                                              .map(
+                                                (e) => DropdownMenuEntry(
+                                                  value: e.label(context),
+                                                  labelWidget: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(0),
+                                                    child: Text(
+                                                      e.label(context),
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge
+                                                            ?.color,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  label: e.label(context),
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
+                                      ),
+                                    ),
+
+                                    // draw chart
+                                    Column(
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              left: 15, top: 30),
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: SizedBox(
+                                              width: 1000,
+                                              child: SfCartesianChart(
+                                                plotAreaBorderWidth: 0,
+                                                margin:
+                                                    const EdgeInsets.all(15),
+                                                enableAxisAnimation: true,
+                                                primaryXAxis:
+                                                    const CategoryAxis(
+                                                  labelStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                  ),
+                                                  majorGridLines:
+                                                      MajorGridLines(width: 0),
+                                                  majorTickLines:
+                                                      MajorTickLines(
+                                                          width: 1,
+                                                          color: Colors.grey,
+                                                          size: 5),
+                                                  isVisible: true,
+                                                  axisLine: AxisLine(
+                                                    color: Colors.grey,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                primaryYAxis: const NumericAxis(
+                                                    majorGridLines:
+                                                        MajorGridLines(
+                                                      width: 1,
+                                                      dashArray: [8, 8],
+                                                      color: Colors.grey,
+                                                    ),
+                                                    majorTickLines:
+                                                        MajorTickLines(
+                                                      width: 0,
+                                                    ),
+                                                    axisLine: AxisLine(
+                                                      color: Colors.transparent,
+                                                    ),
+                                                    labelStyle: TextStyle(
+                                                      color: Colors.grey,
+                                                    ),
+                                                    rangePadding:
+                                                        ChartRangePadding
+                                                            .additional),
+                                                series: _getSeries(_chartData),
+                                                tooltipBehavior:
+                                                    TooltipBehavior(
+                                                  enable: true,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .surface,
+                                                  borderColor:
+                                                      Colors.grey.shade600,
+                                                  textStyle: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge
+                                                        ?.color,
+                                                  ),
+                                                ),
+                                                zoomPanBehavior:
+                                                    _zoomPanBehavior,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                        label: e.label(context),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ),
-
-                          // draw chart
-                          Column(
-                            children: [
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(left: 15, top: 30),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: SizedBox(
-                                    width: 1000,
-                                    child: SfCartesianChart(
-                                      plotAreaBorderWidth: 0,
-                                      margin: const EdgeInsets.all(15),
-                                      enableAxisAnimation: true,
-                                      primaryXAxis: const CategoryAxis(
-                                        labelStyle: TextStyle(
-                                          color: Colors.grey,
+                                        SingleChildScrollView(
+                                          padding: const EdgeInsets.only(
+                                              top: 15, left: 20, right: 20),
+                                          scrollDirection: Axis.horizontal,
+                                          child: _buildCustomLegend(),
                                         ),
-                                        majorGridLines:
-                                            MajorGridLines(width: 0),
-                                        majorTickLines: MajorTickLines(
-                                            width: 1,
-                                            color: Colors.grey,
-                                            size: 5),
-                                        isVisible: true,
-                                        axisLine: AxisLine(
-                                          color: Colors.grey,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      primaryYAxis: const NumericAxis(
-                                          majorGridLines: MajorGridLines(
-                                            width: 1,
-                                            dashArray: [8, 8],
-                                            color: Colors.grey,
-                                          ),
-                                          majorTickLines: MajorTickLines(
-                                            width: 0,
-                                          ),
-                                          axisLine: AxisLine(
-                                            color: Colors.transparent,
-                                          ),
-                                          labelStyle: TextStyle(
-                                            color: Colors.grey,
-                                          ),
-                                          rangePadding:
-                                              ChartRangePadding.additional),
-                                      series: _getSeries(_chartData),
-                                      tooltipBehavior: TooltipBehavior(
-                                        enable: true,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        borderColor: Colors.grey.shade600,
-                                        textStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color,
-                                        ),
-                                      ),
-                                      zoomPanBehavior: _zoomPanBehavior,
+                                      ],
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ),
-                              SingleChildScrollView(
-                                padding: const EdgeInsets.only(
-                                    top: 15, left: 20, right: 20),
-                                scrollDirection: Axis.horizontal,
-                                child: _buildCustomLegend(),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                              );
+                            }
+                          },),),
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * 0.2,
                   ),
                 ],
               ),
-            );
-          }
-        },
-      ),
+            ),
+        
+        
+      
     );
   }
 
