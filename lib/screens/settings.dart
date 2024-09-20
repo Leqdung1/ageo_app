@@ -627,7 +627,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           pushWithoutNavBar(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ChangePWScreen(),
+                              builder: (context) => ChangePWScreen(),
                             ),
                           );
                         },

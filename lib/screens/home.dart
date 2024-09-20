@@ -1,10 +1,8 @@
 import 'package:Ageo_solutions/components/localization.dart';
-import 'package:Ageo_solutions/screens/da_lat/camera.dart';
 import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
 import 'package:Ageo_solutions/screens/da_lat/device.dart';
 import 'package:Ageo_solutions/screens/da_lat/map.dart';
 import 'package:Ageo_solutions/screens/da_lat/warn.dart';
-import 'package:Ageo_solutions/screens/hung_yen/camera_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/control_panel_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_hy.dart';
 import 'package:Ageo_solutions/screens/hung_yen/map_hy.dart';
@@ -160,14 +158,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
               navBarBuilder: (navBarConfig) => Style6BottomNavBar(
                 navBarDecoration: NavBarDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black.withAlpha(25),
-                      blurRadius: 20,
-                      offset: const Offset(1, -1),
-                    ),
-                  ],
+                  color: Theme.of(context).colorScheme.surface,
+                  // boxShadow: <BoxShadow>[
+                  //   BoxShadow(
+                  //     color: Colors.black.withAlpha(25),
+                  //     blurRadius: 20,
+                  //     offset: const Offset(1, -1),
+                  //   ),
+                  // ],
                 ),
                 navBarConfig: navBarConfig,
               ),

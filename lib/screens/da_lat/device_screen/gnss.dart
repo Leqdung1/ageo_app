@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/gnss_models.dart';
@@ -62,6 +64,7 @@ class _GnssScreenState extends State<GnssScreen> {
     const Duration(days: 7),
   );
   final DateTime _endTime = DateTime.now();
+  late ChartSeriesController _chartSeriesController;
 
   @override
   void initState() {
@@ -77,8 +80,23 @@ class _GnssScreenState extends State<GnssScreen> {
       endDate: _endDate,
       selectedSegment: selectedSegment!,
     );
+   // Timer.periodic(const Duration(seconds: 1), updateDataSource);
     super.initState();
   }
+
+  // int? time;
+  // void updateDataSource(Timer timer) {
+  //   _chartData.add(
+  //     GnssData(
+  //       time++ as String,
+  //     ),
+  //   );
+  //   _chartData.removeAt(0);
+  //   _chartSeriesController.updateDataSource(
+  //     addedDataIndex: _chartData.length -1,
+  //     removedDataIndex: 0, 
+  //   );
+  // }
 
   Future<List<GnssData>> fetchGnss({
     required DateTime startDate,
@@ -520,9 +538,15 @@ class _GnssScreenState extends State<GnssScreen> {
     ];
   }
 
-  LineSeries<GnssData, String> _getLineSeries(String name, List<GnssData> data,
-      double Function(GnssData) yValueMapper) {
+  LineSeries<GnssData, String> _getLineSeries(
+    String name,
+    List<GnssData> data,
+    double Function(GnssData) yValueMapper,
+  ) {
     return LineSeries<GnssData, String>(
+      onRendererCreated: (ChartSeriesController controller) {
+        _chartSeriesController = controller;
+      },
       dataSource: data,
       xValueMapper: (GnssData data, _) => data.logTime,
       yValueMapper: (GnssData data, _) => yValueMapper(data),
@@ -896,21 +920,28 @@ class _GnssScreenState extends State<GnssScreen> {
                     ),
                   ),
                 ),
-                primaryYAxis: const NumericAxis(
-                  majorGridLines: MajorGridLines(
+                primaryYAxis: NumericAxis(
+                  majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
                     color: Colors.grey,
                   ),
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     color: Colors.grey,
                   ),
-                  majorTickLines: MajorTickLines(
+                  majorTickLines: const MajorTickLines(
                     width: 0,
                   ),
-                  axisLine: AxisLine(
+                  axisLine: const AxisLine(
                     color: Colors.transparent,
                     width: 0,
+                  ),
+                  title: AxisTitle(
+                    text: LocalData.displacment.getString(context),
+                    textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
                 series: _getYSeries(_chartData),
@@ -960,21 +991,28 @@ class _GnssScreenState extends State<GnssScreen> {
                     ),
                   ),
                 ),
-                primaryYAxis: const NumericAxis(
-                  majorGridLines: MajorGridLines(
+                primaryYAxis: NumericAxis(
+                  majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
                     color: Colors.grey,
                   ),
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     color: Colors.grey,
                   ),
-                  majorTickLines: MajorTickLines(
+                  majorTickLines: const MajorTickLines(
                     width: 0,
                   ),
-                  axisLine: AxisLine(
+                  axisLine: const AxisLine(
                     color: Colors.transparent,
                     width: 0,
+                  ),
+                  title: AxisTitle(
+                    text: LocalData.displacment.getString(context),
+                    textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
                 series: _getZSeries(_chartData),
@@ -1397,6 +1435,229 @@ class _GnssScreenState extends State<GnssScreen> {
               )),
         ],
       ),
+    );
+  }
+
+  // RealTime
+  Widget realtimeChart() {
+    return Column(
+      children: [
+        // dX chart
+        Container(
+          margin: const EdgeInsets.only(
+            left: 10,
+            top: 30,
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 1000,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                primaryXAxis: CategoryAxis(
+                  labelStyle: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorGridLines: const MajorGridLines(width: 0),
+                  majorTickLines: const MajorTickLines(
+                    width: 1,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  isVisible: true,
+                  axisLine: const AxisLine(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                  title: AxisTitle(
+                    text: LocalData.time.getString(context),
+                    textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                primaryYAxis: NumericAxis(
+                  majorGridLines: const MajorGridLines(
+                    width: 1,
+                    dashArray: [8, 8],
+                    color: Colors.grey,
+                  ),
+                  labelStyle: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorTickLines: const MajorTickLines(
+                    width: 0,
+                  ),
+                  axisLine: const AxisLine(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                  title: AxisTitle(
+                    text: LocalData.displacment.getString(context),
+                    textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                series: _getXSeries(_chartData),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderColor: Colors.grey.shade600,
+                  textStyle: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+                zoomPanBehavior: _zoomPanBehavior,
+              ),
+            ),
+          ),
+        ),
+
+        // dY chart
+        Container(
+          margin: const EdgeInsets.only(left: 15, top: 30),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 1000,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                primaryXAxis: CategoryAxis(
+                  labelStyle: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorGridLines: const MajorGridLines(width: 0),
+                  majorTickLines: const MajorTickLines(
+                    width: 1,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  isVisible: true,
+                  axisLine: const AxisLine(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                  title: AxisTitle(
+                    text: LocalData.time.getString(context),
+                    textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                primaryYAxis: NumericAxis(
+                  majorGridLines: const MajorGridLines(
+                    width: 1,
+                    dashArray: [8, 8],
+                    color: Colors.grey,
+                  ),
+                  labelStyle: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorTickLines: const MajorTickLines(
+                    width: 0,
+                  ),
+                  axisLine: const AxisLine(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                  title: AxisTitle(
+                    text: LocalData.displacment.getString(context),
+                    textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                series: _getYSeries(_chartData),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderColor: Colors.grey.shade600,
+                  textStyle: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+                zoomPanBehavior: _zoomPanBehavior,
+              ),
+            ),
+          ),
+        ),
+
+        // dH chart
+        Container(
+          margin: const EdgeInsets.only(left: 15, top: 30),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: 1000,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                primaryXAxis: CategoryAxis(
+                  labelStyle: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorGridLines: const MajorGridLines(width: 0),
+                  majorTickLines: const MajorTickLines(
+                    width: 1,
+                    color: Colors.grey,
+                    size: 5,
+                  ),
+                  isVisible: true,
+                  axisLine: const AxisLine(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                  title: AxisTitle(
+                    text: LocalData.time.getString(context),
+                    textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                primaryYAxis: NumericAxis(
+                  majorGridLines: const MajorGridLines(
+                    width: 1,
+                    dashArray: [8, 8],
+                    color: Colors.grey,
+                  ),
+                  labelStyle: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                  majorTickLines: const MajorTickLines(
+                    width: 0,
+                  ),
+                  axisLine: const AxisLine(
+                    color: Colors.transparent,
+                    width: 0,
+                  ),
+                  title: AxisTitle(
+                    text: LocalData.displacment.getString(context),
+                    textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                series: _getZSeries(_chartData),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderColor: Colors.grey.shade600,
+                  textStyle: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+                zoomPanBehavior: _zoomPanBehavior,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

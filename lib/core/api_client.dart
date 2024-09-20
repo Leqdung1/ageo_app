@@ -135,42 +135,38 @@ class ApiClient {
 
   // Change password
   Future<Map<String, dynamic>> changePassWord(
-    Map<String, dynamic> userData,
-    String password,
-  ) async {
-    final apiToken = await _ss.readSecureData("access_token");
-    var details = userData;
+    Map<String, dynamic> userData, String oldPassword, String newPassword) async {
+  final apiToken = await _ss.readSecureData("access_token");
+  userData["oldPassword"] = oldPassword;
+  userData["newPassword"] = newPassword;
 
-    details["oldPassword"] = password;
-    details["newPassword"] = password;
-
-    try {
-      final response = await _r.retry(
-        () async => await _dio.post(
-          "$_apiUrl/core/users/ChangePassword",
-          options: Options(
-            headers: {
-              "Authorization": "Bearer $apiToken",
-            },
-          ),
-          data: details,
+  try {
+    final response = await _r.retry(
+      () async => await _dio.post(
+        "$_apiUrl/core/users/ChangePassword",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $apiToken",
+          },
         ),
-        retryIf: (e) {
-          if (e is DioException) {
-            return e.type == DioExceptionType.sendTimeout ||
-                e.type == DioExceptionType.receiveTimeout ||
-                e.type == DioExceptionType.connectionTimeout;
-          }
+        data: userData,
+      ),
+      retryIf: (e) {
+        if (e is DioException) {
+          return e.type == DioExceptionType.sendTimeout ||
+              e.type == DioExceptionType.receiveTimeout ||
+              e.type == DioExceptionType.connectionTimeout;
+        }
+        return false;
+      },
+    );
 
-          return false;
-        },
-      );
-
-      return response.data;
-    } on DioException catch (e) {
-      return e.response!.data;
-    }
+    return response.data;
+  } on DioException catch (e) {
+    return e.response?.data ?? {'error': 'Unknown error occurred'};
   }
+}
+
 
   // Piezometer
   Future<Map<String, dynamic>> getPiezometerData(

@@ -299,18 +299,18 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
                                     child: SfCartesianChart(
                                       plotAreaBorderWidth: 0,
                                       primaryXAxis:  CategoryAxis(
-                                        labelStyle: TextStyle(
+                                        labelStyle: const TextStyle(
                                           color: Colors.grey,
                                         ),
                                         majorGridLines:
-                                            MajorGridLines(width: 0),
-                                        majorTickLines: MajorTickLines(
+                                            const MajorGridLines(width: 0),
+                                        majorTickLines: const MajorTickLines(
                                           width: 1,
                                           color: Colors.grey,
                                           size: 5,
                                         ),
                                         isVisible: true,
-                                        axisLine: AxisLine(
+                                        axisLine: const AxisLine(
                                           color: Colors.grey,
                                           width: 1,
                                         ),
@@ -323,18 +323,18 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
                   ),
                                       ),
                                       primaryYAxis: NumericAxis(
-                                        majorGridLines: MajorGridLines(
+                                        majorGridLines: const MajorGridLines(
                                           width: 1,
                                           dashArray: [8, 8],
                                           color: Colors.grey,
                                         ),
-                                        labelStyle: TextStyle(
+                                        labelStyle: const TextStyle(
                                           color: Colors.grey,
                                         ),
-                                        majorTickLines: MajorTickLines(
+                                        majorTickLines: const MajorTickLines(
                                           width: 0,
                                         ),
-                                        axisLine: AxisLine(
+                                        axisLine: const AxisLine(
                                           color: Colors.transparent,
                                           width: 0,
                                         ),
