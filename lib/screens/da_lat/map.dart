@@ -467,7 +467,7 @@ class _MapScreenState extends State<MapScreen> {
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 18,
-          fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -614,75 +614,89 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 15,
-                horizontal: 12,
-              ),
-              child: DropdownMenu(
-                textStyle: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal,
+
+            // Drop down
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 15),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                selectedTrailingIcon: Icon(
-                  Icons.expand_less,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-                trailingIcon: Icon(
-                  Icons.expand_more,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-                menuStyle: MenuStyle(
-                  maximumSize:
-                      const WidgetStatePropertyAll(Size.fromHeight(200)),
-                  surfaceTintColor: const WidgetStatePropertyAll(
-                      Color.fromARGB(255, 255, 255, 255)),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 12,
                   ),
-                ),
-                inputDecorationTheme: InputDecorationTheme(
-                  fillColor: Theme.of(context).colorScheme.primary,
-                  filled: true,
-                  border: InputBorder.none,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Colors.transparent,
-                      width: 0,
+                  child: DropdownMenu(
+                    textStyle: TextStyle(
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
                     ),
-                  ),
-                ),
-                initialSelection: _selectedMap.name,
-                onSelected: (value) {
-                  setState(() {
-                    _selectedMap =
-                        MapSelected.values.firstWhere((e) => e.name == value);
-                    _clickedMarker = _selectedMap;
-                    _updateMarkerDetails(_selectedMap);
-                  });
-                },
-                dropdownMenuEntries: MapSelected.values
-                    .map(
-                      (e) => DropdownMenuEntry(
-                        value: e.name,
-                        labelWidget: Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Text(
-                            e.label(context),
-                            style: TextStyle(
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge?.color,
-                            ),
-                          ),
+                    selectedTrailingIcon: Icon(
+                      Icons.expand_less,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    trailingIcon: Icon(
+                      Icons.expand_more,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    menuStyle: MenuStyle(
+                      maximumSize:
+                          const WidgetStatePropertyAll(Size.fromHeight(200)),
+                      surfaceTintColor: const WidgetStatePropertyAll(
+                          Color.fromARGB(255, 255, 255, 255)),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        label: e.label(context),
                       ),
-                    )
-                    .toList(),
+                    ),
+                    inputDecorationTheme: InputDecorationTheme(
+                      fillColor: Theme.of(context).colorScheme.primary,
+                      filled: true,
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(
+                          color: Colors.transparent,
+                          width: 0,
+                        ),
+                      ),
+                    ),
+                    initialSelection: _selectedMap.name,
+                    onSelected: (value) {
+                      setState(() {
+                        _selectedMap = MapSelected.values
+                            .firstWhere((e) => e.name == value);
+                        _clickedMarker = _selectedMap;
+                        _updateMarkerDetails(_selectedMap);
+                      });
+                    },
+                    dropdownMenuEntries: MapSelected.values
+                        .map(
+                          (e) => DropdownMenuEntry(
+                            value: e.name,
+                            labelWidget: Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Text(
+                                e.label(context),
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
+                                ),
+                              ),
+                            ),
+                            label: e.label(context),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
               ),
             ),
           ],
