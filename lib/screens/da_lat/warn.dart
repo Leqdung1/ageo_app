@@ -149,7 +149,7 @@ class _WarningScreenState extends State<WarningScreen>
               ),
               dividerColor: Colors.transparent,
               indicatorSize: TabBarIndicatorSize.tab,
-              indicatorColor: const Color.fromRGBO(0, 65, 130, 1),
+              indicatorColor: const Color.fromRGBO(252, 188, 46, 1),
               labelColor: Theme.of(context).textTheme.bodyLarge?.color,
               unselectedLabelColor: Colors.grey,
               tabs: [
@@ -201,13 +201,13 @@ class _WarningScreenState extends State<WarningScreen>
               color: Theme.of(context).colorScheme.surface,
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.25),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-              ],
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.grey.withOpacity(0.25),
+              //     offset: const Offset(0, 1),
+              //     blurRadius: 4,
+              //   ),
+              // ],
             ),
             child: SingleChildScrollView(
               child: Column(
@@ -217,7 +217,7 @@ class _WarningScreenState extends State<WarningScreen>
                     padding:
                         const EdgeInsets.only(top: 10, left: 15, bottom: 18),
                     child: Text(
-                      'Warning system',
+                      LocalData.warnSystem.getString(context),
                       style: TextStyle(
                           fontSize: 15,
                           color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -273,9 +273,9 @@ class _WarningScreenState extends State<WarningScreen>
                               onPressed: () {
                                 _showMyDialog();
                               },
-                              child: const Text(
-                                'Warning level 1',
-                                style: TextStyle(
+                              child: Text(
+                                LocalData.warnL1.getString(context),
+                                style: const TextStyle(
                                     fontSize: 15,
                                     color: Color.fromRGBO(1, 59, 111, 1),
                                     fontWeight: FontWeight.w600),
@@ -339,9 +339,9 @@ class _WarningScreenState extends State<WarningScreen>
                               onPressed: () {
                                 _showMyDialog();
                               },
-                              child: const Text(
-                                'Warning level 2',
-                                style: TextStyle(
+                              child: Text(
+                                LocalData.warnL2.getString(context),
+                                style: const TextStyle(
                                     fontSize: 15,
                                     color: Color.fromRGBO(111, 64, 36, 1),
                                     fontWeight: FontWeight.w600),
@@ -406,9 +406,9 @@ class _WarningScreenState extends State<WarningScreen>
                               onPressed: () {
                                 _showMyDialog();
                               },
-                              child: const Text(
-                                'Warning level 3',
-                                style: TextStyle(
+                              child: Text(
+                                LocalData.warnL3.getString(context),
+                                style: const TextStyle(
                                     fontSize: 15,
                                     color: Color.fromRGBO(66, 0, 0, 1),
                                     fontWeight: FontWeight.w600),

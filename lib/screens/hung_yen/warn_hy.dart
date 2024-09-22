@@ -17,7 +17,7 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('AlertDialog Title'),
-          content: SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text('This is a demo alert dialog.'),
@@ -56,7 +56,7 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 18,
-          fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -103,7 +103,7 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
                       padding:
                           const EdgeInsets.only(top: 10, left: 15, bottom: 18),
                       child: Text(
-                        'Warning system',
+                        LocalData.warnSystem.getString(context),
                         style: TextStyle(
                             fontSize: 15,
                             color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -159,9 +159,9 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
                                 onPressed: () {
                                   _showMyDialog();
                                 },
-                                child: const Text(
-                                  'Warning level 1',
-                                  style: TextStyle(
+                                child: Text(
+                                  LocalData.warnL1.getString(context),
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       color: Color.fromRGBO(1, 59, 111, 1),
                                       fontWeight: FontWeight.w600),
@@ -225,9 +225,9 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
                                 onPressed: () {
                                   _showMyDialog();
                                 },
-                                child: const Text(
-                                  'Warning level 2',
-                                  style: TextStyle(
+                                child: Text(
+                                  LocalData.warnL2.getString(context),
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       color: Color.fromRGBO(111, 64, 36, 1),
                                       fontWeight: FontWeight.w600),
@@ -292,9 +292,9 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
                                 onPressed: () {
                                   _showMyDialog();
                                 },
-                                child: const Text(
-                                  'Warning level 3',
-                                  style: TextStyle(
+                                child: Text(
+                                  LocalData.warnL3.getString(context),
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       color: Color.fromRGBO(66, 0, 0, 1),
                                       fontWeight: FontWeight.w600),

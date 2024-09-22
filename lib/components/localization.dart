@@ -100,6 +100,10 @@ mixin LocalData {
   static String wL = 'wlM';
   static String chooseSensor = 'chooseSensor';
   static String lastConnect = 'lC';
+  static String warnSystem = 'warnSystem';
+  static String warnL1 = 'wanrL1';
+  static String warnL2 = 'wanrL2';
+  static String warnL3 = 'wanrL3';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -199,6 +203,10 @@ mixin LocalData {
     'wlM': 'Water level (m)',
     'chooseSensor': 'Choose sensors',
     'lC': 'Last connect',
+    'warnSystem': 'Warn system',
+    'wanrL1': 'Warning level 01',
+    'wanrL2': 'Warning level 02',
+    'wanrL3': 'Warning level 03',
   };
 
   // ignore: non_constant_identifier_names
@@ -299,5 +307,10 @@ mixin LocalData {
     'wlM': 'Mực nước (m)',
     'chooseSensor': 'Chọn cảm biến',
     'lC': 'kết nối lần cuối',
+    'warnSystem': 'Hệ thống cảnh báo',
+    'wanrL1': 'Cảnh báo cấp độ 01',
+    'wanrL2': 'Cảnh báo cấp độ 02',
+    'wanrL3': 'Cảnh báo cấp độ 03',
+
   };
 }

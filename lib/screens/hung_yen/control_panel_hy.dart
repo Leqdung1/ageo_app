@@ -58,7 +58,7 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
               ),
               dividerColor: Colors.transparent,
               indicatorSize: TabBarIndicatorSize.tab,
-              indicatorColor: const Color.fromRGBO(0, 65, 130, 1),
+              indicatorColor: const Color.fromRGBO(252, 188, 46, 1),
               labelColor: Theme.of(context).textTheme.bodyLarge?.color,
               unselectedLabelColor: Colors.grey,
               tabs: [

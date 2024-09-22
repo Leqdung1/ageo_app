@@ -296,21 +296,33 @@ class _MapScreenState extends State<MapScreen> {
                           LocalData.lastConnect.getString(context),
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.grey[600],
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
                         SizedBox(height: 5),
-                        Text('V1',
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey[600])),
+                        Text(
+                          'V1',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color),
+                        ),
                         SizedBox(height: 5),
-                        Text('V2',
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey[600])),
+                        Text(
+                          'V2',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color),
+                        ),
                         SizedBox(height: 5),
-                        Text('V3',
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey[600])),
+                        Text(
+                          'V3',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color),
+                        ),
                       ]),
                 ),
                 Expanded(
@@ -318,36 +330,40 @@ class _MapScreenState extends State<MapScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          DateFormat('yyyy-MM-dd').format(matchingItem.time),
+                          DateFormat('dd/MM/yyyy').format(matchingItem.time),
                           style: TextStyle(
                             fontSize: 15,
                             color: Theme.of(context).textTheme.bodyLarge?.color,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         SizedBox(height: 5),
-                        Text('${matchingItem.v1}',
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color)),
+                        Text(
+                          '${matchingItem.v1}',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                         SizedBox(height: 5),
-                        Text('${matchingItem.v2}',
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color)),
+                        Text(
+                          '${matchingItem.v2}',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                         SizedBox(height: 5),
-                        Text('${matchingItem.v3}',
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color)),
+                        Text(
+                          '${matchingItem.v3}',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ]),
                 ),
               ]),
@@ -474,7 +490,6 @@ class _MapScreenState extends State<MapScreen> {
                 //   ],
                 // ),
                 MarkerLayer(
-                  rotate: true,
                   markers: _markerLocations.entries.map((entry) {
                     Widget iconWidget;
 
@@ -545,11 +560,12 @@ class _MapScreenState extends State<MapScreen> {
                       point: entry.value,
                       width: 40,
                       height: 40,
-                      rotate: false,
+                      rotate: true,
                       child: GestureDetector(
                         onTap: () {
                           setState(() {
                             _clickedMarker = entry.key;
+                            print("Clicked Marker: $_clickedMarker");
                             _selectedMap = entry.key;
                           });
                           _mapController.move(entry.value, 18);
