@@ -80,7 +80,7 @@ class _GnssScreenState extends State<GnssScreen> {
       endDate: _endDate,
       selectedSegment: selectedSegment!,
     );
-   // Timer.periodic(const Duration(seconds: 1), updateDataSource);
+    // Timer.periodic(const Duration(seconds: 1), updateDataSource);
     super.initState();
   }
 
@@ -94,7 +94,7 @@ class _GnssScreenState extends State<GnssScreen> {
   //   _chartData.removeAt(0);
   //   _chartSeriesController.updateDataSource(
   //     addedDataIndex: _chartData.length -1,
-  //     removedDataIndex: 0, 
+  //     removedDataIndex: 0,
   //   );
   // }
 
@@ -240,7 +240,7 @@ class _GnssScreenState extends State<GnssScreen> {
       transitionDuration: const Duration(milliseconds: 200),
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: const Color.fromRGBO(250, 200, 88, 1),
+          primary: const Color.fromRGBO(237, 146, 39, 1),
           onPrimary: Colors.black,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
@@ -318,10 +318,12 @@ class _GnssScreenState extends State<GnssScreen> {
                                 fontWeight: selectedSegment == 1
                                     ? FontWeight.bold
                                     : FontWeight.normal,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
+                                color: selectedSegment == 1
+                                    ? Colors.black
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
                               ),
                             ),
                             2: Text(
@@ -330,10 +332,12 @@ class _GnssScreenState extends State<GnssScreen> {
                                 fontWeight: selectedSegment == 2
                                     ? FontWeight.bold
                                     : FontWeight.normal,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
+                                color: selectedSegment == 2
+                                    ? Colors.black
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
                               ),
                             ),
                             3: Text(
@@ -342,10 +346,12 @@ class _GnssScreenState extends State<GnssScreen> {
                                 fontWeight: selectedSegment == 3
                                     ? FontWeight.bold
                                     : FontWeight.normal,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
+                                color: selectedSegment == 3
+                                    ? Colors.black
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
                               ),
                             ),
                           },
@@ -354,7 +360,7 @@ class _GnssScreenState extends State<GnssScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           thumbDecoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface,
+                            color: Color.fromRGBO(237, 146, 39, 1),
                             borderRadius: BorderRadius.circular(6),
                             boxShadow: [
                               BoxShadow(
@@ -568,7 +574,7 @@ class _GnssScreenState extends State<GnssScreen> {
       case 'Y':
         return const Color.fromRGBO(145, 204, 117, 1);
       case 'H':
-        return const Color.fromRGBO(250, 200, 88, 1);
+        return const Color.fromRGBO(237, 146, 39, 1);
       default:
         return Colors.blue;
     }
@@ -605,23 +611,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -630,10 +636,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -645,7 +651,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -654,7 +660,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -676,23 +682,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -701,10 +707,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -716,7 +722,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -725,7 +731,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -747,23 +753,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -772,10 +778,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -787,7 +793,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -796,7 +802,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -828,23 +834,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -853,10 +859,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -868,7 +874,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -877,7 +883,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -899,23 +905,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -924,10 +930,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -939,7 +945,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -948,7 +954,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -970,23 +976,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -995,10 +1001,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -1010,7 +1016,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1019,7 +1025,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1051,23 +1057,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1076,10 +1082,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -1091,7 +1097,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1100,7 +1106,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1122,23 +1128,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1147,10 +1153,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -1162,7 +1168,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1171,7 +1177,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1193,23 +1199,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1218,10 +1224,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -1233,7 +1239,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1242,7 +1248,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1305,8 +1311,7 @@ class _GnssScreenState extends State<GnssScreen> {
                         color: Theme.of(context).colorScheme.secondary,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: const Color.fromRGBO(84, 76, 76, 1)
-                              .withOpacity(0.14),
+                          color: const Color.fromRGBO(225, 225, 225, 1),
                         )),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -1383,8 +1388,7 @@ class _GnssScreenState extends State<GnssScreen> {
                           color: Theme.of(context).colorScheme.secondary,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: const Color.fromRGBO(84, 76, 76, 1)
-                                .withOpacity(0.14),
+                            color: const Color.fromRGBO(225, 225, 225, 1),
                           )),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -1456,23 +1460,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1481,10 +1485,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -1496,7 +1500,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1505,7 +1509,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1527,23 +1531,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1552,10 +1556,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -1567,7 +1571,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1576,7 +1580,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1598,23 +1602,23 @@ class _GnssScreenState extends State<GnssScreen> {
                 plotAreaBorderWidth: 0,
                 primaryXAxis: CategoryAxis(
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorGridLines: const MajorGridLines(width: 0),
                   majorTickLines: const MajorTickLines(
                     width: 1,
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     size: 5,
                   ),
                   isVisible: true,
                   axisLine: const AxisLine(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                     width: 1,
                   ),
                   title: AxisTitle(
                     text: LocalData.time.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1623,10 +1627,10 @@ class _GnssScreenState extends State<GnssScreen> {
                   majorGridLines: const MajorGridLines(
                     width: 1,
                     dashArray: [8, 8],
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Color(0xFFA7ABC3),
                   ),
                   majorTickLines: const MajorTickLines(
                     width: 0,
@@ -1638,7 +1642,7 @@ class _GnssScreenState extends State<GnssScreen> {
                   title: AxisTitle(
                     text: LocalData.displacment.getString(context),
                     textStyle: const TextStyle(
-                      color: Colors.grey,
+                      color: Color(0xFFA7ABC3),
                       fontSize: 12,
                     ),
                   ),
@@ -1647,7 +1651,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Colors.grey.shade600,
+                  borderColor: Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),

@@ -2,6 +2,7 @@ import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/models/user_data.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -111,9 +112,9 @@ class _AccountScreenState extends State<AccountScreen> {
         title: Text(
           LocalData.info.getString(context),
           style: TextStyle(
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
             color: Theme.of(context).textTheme.bodyLarge?.color,
-            fontSize: 15,
+            fontSize: 18,
           ),
         ),
       ),
@@ -140,49 +141,27 @@ class _AccountScreenState extends State<AccountScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      // if (userData.imageUrl != null)
-                      //   Container(
-                      //     width: 120,
-                      //     height: 120,
-                      //     decoration: BoxDecoration(
-                      //       shape: BoxShape.circle,
-                      //       image: DecorationImage(
-                      //         fit: BoxFit.cover,
-                      //         image: NetworkImage(
-                      //           userData.imageUrl ?? '',
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   )
-                      // else
-                      //   Container(
-                      //     width: 120,
-                      //     height: 120,
-                      //     decoration: const BoxDecoration(
-                      //       shape: BoxShape.circle,
-                      //       color: Colors.grey,
-                      //     ),
-                      //     child: const Icon(
-                      //       Icons.person,
-                      //       size: 80,
-                      //       color: Colors.white,
-                      //     ),
-                      //   ),
-                      Center(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                            vertical: MediaQuery.sizeOf(context).height * 0.02,
-                          ),
-                          width: 100,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey,
-                          ),
-                          child: const Icon(
-                            Icons.person,
-                            size: 80,
-                            color: Colors.white,
+                      CachedNetworkImage(
+                        imageUrl: userData.imageUrl as String,
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Center(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                              vertical:
+                                  MediaQuery.sizeOf(context).height * 0.02,
+                            ),
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey,
+                            ),
+                            child: const Icon(
+                              Icons.person,
+                              size: 80,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -211,10 +190,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           left: 15,
                         ),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surface,
+                          color: Theme.of(context).colorScheme.secondary,
                           border: Border.all(
-                            color:
-                                const Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
+                            color: const Color.fromRGBO(225, 225, 225, 1),
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -246,10 +224,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           left: 15,
                         ),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surface,
+                          color: Theme.of(context).colorScheme.secondary,
                           border: Border.all(
-                            color:
-                                const Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
+                            color: const Color.fromRGBO(225, 225, 225, 1),
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -282,10 +259,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           left: 15,
                         ),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surface,
+                          color: Theme.of(context).colorScheme.secondary,
                           border: Border.all(
-                            color:
-                                const Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
+                            color: const Color.fromRGBO(225, 225, 225, 1),
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),

@@ -145,7 +145,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
       context: context,
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: const Color.fromRGBO(250, 200, 88, 1),
+          primary: const Color.fromRGBO(237, 146, 39, 1),
           onPrimary: Colors.black,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
@@ -333,25 +333,25 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                           enableAxisAnimation: true,
                                           primaryXAxis: CategoryAxis(
                                             labelStyle: const TextStyle(
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                             ),
                                             majorGridLines:
                                                 const MajorGridLines(width: 0),
                                             majorTickLines:
                                                 const MajorTickLines(
                                                     width: 1,
-                                                    color: Colors.grey,
+                                                    color: Color(0xFFA7ABC3),
                                                     size: 5),
                                             isVisible: true,
                                             axisLine: const AxisLine(
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                               width: 1,
                                             ),
                                             title: AxisTitle(
                                               text: LocalData.time
                                                   .getString(context),
                                               textStyle: const TextStyle(
-                                                color: Colors.grey,
+                                                color: Color(0xFFA7ABC3),
                                                 fontSize: 12,
                                               ),
                                             ),
@@ -361,7 +361,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                                 const MajorGridLines(
                                               width: 1,
                                               dashArray: [8, 8],
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                             ),
                                             majorTickLines:
                                                 const MajorTickLines(
@@ -371,13 +371,13 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                               color: Colors.transparent,
                                             ),
                                             labelStyle: const TextStyle(
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                             ),
                                             title: AxisTitle(
                                               text: LocalData.elevate
                                                   .getString(context),
                                               textStyle: const TextStyle(
-                                                color: Colors.grey,
+                                                color: Color(0xFFA7ABC3),
                                                 fontSize: 12,
                                               ),
                                             ),
@@ -391,7 +391,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .surface,
-                                            borderColor: Colors.grey.shade600,
+                                            borderColor: Color(0xFFA7ABC3),
                                             textStyle: TextStyle(
                                               color: Theme.of(context)
                                                   .textTheme
@@ -655,8 +655,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                         color: Theme.of(context).colorScheme.secondary,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: const Color.fromRGBO(84, 76, 76, 1)
-                              .withOpacity(0.14),
+                          color: const Color.fromRGBO(225, 225, 225, 1),
                         )),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -733,8 +732,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           color: Theme.of(context).colorScheme.secondary,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: const Color.fromRGBO(84, 76, 76, 1)
-                                .withOpacity(0.14),
+                            color: const Color.fromRGBO(225, 225, 225, 1),
                           )),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

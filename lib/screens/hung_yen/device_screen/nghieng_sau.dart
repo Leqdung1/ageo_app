@@ -143,7 +143,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
       transitionDuration: const Duration(milliseconds: 200),
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: const Color.fromRGBO(250, 200, 88, 1),
+          primary: const Color.fromRGBO(237, 146, 39, 1),
           onPrimary: Colors.black,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
@@ -310,26 +310,27 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                                     width: 1000,
                                     child: SfCartesianChart(
                                       plotAreaBorderWidth: 0,
-                                      primaryXAxis:  CategoryAxis(
+                                      primaryXAxis: CategoryAxis(
                                         labelStyle: const TextStyle(
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                         ),
                                         majorGridLines:
                                             const MajorGridLines(width: 0),
                                         majorTickLines: const MajorTickLines(
                                           width: 1,
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                           size: 5,
                                         ),
                                         isVisible: true,
                                         axisLine: const AxisLine(
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                           width: 1,
                                         ),
-                                            title: AxisTitle(
-                                          text: LocalData.time.getString(context),
+                                        title: AxisTitle(
+                                          text:
+                                              LocalData.time.getString(context),
                                           textStyle: const TextStyle(
-                                            color: Colors.grey,
+                                            color: Color(0xFFA7ABC3),
                                             fontSize: 12,
                                           ),
                                         ),
@@ -338,10 +339,10 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                                         majorGridLines: MajorGridLines(
                                           width: 1,
                                           dashArray: [8, 8],
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                         ),
                                         labelStyle: TextStyle(
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                         ),
                                         majorTickLines: MajorTickLines(
                                           width: 0,
@@ -350,14 +351,13 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                                           color: Colors.transparent,
                                           width: 0,
                                         ),
-                                            title: AxisTitle(
+                                        title: AxisTitle(
                                           text: "H.Disp (mm)",
                                           textStyle: TextStyle(
-                                            color: Colors.grey,
+                                            color: Color(0xFFA7ABC3),
                                             fontSize: 12,
                                           ),
                                         ),
-                                        
                                       ),
                                       series: _getSeries(_chartData),
                                       tooltipBehavior: TooltipBehavior(
@@ -365,7 +365,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .surface,
-                                        borderColor: Colors.grey.shade600,
+                                        borderColor: Color(0xFFA7ABC3),
                                         textStyle: TextStyle(
                                           color: Theme.of(context)
                                               .textTheme
@@ -418,7 +418,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         const SizedBox(width: 20),
         _buildLegendItem(
           'D39-INC-3',
-          const Color.fromRGBO(250, 200, 88, 1),
+          const Color.fromRGBO(237, 146, 39, 1),
         ),
       ],
     );
@@ -492,7 +492,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -531,7 +531,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -570,7 +570,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -609,12 +609,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
 
-   Widget selectedDate() {
+  Widget selectedDate() {
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: 12,
@@ -648,7 +648,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                   ),
                   child: Text(
                     LocalData.fromDate.getString(context),
-                   style: TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       color: Theme.of(context).textTheme.bodyLarge?.color,
                       fontWeight: FontWeight.w500,
@@ -663,8 +663,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                         color: Theme.of(context).colorScheme.secondary,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: const Color.fromRGBO(84, 76, 76, 1)
-                              .withOpacity(0.14),
+                          color: const Color.fromRGBO(225, 225, 225, 1),
                         )),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -727,10 +726,10 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                     child: Text(
                       LocalData.toDate.getString(context),
                       style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                      fontWeight: FontWeight.w500,
-                    ),
+                        fontSize: 14,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   TextButton(
@@ -741,8 +740,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                           color: Theme.of(context).colorScheme.secondary,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: const Color.fromRGBO(84, 76, 76, 1)
-                                .withOpacity(0.14),
+                            color: const Color.fromRGBO(225, 225, 225, 1),
                           )),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

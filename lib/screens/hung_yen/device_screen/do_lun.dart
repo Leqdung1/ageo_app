@@ -143,7 +143,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
       transitionDuration: const Duration(milliseconds: 200),
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: const Color.fromRGBO(250, 200, 88, 1),
+          primary: const Color.fromRGBO(237, 146, 39, 1),
           onPrimary: Colors.black,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
@@ -314,36 +314,38 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                                           plotAreaBorderWidth: 0,
                                           primaryXAxis: CategoryAxis(
                                             labelStyle: const TextStyle(
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                             ),
                                             majorGridLines:
                                                 const MajorGridLines(width: 0),
-                                            majorTickLines: const MajorTickLines(
+                                            majorTickLines:
+                                                const MajorTickLines(
                                               width: 1,
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                               size: 5,
                                             ),
                                             isVisible: true,
                                             axisLine: const AxisLine(
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                               width: 1,
                                             ),
-                                                title: AxisTitle(
-                                          text: LocalData.time.getString(context),
-                                          textStyle: const TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12,
-                                          ),
-                                        ),
+                                            title: AxisTitle(
+                                              text: LocalData.time
+                                                  .getString(context),
+                                              textStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                                fontSize: 12,
+                                              ),
+                                            ),
                                           ),
                                           primaryYAxis: const NumericAxis(
                                             majorGridLines: MajorGridLines(
                                               width: 1,
                                               dashArray: [8, 8],
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                             ),
                                             labelStyle: TextStyle(
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                             ),
                                             majorTickLines: MajorTickLines(
                                               width: 0,
@@ -352,13 +354,13 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                                               color: Colors.transparent,
                                               width: 0,
                                             ),
-                                                title: AxisTitle(
-                                          text: "V.Disp (mm)",
-                                          textStyle: const TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12,
-                                          ),
-                                        ),
+                                            title: AxisTitle(
+                                              text: "V.Disp (mm)",
+                                              textStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                                fontSize: 12,
+                                              ),
+                                            ),
                                           ),
                                           series: _getSeries(_chartData),
                                           tooltipBehavior: TooltipBehavior(
@@ -366,7 +368,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .surface,
-                                            borderColor: Colors.grey.shade600,
+                                            borderColor: Color(0xFFA7ABC3),
                                             textStyle: TextStyle(
                                               color: Theme.of(context)
                                                   .textTheme
@@ -390,36 +392,38 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                                           plotAreaBorderWidth: 0,
                                           primaryXAxis: CategoryAxis(
                                             labelStyle: const TextStyle(
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                             ),
                                             majorGridLines:
                                                 const MajorGridLines(width: 0),
-                                            majorTickLines: const MajorTickLines(
+                                            majorTickLines:
+                                                const MajorTickLines(
                                               width: 1,
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                               size: 5,
                                             ),
                                             isVisible: true,
                                             axisLine: const AxisLine(
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                               width: 1,
                                             ),
-                                                title: AxisTitle(
-                                          text: LocalData.time.getString(context),
-                                          textStyle: const TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12,
-                                          ),
-                                        ),
+                                            title: AxisTitle(
+                                              text: LocalData.time
+                                                  .getString(context),
+                                              textStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                                fontSize: 12,
+                                              ),
+                                            ),
                                           ),
                                           primaryYAxis: const NumericAxis(
                                             majorGridLines: MajorGridLines(
                                               width: 1,
                                               dashArray: [8, 8],
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                             ),
                                             labelStyle: TextStyle(
-                                              color: Colors.grey,
+                                              color: Color(0xFFA7ABC3),
                                             ),
                                             majorTickLines: MajorTickLines(
                                               width: 0,
@@ -428,13 +432,13 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                                               color: Colors.transparent,
                                               width: 0,
                                             ),
-                                                title: AxisTitle(
-                                          text: "V.Disp (mm)",
-                                          textStyle: const TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12,
-                                          ),
-                                        ),
+                                            title: AxisTitle(
+                                              text: "V.Disp (mm)",
+                                              textStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                                fontSize: 12,
+                                              ),
+                                            ),
                                           ),
                                           series: _getSeries02(_chartData),
                                           tooltipBehavior: TooltipBehavior(
@@ -442,7 +446,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .surface,
-                                            borderColor: Colors.grey.shade600,
+                                            borderColor: Color(0xFFA7ABC3),
                                             textStyle: TextStyle(
                                               color: Theme.of(context)
                                                   .textTheme
@@ -493,7 +497,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
         const SizedBox(width: 20),
         _buildLegendItem(
           'D39-INC-3',
-          const Color.fromRGBO(250, 200, 88, 1),
+          const Color.fromRGBO(237, 146, 39, 1),
         ),
       ],
     );
@@ -567,7 +571,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -606,7 +610,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -645,7 +649,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -684,7 +688,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -739,7 +743,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -778,7 +782,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -817,7 +821,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -856,7 +860,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
         //   shape: DataMarkerType.circle,
         // ),
         name: 'D39-INC-3',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
     ];
   }
@@ -910,8 +914,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                         color: Theme.of(context).colorScheme.secondary,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: const Color.fromRGBO(84, 76, 76, 1)
-                              .withOpacity(0.14),
+                          color: const Color.fromRGBO(225, 225, 225, 1),
                         )),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -988,8 +991,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                           color: Theme.of(context).colorScheme.secondary,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: const Color.fromRGBO(84, 76, 76, 1)
-                                .withOpacity(0.14),
+                            color: const Color.fromRGBO(225, 225, 225, 1),
                           )),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

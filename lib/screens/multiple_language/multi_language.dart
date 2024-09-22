@@ -2,6 +2,7 @@ import 'package:Ageo_solutions/components/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseLanguage extends StatefulWidget {
@@ -48,7 +49,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -56,17 +57,17 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
           icon: Icon(
             Icons.arrow_back_ios,
             color: Theme.of(context).iconTheme.color,
+            size: 18,
           ),
         ),
         title: Text(
           LocalData.changeLanguage.getString(context),
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge?.color,
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
           ),
         ),
-        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -82,11 +83,9 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                 color: Theme.of(context).colorScheme.surface,
                 border: selectedLanguage == "vi"
                     ? Border.all(
-                        color: const Color(0xFF4e86af),
+                        color: const Color.fromRGBO(237, 146, 39, 1),
                       )
-                    : Border.all(
-                        color: const Color.fromRGBO(84, 76, 76, 1)
-                            .withOpacity(0.14)),
+                    : Border.all(color: const Color.fromRGBO(225, 225, 225, 1)),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -114,7 +113,10 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                     ),
                   ),
                   if (selectedLanguage == 'vi')
-                    SvgPicture.asset("assets/icons/success.svg"),
+                    const Icon(
+                      LucideIcons.check,
+                      color: Color.fromRGBO(237, 146, 39, 1),
+                    ),
                   const SizedBox(
                     width: 20,
                   ),
@@ -127,18 +129,15 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             child: Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: 12,
-                vertical: 15,
               ),
               height: 50,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 border: selectedLanguage == "en"
                     ? Border.all(
-                        color: const Color(0xFF4e86af),
+                        color: const Color.fromRGBO(237, 146, 39, 1),
                       )
-                    : Border.all(
-                        color: const Color.fromRGBO(84, 76, 76, 1)
-                            .withOpacity(0.14)),
+                    : Border.all(color: const Color.fromRGBO(225, 225, 225, 1)),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -168,7 +167,10 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                     ),
                   ),
                   if (selectedLanguage == 'en')
-                    SvgPicture.asset("assets/icons/success.svg"),
+                    const Icon(
+                      LucideIcons.check,
+                      color: Color.fromRGBO(237, 146, 39, 1),
+                    ),
                   const SizedBox(
                     width: 20,
                   ),

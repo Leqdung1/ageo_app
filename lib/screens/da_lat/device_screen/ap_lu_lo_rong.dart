@@ -143,7 +143,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
       transitionDuration: const Duration(milliseconds: 200),
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: const Color.fromRGBO(250, 200, 88, 1),
+          primary: const Color.fromRGBO(237, 146, 39, 1),
           onPrimary: Colors.black,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
@@ -312,25 +312,25 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                       plotAreaBorderWidth: 0,
                                       primaryXAxis: CategoryAxis(
                                         labelStyle: const TextStyle(
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                         ),
                                         majorGridLines:
                                             const MajorGridLines(width: 0),
                                         majorTickLines: const MajorTickLines(
                                           width: 1,
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                           size: 5,
                                         ),
                                         isVisible: true,
                                         axisLine: const AxisLine(
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                           width: 1,
                                         ),
                                         title: AxisTitle(
                                           text:
                                               LocalData.time.getString(context),
                                           textStyle: const TextStyle(
-                                            color: Colors.grey,
+                                            color: Color(0xFFA7ABC3),
                                             fontSize: 12,
                                           ),
                                         ),
@@ -339,10 +339,10 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                         majorGridLines: const MajorGridLines(
                                           width: 1,
                                           dashArray: [8, 8],
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                         ),
                                         labelStyle: const TextStyle(
-                                          color: Colors.grey,
+                                          color: Color(0xFFA7ABC3),
                                         ),
                                         majorTickLines: const MajorTickLines(
                                           width: 0,
@@ -355,7 +355,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                           text: LocalData.poreWater
                                               .getString(context),
                                           textStyle: const TextStyle(
-                                            color: Colors.grey,
+                                            color: Color(0xFFA7ABC3),
                                             fontSize: 12,
                                           ),
                                         ),
@@ -366,7 +366,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .surface,
-                                        borderColor: Colors.grey.shade600,
+                                        borderColor: Color(0xFFA7ABC3),
                                         textStyle: TextStyle(
                                           color: Theme.of(context)
                                               .textTheme
@@ -419,7 +419,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         const SizedBox(width: 20),
         _buildLegendItem(
           'PZ 2-1',
-          const Color.fromRGBO(250, 200, 88, 1),
+          const Color.fromRGBO(237, 146, 39, 1),
         ),
         const SizedBox(width: 20),
         _buildLegendItem(
@@ -482,12 +482,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -495,12 +489,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -508,25 +496,13 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 2-1',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
       LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
@@ -534,12 +510,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
@@ -547,12 +517,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
@@ -566,12 +530,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -579,12 +537,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -592,25 +544,13 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 2-1',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
       LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
@@ -618,12 +558,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
@@ -631,12 +565,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
@@ -650,12 +578,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -663,12 +585,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -676,25 +592,13 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 2-1',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
       LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
@@ -702,12 +606,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
@@ -715,12 +613,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
@@ -734,12 +626,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 1-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -747,12 +633,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 1-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -760,25 +640,13 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 2-1',
-        color: const Color.fromRGBO(250, 200, 88, 1),
+        color: const Color.fromRGBO(237, 146, 39, 1),
       ),
       LineSeries<PiezometerData, String>(
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 2-2',
         color: const Color.fromRGBO(238, 102, 102, 1),
       ),
@@ -786,12 +654,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 3-1',
         color: const Color.fromRGBO(115, 192, 222, 1),
       ),
@@ -799,12 +661,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
         dataSource: data,
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
         name: 'PZ 3-2',
         color: const Color.fromRGBO(59, 162, 114, 1),
       ),
@@ -822,13 +678,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.1),
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 1),
-        //   ),
-        // ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -860,8 +709,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                         color: Theme.of(context).colorScheme.secondary,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: const Color.fromRGBO(84, 76, 76, 1)
-                              .withOpacity(0.14),
+                          color: const Color.fromRGBO(225, 225, 225, 1),
                         )),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -938,8 +786,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                           color: Theme.of(context).colorScheme.secondary,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: const Color.fromRGBO(84, 76, 76, 1)
-                                .withOpacity(0.14),
+                            color: const Color.fromRGBO(225, 225, 225, 1),
                           )),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

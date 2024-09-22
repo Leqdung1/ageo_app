@@ -2,12 +2,14 @@ import "package:Ageo_solutions/components/localization.dart";
 import "package:Ageo_solutions/screens/forgot_password.dart";
 import "package:Ageo_solutions/screens/home.dart";
 import "package:Ageo_solutions/screens/home.dart";
+import "package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart";
 
 import "package:flutter/material.dart";
 import "package:flutter_localization/flutter_localization.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 
 import "package:flutter_svg/svg.dart";
+import "package:lucide_icons/lucide_icons.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 import "../core/api_client.dart";
@@ -161,356 +163,297 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          resizeToAvoidBottomInset: true,
-          body: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset('assets/images/logo.png'),
-                  ],
-                ),
-                Form(
-                  key: _formKey,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: size.width * 0.9,
-                      padding: EdgeInsets.fromLTRB(
-                          24, _checkLastLoggedInData() ? 0 : 24, 24, 24),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            spreadRadius: 0,
-                            blurRadius: 16,
-                            offset: const Offset(0, 8),
-                          ),
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            spreadRadius: 0,
-                            blurRadius: 16,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          if (!_checkLastLoggedInData()) ...[
-                            Column(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Form(
+                key: _formKey,
+                child: Container(
+                  width: size.width * 1,
+                  padding: EdgeInsets.fromLTRB(
+                      24, _checkLastLoggedInData() ? 0 : 24, 24, 24),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      if (!_checkLastLoggedInData()) ...[
+                        Column(
+                          children: [
+                            const Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "AGEO SOLUTIONS",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                LocalData.typeNameandNumber.getString(context),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "AGEO SOLUTIONS",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  ),
+                                IconButton(
+                                  onPressed: () {
+                                    _selectLanguage("vi");
+                                  },
+                                  icon: SvgPicture.asset(
+                                      'assets/icons/Vietnam.svg'),
                                 ),
                                 const SizedBox(
-                                  height: 5,
+                                  width: 20,
                                 ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    LocalData.typeNameandNumber
-                                        .getString(context),
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        _selectLanguage("vi");
-                                      },
-                                      icon: SvgPicture.asset(
-                                          'assets/icons/Vietnam.svg'),
-                                    ),
-                                    const SizedBox(
-                                      width: 32,
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        _selectLanguage("en");
-                                      },
-                                      icon: SvgPicture.asset(
-                                          'assets/icons/Us.svg'),
-                                    ),
-                                  ],
+                                IconButton(
+                                  onPressed: () {
+                                    _selectLanguage("en");
+                                  },
+                                  icon: SvgPicture.asset('assets/icons/Us.svg'),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 15),
-                            TextFormField(
-                              focusNode: usernameFocus,
-                              textInputAction: TextInputAction.next,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return LocalData.numberMustWrite
-                                      .getString(context);
-                                }
-                                return null;
-                              },
-                              keyboardType: TextInputType.text,
-                              style: const TextStyle(
-                                fontSize: 13,
-                              ),
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 0),
-                                hintStyle: const TextStyle(
-                                  color: Color(0xFFA7ABC3),
-                                ),
-                                hintText: LocalData.userName.getString(context),
-                                isDense: true,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFFE4E5F0),
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    color: Color.fromRGBO(21, 101, 192, 1),
-                                  ),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFFE43434),
-                                  ),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFFE43434),
-                                  ),
-                                ),
-                                prefixIcon: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/icons/user.svg",
-                                        colorFilter: ColorFilter.mode(
-                                          usernameFocus.hasFocus
-                                              ? const Color(0xFF1B1D29)
-                                              : const Color(0xFFA7ABC3),
-                                          BlendMode.srcATop,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Container(
-                                        height: 40,
-                                        width: 0.5,
-                                        color: const Color(0xFFA7ABC3),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  _username = value;
-                                });
-                              },
-                            ),
-                            const SizedBox(height: 12),
                           ],
-                          TextFormField(
-                            focusNode: passwordFocus,
-                            textInputAction: TextInputAction.done,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            obscureText: !_passwordVisible,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return LocalData.passwordMustWrite
-                                    .getString(context);
-                              }
+                        ),
+                        const SizedBox(height: 15),
+                        TextFormField(
+                          focusNode: usernameFocus,
+                          textInputAction: TextInputAction.next,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return LocalData.numberMustWrite
+                                  .getString(context);
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.text,
+                          style: const TextStyle(
+                            fontSize: 13,
+                          ),
+                          decoration: InputDecoration(
+                            fillColor: Theme.of(context).colorScheme.secondary,
+                            filled: true,
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 0),
+                            hintStyle: const TextStyle(
+                              color: Color.fromRGBO(225, 225, 225, 1),
+                            ),
+                            hintText: LocalData.userName.getString(context),
+                            isDense: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Color.fromRGBO(225, 225, 225, 1),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Color.fromRGBO(237, 146, 39, 1),
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Color(0xFFE43434),
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                color: Color(0xFFE43434),
+                              ),
+                            ),
+                            prefixIcon: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icons/user.svg",
+                                    // ignore: deprecated_member_use
+                                    color: Theme.of(context).iconTheme.color,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _username = value;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                      TextFormField(
+                        focusNode: passwordFocus,
+                        textInputAction: TextInputAction.done,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        obscureText: !_passwordVisible,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return LocalData.passwordMustWrite
+                                .getString(context);
+                          }
 
-                              return null;
-                            },
-                            keyboardType: TextInputType.visiblePassword,
-                            style: const TextStyle(
-                              fontSize: 13,
+                          return null;
+                        },
+                        keyboardType: TextInputType.visiblePassword,
+                        style: const TextStyle(
+                          fontSize: 13,
+                        ),
+                        decoration: InputDecoration(
+                          fillColor: Theme.of(context).colorScheme.secondary,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 0),
+                          hintStyle: const TextStyle(
+                            color: Color.fromRGBO(225, 225, 225, 1),
+                          ),
+                          hintText: LocalData.password.getString(context),
+                          isDense: true,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/icons/password_lock.svg",
+                                  // ignore: deprecated_member_use
+                                  color: Theme.of(context).iconTheme.color,
+                                ),
+                              ],
                             ),
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 0),
-                              hintStyle: const TextStyle(
-                                color: Color(0xFFA7ABC3),
-                              ),
-                              hintText: LocalData.logOut.getString(context),
-                              isDense: true,
-                              prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/icons/password_lock.svg",
-                                      colorFilter: ColorFilter.mode(
-                                        passwordFocus.hasFocus
-                                            ? const Color(0xFF1B1D29)
-                                            : const Color(0xFFA7ABC3),
-                                        BlendMode.srcATop,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Container(
-                                      width: 0.5,
-                                      height: 40,
-                                      color: const Color(0xFFA7ABC3),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              suffixIcon: IconButton(
-                                icon: _passwordVisible
-                                    ? SvgPicture.asset(
-                                        "assets/icons/password_visible.svg",
-                                        colorFilter: ColorFilter.mode(
-                                          passwordFocus.hasFocus
-                                              ? const Color(0xFF1B1D29)
-                                              : const Color(0xFFA7ABC3),
-                                          BlendMode.srcATop,
-                                        ),
-                                      )
-                                    : SvgPicture.asset(
-                                        "assets/icons/password_not_visible.svg",
-                                        colorFilter: ColorFilter.mode(
-                                          passwordFocus.hasFocus
-                                              ? const Color(0xFF1B1D29)
-                                              : const Color(0xFFA7ABC3),
-                                          BlendMode.srcATop,
-                                        ),
-                                      ),
-                                onPressed: () {
-                                  setState(() {
-                                    _passwordVisible = !_passwordVisible;
-                                  });
-                                },
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFFE4E5F0),
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  color: Color.fromRGBO(21, 101, 192, 1),
-                                ),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFFE43434),
-                                ),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFFE43434),
-                                ),
-                              ),
-                              suffixIconColor: passwordFocus.hasFocus
-                                  ? const Color(0xFF1B1D29)
-                                  : const Color(0xFFA7ABC3),
-                            ),
-                            onChanged: (value) {
-                              _password = value;
+                          ),
+                          suffixIcon: IconButton(
+                            icon: _passwordVisible
+                                ? Icon(
+                                    LucideIcons.eye,
+                                    color: Theme.of(context).iconTheme.color,
+                                  )
+                                : Icon(
+                                    LucideIcons.eyeOff,
+                                    color: Theme.of(context).iconTheme.color,
+                                  ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
                             },
                           ),
-                          const SizedBox(height: 24),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: _handleLogin,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromRGBO(21, 101, 192, 1),
-                                    foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 40,
-                                      vertical: 13,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    LocalData.logIn.getString(context),
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: const BorderSide(
+                              color: Color.fromRGBO(225, 225, 225, 1),
+                            ),
                           ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: TextButton(
-                                  onPressed: () => {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                const ForgotPasswordScreen()))
-                                  },
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: const Color(0xFF3A9EFC),
-                                  ),
-                                  child: Text(
-                                    LocalData.forgotPassword.getString(context),
-                                    style: const TextStyle(
-                                      color: Color.fromRGBO(21, 101, 192, 1),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: const BorderSide(
+                              color: Color.fromRGBO(237, 146, 39, 1),
+                            ),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: const BorderSide(
+                              color: Color(0xFFE43434),
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: const BorderSide(
+                              color: Color(0xFFE43434),
+                            ),
+                          ),
+                          suffixIconColor: passwordFocus.hasFocus
+                              ? const Color(0xFF1B1D29)
+                              : const Color.fromRGBO(225, 225, 225, 1),
+                        ),
+                        onChanged: (value) {
+                          _password = value;
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Expanded(
+                          child: TextButton(
+                            onPressed: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const ForgotPasswordScreen()))
+                            },
+                            style: TextButton.styleFrom(
+                              foregroundColor:
+                                  const Color.fromRGBO(237, 146, 39, 1),
+                            ),
+                            child: Text(
+                              LocalData.forgotPassword.getString(context),
+                              style: const TextStyle(
+                                color: Color.fromRGBO(237, 146, 39, 1),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: _handleLogin,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromRGBO(237, 146, 39, 1),
+                                foregroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 40,
+                                  vertical: 13,
                                 ),
                               ),
-                            ],
+                              child: Text(
+                                LocalData.logIn.getString(context),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 60),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],

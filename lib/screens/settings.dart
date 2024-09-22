@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:Ageo_solutions/components/localization.dart';
 import 'package:Ageo_solutions/components/theme.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
-
 import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/user_data.dart';
@@ -11,10 +9,12 @@ import 'package:Ageo_solutions/screens/account.dart';
 import 'package:Ageo_solutions/screens/changePassword.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -125,7 +125,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
-// modal bottom sheet
+  // modal bottom sheet
   void _openModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       useRootNavigator: true,
@@ -154,11 +154,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Padding(
-                        padding: const EdgeInsets.only(left: 20),
+                      icon: const Padding(
+                        padding: EdgeInsets.only(left: 20),
                         child: Icon(
                           Icons.arrow_back_ios,
-                          color: Theme.of(context).iconTheme.color,
+                          color: Color.fromRGBO(237, 146, 39, 1),
                           size: 20,
                         ),
                       ),
@@ -209,7 +209,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                             ),
                             trailing: selectedIndex == "0"
-                                ? SvgPicture.asset("assets/icons/success.svg")
+                                ? const Icon(
+                                    LucideIcons.check,
+                                    color: Color.fromRGBO(237, 146, 39, 1),
+                                  )
                                 : null,
                             onTap: () {
                               setState(
@@ -237,7 +240,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           ),
                           trailing: selectedIndex == "1"
-                              ? SvgPicture.asset("assets/icons/success.svg")
+                              ? const Icon(
+                                  LucideIcons.check,
+                                  color: Color.fromRGBO(237, 146, 39, 1),
+                                )
                               : null,
                           onTap: () {
                             setState(() {
@@ -257,284 +263,163 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Provider.of<ThemeProvider>(context).themeData == darkMode;
     var size = MediaQuery.of(context).size;
 
-    return Container(
-      constraints: const BoxConstraints.expand(),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF4e86af),
-            Color(0xFFbcd1e1),
-            Colors.white,
-            Colors.white,
-          ],
-          stops: [
-            0.01 / 100,
-            72.27 / 100,
-            100.79 / 100,
-            100.79 / 100,
-          ],
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onSurface,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Text(
+          LocalData.bottomLabel6.getString(context),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+          ),
         ),
       ),
-      child: Align(
-        alignment: Alignment.center,
-        child: Container(
-          padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
-          constraints: const BoxConstraints.expand(),
-          width: size.width * 0.9,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                AppBar(
-                  title: Text(
-                    LocalData.bottomLabel6.getString(context),
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Container(
+            padding: const EdgeInsetsDirectional.fromSTEB(20, 16, 20, 0),
+            constraints: const BoxConstraints.expand(),
+            width: size.width * 1,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      child: FutureBuilder<List<UserData>>(
+                        future: _userDataBuilder,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Text('Error: ${snapshot.error}'),
+                            );
+                          } else if (snapshot.hasData &&
+                              snapshot.data!.isNotEmpty) {
+                            _userData = snapshot.data!;
+
+                            var userData = _userData[0];
+
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl: userData.imageUrl as String,
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          Container(
+                                        margin: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 10,
+                                        ),
+                                        width: 40,
+                                        height: 40,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.grey,
+                                        ),
+                                        child: const Icon(
+                                          Icons.person,
+                                          size: 30,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.02),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          LocalData.hello.getString(context),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFFA7ABC3),
+                                          ),
+                                        ),
+                                        Text(
+                                          userData.name ?? "N/A",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.color,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          } else {
+                            return const Center(
+                                child: Text('No data available'));
+                          }
+                        },
+                      ),
                     ),
                   ),
-                  centerTitle: true,
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.transparent,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      )
-                    ],
-                  ),
-                  child: Container(
+                  Container(
+                    alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
+                      vertical: 16,
+                      horizontal: 5,
                     ),
-                    child: FutureBuilder<List<UserData>>(
-                      future: _userDataBuilder,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: Text('Error: ${snapshot.error}'),
-                          );
-                        } else if (snapshot.hasData &&
-                            snapshot.data!.isNotEmpty) {
-                          _userData = snapshot.data!;
-
-                          var userData = _userData[0];
-
-                          return Column(
-                            children: [
-                              Row(
-                                children: [
-                                  // if (userData.imageUrl != null)
-                                  //   Container(
-                                  //     width: 50,
-                                  //     height: 50,
-                                  //     decoration: BoxDecoration(
-                                  //       shape: BoxShape.circle,
-                                  //       image: DecorationImage(
-                                  //         fit: BoxFit.cover,
-                                  //         image: NetworkImage(
-                                  //           userData.imageUrl ?? '',
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   )
-                                  // else
-                                  //   Container(
-                                  //     width: 50,
-                                  //     height: 50,
-                                  //     decoration: const BoxDecoration(
-                                  //       shape: BoxShape.circle,
-                                  //       color: Colors.grey,
-                                  //     ),
-                                  //     child: const Icon(
-                                  //       Icons.person,
-                                  //       size: 80,
-                                  //       color: Colors.white,
-                                  //     ),
-                                  //   ),
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 10,
-                                    ),
-                                    width: 40,
-                                    height: 40,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.grey,
-                                    ),
-                                    child: const Icon(
-                                      Icons.person,
-                                      size: 30,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.02),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        LocalData.hello.getString(context),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey.shade600,
-                                        ),
-                                      ),
-                                      Text(
-                                        userData.name ?? "N/A",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
-                        } else {
-                          return const Center(child: Text('No data available'));
-                        }
-                      },
+                    child: Text(
+                      LocalData.accountSetting.getString(context),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 5,
-                  ),
-                  child: Text(
-                    LocalData.accountSetting.getString(context),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).colorScheme.surface,
                     ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Theme.of(context).colorScheme.surface,
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(0, 2),
-                        blurRadius: 4,
-                        color: Colors.black.withOpacity(0.05),
-                      ),
-                    ],
-                  ),
-                  child: ListView(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(0),
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        title: Text(
-                          LocalData.infomation.getString(context),
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
-                        ),
-                        leading: Icon(
-                          Icons.person_outline_outlined,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.grey.withOpacity(0.5),
-                          size: 18,
-                        ),
-                        onTap: () {
-                          pushWithoutNavBar(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const AccountScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      Divider(
-                        height: 0,
-                        indent: 15,
-                        endIndent: 15,
-                        color: Colors.grey.withOpacity(0.2),
-                      ),
-                      ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        title: Text(
-                          LocalData.changeLanguage.getString(context),
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
-                        ),
-                        leading: Icon(
-                          Icons.language_outlined,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 18,
-                          color: Colors.grey.withOpacity(0.5),
-                        ),
-                        onTap: () {
-                          pushWithoutNavBar(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ChooseLanguage(),
-                            ),
-                          );
-                        },
-                      ),
-                      Divider(
-                        height: 0,
-                        indent: 15,
-                        endIndent: 15,
-                        color: Colors.grey.withOpacity(0.2),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Provider.of<ThemeProvider>(context, listen: false)
-                              .toggleTheme();
-                        },
-                        child: ListTile(
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(0),
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        ListTile(
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 16),
                           title: Text(
-                            LocalData.darkMode.getString(context),
+                            LocalData.infomation.getString(context),
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -542,130 +427,212 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   Theme.of(context).textTheme.bodyLarge?.color,
                             ),
                           ),
-                          leading: Icon(
-                            Icons.dark_mode_outlined,
+                          leading: const Icon(
+                            LucideIcons.user,
+                            color: Color.fromRGBO(237, 146, 39, 1),
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Theme.of(context).iconTheme.color,
+                            size: 15,
+                          ),
+                          onTap: () {
+                            pushWithoutNavBar(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AccountScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        Divider(
+                          height: 0,
+                          indent: 15,
+                          endIndent: 15,
+                          color: Colors.grey.withOpacity(0.2),
+                        ),
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
+                          title: Text(
+                            LocalData.changeLanguage.getString(context),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                          leading: const Icon(
+                            Icons.language_outlined,
+                            color: Color.fromRGBO(237, 146, 39, 1),
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 15,
                             color: Theme.of(context).iconTheme.color,
                           ),
-                          trailing: Transform.scale(
-                            scale: 0.8,
-                            child: Switch(
-                              trackOutlineColor: const WidgetStatePropertyAll(
-                                Colors.transparent,
+                          onTap: () {
+                            pushWithoutNavBar(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ChooseLanguage(),
                               ),
-                              inactiveTrackColor: Colors.grey.shade400,
-                              activeTrackColor:
-                                  const Color.fromRGBO(250, 200, 88, 1),
-                              inactiveThumbColor: Colors.white,
-                              activeColor: Colors.white,
-                              value: isDarkMode,
-                              onChanged: (value) {
-                                Provider.of<ThemeProvider>(context,
-                                        listen: false)
-                                    .toggleTheme();
-                              },
+                            );
+                          },
+                        ),
+                        Divider(
+                          height: 0,
+                          indent: 15,
+                          endIndent: 15,
+                          color: Colors.grey.withOpacity(0.2),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Provider.of<ThemeProvider>(context, listen: false)
+                                .toggleTheme();
+                          },
+                          child: ListTile(
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            title: Text(
+                              LocalData.darkMode.getString(context),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color,
+                              ),
+                            ),
+                            leading: const Icon(
+                              Icons.dark_mode_outlined,
+                              color: Color.fromRGBO(237, 146, 39, 1),
+                            ),
+                            trailing: Transform.scale(
+                              scale: 0.8,
+                              child: Switch(
+                                trackOutlineColor: const WidgetStatePropertyAll(
+                                  Colors.transparent,
+                                ),
+                                inactiveTrackColor: Colors.grey.shade400,
+                                activeTrackColor:
+                                    const Color.fromRGBO(237, 146, 39, 1),
+                                inactiveThumbColor: Colors.white,
+                                activeColor: Colors.white,
+                                value: isDarkMode,
+                                onChanged: (value) {
+                                  Provider.of<ThemeProvider>(context,
+                                          listen: false)
+                                      .toggleTheme();
+                                },
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Divider(
-                        height: 0,
-                        indent: 15,
-                        endIndent: 15,
-                        color: Colors.grey.withOpacity(0.2),
-                      ),
-                      ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        title: Text(
-                          LocalData.changeSystem.getString(context),
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
+                        Divider(
+                          height: 0,
+                          indent: 15,
+                          endIndent: 15,
+                          color: Colors.grey.withOpacity(0.2),
                         ),
-                        leading: Icon(
-                          Icons.switch_left_outlined,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.grey.withOpacity(0.5),
-                          size: 18,
-                        ),
-                        onTap: () {
-                          _openModalBottomSheet(context);
-                        },
-                      ),
-                      Divider(
-                        height: 0,
-                        indent: 15,
-                        endIndent: 15,
-                        color: Colors.grey.withOpacity(0.2),
-                      ),
-                      ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        title: Text(
-                          LocalData.changePassWord.getString(context),
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
-                        ),
-                        leading: Icon(
-                          Icons.lock_outline,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.grey.withOpacity(0.5),
-                          size: 18,
-                        ),
-                        onTap: () {
-                          pushWithoutNavBar(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChangePWScreen(),
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
+                          title: Text(
+                            LocalData.changeSystem.getString(context),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
                             ),
-                          );
-                        },
-                      ),
-                      Divider(
-                        height: 0,
-                        indent: 15,
-                        endIndent: 15,
-                        color: Colors.grey.withOpacity(0.2),
-                      ),
-                      ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        title: Text(
-                          LocalData.logOut.getString(context),
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
+                          ),
+                          leading: const Icon(
+                            Icons.switch_left_outlined,
+                            color: Color.fromRGBO(237, 146, 39, 1),
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Theme.of(context).iconTheme.color,
+                            size: 15,
+                          ),
+                          onTap: () {
+                            _openModalBottomSheet(context);
+                          },
+                        ),
+                        Divider(
+                          height: 0,
+                          indent: 15,
+                          endIndent: 15,
+                          color: Colors.grey.withOpacity(0.2),
+                        ),
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
+                          title: Text(
+                            LocalData.changePassWord.getString(context),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                          leading: const Icon(
+                            LucideIcons.lock,
+                            color: Color.fromRGBO(237, 146, 39, 1),
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Theme.of(context).iconTheme.color,
+                            size: 15,
+                          ),
+                          onTap: () {
+                            pushWithoutNavBar(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChangePWScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        Divider(
+                          height: 0,
+                          indent: 15,
+                          endIndent: 15,
+                          color: Colors.grey.withOpacity(0.2),
+                        ),
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
+                          title: Text(
+                            LocalData.logOut.getString(context),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                          leading: const Icon(
+                            Icons.logout_outlined,
                             color: Colors.redAccent,
                           ),
+                          onTap: () {
+                            pushWithoutNavBar(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                            );
+                          },
                         ),
-                        leading: const Icon(
-                          Icons.logout_outlined,
-                          color: Colors.redAccent,
-                        ),
-                        onTap: () {
-                          pushWithoutNavBar(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

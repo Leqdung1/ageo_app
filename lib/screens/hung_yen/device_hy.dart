@@ -38,7 +38,8 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
           LocalData.title2.getString(context),
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge?.color,
-            fontSize: 20,
+            fontSize: 18,
+           fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -67,11 +68,11 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: isSelected
-                          ? const Color.fromRGBO(250, 200, 88, 1)
-                          : Color.fromRGBO(84, 76, 76, 1).withOpacity(0.14),
+                          ? const Color.fromRGBO(237, 146, 39, 1)
+                          : Color.fromRGBO(225, 225, 225, 1),
                     ),
                     color: isSelected
-                        ? const Color.fromRGBO(250, 200, 88, 1)
+                        ? const Color.fromRGBO(237, 146, 39, 1)
                         : Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(20),
                   ),
