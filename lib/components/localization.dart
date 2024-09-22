@@ -98,6 +98,8 @@ mixin LocalData {
   static String rainFall = 'rainFall';
   static String elevate = 'elevate';
   static String wL = 'wlM';
+  static String chooseSensor = 'chooseSensor';
+  static String lastConnect = 'lC';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -195,6 +197,8 @@ mixin LocalData {
     'rainFall': 'Rain fall (mm)',
     'elevate': 'Elevation',
     'wlM': 'Water level (m)',
+    'chooseSensor': 'Choose sensors',
+    'lC': 'Last connect',
   };
 
   // ignore: non_constant_identifier_names
@@ -292,6 +296,8 @@ mixin LocalData {
     'elevation': 'Độ cao (mm)',
     'rainFall': 'Lượng mưa (mm)',
     'elevate': 'Độ cao',
-    'wlM': 'Mực nước (m)'
+    'wlM': 'Mực nước (m)',
+    'chooseSensor': 'Chọn cảm biến',
+    'lC': 'kết nối lần cuối',
   };
 }

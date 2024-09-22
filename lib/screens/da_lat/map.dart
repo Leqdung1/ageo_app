@@ -13,7 +13,6 @@ const MAPBOX_ACCESS_TOKEN =
     'sk.eyJ1IjoiZHVuZzEyMyIsImEiOiJjbHpxc252eWMwd2ZwMm1zM2p6a3MyaDI0In0.VVgBTGJ0X1qSPwZwZuxmZg';
 
 enum MapSelected {
-  // ignore: constant_identifier_names
   WaterLevel1,
   // ignore: constant_identifier_names
   WaterLevel2,
@@ -108,7 +107,8 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  MapSelected _selectedMap = MapSelected.WaterLevel1;
+  MapSelected? _selectedMap;
+
   MapSelected? _clickedMarker;
   final MapController _mapController = MapController();
   List<warnData> _items = [];
@@ -241,7 +241,6 @@ class _MapScreenState extends State<MapScreen> {
   };
 
   void _showMarkerDetails(String name, LatLng value) {
-    // Find the matching item based on latitude and longitude
     final matchingItem = _items.firstWhere(
       (item) => item.lat == value.latitude && item.lng == value.longitude,
       orElse: () => warnData(
@@ -257,7 +256,6 @@ class _MapScreenState extends State<MapScreen> {
       ),
     );
 
-    // Show the modal bottom sheet with info of sensor
     showModalBottomSheet(
       barrierColor: Colors.transparent,
       backgroundColor: Colors.transparent,
@@ -288,51 +286,31 @@ class _MapScreenState extends State<MapScreen> {
                   color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.03,
-              ),
+              SizedBox(height: MediaQuery.sizeOf(context).height * 0.03),
               Row(children: [
                 Expanded(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Last connect',
+                          LocalData.lastConnect.getString(context),
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.grey[600],
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'V1',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'V2',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'V3',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey[600],
-                          ),
-                        ),
+                        SizedBox(height: 5),
+                        Text('V1',
+                            style: TextStyle(
+                                fontSize: 15, color: Colors.grey[600])),
+                        SizedBox(height: 5),
+                        Text('V2',
+                            style: TextStyle(
+                                fontSize: 15, color: Colors.grey[600])),
+                        SizedBox(height: 5),
+                        Text('V3',
+                            style: TextStyle(
+                                fontSize: 15, color: Colors.grey[600])),
                       ]),
                 ),
                 Expanded(
@@ -346,36 +324,30 @@ class _MapScreenState extends State<MapScreen> {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${matchingItem.v1}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${matchingItem.v2}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${matchingItem.v3}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
-                        ),
+                        SizedBox(height: 5),
+                        Text('${matchingItem.v1}',
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color)),
+                        SizedBox(height: 5),
+                        Text('${matchingItem.v2}',
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color)),
+                        SizedBox(height: 5),
+                        Text('${matchingItem.v3}',
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color)),
                       ]),
                 ),
               ]),
@@ -384,9 +356,9 @@ class _MapScreenState extends State<MapScreen> {
         );
       },
     ).whenComplete(() {
-      // Ensure state update happens after the modal is closed
       setState(() {
         _clickedMarker = null;
+        _selectedMap = null;
       });
     });
   }
@@ -502,14 +474,14 @@ class _MapScreenState extends State<MapScreen> {
                 //   ],
                 // ),
                 MarkerLayer(
+                  rotate: true,
                   markers: _markerLocations.entries.map((entry) {
                     Widget iconWidget;
 
                     if (_clickedMarker == entry.key ||
                         (_selectedMap == entry.key && _clickedMarker == null)) {
-                      iconWidget = SvgPicture.asset(
-                        'assets/icons/map_pin.svg',
-                      );
+                      // When the marker is selected or matches the selected map
+                      iconWidget = SvgPicture.asset('assets/icons/map_pin.svg');
                     } else {
                       switch (entry.key) {
                         case MapSelected.Camera1:
@@ -518,60 +490,53 @@ class _MapScreenState extends State<MapScreen> {
                         case MapSelected.Camera4:
                         case MapSelected.Camera5:
                           iconWidget = SvgPicture.asset(
-                            'assets/icons/map_cam.svg',
-                            width: 15,
-                            height: 15,
-                          );
+                              'assets/icons/map_cam.svg',
+                              width: 15,
+                              height: 15);
                           break;
                         case MapSelected.WaterLevel1:
                         case MapSelected.WaterLevel2:
                           iconWidget = SvgPicture.asset(
-                            'assets/icons/map_water.svg',
-                            width: 15,
-                            height: 15,
-                          );
+                              'assets/icons/map_water.svg',
+                              width: 15,
+                              height: 15);
                           break;
                         case MapSelected.Raingauge:
                           iconWidget = SvgPicture.asset(
-                            'assets/icons/map_rain.svg',
-                            width: 15,
-                            height: 15,
-                          );
+                              'assets/icons/map_rain.svg',
+                              width: 15,
+                              height: 15);
                           break;
                         case MapSelected.Inclinometer1:
                         case MapSelected.Inclinometer2:
                         case MapSelected.Inclinometer3:
                           iconWidget = SvgPicture.asset(
-                            'assets/icons/map_inclino.svg',
-                            width: 15,
-                            height: 15,
-                          );
+                              'assets/icons/map_inclino.svg',
+                              width: 15,
+                              height: 15);
                           break;
                         case MapSelected.Piezometer1:
                         case MapSelected.Piezometer2:
                         case MapSelected.Piezometer3:
                           iconWidget = SvgPicture.asset(
-                            'assets/icons/map_piez.svg',
-                            width: 15,
-                            height: 15,
-                          );
+                              'assets/icons/map_piez.svg',
+                              width: 15,
+                              height: 15);
                           break;
                         case MapSelected.Gnss1:
                         case MapSelected.Gnss2:
                         case MapSelected.Gnss3:
                           iconWidget = SvgPicture.asset(
-                            'assets/icons/map_gnss.svg',
-                            width: 15,
-                            height: 15,
-                          );
+                              'assets/icons/map_gnss.svg',
+                              width: 15,
+                              height: 15);
                           break;
                         case MapSelected.WarningSensor1:
                         case MapSelected.WarningSensor2:
                           iconWidget = SvgPicture.asset(
-                            'assets/icons/map_warn.svg',
-                            width: 15,
-                            height: 15,
-                          );
+                              'assets/icons/map_warn.svg',
+                              width: 15,
+                              height: 15);
                           break;
                       }
                     }
@@ -585,33 +550,26 @@ class _MapScreenState extends State<MapScreen> {
                         onTap: () {
                           setState(() {
                             _clickedMarker = entry.key;
+                            _selectedMap = entry.key;
                           });
-                          _mapController.move(
-                            entry.value,
-                            18,
-                          );
-
+                          _mapController.move(entry.value, 18);
                           _showMarkerDetails(
-                            entry.key.label(context),
-                            entry.value,
-                          );
+                              entry.key.label(context), entry.value);
                         },
                         child: iconWidget,
                       ),
                     );
                   }).toList()
-
-                    // marker is clicked on top
+                    // Sort so the clicked marker is always on top
                     ..sort((a, b) {
                       if (a.point == _markerLocations[_clickedMarker]) return 1;
-                      if (b.point == _markerLocations[_clickedMarker]) {
+                      if (b.point == _markerLocations[_clickedMarker])
                         return -1;
-                      }
                       if (a.point == _markerLocations[_selectedMap]) return 1;
                       if (b.point == _markerLocations[_selectedMap]) return -1;
                       return 0;
                     }),
-                ),
+                )
               ],
             ),
 
@@ -630,6 +588,8 @@ class _MapScreenState extends State<MapScreen> {
                     horizontal: 12,
                   ),
                   child: DropdownMenu(
+                    key: ValueKey(_selectedMap?.name),
+                    hintText: LocalData.chooseSensor.getString(context),
                     textStyle: TextStyle(
                       color: Theme.of(context).textTheme.bodyLarge?.color,
                       fontSize: 15,
@@ -647,7 +607,8 @@ class _MapScreenState extends State<MapScreen> {
                       maximumSize:
                           const WidgetStatePropertyAll(Size.fromHeight(200)),
                       surfaceTintColor: const WidgetStatePropertyAll(
-                          Color.fromARGB(255, 255, 255, 255)),
+                        Color.fromARGB(255, 255, 255, 255),
+                      ),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -666,34 +627,33 @@ class _MapScreenState extends State<MapScreen> {
                         ),
                       ),
                     ),
-                    initialSelection: _selectedMap.name,
+                    // If _selectedMap is null, show hint text
+                    initialSelection: _selectedMap?.name,
                     onSelected: (value) {
                       setState(() {
                         _selectedMap = MapSelected.values
                             .firstWhere((e) => e.name == value);
                         _clickedMarker = _selectedMap;
-                        _updateMarkerDetails(_selectedMap);
+                        _updateMarkerDetails(_selectedMap!);
                       });
                     },
                     dropdownMenuEntries: MapSelected.values
-                        .map(
-                          (e) => DropdownMenuEntry(
-                            value: e.name,
-                            labelWidget: Padding(
-                              padding: const EdgeInsets.all(0),
-                              child: Text(
-                                e.label(context),
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color,
+                        .map((e) => DropdownMenuEntry(
+                              value: e.name,
+                              labelWidget: Padding(
+                                padding: const EdgeInsets.all(0),
+                                child: Text(
+                                  e.label(context),
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
+                                  ),
                                 ),
                               ),
-                            ),
-                            label: e.label(context),
-                          ),
-                        )
+                              label: e.label(context),
+                            ))
                         .toList(),
                   ),
                 ),
