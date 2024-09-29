@@ -1,6 +1,8 @@
 import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/screens/home.dart';
+import 'package:Ageo_solutions/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
@@ -32,31 +34,36 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: false,
 
-      // theme mode
-      theme: Provider.of<ThemeProvider>(context).themeData,
+        // theme mode
+        theme: Provider.of<ThemeProvider>(context).themeData,
 
-      // language mode
-      // localizationsDelegates: const [
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   GlobalCupertinoLocalizations.delegate,
+        // language mode
+        // localizationsDelegates: const [
+        //   GlobalMaterialLocalizations.delegate,
+        //   GlobalWidgetsLocalizations.delegate,
+        //   GlobalCupertinoLocalizations.delegate,
 
-      // ],
+        // ],
 
-      // supportedLocales: const [
-      //   Locale('vi', ''), // Vietnamese
-      //   Locale('en', ''), // English
-      // ],
-      localizationsDelegates: localization.localizationsDelegates,
-      supportedLocales: localization.supportedLocales,
-      locale: const Locale('vi', ''),
-
-      home: HomeScreen(),
-    );
+        // supportedLocales: const [
+        //   Locale('vi', ''), // Vietnamese
+        //   Locale('en', ''), // English
+        // ],
+        localizationsDelegates: localization.localizationsDelegates,
+        supportedLocales: localization.supportedLocales,
+        locale: const Locale('vi', ''),
+        home: FutureBuilder(
+          future: secureStorage.readSecureData("logged_in"),
+          builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+            if (snapshot.hasData) {
+              return const HomeScreen();
+            }
+            return const LoginScreen();
+          },
+        ));
   }
 
   void configLocal() {

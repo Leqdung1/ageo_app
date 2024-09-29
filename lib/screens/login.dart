@@ -5,10 +5,12 @@ import "package:Ageo_solutions/screens/home.dart";
 import "package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart";
 
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:flutter_localization/flutter_localization.dart";
 import 'package:flutter_svg/flutter_svg.dart';
 
 import "package:flutter_svg/svg.dart";
+import "package:local_auth/local_auth.dart";
 import "package:lucide_icons/lucide_icons.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
@@ -40,6 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   var _passwordVisible = false;
 
+  final LocalAuthentication localAuth = LocalAuthentication();
+  bool isBiometricAvailable = false;
+  bool biometricSetting = false;
+
   void _readLastLoggedInData() async {
     final name =
         await SecureStorage().readSecureData("last_logged_in_user_name");
@@ -59,6 +65,79 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _checkLastLoggedInData() {
     return _lastUserName.isNotEmpty && _lastUserPhoneNumber.isNotEmpty;
+  }
+
+  void _checkBiometric() async {
+    isBiometricAvailable = await localAuth.canCheckBiometrics;
+
+    List<BiometricType> availableBiometrics =
+        await localAuth.getAvailableBiometrics();
+    if (availableBiometrics.isNotEmpty) {
+      isBiometricAvailable = true;
+    } else {
+      isBiometricAvailable = false;
+    }
+  }
+
+  void _checkBiometricSettings() async {
+    var result = await const SecureStorage().readSecureData("save_password");
+    if (result != null) {
+      setState(() {
+        biometricSetting = result == "true";
+      });
+    }
+  }
+
+  void _notifyNoBiometric() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Thông báo"),
+          content: const Text(
+              "Thiết bị không hỗ trợ xác thực bằng vân tay hoặc FaceID"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Đóng"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleBiometricAuth() async {
+    bool auth = false;
+    try {
+      auth = await localAuth.authenticate(
+          localizedReason:
+              "Vui lòng xác thực bằng vân tay hoặc FaceID để tiếp tục.",
+          options: const AuthenticationOptions(biometricOnly: true));
+    } on PlatformException {
+      const SnackBar(
+        content: Text("Xác thực không thành công."),
+        backgroundColor: Colors.red,
+      );
+    } finally {
+      if (auth) {
+        await const SecureStorage().writeSecureData("logged_in", "true");
+        var result =
+            await const SecureStorage().readSecureData("held_access_token");
+        await const SecureStorage().writeSecureData("access_token", result);
+        if (mounted) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return const HomeScreen();
+            }),
+            (route) => false,
+          );
+        }
+      }
+    }
   }
 
   Future<void> _handleLogin() async {
@@ -399,10 +478,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: TextButton(
                             onPressed: () => {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const ForgotPasswordScreen()))
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      const ForgotPasswordScreen(),
+                                ),
+                              )
                             },
                             style: TextButton.styleFrom(
                               foregroundColor:
@@ -447,6 +528,34 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
+                          biometricSetting
+                              ? Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 5,
+                                    ),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        fixedSize: const Size(48, 48),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        foregroundColor: Colors.white,
+                                        backgroundColor:
+                                            const Color.fromRGBO(237, 146, 39, 1),
+                                        shadowColor: Colors.transparent,
+                                      ),
+                                      onPressed: () {
+                                        _handleBiometricAuth();
+                                      },
+                                      child: const Icon(LucideIcons.scanFace),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
                         ],
                       ),
                     ],

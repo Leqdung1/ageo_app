@@ -11,9 +11,11 @@ import 'package:Ageo_solutions/screens/login.dart';
 import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +40,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<List<UserData>>? _userDataBuilder;
   late List<UserData> _userData = [];
   final SecureStorage _ss = SecureStorage();
+  bool savePassword = false;
+  bool isBiometricAvailable = false;
+  final LocalAuthentication localAuth = LocalAuthentication();
+
+  void _checkBiometric() async {
+    isBiometricAvailable = await localAuth.canCheckBiometrics;
+
+    List<BiometricType> availableBiometrics =
+        await localAuth.getAvailableBiometrics();
+    setState(() {
+      isBiometricAvailable = availableBiometrics.isNotEmpty;
+    });
+  }
 
   @override
   void initState() {
@@ -45,11 +60,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _loadSelectedIndex();
     _userDataBuilder = fetchUserData();
     _initializeUserIdAndFetchData();
+    _handleSavePasswordState();
+    _checkBiometric();
   }
 
   Future<int?> _getUserIdFromToken() async {
-    final token = await _ss
-        .readSecureData("access_token"); // Read the token from secure storage
+    final token = await _ss.readSecureData("access_token");
     if (token != null && JwtDecoder.isExpired(token)) {
       print("Token is expired");
       return null;
@@ -114,6 +130,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await prefs.setString('selectedIndex', index);
   }
 
+  // Change system
   void _selectIndex(String index) {
     setState(() {
       selectedIndex = index;
@@ -123,6 +140,73 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
     });
     Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  // Logout
+  void _handleLogout() async {
+    await const SecureStorage().deleteSecureData("logged_in");
+    var accessToken =
+        await const SecureStorage().readSecureData("access_token");
+    await const SecureStorage()
+        .writeSecureData("held_access_token", accessToken!);
+    await const SecureStorage().deleteSecureData("access_token");
+
+    pushScreenWithoutNavBar(
+      context,
+      const LoginScreen(),
+    );
+  }
+
+  // Notify if no biometric
+  void _notifyNoBiometric() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Thông báo"),
+          content: const Text(
+              "Thiết bị không hỗ trợ xác thực bằng vân tay hoặc FaceID"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Đóng"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleBiometricAuth() async {
+    bool authenticated = false;
+    try {
+      authenticated = await localAuth.authenticate(
+        localizedReason: 'Xác thực sinh trắc học',
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+    } on PlatformException catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  void _handleSavePassword() async {
+    await const SecureStorage()
+        .writeSecureData("save_password", savePassword.toString());
+  }
+
+  void _handleSavePasswordState() async {
+    final savePasswordState =
+        await const SecureStorage().readSecureData("save_password");
+    if (savePasswordState != null) {
+      setState(() {
+        savePassword = savePasswordState == "true";
+      });
+    }
   }
 
   // modal bottom sheet
@@ -262,7 +346,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -451,6 +534,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           endIndent: 15,
                           color: Colors.grey.withOpacity(0.2),
                         ),
+                        SwitchListTile(
+                          value: savePassword,
+                          onChanged: (value) {
+                            if (isBiometricAvailable == false) {
+                              _notifyNoBiometric();
+                            } else {
+                              setState(() {
+                                savePassword = value;
+                              });
+                              _handleSavePassword();
+                              if (value) {
+                                _handleBiometricAuth();
+                              }
+                            }
+                          },
+                          
+                          title: Text(
+                            "Đăng nhập bằng sinh trắc học",
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                          visualDensity: VisualDensity.compact,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                        Divider(
+                          height: 0,
+                          indent: 15,
+                          endIndent: 15,
+                          color: Colors.grey.withOpacity(0.2),
+                        ),
                         ListTile(
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 16),
@@ -619,14 +736,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Icons.logout_outlined,
                             color: Colors.redAccent,
                           ),
-                          onTap: () {
-                            pushWithoutNavBar(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ),
-                            );
-                          },
+                          onTap: _handleLogout,
                         ),
                       ],
                     ),

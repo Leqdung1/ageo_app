@@ -1,8 +1,8 @@
-import "package:Ageo_solutions/screens/login.dart";
-import "package:flutter/material.dart";
 import "package:flutter_secure_storage/flutter_secure_storage.dart";
 
 class SecureStorage {
+  const SecureStorage();
+
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   writeSecureData(String key, String? value) async {
@@ -17,3 +17,5 @@ class SecureStorage {
     await storage.delete(key: key);
   }
 }
+
+const secureStorage = SecureStorage();

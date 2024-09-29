@@ -13,7 +13,7 @@ class _CameraTestScreenState extends State<CameraTestScreen> {
   void initState() {
     super.initState();
     _vlcPlayerController = VlcPlayerController.network(
-      'rtsp://rtsp:Ageo2023\$@117.2.137.16:9091/Streaming/Channels/103',
+      'rtsp://rtsp:Ageo2023\$@117.2.137.16:9092/Streaming/Channels/102',
       hwAcc: HwAcc.full,
       autoPlay: true,
       options: VlcPlayerOptions(),
@@ -29,7 +29,6 @@ class _CameraTestScreenState extends State<CameraTestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('RTSP Video Player')),
       body: Center(
         child: VlcPlayer(
           controller: _vlcPlayerController,
