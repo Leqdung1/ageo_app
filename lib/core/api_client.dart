@@ -5,8 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:retry/retry.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:web_socket_channel/status.dart' as status;
 
 class ApiClient {
   final Dio _dio = Dio(BaseOptions(
@@ -561,33 +559,6 @@ class ApiClient {
   Future<Map<String, dynamic>> getCommonDataByYear(DateTime fromDate) async {
     return await getCommonData('yyyy', fromDate);
   }
-
-  // Camera
-  Stream<Uint8List> getCamera(String url) async* {
-    final channel = WebSocketChannel.connect(Uri.parse(url));
-    try {
-      await for (var data in channel.stream) {
-        yield data;
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('$e');
-      }
-    } finally {
-      channel.sink.close(status.goingAway);
-    }
-  }
-
-  Stream<Uint8List> getCamera1() =>
-      getCamera("ws://api.ageo.vn:2000/api/stream/9091/103/0");
-  Stream<Uint8List> getCamera2() =>
-      getCamera("ws://api.ageo.vn:2000/api/stream/9092/103/0");
-  Stream<Uint8List> getCamera3() =>
-      getCamera("ws://api.ageo.vn:2000/api/stream/9093/103/0");
-  Stream<Uint8List> getCamera4() =>
-      getCamera("ws://api.ageo.vn:2000/api/stream/9094/103/0");
-  Stream<Uint8List> getCamera5() =>
-      getCamera("ws://api.ageo.vn:2000/api/stream/9095/103/0");
 
   // warn
   Future<Map<String, dynamic>> getDeviceData() async {

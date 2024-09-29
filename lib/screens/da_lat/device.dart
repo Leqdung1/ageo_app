@@ -5,6 +5,7 @@ import 'package:Ageo_solutions/screens/da_lat/device_screen/gnss.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/nghieng_sau.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/rain_gauge.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/water_level.dart';
+import 'package:Ageo_solutions/screens/da_lat/testcam.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:intl/intl.dart';
@@ -126,13 +127,13 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 height: MediaQuery.sizeOf(context).height * 0.75,
                 child: IndexedStack(
                   index: _itemsSelected,
-                  children: const [
+                  children:  [
                     GnssScreen(),
                     ApLucLoRongScreen(),
                     NghiengSauScreen(),
                     RaingaugeScreen(),
                     WaterLevelScreen(),
-                    CameraScreen(),
+                    CameraTestScreen(),
                   ],
                 ),
               ),

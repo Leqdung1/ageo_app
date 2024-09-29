@@ -1,91 +1,44 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-
-class Camtest extends StatefulWidget {
-  const Camtest({super.key});
-
+class CameraTestScreen extends StatefulWidget {
   @override
-  State<Camtest> createState() => _CamtestState();
+  _CameraTestScreenState createState() => _CameraTestScreenState();
 }
 
-class _CamtestState extends State<Camtest> {
-  static const String url = "ws://api.ageo.vn:2000/api/stream/9091/103/0";
- // late VideoPlayerController _controller;
-  Uint8List? _videoData;
-  bool _isConnected = false;
-  final channel = WebSocketChannel.connect(Uri.parse(url));
+class _CameraTestScreenState extends State<CameraTestScreen> {
+  late VlcPlayerController _vlcPlayerController;
 
   @override
   void initState() {
     super.initState();
-    streamListener();
-  }
-
-  void streamListener() {
-    channel.stream.listen(
-      (message) {
-        if (message is Uint8List) {
-          setState(() {
-            _videoData = message;
-          });
-        } else {
-          print('Message is not Uint8List');
-        }
-      },
+    _vlcPlayerController = VlcPlayerController.network(
+      'rtsp://rtsp:Ageo2023\$@117.2.137.16:9091/Streaming/Channels/103',
+      hwAcc: HwAcc.full,
+      autoPlay: true,
+      options: VlcPlayerOptions(),
     );
   }
 
   @override
   void dispose() {
-    channel.sink.close();
+    _vlcPlayerController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Video Stream'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 50.0,
-              ),
-              _videoData != null
-                  ? StreamBuilder(
-                      stream: channel.stream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const CircularProgressIndicator();
-                        }
-
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return const Center(
-                            child: Text("Connection Closed !"),
-                          );
-                        }
-
-                        return Image.memory(
-                          Uint8List.fromList(
-                            base64Decode(
-                              (snapshot.data.toString()),
-                            ),
-                          ),
-                          gaplessPlayback: true,
-                        );
-                      },
-                    )
-                  : const Text("Initiate Connection")
-            ],
-          ),
+      appBar: AppBar(title: Text('RTSP Video Player')),
+      body: Center(
+        child: VlcPlayer(
+          controller: _vlcPlayerController,
+          aspectRatio: 16 / 9,
+          placeholder: Center(
+              child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: Colors.red,
+          )),
         ),
       ),
     );
