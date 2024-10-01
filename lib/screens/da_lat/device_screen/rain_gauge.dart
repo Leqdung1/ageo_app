@@ -1,4 +1,4 @@
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/models/rainGauge_models.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/do_lun.dart';
 import 'package:flutter/material.dart';

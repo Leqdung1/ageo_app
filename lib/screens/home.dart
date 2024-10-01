@@ -1,4 +1,4 @@
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/screens/da_lat/control_panel.dart';
 import 'package:Ageo_solutions/screens/da_lat/device.dart';
 import 'package:Ageo_solutions/screens/da_lat/map.dart';

@@ -1,4 +1,4 @@
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/nghieng_sau.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/do_lun.dart';
@@ -39,7 +39,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 18,
-           fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -96,7 +96,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                           style: TextStyle(
                             fontSize: 15,
                             color: isSelected
-                                ? Colors.black
+                                ? Colors.white
                                 : Theme.of(context).textTheme.bodyLarge?.color,
                             fontWeight:
                                 isSelected ? FontWeight.bold : FontWeight.w400,

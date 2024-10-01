@@ -1,4 +1,4 @@
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/models/user_data.dart';
@@ -96,7 +96,7 @@ class _AccountScreenState extends State<AccountScreen> {
     );
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSurface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         leading: IconButton(

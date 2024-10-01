@@ -104,6 +104,8 @@ mixin LocalData {
   static String warnL1 = 'wanrL1';
   static String warnL2 = 'wanrL2';
   static String warnL3 = 'wanrL3';
+  static String typeUser = 'typeUser';
+  static String typePass = 'typePass';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -122,7 +124,7 @@ mixin LocalData {
         "Completed the installation and monitoring of monitoring equipment on the embankment, the blocks are currently stable.",
     "infoDetails10":
         "A landslide on an under-construction project at 15/2 Yen The, Ward 10, Da Lat City destroyed the structure on the slope and at the foot of the slope as well as killing two people.",
-    "titleChangeLanguage": "Change language",
+    "titleChangeLanguage": "Language",
     "language1": "Vietnamese",
     "language2": "English",
     "bottomLabel1": "Home",
@@ -135,16 +137,16 @@ mixin LocalData {
     "hello": "Hello,",
     "accountSetting": "Account setting",
     "info": "Infomation",
-    "changeLang": "Change language",
+    "changeLang": "Language",
     "darkMode": "Dark mode",
     "changePassWord": "Change password",
     "logOut": "Log out",
-    "NameAndNumber": "Enter your username & password to access the system",
+    "NameAndNumber": "Login",
     "userName": "Username",
     "password": "Password",
     "numberMustWrite": "Username cannot be blank.",
-    "passwordMustWrite": "Password can not be blank.",
-    "logIn": "Log in",
+    "passwordMustWrite": "Password cannot be blank.",
+    "logIn": "Login",
     "forgotPassword": "Forgot password?",
     "changeSystem": "Change system",
     "textModal": "Done",
@@ -207,6 +209,8 @@ mixin LocalData {
     'wanrL1': 'Warning level 01',
     'wanrL2': 'Warning level 02',
     'wanrL3': 'Warning level 03',
+    'typeUser': 'Enter your username',
+    'typePass': 'Enter your password'
   };
 
   // ignore: non_constant_identifier_names
@@ -226,7 +230,7 @@ mixin LocalData {
         "Hoàn thành việc lắp đặt và giám sát thiết bị giám sát trên bờ kè, các khối hiện đang ổn định.",
     "infoDetails10":
         "Một vụ lở đất tại dự án đang xây dựng ở 15/2 Yên Thế, Phường 10, Thành phố Đà Lạt đã phá hủy cấu trúc trên sườn dốc và chân dốc cũng như khiến hai người thiệt mạng.",
-    "titleChangeLanguage": "Thay đổi ngôn ngữ",
+    "titleChangeLanguage": "Ngôn ngữ",
     "language1": "Tiếng việt",
     "language2": "Tiếng anh",
     "bottomLabel1": "Trang chủ",
@@ -239,17 +243,17 @@ mixin LocalData {
     "hello": "Xin chào,",
     "accountSetting": "Cài đặt tài khoản",
     "info": "Thông tin cá nhân",
-    "changeLang": "Thay đổi ngôn ngữ",
+    "changeLang": "Ngôn ngữ",
     "darkMode": "Chế độ tối",
     "changePassWord": "Đổi mật khẩu",
     "logOut": "Đăng xuất",
-    "NameAndNumber": "Nhập tên đăng nhập & mật khẩu để truy cập hệ thống",
+    "NameAndNumber": "Đăng nhập",
     "userName": "Tên đăng nhập",
     "password": "Mật khẩu",
     "numberMustWrite": "Tên đăng nhập không được để trống.",
     "passwordMustWrite": "Mật khẩu không được để trống.",
     "logIn": "Đăng nhập",
-    "forgotPassword": "Quên mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
     "changeSystem": "Thay đổi hệ thống",
     "textModal": "Xong",
     "title1": "Khe Sanh, phường 10, TP.Đà Lạt",
@@ -311,6 +315,7 @@ mixin LocalData {
     'wanrL1': 'Cảnh báo cấp độ 01',
     'wanrL2': 'Cảnh báo cấp độ 02',
     'wanrL3': 'Cảnh báo cấp độ 03',
-
+    'typeUser': 'Nhập tên đăng nhập của bạn',
+    'typePass': 'Nhập mật khẩu của bạn'
   };
 }

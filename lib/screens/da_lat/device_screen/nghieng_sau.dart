@@ -1,4 +1,4 @@
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/apLucLoRong_models.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/ap_lu_lo_rong.dart';

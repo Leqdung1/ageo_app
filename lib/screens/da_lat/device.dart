@@ -1,5 +1,4 @@
-import 'package:Ageo_solutions/components/localization.dart';
-import 'package:Ageo_solutions/screens/da_lat/camera.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/ap_lu_lo_rong.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/gnss.dart';
 import 'package:Ageo_solutions/screens/da_lat/device_screen/nghieng_sau.dart';
@@ -101,7 +100,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                           style: TextStyle(
                             fontSize: 15,
                             color: isSelected
-                                ? Colors.black
+                                ? Colors.white
                                 : Theme.of(context).textTheme.bodyLarge?.color,
                             fontWeight:
                                 isSelected ? FontWeight.bold : FontWeight.w400,
@@ -127,7 +126,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 height: MediaQuery.sizeOf(context).height * 0.75,
                 child: IndexedStack(
                   index: _itemsSelected,
-                  children:  [
+                  children: [
                     GnssScreen(),
                     ApLucLoRongScreen(),
                     NghiengSauScreen(),

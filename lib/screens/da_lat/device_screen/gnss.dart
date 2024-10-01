@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/gnss_models.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -319,7 +319,7 @@ class _GnssScreenState extends State<GnssScreen> {
                                     ? FontWeight.bold
                                     : FontWeight.normal,
                                 color: selectedSegment == 1
-                                    ? Colors.black
+                                    ? Colors.white
                                     : Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -333,7 +333,7 @@ class _GnssScreenState extends State<GnssScreen> {
                                     ? FontWeight.bold
                                     : FontWeight.normal,
                                 color: selectedSegment == 2
-                                    ? Colors.black
+                                    ? Colors.white
                                     : Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -347,7 +347,7 @@ class _GnssScreenState extends State<GnssScreen> {
                                     ? FontWeight.bold
                                     : FontWeight.normal,
                                 color: selectedSegment == 3
-                                    ? Colors.black
+                                    ? Colors.white
                                     : Theme.of(context)
                                         .textTheme
                                         .bodyLarge

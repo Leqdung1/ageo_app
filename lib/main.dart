@@ -1,4 +1,4 @@
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
 import 'package:Ageo_solutions/screens/home.dart';

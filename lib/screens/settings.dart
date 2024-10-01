@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/components/theme.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/core/theme_provider.dart';
@@ -39,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   int? userId;
   Future<List<UserData>>? _userDataBuilder;
   late List<UserData> _userData = [];
-  final SecureStorage _ss = SecureStorage();
+  final SecureStorage _ss = const SecureStorage();
   bool savePassword = false;
   bool isBiometricAvailable = false;
   final LocalAuthentication localAuth = LocalAuthentication();
@@ -121,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _loadSelectedIndex() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      selectedIndex = prefs.getString('selectedIndex') ?? '';
+      selectedIndex = prefs.getString('selectedIndex') ?? '0';
     });
   }
 
@@ -549,7 +549,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               }
                             }
                           },
-                          
                           title: Text(
                             "Đăng nhập bằng sinh trắc học",
                             style: TextStyle(

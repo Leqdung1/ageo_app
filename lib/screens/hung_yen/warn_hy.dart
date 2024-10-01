@@ -1,4 +1,4 @@
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
@@ -80,20 +80,12 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
             ),
           ),
 
-          // List info
           Expanded(
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.25),
-                    offset: const Offset(0, 1),
-                    blurRadius: 4,
-                  ),
-                ],
               ),
               child: SingleChildScrollView(
                 child: Column(

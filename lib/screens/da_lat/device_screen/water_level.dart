@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/models/waterLevel_models.dart';
 import 'package:Ageo_solutions/screens/hung_yen/device_screen/water_level.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -481,128 +481,168 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
   List<CartesianSeries<WaterLevelData, String>> _getHoursSeries(
       List<WaterLevelData> data) {
     return [
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
+      SplineAreaSeries<WaterLevelData, String>(
+      dataSource: data,
+      xValueMapper: (WaterLevelData data, _) => data.logTime,
+      yValueMapper: (WaterLevelData data, _) => data.w1,
+      color: const Color.fromRGBO(84, 112, 198, 1),  // Line color
+      gradient: LinearGradient(  // Gradient to fill area below line
+        colors: [
+          Color.fromRGBO(84, 112, 198, 0.3),  // Lighter shade for fill
+          Color.fromRGBO(84, 112, 198, 0.1),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      name: 'W1 (Cao độ miệng 1484.24mm)',
+    ),
+    SplineAreaSeries<WaterLevelData, String>(
+      dataSource: data,
+      xValueMapper: (WaterLevelData data, _) => data.logTime,
+      yValueMapper: (WaterLevelData data, _) => data.w2,
+      color: const Color.fromRGBO(145, 204, 117, 1),  // Line color
+      gradient: LinearGradient(  // Gradient to fill area below line
+        colors: [
+          Color.fromRGBO(145, 204, 117, 0.3),  // Lighter shade for fill
+          Color.fromRGBO(145, 204, 117, 0.1),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      name: 'W2 (Cao độ miệng 1487.23mm)',
+    ),
         //   shape: DataMarkerType.circle,
         //   height: 5,
         //   width: 5,
         // ),
-        color: const Color.fromRGBO(84, 112, 198, 1),
-        name: 'W2 (Cao độ miệng 1484.24mm)',
-      ),
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
-        color: const Color.fromRGBO(145, 204, 117, 1),
-        name: 'W2 (Cao độ miệng 1487.23mm)',
-      ),
+      
+       
     ];
   }
 
   List<CartesianSeries<WaterLevelData, String>> _getDaySeries(
       List<WaterLevelData> data) {
     return [
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
+      SplineAreaSeries<WaterLevelData, String>(
+      dataSource: data,
+      xValueMapper: (WaterLevelData data, _) => data.logTime,
+      yValueMapper: (WaterLevelData data, _) => data.w1,
+      color: const Color.fromRGBO(84, 112, 198, 1),  // Line color
+      gradient: LinearGradient(  // Gradient to fill area below line
+        colors: [
+          Color.fromRGBO(84, 112, 198, 0.3),  // Lighter shade for fill
+          Color.fromRGBO(84, 112, 198, 0.1),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      name: 'W1 (Cao độ miệng 1484.24mm)',
+    ),
+    SplineAreaSeries<WaterLevelData, String>(
+      dataSource: data,
+      xValueMapper: (WaterLevelData data, _) => data.logTime,
+      yValueMapper: (WaterLevelData data, _) => data.w2,
+      color: const Color.fromRGBO(145, 204, 117, 1),  // Line color
+      gradient: LinearGradient(  // Gradient to fill area below line
+        colors: [
+          Color.fromRGBO(145, 204, 117, 0.3),  // Lighter shade for fill
+          Color.fromRGBO(145, 204, 117, 0.1),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      name: 'W2 (Cao độ miệng 1487.23mm)',
+    ),
         //   shape: DataMarkerType.circle,
         //   height: 5,
         //   width: 5,
         // ),
-        color: const Color.fromRGBO(84, 112, 198, 1),
-        name: 'W2 (Cao độ miệng 1484.24mm)',
-      ),
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
-        color: const Color.fromRGBO(145, 204, 117, 1),
-        name: 'W2 (Cao độ miệng 1487.23mm)',
-      ),
+      
+       
     ];
   }
 
   List<CartesianSeries<WaterLevelData, String>> _getMonthSeries(
       List<WaterLevelData> data) {
     return [
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
+      SplineAreaSeries<WaterLevelData, String>(
+      dataSource: data,
+      xValueMapper: (WaterLevelData data, _) => data.logTime,
+      yValueMapper: (WaterLevelData data, _) => data.w1,
+      color: const Color.fromRGBO(84, 112, 198, 1),  // Line color
+      gradient: LinearGradient(  // Gradient to fill area below line
+        colors: [
+          Color.fromRGBO(84, 112, 198, 0.3),  // Lighter shade for fill
+          Color.fromRGBO(84, 112, 198, 0.1),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      name: 'W1 (Cao độ miệng 1484.24mm)',
+    ),
+    SplineAreaSeries<WaterLevelData, String>(
+      dataSource: data,
+      xValueMapper: (WaterLevelData data, _) => data.logTime,
+      yValueMapper: (WaterLevelData data, _) => data.w2,
+      color: const Color.fromRGBO(145, 204, 117, 1),  // Line color
+      gradient: LinearGradient(  // Gradient to fill area below line
+        colors: [
+          Color.fromRGBO(145, 204, 117, 0.3),  // Lighter shade for fill
+          Color.fromRGBO(145, 204, 117, 0.1),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      name: 'W2 (Cao độ miệng 1487.23mm)',
+    ),
         //   shape: DataMarkerType.circle,
         //   height: 5,
         //   width: 5,
         // ),
-        color: const Color.fromRGBO(84, 112, 198, 1),
-        name: 'W2 (Cao độ miệng 1484.24mm)',
-      ),
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
-        color: const Color.fromRGBO(145, 204, 117, 1),
-        name: 'W2 (Cao độ miệng 1487.23mm)',
-      ),
+      
+       
     ];
   }
 
   List<CartesianSeries<WaterLevelData, String>> _getYearSeries(
       List<WaterLevelData> data) {
     return [
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
+      SplineAreaSeries<WaterLevelData, String>(
+      dataSource: data,
+      xValueMapper: (WaterLevelData data, _) => data.logTime,
+      yValueMapper: (WaterLevelData data, _) => data.w1,
+      color: const Color.fromRGBO(84, 112, 198, 1),  // Line color
+      gradient: LinearGradient(  // Gradient to fill area below line
+        colors: [
+          Color.fromRGBO(84, 112, 198, 0.3),  // Lighter shade for fill
+          Color.fromRGBO(84, 112, 198, 0.1),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      name: 'W1 (Cao độ miệng 1484.24mm)',
+    ),
+    SplineAreaSeries<WaterLevelData, String>(
+      dataSource: data,
+      xValueMapper: (WaterLevelData data, _) => data.logTime,
+      yValueMapper: (WaterLevelData data, _) => data.w2,
+      color: const Color.fromRGBO(145, 204, 117, 1),  // Line color
+      gradient: LinearGradient(  // Gradient to fill area below line
+        colors: [
+          Color.fromRGBO(145, 204, 117, 0.3),  // Lighter shade for fill
+          Color.fromRGBO(145, 204, 117, 0.1),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      name: 'W2 (Cao độ miệng 1487.23mm)',
+    ),
         //   shape: DataMarkerType.circle,
         //   height: 5,
         //   width: 5,
         // ),
-        color: const Color.fromRGBO(84, 112, 198, 1),
-        name: 'W2 (Cao độ miệng 1484.24mm)',
-      ),
-      LineSeries<WaterLevelData, String>(
-        dataSource: data,
-        xValueMapper: (WaterLevelData data, _) => data.logTime,
-        yValueMapper: (WaterLevelData data, _) => data.w2,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
-        // ),
-        color: const Color.fromRGBO(145, 204, 117, 1),
-        name: 'W2 (Cao độ miệng 1487.23mm)',
-      ),
+      
+       
     ];
   }
 
@@ -617,13 +657,6 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.1),
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 1),
-        //   ),
-        // ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -780,7 +813,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                     ),
                   ),
                 ],
-              )),
+              ),
+              ),
         ],
       ),
     );

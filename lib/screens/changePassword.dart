@@ -1,4 +1,4 @@
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/screens/login.dart';
@@ -389,9 +389,6 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.05,
-              ),
               _isLoading
                   ? const CircularProgressIndicator()
                   : Row(
@@ -417,6 +414,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
                           ),

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Ageo_solutions/components/localization.dart';
+import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/warn_models.dart';
 import 'package:flutter/foundation.dart';
@@ -150,7 +150,7 @@ class _WarningScreenState extends State<WarningScreen>
               dividerColor: Colors.transparent,
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorColor: const Color.fromRGBO(252, 188, 46, 1),
-              labelColor: Theme.of(context).textTheme.bodyLarge?.color,
+              labelColor: const Color.fromRGBO(237, 146, 39, 1),
               unselectedLabelColor: Colors.grey,
               tabs: [
                 Tab(
