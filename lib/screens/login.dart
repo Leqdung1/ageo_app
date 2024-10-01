@@ -86,7 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-
   void _handleBiometricAuth() async {
     bool auth = false;
     try {
@@ -339,8 +338,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _flutterLocalization = FlutterLocalization.instance;
     _readLastLoggedInData();
     _passwordVisible = false;
-      _checkBiometricSettings();
-       _checkBiometric();
+    _checkBiometricSettings();
+    _checkBiometric();
   }
 
   @override
@@ -396,42 +395,136 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Form(
-                key: _formKey,
-                child: Container(
-                  width: size.width * 1,
-                  padding: EdgeInsets.fromLTRB(
-                      24, _checkLastLoggedInData() ? 0 : 24, 24, 24),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+          body: SafeArea(
+            bottom: false,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Container(
+                    width: size.width * 1,
+                    padding: EdgeInsets.fromLTRB(
+                        24, _checkLastLoggedInData() ? 0 : 24, 24, 24),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      if (!_checkLastLoggedInData()) ...[
-                        Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
+                    child: Column(
+                      children: <Widget>[
+                        if (!_checkLastLoggedInData()) ...[
+                          Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  LocalData.typeNameandNumber
+                                      .getString(context),
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.03,
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
                               child: Text(
-                                LocalData.typeNameandNumber.getString(context),
+                                LocalData.userName.getString(context),
                                 style: const TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.03,
-                        ),
+                          ),
+                          TextFormField(
+                            focusNode: usernameFocus,
+                            textInputAction: TextInputAction.next,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return LocalData.numberMustWrite
+                                    .getString(context);
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.text,
+                            style: const TextStyle(
+                              fontSize: 13,
+                            ),
+                            decoration: InputDecoration(
+                              fillColor:
+                                  Theme.of(context).colorScheme.secondary,
+                              filled: true,
+                              contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 0),
+                              hintStyle: const TextStyle(
+                                color: Color(0xFFA7ABC3),
+                              ),
+                              hintText: LocalData.typeUser.getString(context),
+                              isDense: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFA7ABC3),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  color: Color.fromRGBO(237, 146, 39, 1),
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFE43434),
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFE43434),
+                                ),
+                              ),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 12,
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/icons/user.svg",
+                                      // ignore: deprecated_member_use
+                                      color: Theme.of(context).iconTheme.color,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                _username = value;
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 8),
+                        ],
                         Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
@@ -439,7 +532,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               vertical: 10,
                             ),
                             child: Text(
-                              LocalData.userName.getString(context),
+                              LocalData.password.getString(context),
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
@@ -448,17 +541,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         TextFormField(
-                          focusNode: usernameFocus,
-                          textInputAction: TextInputAction.next,
+                          focusNode: passwordFocus,
+                          textInputAction: TextInputAction.done,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          obscureText: !_passwordVisible,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return LocalData.numberMustWrite
+                              return LocalData.passwordMustWrite
                                   .getString(context);
                             }
+
                             return null;
                           },
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.visiblePassword,
                           style: const TextStyle(
                             fontSize: 13,
                           ),
@@ -470,8 +565,40 @@ class _LoginScreenState extends State<LoginScreen> {
                             hintStyle: const TextStyle(
                               color: Color(0xFFA7ABC3),
                             ),
-                            hintText: LocalData.typeUser.getString(context),
+                            hintText: LocalData.typePass.getString(context),
                             isDense: true,
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 12,
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icons/password_lock.svg",
+                                    // ignore: deprecated_member_use
+                                    color: Theme.of(context).iconTheme.color,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: _passwordVisible
+                                  ? Icon(
+                                      LucideIcons.eye,
+                                      color: Theme.of(context).iconTheme.color,
+                                    )
+                                  : Icon(
+                                      LucideIcons.eyeOff,
+                                      color: Theme.of(context).iconTheme.color,
+                                    ),
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                            ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: const BorderSide(
@@ -496,228 +623,112 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Color(0xFFE43434),
                               ),
                             ),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 12,
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/icons/user.svg",
-                                    // ignore: deprecated_member_use
-                                    color: Theme.of(context).iconTheme.color,
-                                  ),
-                                ],
-                              ),
-                            ),
+                            suffixIconColor: passwordFocus.hasFocus
+                                ? const Color(0xFF1B1D29)
+                                : const Color(0xFFA7ABC3),
                           ),
                           onChanged: (value) {
-                            setState(() {
-                              _username = value;
-                            });
+                            _password = value;
                           },
                         ),
-                        const SizedBox(height: 8),
-                      ],
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                          ),
-                          child: Text(
-                            LocalData.password.getString(context),
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TextFormField(
-                        focusNode: passwordFocus,
-                        textInputAction: TextInputAction.done,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        obscureText: !_passwordVisible,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return LocalData.passwordMustWrite
-                                .getString(context);
-                          }
-
-                          return null;
-                        },
-                        keyboardType: TextInputType.visiblePassword,
-                        style: const TextStyle(
-                          fontSize: 13,
-                        ),
-                        decoration: InputDecoration(
-                          fillColor: Theme.of(context).colorScheme.secondary,
-                          filled: true,
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 0),
-                          hintStyle: const TextStyle(
-                            color: Color(0xFFA7ABC3),
-                          ),
-                          hintText: LocalData.typePass.getString(context),
-                          isDense: true,
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 12,
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/icons/password_lock.svg",
-                                  // ignore: deprecated_member_use
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                              ],
-                            ),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: _passwordVisible
-                                ? Icon(
-                                    LucideIcons.eye,
-                                    color: Theme.of(context).iconTheme.color,
-                                  )
-                                : Icon(
-                                    LucideIcons.eyeOff,
-                                    color: Theme.of(context).iconTheme.color,
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Expanded(
+                            child: TextButton(
+                              onPressed: () => {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const ForgotPasswordScreen(),
                                   ),
-                            onPressed: () {
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            },
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: Color(0xFFA7ABC3),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: Color.fromRGBO(237, 146, 39, 1),
-                            ),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: Color(0xFFE43434),
-                            ),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(
-                              color: Color(0xFFE43434),
-                            ),
-                          ),
-                          suffixIconColor: passwordFocus.hasFocus
-                              ? const Color(0xFF1B1D29)
-                              : const Color(0xFFA7ABC3),
-                        ),
-                        onChanged: (value) {
-                          _password = value;
-                        },
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Expanded(
-                          child: TextButton(
-                            onPressed: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const ForgotPasswordScreen(),
-                                ),
-                              )
-                            },
-                            style: TextButton.styleFrom(
-                              foregroundColor:
-                                  const Color.fromRGBO(237, 146, 39, 1),
-                            ),
-                            child: Text(
-                              LocalData.forgotPassword.getString(context),
-                              style: const TextStyle(
-                                color: Color.fromRGBO(237, 146, 39, 1),
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: _handleLogin,
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(48, 48),
-                                backgroundColor:
+                                )
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor:
                                     const Color.fromRGBO(237, 146, 39, 1),
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 40,
-                                  vertical: 13,
-                                ),
                               ),
                               child: Text(
-                                LocalData.logIn.getString(context),
+                                LocalData.forgotPassword.getString(context),
                                 style: const TextStyle(
-                                  fontSize: 18,
+                                  color: Color.fromRGBO(237, 146, 39, 1),
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
-                          biometricSetting
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 5,
+                        ),
+                        const SizedBox(height: 24),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: ElevatedButton(
+                                onPressed: _handleLogin,
+                                style: ElevatedButton.styleFrom(
+                                  shadowColor: Colors.transparent,
+                                  fixedSize: const Size(48, 48),
+                                  backgroundColor:
+                                      const Color.fromRGBO(237, 146, 39, 1),
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      fixedSize: const Size(48, 48),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 40,
+                                    vertical: 13,
+                                  ),
+                                ),
+                                child: Text(
+                                  LocalData.logIn.getString(context),
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            biometricSetting
+                                ? Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 5,
                                       ),
-                                      foregroundColor: Colors.white,
-                                      backgroundColor:
-                                          const Color.fromRGBO(237, 146, 39, 1),
-                                      shadowColor: Colors.transparent,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          padding: EdgeInsets.zero,
+                                          fixedSize: const Size(48, 48),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          foregroundColor: Colors.white,
+                                          backgroundColor: const Color.fromRGBO(
+                                              237, 146, 39, 1),
+                                          shadowColor: Colors.transparent,
+                                        ),
+                                        onPressed: () {
+                                          _handleBiometricAuth();
+                                        },
+                                        child: const Icon(
+                                          LucideIcons.scanFace,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
-                                    onPressed: () {
-                                      _handleBiometricAuth();
-                                    },
-                                    child: const Icon(
-                                      LucideIcons.scanFace,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )
-                              : Container(),
-                        ],
-                      ),
-                    ],
+                                  )
+                                : Container(),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

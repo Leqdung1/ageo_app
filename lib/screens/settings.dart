@@ -534,39 +534,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           endIndent: 15,
                           color: Colors.grey.withOpacity(0.2),
                         ),
-                        SwitchListTile(
-                          value: savePassword,
-                          onChanged: (value) {
-                            if (isBiometricAvailable == false) {
-                              _notifyNoBiometric();
-                            } else {
-                              setState(() {
-                                savePassword = value;
-                              });
-                              _handleSavePassword();
-                              if (value) {
-                                _handleBiometricAuth();
-                              }
-                            }
-                          },
-                          title: Text(
-                            "Đăng nhập bằng sinh trắc học",
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge?.color,
-                            ),
-                          ),
-                          visualDensity: VisualDensity.compact,
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                        Divider(
-                          height: 0,
-                          indent: 15,
-                          endIndent: 15,
-                          color: Colors.grey.withOpacity(0.2),
-                        ),
                         ListTile(
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 16),
@@ -632,7 +599,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 trackOutlineColor: const WidgetStatePropertyAll(
                                   Colors.transparent,
                                 ),
-                                inactiveTrackColor: Colors.grey.shade400,
+                                inactiveTrackColor: Colors.grey.shade300,
                                 activeTrackColor:
                                     const Color.fromRGBO(237, 146, 39, 1),
                                 inactiveThumbColor: Colors.white,
@@ -713,6 +680,56 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                             );
                           },
+                        ),
+                        Divider(
+                          height: 0,
+                          indent: 15,
+                          endIndent: 15,
+                          color: Colors.grey.withOpacity(0.2),
+                        ),
+                        ListTile(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 16),
+                          title: Text(
+                            LocalData.loginBiometroc.getString(context),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                          leading: const Icon(
+                            LucideIcons.fingerprint,
+                            color: Color.fromRGBO(237, 146, 39, 1),
+                          ),
+                          trailing: Transform.scale(
+                            scale: 0.8,
+                            child: Switch(
+                              value: savePassword,
+                              trackOutlineColor: const WidgetStatePropertyAll(
+                                Colors.transparent,
+                              ),
+                              inactiveTrackColor: Colors.grey.shade300,
+                              activeTrackColor:
+                                  const Color.fromRGBO(237, 146, 39, 1),
+                              inactiveThumbColor: Colors.white,
+                              activeColor: Colors.white,
+                              onChanged: (value) {
+                                if (!isBiometricAvailable) {
+                                  _notifyNoBiometric();
+                                } else {
+                                  setState(() {
+                                    savePassword = value;
+                                  });
+                                  _handleSavePassword();
+                                  if (value) {
+                                    _handleBiometricAuth();
+                                  }
+                                }
+                              },
+                            ),
+                          ),
                         ),
                         Divider(
                           height: 0,

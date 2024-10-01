@@ -106,6 +106,10 @@ mixin LocalData {
   static String warnL3 = 'wanrL3';
   static String typeUser = 'typeUser';
   static String typePass = 'typePass';
+  static String typeEmail = 'typeEmail';
+  static String emailMustWrite = 'emailMustWrite';
+  static String passWordForgot = 'passwordForgot';
+  static String loginBiometroc = 'loginBiometric';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -210,7 +214,11 @@ mixin LocalData {
     'wanrL2': 'Warning level 02',
     'wanrL3': 'Warning level 03',
     'typeUser': 'Enter your username',
-    'typePass': 'Enter your password'
+    'typePass': 'Enter your password',
+    'typeEmail': 'Enter your email',
+    'emailMustWrite': 'Email cannot be blank.',
+    'passwordForgot': 'Forgot Password',
+    'loginBiometric': 'Login with Biometric',
   };
 
   // ignore: non_constant_identifier_names
@@ -316,6 +324,10 @@ mixin LocalData {
     'wanrL2': 'Cảnh báo cấp độ 02',
     'wanrL3': 'Cảnh báo cấp độ 03',
     'typeUser': 'Nhập tên đăng nhập của bạn',
-    'typePass': 'Nhập mật khẩu của bạn'
+    'typePass': 'Nhập mật khẩu của bạn',
+    'typeEmail': 'Nhập email của bạn',
+    'emailMustWrite': 'Email không được để trống',
+    'passwordForgot': 'Quên mật khẩu',
+    'loginBiometric': 'Đăng nhập với sinh trắc học',
   };
 }

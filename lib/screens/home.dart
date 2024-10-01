@@ -52,8 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   item: ItemConfig(
                     icon: SvgPicture.asset(
                       currentPageIndex == 0
-                          ? 'assets/icons/logo_yellow.svg'
-                          : 'assets/icons/logo_yellow.svg',
+                          ? 'assets/icons/home_yellow.svg'
+                          : 'assets/icons/home_notFill.svg',
                     ),
                     title: LocalData.bottomlabel1.getString(context),
                     textStyle: TextStyle(
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           : FontWeight.normal,
                     ),
                     activeForegroundColor:
-                        const Color.fromRGBO(252, 188, 46, 1),
+                        const Color.fromRGBO(237, 146, 39, 1),
                   ),
                 ),
                 PersistentTabConfig(
@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           : FontWeight.normal,
                     ),
                     activeForegroundColor:
-                        const Color.fromRGBO(252, 188, 46, 1),
+                        const Color.fromRGBO(237, 146, 39, 1),
                   ),
                 ),
                 PersistentTabConfig(
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           : FontWeight.normal,
                     ),
                     activeForegroundColor:
-                        const Color.fromRGBO(252, 188, 46, 1),
+                        const Color.fromRGBO(237, 146, 39, 1),
                   ),
                 ),
                 PersistentTabConfig(
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           : FontWeight.normal,
                     ),
                     activeForegroundColor:
-                        const Color.fromRGBO(252, 188, 46, 1),
+                        const Color.fromRGBO(237, 146, 39, 1),
                   ),
                 ),
                 PersistentTabConfig(
@@ -152,20 +152,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           : FontWeight.normal,
                     ),
                     activeForegroundColor:
-                        const Color.fromRGBO(252, 188, 46, 1),
+                        const Color.fromRGBO(237, 146, 39, 1),
                   ),
                 ),
               ],
-              navBarBuilder: (navBarConfig) => Style6BottomNavBar(
+              navBarBuilder: (navBarConfig) => Style1BottomNavBar(
                 navBarDecoration: NavBarDecoration(
+                  
                   color: Theme.of(context).colorScheme.surface,
-                  // boxShadow: <BoxShadow>[
-                  //   BoxShadow(
-                  //     color: Colors.black.withAlpha(25),
-                  //     blurRadius: 20,
-                  //     offset: const Offset(1, -1),
-                  //   ),
-                  // ],
                 ),
                 navBarConfig: navBarConfig,
               ),
