@@ -110,6 +110,9 @@ mixin LocalData {
   static String emailMustWrite = 'emailMustWrite';
   static String passWordForgot = 'passwordForgot';
   static String loginBiometroc = 'loginBiometric';
+  static String oldPassword = 'oldPassword';
+  static String newPassword = 'newPassword';
+  static String reNewPassword = 'reNewPassword';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -219,6 +222,9 @@ mixin LocalData {
     'emailMustWrite': 'Email cannot be blank.',
     'passwordForgot': 'Forgot Password',
     'loginBiometric': 'Login with Biometric',
+     'oldPassword': 'Old Password',
+    'newPassword': 'New Password',
+    'reNewPassword': 'Confirm new password',
   };
 
   // ignore: non_constant_identifier_names
@@ -329,5 +335,8 @@ mixin LocalData {
     'emailMustWrite': 'Email không được để trống',
     'passwordForgot': 'Quên mật khẩu',
     'loginBiometric': 'Đăng nhập với sinh trắc học',
+    'oldPassword': 'Mật khẩu cũ',
+    'newPassword': 'Mật khẩu mới',
+    'reNewPassword': 'Xác nhận mật khẩu mới',
   };
 }

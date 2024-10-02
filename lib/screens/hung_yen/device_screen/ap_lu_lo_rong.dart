@@ -205,19 +205,14 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.1),
-                //     offset: const Offset(0, 1),
-                //     blurRadius: 8,
-                //   ),
-                // ],
+      
               ),
               child: FutureBuilder<List<CommonData>>(
                 future: _commonBuilder,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(  strokeWidth: 2,
+            color: Color.fromRGBO(237, 146, 39, 1),),);
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
@@ -354,7 +349,7 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
                                       primaryYAxis: const NumericAxis(
                                           majorGridLines: MajorGridLines(
                                             width: 1,
-                                            dashArray: [8, 8],
+                                            dashArray: [3, 3],
                                             color: Color(0xFFA7ABC3),
                                           ),
                                           majorTickLines: MajorTickLines(
@@ -381,7 +376,7 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .surface,
-                                        borderColor: Color(0xFFA7ABC3),
+                                        borderColor: const Color(0xFFA7ABC3),
                                         textStyle: TextStyle(
                                           color: Theme.of(context)
                                               .textTheme
@@ -476,24 +471,24 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
           dataSource: data,
           xValueMapper: (CommonData data, _) => data.logTime,
           yValueMapper: (CommonData data, _) => data.v2,
-          // markerSettings: const MarkerSettings(
-          //   isVisible: true,
-          //   shape: DataMarkerType.circle,
-          //   height: 5,
-          //   width: 5,
-          // ),
+          markerSettings: const MarkerSettings(
+            isVisible: true,
+            shape: DataMarkerType.circle,
+             height: 2,
+          width: 2,
+          ),
           color: const Color.fromRGBO(84, 112, 198, 1),
           name: 'D39-PZ-1'),
       LineSeries<CommonData, String>(
           dataSource: data,
           xValueMapper: (CommonData data, _) => data.logTime,
           yValueMapper: (CommonData data, _) => data.v3,
-          // markerSettings: const MarkerSettings(
-          //   isVisible: true,
-          //   shape: DataMarkerType.circle,
-          //   height: 5,
-          //   width: 5,
-          // ),
+          markerSettings: const MarkerSettings(
+            isVisible: true,
+            shape: DataMarkerType.circle,
+             height: 2,
+          width: 2,
+          ),
           color: const Color.fromRGBO(145, 204, 117, 1),
           name: 'D39-PZ-2'),
     ];
@@ -506,24 +501,24 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
           dataSource: data,
           xValueMapper: (CommonData data, _) => data.logTime,
           yValueMapper: (CommonData data, _) => data.v2,
-          // markerSettings: const MarkerSettings(
-          //   isVisible: true,
-          //   shape: DataMarkerType.circle,
-          //   height: 5,
-          //   width: 5,
-          // ),
+          markerSettings: const MarkerSettings(
+            isVisible: true,
+            shape: DataMarkerType.circle,
+             height: 2,
+          width: 2,
+          ),
           color: const Color.fromRGBO(84, 112, 198, 1),
           name: 'D39-PZ-1'),
       LineSeries<CommonData, String>(
           dataSource: data,
           xValueMapper: (CommonData data, _) => data.logTime,
           yValueMapper: (CommonData data, _) => data.v3,
-          // markerSettings: const MarkerSettings(
-          //   isVisible: true,
-          //   shape: DataMarkerType.circle,
-          //   height: 5,
-          //   width: 5,
-          // ),
+          markerSettings: const MarkerSettings(
+            isVisible: true,
+            shape: DataMarkerType.circle,
+             height: 2,
+          width: 2,
+          ),
           color: const Color.fromRGBO(145, 204, 117, 1),
           name: 'D39-PZ-2'),
     ];
@@ -536,24 +531,24 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
           dataSource: data,
           xValueMapper: (CommonData data, _) => data.logTime,
           yValueMapper: (CommonData data, _) => data.v2,
-          // markerSettings: const MarkerSettings(
-          //   isVisible: true,
-          //   shape: DataMarkerType.circle,
-          //   height: 5,
-          //   width: 5,
-          // ),
+          markerSettings: const MarkerSettings(
+            isVisible: true,
+            shape: DataMarkerType.circle,
+             height: 2,
+          width: 2,
+          ),
           color: const Color.fromRGBO(84, 112, 198, 1),
           name: 'D39-PZ-1'),
       LineSeries<CommonData, String>(
           dataSource: data,
           xValueMapper: (CommonData data, _) => data.logTime,
           yValueMapper: (CommonData data, _) => data.v3,
-          // markerSettings: const MarkerSettings(
-          //   isVisible: true,
-          //   shape: DataMarkerType.circle,
-          //   height: 5,
-          //   width: 5,
-          // ),
+          markerSettings: const MarkerSettings(
+            isVisible: true,
+            shape: DataMarkerType.circle,
+             height: 2,
+          width: 2,
+          ),
           color: const Color.fromRGBO(145, 204, 117, 1),
           name: 'D39-PZ-2'),
     ];
@@ -566,24 +561,24 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
           dataSource: data,
           xValueMapper: (CommonData data, _) => data.logTime,
           yValueMapper: (CommonData data, _) => data.v2,
-          // markerSettings: const MarkerSettings(
-          //   isVisible: true,
-          //   shape: DataMarkerType.circle,
-          //   height: 5,
-          //   width: 5,
-          // ),
+          markerSettings: const MarkerSettings(
+            isVisible: true,
+            shape: DataMarkerType.circle,
+             height: 2,
+          width: 2,
+          ),
           color: const Color.fromRGBO(84, 112, 198, 1),
           name: 'D39-PZ-1'),
       LineSeries<CommonData, String>(
           dataSource: data,
           xValueMapper: (CommonData data, _) => data.logTime,
           yValueMapper: (CommonData data, _) => data.v3,
-          // markerSettings: const MarkerSettings(
-          //   isVisible: true,
-          //   shape: DataMarkerType.circle,
-          //   height: 5,
-          //   width: 5,
-          // ),
+          markerSettings: const MarkerSettings(
+            isVisible: true,
+            shape: DataMarkerType.circle,
+             height: 2,
+          width: 2,
+          ),
           color: const Color.fromRGBO(145, 204, 117, 1),
           name: 'D39-PZ-2'),
     ];
@@ -600,13 +595,7 @@ class _ApLucLoRongHyScreenState extends State<ApLucLoRongHyScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.1),
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 1),
-        //   ),
-        // ],
+       
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

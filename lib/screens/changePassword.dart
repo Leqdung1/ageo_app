@@ -22,7 +22,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   final apiClient = ApiClient();
-  final SecureStorage _ss = SecureStorage();
+  final SecureStorage _ss = const SecureStorage();
   var _passwordVisible = false;
 
   int? userId;
@@ -137,291 +137,342 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _oldPasswordController,
-                obscureText: !_passwordVisible,
-                textInputAction: TextInputAction.done,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return LocalData.passwordMustWrite.getString(context);
-                  }
-
-                  return null;
-                },
-                keyboardType: TextInputType.visiblePassword,
-                style: const TextStyle(
-                  fontSize: 13,
-                ),
-                decoration: InputDecoration(
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  filled: true,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                  hintStyle: TextStyle(
-                    color: Color.fromRGBO(225, 225, 225, 1),
-                  ),
-                  hintText: 'Old PW',
-                  isDense: true,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/icons/password_lock.svg",
-                          // ignore: deprecated_member_use
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                      ],
+      body: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    child: Text(
+                      LocalData.oldPassword.getString(context),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  suffixIcon: IconButton(
-                    icon: _passwordVisible
-                        ? Icon(
-                            LucideIcons.eye,
-                            color: Theme.of(context).iconTheme.color,
-                          )
-                        : Icon(
-                            LucideIcons.eyeOff,
+                ),
+                TextFormField(
+                  controller: _oldPasswordController,
+                  obscureText: !_passwordVisible,
+                  textInputAction: TextInputAction.done,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return LocalData.passwordMustWrite.getString(context);
+                    }
+
+                    return null;
+                  },
+                  keyboardType: TextInputType.visiblePassword,
+                  style: const TextStyle(
+                    fontSize: 13,
+                  ),
+                  decoration: InputDecoration(
+                    fillColor: Theme.of(context).colorScheme.secondary,
+                    filled: true,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                    hintStyle: const TextStyle(
+                      color: Color(0xFFA7ABC3),
+                    ),
+                    hintText: LocalData.typePass.getString(context),
+                    isDense: true,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/password_lock.svg",
+                            // ignore: deprecated_member_use
                             color: Theme.of(context).iconTheme.color,
                           ),
-                    onPressed: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(225, 225, 225, 1),
+                        ],
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(237, 146, 39, 1),
+                    suffixIcon: IconButton(
+                      icon: _passwordVisible
+                          ? Icon(
+                              LucideIcons.eye,
+                              color: Theme.of(context).iconTheme.color,
+                            )
+                          : Icon(
+                              LucideIcons.eyeOff,
+                              color: Theme.of(context).iconTheme.color,
+                            ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
                     ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFE43434),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFA7ABC3),
+                      ),
                     ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFE43434),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(237, 146, 39, 1),
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE43434),
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE43434),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.02,
-              ),
-              TextFormField(
-                controller: _newPasswordController,
-                obscureText: true,
-                textInputAction: TextInputAction.done,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return LocalData.passwordMustWrite.getString(context);
-                  }
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.02,
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    child: Text(
+                      LocalData.newPassword.getString(context),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                TextFormField(
+                  controller: _newPasswordController,
+                  obscureText: true,
+                  textInputAction: TextInputAction.done,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return LocalData.passwordMustWrite.getString(context);
+                    }
 
-                  return null;
-                },
-                keyboardType: TextInputType.visiblePassword,
-                style: const TextStyle(
-                  fontSize: 13,
-                ),
-                decoration: InputDecoration(
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  filled: true,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                  hintStyle: TextStyle(
-                    color: Color.fromRGBO(225, 225, 225, 1),
+                    return null;
+                  },
+                  keyboardType: TextInputType.visiblePassword,
+                  style: const TextStyle(
+                    fontSize: 13,
                   ),
-                  hintText: 'New PW',
-                  isDense: true,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/icons/password_lock.svg",
-                          // ignore: deprecated_member_use
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                      ],
+                  decoration: InputDecoration(
+                    fillColor: Theme.of(context).colorScheme.secondary,
+                    filled: true,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                    hintStyle: const TextStyle(
+                      color: Color(0xFFA7ABC3),
                     ),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: _passwordVisible
-                        ? Icon(
-                            LucideIcons.eye,
-                            color: Theme.of(context).iconTheme.color,
-                          )
-                        : Icon(
-                            LucideIcons.eyeOff,
+                    hintText: LocalData.typePass.getString(context),
+                    isDense: true,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/password_lock.svg",
+                            // ignore: deprecated_member_use
                             color: Theme.of(context).iconTheme.color,
                           ),
-                    onPressed: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(225, 225, 225, 1),
+                        ],
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(237, 146, 39, 1),
+                    suffixIcon: IconButton(
+                      icon: _passwordVisible
+                          ? Icon(
+                              LucideIcons.eye,
+                              color: Theme.of(context).iconTheme.color,
+                            )
+                          : Icon(
+                              LucideIcons.eyeOff,
+                              color: Theme.of(context).iconTheme.color,
+                            ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
                     ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFE43434),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFA7ABC3),
+                      ),
                     ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFE43434),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(237, 146, 39, 1),
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE43434),
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE43434),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.02,
-              ),
-              TextFormField(
-                controller: _confirmPasswordController,
-                obscureText: true,
-                textInputAction: TextInputAction.done,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return LocalData.passwordMustWrite.getString(context);
-                  }
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.02,
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    child: Text(
+                      LocalData.reNewPassword.getString(context),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  obscureText: true,
+                  textInputAction: TextInputAction.done,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return LocalData.passwordMustWrite.getString(context);
+                    }
 
-                  return null;
-                },
-                keyboardType: TextInputType.visiblePassword,
-                style: const TextStyle(
-                  fontSize: 13,
-                ),
-                decoration: InputDecoration(
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  filled: true,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                  hintStyle: TextStyle(
-                    color: Color.fromRGBO(225, 225, 225, 1),
+                    return null;
+                  },
+                  keyboardType: TextInputType.visiblePassword,
+                  style: const TextStyle(
+                    fontSize: 13,
                   ),
-                  hintText: 'New PW',
-                  isDense: true,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/icons/password_lock.svg",
-                          // ignore: deprecated_member_use
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                      ],
+                  decoration: InputDecoration(
+                    fillColor: Theme.of(context).colorScheme.secondary,
+                    filled: true,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                    hintStyle: const TextStyle(
+                      color: Color(0xFFA7ABC3),
                     ),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: _passwordVisible
-                        ? Icon(
-                            LucideIcons.eye,
-                            color: Theme.of(context).iconTheme.color,
-                          )
-                        : Icon(
-                            LucideIcons.eyeOff,
+                    hintText: LocalData.typePass.getString(context),
+                    isDense: true,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/password_lock.svg",
+                            // ignore: deprecated_member_use
                             color: Theme.of(context).iconTheme.color,
                           ),
-                    onPressed: () {
-                      setState(() {
-                        _passwordVisible = !_passwordVisible;
-                      });
-                    },
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(225, 225, 225, 1),
+                        ],
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(237, 146, 39, 1),
+                    suffixIcon: IconButton(
+                      icon: _passwordVisible
+                          ? Icon(
+                              LucideIcons.eye,
+                              color: Theme.of(context).iconTheme.color,
+                            )
+                          : Icon(
+                              LucideIcons.eyeOff,
+                              color: Theme.of(context).iconTheme.color,
+                            ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
                     ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFE43434),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFA7ABC3),
+                      ),
                     ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color(0xFFE43434),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(237, 146, 39, 1),
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE43434),
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE43434),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              _isLoading
-                  ? const CircularProgressIndicator()
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: _handleChangePassword,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromRGBO(237, 146, 39, 1),
-                              foregroundColor: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.4,
+                ),
+                _isLoading
+                    ? const CircularProgressIndicator()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: _handleChangePassword,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromRGBO(237, 146, 39, 1),
+                                foregroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 40,
+                                  vertical: 13,
+                                ),
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 40,
-                                vertical: 13,
+                              child: Text(
+                                LocalData.changePassWord.getString(context),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                            child: Text(
-                              LocalData.changePassWord.getString(context),
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
                           ),
-                        ),
-                      ],
-                    ),
-            ],
+                        ],
+                      ),
+              ],
+            ),
           ),
         ),
       ),

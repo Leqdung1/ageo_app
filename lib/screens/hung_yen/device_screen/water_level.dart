@@ -190,19 +190,17 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.1),
-                //     offset: const Offset(0, 1),
-                //     blurRadius: 8,
-                //   ),
-                // ],
               ),
               child: FutureBuilder(
                 future: _commonBuilder,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Color.fromRGBO(237, 146, 39, 1),
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
@@ -338,7 +336,7 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
                                       primaryYAxis: NumericAxis(
                                         majorGridLines: const MajorGridLines(
                                           width: 1,
-                                          dashArray: [8, 8],
+                                          dashArray: [3, 3],
                                           color: Color(0xFFA7ABC3),
                                         ),
                                         labelStyle: const TextStyle(
@@ -408,7 +406,7 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
       children: [
         _buildLegendItem(
           'D39-GW-1',
-          const Color.fromRGBO(84, 112, 198, 1),
+          const Color.fromRGBO(145, 204, 117, 1),
         ),
       ],
     );
@@ -451,16 +449,16 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
   List<CartesianSeries<CommonData, String>> _getHoursSeries(
       List<CommonData> data) {
     return [
-      LineSeries<CommonData, String>(
+      ColumnSeries<CommonData, String>(
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
         name: 'D39-GW-1',
-        color: const Color.fromRGBO(84, 112, 198, 1),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
+        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }
@@ -468,16 +466,16 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
   List<CartesianSeries<CommonData, String>> _getDaySeries(
       List<CommonData> data) {
     return [
-      LineSeries<CommonData, String>(
+      ColumnSeries<CommonData, String>(
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
         name: 'D39-GW-1',
-        color: const Color.fromRGBO(84, 112, 198, 1),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
+        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }
@@ -485,16 +483,16 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
   List<CartesianSeries<CommonData, String>> _getMonthSeries(
       List<CommonData> data) {
     return [
-      LineSeries<CommonData, String>(
+      ColumnSeries<CommonData, String>(
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
         name: 'D39-GW-1',
-        color: const Color.fromRGBO(84, 112, 198, 1),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
+        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }
@@ -502,16 +500,16 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
   List<CartesianSeries<CommonData, String>> _getYearSeries(
       List<CommonData> data) {
     return [
-      LineSeries<CommonData, String>(
+      ColumnSeries<CommonData, String>(
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v1,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
         name: 'D39-GW-1',
-        color: const Color.fromRGBO(84, 112, 198, 1),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
+        color: const Color.fromRGBO(145, 204, 117, 1),
       ),
     ];
   }

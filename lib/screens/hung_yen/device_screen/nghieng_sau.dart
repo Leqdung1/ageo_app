@@ -190,19 +190,17 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.1),
-                //     offset: const Offset(0, 1),
-                //     blurRadius: 8,
-                //   ),
-                // ],
               ),
               child: FutureBuilder(
                 future: _commonBuilder,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Color.fromRGBO(237, 146, 39, 1),
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
@@ -338,7 +336,7 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
                                       primaryYAxis: const NumericAxis(
                                         majorGridLines: MajorGridLines(
                                           width: 1,
-                                          dashArray: [8, 8],
+                                          dashArray: [3, 3],
                                           color: Color(0xFFA7ABC3),
                                         ),
                                         labelStyle: TextStyle(
@@ -465,10 +463,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v10,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -476,10 +476,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v11,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -487,10 +489,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v12,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-3',
         color: const Color.fromRGBO(237, 146, 39, 1),
       ),
@@ -504,10 +508,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v10,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -515,10 +521,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v11,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -526,10 +534,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v12,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-3',
         color: const Color.fromRGBO(237, 146, 39, 1),
       ),
@@ -543,10 +553,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v10,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -554,10 +566,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v11,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -565,10 +579,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v12,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-3',
         color: const Color.fromRGBO(237, 146, 39, 1),
       ),
@@ -582,10 +598,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v10,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-1',
         color: const Color.fromRGBO(84, 112, 198, 1),
       ),
@@ -593,10 +611,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v11,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-2',
         color: const Color.fromRGBO(145, 204, 117, 1),
       ),
@@ -604,10 +624,12 @@ class _NghiengSauHyScreenState extends State<NghiengSauHyScreen> {
         dataSource: data,
         xValueMapper: (CommonData data, _) => data.logTime,
         yValueMapper: (CommonData data, _) => data.v12,
-        // markerSettings: const MarkerSettings(
-        //   isVisible: true,
-        //   shape: DataMarkerType.circle,
-        // ),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
         name: 'D39-INC-3',
         color: const Color.fromRGBO(237, 146, 39, 1),
       ),

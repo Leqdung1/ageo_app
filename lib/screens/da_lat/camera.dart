@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 
 enum CameraSelected {
-  all,
   camera1,
   camera2,
   camera3,
@@ -12,8 +12,6 @@ enum CameraSelected {
 extension CameraSelectedExtension on CameraSelected {
   String get label {
     switch (this) {
-      case CameraSelected.all:
-        return 'All';
       case CameraSelected.camera1:
         return 'Camera 1';
       case CameraSelected.camera2:
@@ -30,256 +28,168 @@ extension CameraSelectedExtension on CameraSelected {
   }
 }
 
-class CameraScreen extends StatefulWidget {
-  const CameraScreen({super.key});
+class CameraTestScreen extends StatefulWidget {
+  const CameraTestScreen({super.key});
 
   @override
-  State<CameraScreen> createState() => _CameraScreenState();
+  // ignore: library_private_types_in_public_api
+  _CameraTestScreenState createState() => _CameraTestScreenState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
-  CameraSelected _selectedCamera = CameraSelected.all;
-  
+class _CameraTestScreenState extends State<CameraTestScreen> {
+  CameraSelected _selectedCamera = CameraSelected.camera1;
+  late VlcPlayerController _vlcPlayerController;
+
+  String _getCamUrl(CameraSelected camera) {
+    switch (camera) {
+      case CameraSelected.camera1:
+        return 'rtsp://rtsp:Ageo2023\$@117.2.137.16:9091/Streaming/Channels/103';
+      case CameraSelected.camera2:
+        return 'rtsp://rtsp:Ageo2023\$@117.2.137.16:9092/Streaming/Channels/102';
+      case CameraSelected.camera3:
+        return 'rtsp://rtsp:Ageo2023\$@117.2.137.16:9093/Streaming/Channels/102';
+      case CameraSelected.camera4:
+        return 'rtsp://rtsp:Ageo2023\$@117.2.137.16:9094/Streaming/Channels/102';
+      case CameraSelected.camera5:
+        return 'rtsp://rtsp:Ageo2023\$@117.2.137.16:9095/Streaming/Channels/102';
+      default:
+        return '';
+    }
+  }
+
+  void fetchCamera() {
+    _vlcPlayerController = VlcPlayerController.network(
+      _getCamUrl(_selectedCamera),
+      hwAcc: HwAcc.full,
+      autoPlay: true,
+      options: VlcPlayerOptions(),
+    );
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCamera();
+  }
+
+  @override
+  void dispose() {
+    _vlcPlayerController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(245, 245, 245, 1),
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 12),
-            width: MediaQuery.sizeOf(context).width,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.45),
-                  offset: const Offset(0, 1),
-                  blurRadius: 4,
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
-              child: DropdownMenu(
-                textStyle: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal,
-                ),
-                selectedTrailingIcon: const Icon(Icons.expand_less),
-                trailingIcon: const Icon(Icons.expand_more),
-                menuStyle: MenuStyle(
-                  maximumSize: WidgetStatePropertyAll(Size.fromHeight(150)),
-                  surfaceTintColor: const WidgetStatePropertyAll(
-                      Color.fromARGB(255, 255, 255, 255)),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                inputDecorationTheme: InputDecorationTheme(
-                  fillColor: const Color.fromRGBO(245, 245, 245, 1),
-                  filled: true,
-                  border: InputBorder.none,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Colors.transparent,
-                      width: 0,
-                    ),
-                  ),
-                ),
-                initialSelection: _selectedCamera.name,
-                onSelected: (value) {
-                  setState(() {
-                    _selectedCamera =
-                        CameraSelected.values.byName(value as String);
-                  });
-                },
-                dropdownMenuEntries: CameraSelected.values
-                    .map(
-                      (e) => DropdownMenuEntry(value: e.name, label: e.label),
-                    )
-                    .toList(),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    offset: const Offset(-1, 1),
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 4,
-                  ),
-                ],
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: _selectedCamera == CameraSelected.all
-                      ? _buildAllCameras(context)
-                      : [
-                          if (_selectedCamera == CameraSelected.camera1)
-                            _buildCamera1(context),
-                          if (_selectedCamera == CameraSelected.camera2)
-                            _buildCamera2(context),
-                          if (_selectedCamera == CameraSelected.camera3)
-                            _buildCamera3(context),
-                          if (_selectedCamera == CameraSelected.camera4)
-                            _buildCamera4(context),
-                          if (_selectedCamera == CameraSelected.camera5)
-                            _buildCamera5(context),
-                        ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<Widget> _buildAllCameras(BuildContext context) {
-    return List.generate(5, (index) {
-      return Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        width: MediaQuery.sizeOf(context).width * 1,
-        height: MediaQuery.sizeOf(context).height * 0.4,
+      body: Container(
+        margin: const EdgeInsets.symmetric(
+          vertical: 15,
+        ),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-          ),
-          boxShadow: [
-            BoxShadow(
-              offset: const Offset(0, 1),
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            dropDown(),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.02,
             ),
+            viewCamera(),
           ],
         ),
-      );
-    });
-  }
-
-  Widget _buildCamera1(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      width: MediaQuery.sizeOf(context).width * 1,
-      height: MediaQuery.sizeOf(context).height * 0.4,
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 103, 21, 21),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
-        ),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 1),
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-          ),
-        ],
       ),
     );
   }
 
-  Widget _buildCamera2(BuildContext context) {
+  Widget dropDown() {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      width: MediaQuery.sizeOf(context).width * 1,
-      height: MediaQuery.sizeOf(context).height * 0.4,
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 21, 103, 21),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
+      margin: const EdgeInsets.all(15),
+      // drop down menu
+      child: DropdownMenu(
+        textStyle: TextStyle(
+          color: Theme.of(context).textTheme.bodyLarge?.color,
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
         ),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 1),
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
+        selectedTrailingIcon: Icon(
+          Icons.expand_less,
+          color: Theme.of(context).iconTheme.color,
+        ),
+        trailingIcon: Icon(
+          Icons.expand_more,
+          color: Theme.of(context).iconTheme.color,
+        ),
+        menuStyle: MenuStyle(
+          maximumSize: const WidgetStatePropertyAll(
+            Size.fromHeight(160),
           ),
-        ],
+          surfaceTintColor: const WidgetStatePropertyAll(
+            Colors.white,
+          ),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          fillColor: Theme.of(context).colorScheme.primary,
+          filled: true,
+          border: InputBorder.none,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              color: Colors.transparent,
+              width: 0,
+            ),
+          ),
+        ),
+        initialSelection: _selectedCamera.label,
+        onSelected: (value) {
+          setState(() {
+            _selectedCamera =
+                CameraSelected.values.firstWhere((e) => e.label == value);
+
+            _vlcPlayerController
+                .setMediaFromNetwork(_getCamUrl(_selectedCamera));
+          });
+        },
+        dropdownMenuEntries: CameraSelected.values
+            .map(
+              (e) => DropdownMenuEntry(
+                value: e.label,
+                labelWidget: Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Text(
+                    e.label,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                    ),
+                  ),
+                ),
+                label: e.label,
+              ),
+            )
+            .toList(),
       ),
     );
   }
 
-  Widget _buildCamera3(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      width: MediaQuery.sizeOf(context).width * 1,
-      height: MediaQuery.sizeOf(context).height * 0.4,
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 103, 21, 61),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
-        ),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 1),
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
+  Widget viewCamera() {
+    return Center(
+      child: VlcPlayer(
+        controller: _vlcPlayerController,
+        aspectRatio: 16 / 9,
+        placeholder: const Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: Color.fromRGBO(237, 146, 39, 1),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCamera4(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      width: MediaQuery.sizeOf(context).width * 1,
-      height: MediaQuery.sizeOf(context).height * 0.4,
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 77, 103, 21),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
         ),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 1),
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCamera5(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      width: MediaQuery.sizeOf(context).width * 1,
-      height: MediaQuery.sizeOf(context).height * 0.4,
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 36, 21, 103),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
-        ),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 1),
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-          ),
-        ],
       ),
     );
   }

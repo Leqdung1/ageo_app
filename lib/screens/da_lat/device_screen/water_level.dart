@@ -206,19 +206,17 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.1),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   ),
-                  // ],
                 ),
                 child: FutureBuilder<List<WaterLevelData>>(
                     future: _waterLevelBuilder,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Color.fromRGBO(237, 146, 39, 1),
+                          ),
+                        );
                       } else if (snapshot.hasError) {
                         return Center(child: Text('Error: ${snapshot.error}'));
                       } else {
@@ -360,7 +358,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                             majorGridLines:
                                                 const MajorGridLines(
                                               width: 1,
-                                              dashArray: [8, 8],
+                                              dashArray: [3, 3],
                                               color: Color(0xFFA7ABC3),
                                             ),
                                             majorTickLines:
@@ -381,9 +379,6 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                                 fontSize: 12,
                                               ),
                                             ),
-                                            // maximum:
-                                            //     getMaxYAxisValue(_chartData)
-                                            //         .toDouble(),
                                           ),
                                           series: _getSeries(_chartData),
                                           tooltipBehavior: TooltipBehavior(
@@ -391,7 +386,8 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .surface,
-                                            borderColor: Color(0xFFA7ABC3),
+                                            borderColor:
+                                                const Color(0xFFA7ABC3),
                                             textStyle: TextStyle(
                                               color: Theme.of(context)
                                                   .textTheme
@@ -481,168 +477,192 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
   List<CartesianSeries<WaterLevelData, String>> _getHoursSeries(
       List<WaterLevelData> data) {
     return [
-      SplineAreaSeries<WaterLevelData, String>(
-      dataSource: data,
-      xValueMapper: (WaterLevelData data, _) => data.logTime,
-      yValueMapper: (WaterLevelData data, _) => data.w1,
-      color: const Color.fromRGBO(84, 112, 198, 1),  // Line color
-      gradient: LinearGradient(  // Gradient to fill area below line
-        colors: [
-          Color.fromRGBO(84, 112, 198, 0.3),  // Lighter shade for fill
-          Color.fromRGBO(84, 112, 198, 0.1),
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      name: 'W1 (Cao độ miệng 1484.24mm)',
-    ),
-    SplineAreaSeries<WaterLevelData, String>(
-      dataSource: data,
-      xValueMapper: (WaterLevelData data, _) => data.logTime,
-      yValueMapper: (WaterLevelData data, _) => data.w2,
-      color: const Color.fromRGBO(145, 204, 117, 1),  // Line color
-      gradient: LinearGradient(  // Gradient to fill area below line
-        colors: [
-          Color.fromRGBO(145, 204, 117, 0.3),  // Lighter shade for fill
-          Color.fromRGBO(145, 204, 117, 0.1),
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      name: 'W2 (Cao độ miệng 1487.23mm)',
-    ),
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
+      LineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w1,
+        color: const Color.fromRGBO(84, 112, 198, 1),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        // gradient: const LinearGradient(
+        //   colors: [
+        //     Color.fromRGBO(84, 112, 198, 0.3),
+        //     Color.fromRGBO(84, 112, 198, 0.05),
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
         // ),
-      
-       
+        name: 'W1 (Cao độ miệng 1484.24mm)',
+      ),
+      LineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w2,
+        color: const Color.fromRGBO(145, 204, 117, 1),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        // gradient: const LinearGradient(
+        //   colors: [
+        //     Color.fromRGBO(145, 204, 117, 0.3),
+        //     Color.fromRGBO(145, 204, 117, 0.05),
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        // ),
+        name: 'W2 (Cao độ miệng 1487.23mm)',
+      ),
     ];
   }
 
   List<CartesianSeries<WaterLevelData, String>> _getDaySeries(
       List<WaterLevelData> data) {
     return [
-      SplineAreaSeries<WaterLevelData, String>(
-      dataSource: data,
-      xValueMapper: (WaterLevelData data, _) => data.logTime,
-      yValueMapper: (WaterLevelData data, _) => data.w1,
-      color: const Color.fromRGBO(84, 112, 198, 1),  // Line color
-      gradient: LinearGradient(  // Gradient to fill area below line
-        colors: [
-          Color.fromRGBO(84, 112, 198, 0.3),  // Lighter shade for fill
-          Color.fromRGBO(84, 112, 198, 0.1),
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      name: 'W1 (Cao độ miệng 1484.24mm)',
-    ),
-    SplineAreaSeries<WaterLevelData, String>(
-      dataSource: data,
-      xValueMapper: (WaterLevelData data, _) => data.logTime,
-      yValueMapper: (WaterLevelData data, _) => data.w2,
-      color: const Color.fromRGBO(145, 204, 117, 1),  // Line color
-      gradient: LinearGradient(  // Gradient to fill area below line
-        colors: [
-          Color.fromRGBO(145, 204, 117, 0.3),  // Lighter shade for fill
-          Color.fromRGBO(145, 204, 117, 0.1),
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      name: 'W2 (Cao độ miệng 1487.23mm)',
-    ),
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
+      LineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w1,
+        color: const Color.fromRGBO(84, 112, 198, 1),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        // gradient: const LinearGradient(
+        //   colors: [
+        //     Color.fromRGBO(84, 112, 198, 0.3),
+        //     Color.fromRGBO(84, 112, 198, 0.05),
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
         // ),
-      
-       
+        name: 'W1 (Cao độ miệng 1484.24mm)',
+      ),
+      LineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w2,
+        color: const Color.fromRGBO(145, 204, 117, 1),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        // gradient: const LinearGradient(
+        //   colors: [
+        //     Color.fromRGBO(145, 204, 117, 0.3),
+        //     Color.fromRGBO(145, 204, 117, 0.05),
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        // ),
+        name: 'W2 (Cao độ miệng 1487.23mm)',
+      ),
     ];
   }
 
   List<CartesianSeries<WaterLevelData, String>> _getMonthSeries(
       List<WaterLevelData> data) {
     return [
-      SplineAreaSeries<WaterLevelData, String>(
-      dataSource: data,
-      xValueMapper: (WaterLevelData data, _) => data.logTime,
-      yValueMapper: (WaterLevelData data, _) => data.w1,
-      color: const Color.fromRGBO(84, 112, 198, 1),  // Line color
-      gradient: LinearGradient(  // Gradient to fill area below line
-        colors: [
-          Color.fromRGBO(84, 112, 198, 0.3),  // Lighter shade for fill
-          Color.fromRGBO(84, 112, 198, 0.1),
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      name: 'W1 (Cao độ miệng 1484.24mm)',
-    ),
-    SplineAreaSeries<WaterLevelData, String>(
-      dataSource: data,
-      xValueMapper: (WaterLevelData data, _) => data.logTime,
-      yValueMapper: (WaterLevelData data, _) => data.w2,
-      color: const Color.fromRGBO(145, 204, 117, 1),  // Line color
-      gradient: LinearGradient(  // Gradient to fill area below line
-        colors: [
-          Color.fromRGBO(145, 204, 117, 0.3),  // Lighter shade for fill
-          Color.fromRGBO(145, 204, 117, 0.1),
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      name: 'W2 (Cao độ miệng 1487.23mm)',
-    ),
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
+      LineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w1,
+        color: const Color.fromRGBO(84, 112, 198, 1),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        // gradient: const LinearGradient(
+        //   colors: [
+        //     Color.fromRGBO(84, 112, 198, 0.3),
+        //     Color.fromRGBO(84, 112, 198, 0.05),
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
         // ),
-      
-       
+        name: 'W1 (Cao độ miệng 1484.24mm)',
+      ),
+      LineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w2,
+        color: const Color.fromRGBO(145, 204, 117, 1),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        // gradient: const LinearGradient(
+        //   colors: [
+        //     Color.fromRGBO(145, 204, 117, 0.3),
+        //     Color.fromRGBO(145, 204, 117, 0.05),
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        // ),
+        name: 'W2 (Cao độ miệng 1487.23mm)',
+      ),
     ];
   }
 
   List<CartesianSeries<WaterLevelData, String>> _getYearSeries(
       List<WaterLevelData> data) {
     return [
-      SplineAreaSeries<WaterLevelData, String>(
-      dataSource: data,
-      xValueMapper: (WaterLevelData data, _) => data.logTime,
-      yValueMapper: (WaterLevelData data, _) => data.w1,
-      color: const Color.fromRGBO(84, 112, 198, 1),  // Line color
-      gradient: LinearGradient(  // Gradient to fill area below line
-        colors: [
-          Color.fromRGBO(84, 112, 198, 0.3),  // Lighter shade for fill
-          Color.fromRGBO(84, 112, 198, 0.1),
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      name: 'W1 (Cao độ miệng 1484.24mm)',
-    ),
-    SplineAreaSeries<WaterLevelData, String>(
-      dataSource: data,
-      xValueMapper: (WaterLevelData data, _) => data.logTime,
-      yValueMapper: (WaterLevelData data, _) => data.w2,
-      color: const Color.fromRGBO(145, 204, 117, 1),  // Line color
-      gradient: LinearGradient(  // Gradient to fill area below line
-        colors: [
-          Color.fromRGBO(145, 204, 117, 0.3),  // Lighter shade for fill
-          Color.fromRGBO(145, 204, 117, 0.1),
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      name: 'W2 (Cao độ miệng 1487.23mm)',
-    ),
-        //   shape: DataMarkerType.circle,
-        //   height: 5,
-        //   width: 5,
+      LineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w1,
+        color: const Color.fromRGBO(84, 112, 198, 1),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        // gradient: const LinearGradient(
+        //   colors: [
+        //     Color.fromRGBO(84, 112, 198, 0.3),
+        //     Color.fromRGBO(84, 112, 198, 0.05),
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
         // ),
-      
-       
+        name: 'W1 (Cao độ miệng 1484.24mm)',
+      ),
+      LineSeries<WaterLevelData, String>(
+        dataSource: data,
+        xValueMapper: (WaterLevelData data, _) => data.logTime,
+        yValueMapper: (WaterLevelData data, _) => data.w2,
+        color: const Color.fromRGBO(145, 204, 117, 1),
+        markerSettings: const MarkerSettings(
+          height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
+        // gradient: const LinearGradient(
+        //   colors: [
+        //     Color.fromRGBO(145, 204, 117, 0.3),
+        //     Color.fromRGBO(145, 204, 117, 0.05),
+        //   ],
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        // ),
+        name: 'W2 (Cao độ miệng 1487.23mm)',
+      ),
     ];
   }
 
@@ -739,82 +759,82 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
             ),
           ),
           Expanded(
-              flex: 1,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    child: Text(
-                      LocalData.toDate.getString(context),
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Theme.of(context).textTheme.bodyLarge?.color,
-                        fontWeight: FontWeight.w500,
-                      ),
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  child: Text(
+                    LocalData.toDate.getString(context),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () => showDateTime(context, false),
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: const Color.fromRGBO(225, 225, 225, 1),
-                          )),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: DateFormat('dd/MM/yyyy')
-                                        .format(_endDate),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
+                ),
+                TextButton(
+                  onPressed: () => showDateTime(context, false),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.secondary,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: const Color.fromRGBO(225, 225, 225, 1),
+                        )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      DateFormat('dd/MM/yyyy').format(_endDate),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
                                   ),
-                                  TextSpan(
-                                    text: " - ",
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
+                                ),
+                                TextSpan(
+                                  text: " - ",
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
                                   ),
-                                  TextSpan(
-                                    text: DateFormat('hh:mm').format(_endTime),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
+                                ),
+                                TextSpan(
+                                  text: DateFormat('hh:mm').format(_endTime),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

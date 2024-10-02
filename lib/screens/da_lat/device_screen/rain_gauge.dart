@@ -204,19 +204,14 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.1),
-                //     offset: const Offset(0, 1),
-                //     blurRadius: 8,
-                //   ),
-                // ],
+              
               ),
               child: FutureBuilder<List<RainData>>(
                 future: _rainDataBuilder,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(  strokeWidth: 2,
+            color: Color.fromRGBO(237, 146, 39, 1),),);
                   } else if (snapshot.hasError) {
                     return Center(
                       child: Text('Error: ${snapshot.error}'),
@@ -360,7 +355,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                             primaryYAxis: NumericAxis(
                               majorGridLines: const MajorGridLines(
                                 width: 1,
-                                dashArray: [8, 8],
+                                dashArray: [3, 3],
                                 color: Color(0xFFA7ABC3),
                               ),
                               labelStyle: const TextStyle(
@@ -491,13 +486,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.1),
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 1),
-        //   ),
-        // ],
+        
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

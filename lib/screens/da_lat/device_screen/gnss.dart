@@ -556,12 +556,12 @@ class _GnssScreenState extends State<GnssScreen> {
       dataSource: data,
       xValueMapper: (GnssData data, _) => data.logTime,
       yValueMapper: (GnssData data, _) => yValueMapper(data),
-      // markerSettings: const MarkerSettings(
-      //   isVisible: true,
-      //   shape: DataMarkerType.circle,
-      //   height: 5,
-      //   width: 5,
-      // ),
+       markerSettings: const MarkerSettings(
+           height: 2,
+          width: 2,
+          isVisible: true,
+          shape: DataMarkerType.circle,
+        ),
       name: name,
       color: _getColorForName(name),
     );
@@ -635,7 +635,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -706,7 +706,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -777,7 +777,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -858,7 +858,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -929,7 +929,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -1000,7 +1000,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -1081,7 +1081,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -1152,7 +1152,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -1223,7 +1223,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -1484,7 +1484,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -1555,7 +1555,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
@@ -1626,7 +1626,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 primaryYAxis: NumericAxis(
                   majorGridLines: const MajorGridLines(
                     width: 1,
-                    dashArray: [8, 8],
+                    dashArray: [3, 3],
                     color: Color(0xFFA7ABC3),
                   ),
                   labelStyle: const TextStyle(
