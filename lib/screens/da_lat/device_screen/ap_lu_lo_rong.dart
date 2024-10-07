@@ -190,13 +190,6 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.1),
-                //     offset: const Offset(0, 1),
-                //     blurRadius: 8,
-                //   ),
-                // ],
               ),
               child: FutureBuilder(
                 future: _piezmometerBuilder,
@@ -366,7 +359,7 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .surface,
-                                        borderColor: Color(0xFFA7ABC3),
+                                        borderColor: const Color(0xFFA7ABC3),
                                         textStyle: TextStyle(
                                           color: Theme.of(context)
                                               .textTheme
@@ -978,9 +971,12 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                     ),
                   ),
                 ],
-              )),
+              ),
+              ),
         ],
       ),
     );
   }
 }
+
+

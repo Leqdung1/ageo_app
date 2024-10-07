@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:retry/retry.dart';
 
@@ -589,3 +587,5 @@ class ApiClient {
     }
   }
 }
+
+final apiClient = ApiClient();

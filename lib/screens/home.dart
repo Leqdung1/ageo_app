@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: SvgPicture.asset(
                       currentPageIndex == 1
                           ? 'assets/icons/map-pin_yellow.svg'
-                          : 'assets/icons/map-pin.svg',
+                          : 'assets/icons/map_notFIll.svg',
                     ),
                     title: LocalData.bottomlabel2.getString(context),
                     textStyle: TextStyle(
@@ -158,7 +158,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
               navBarBuilder: (navBarConfig) => Style1BottomNavBar(
                 navBarDecoration: NavBarDecoration(
-                  
                   color: Theme.of(context).colorScheme.surface,
                 ),
                 navBarConfig: navBarConfig,

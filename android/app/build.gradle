@@ -23,6 +23,8 @@ if (flutterVersionName == null) {
     flutterVersionName = "1.0"
 }
 
+
+
 android {
     namespace = "com.example.ageo_app"
     ndkVersion = flutter.ndkVersion

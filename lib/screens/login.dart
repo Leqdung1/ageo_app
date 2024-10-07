@@ -6,12 +6,10 @@ import "package:flutter/services.dart";
 import "package:flutter/widgets.dart";
 import "package:flutter_localization/flutter_localization.dart";
 import 'package:flutter_svg/flutter_svg.dart';
-
 import "package:flutter_svg/svg.dart";
 import "package:local_auth/local_auth.dart";
 import "package:lucide_icons/lucide_icons.dart";
 import "package:shared_preferences/shared_preferences.dart";
-
 import "../core/api_client.dart";
 import "../core/helpers.dart";
 
