@@ -28,15 +28,15 @@ extension CameraSelectedExtension on CameraSelected {
   }
 }
 
-class CameraTestScreen extends StatefulWidget {
-  const CameraTestScreen({super.key});
+class CameraScreen extends StatefulWidget {
+  const CameraScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _CameraTestScreenState createState() => _CameraTestScreenState();
+  _CameraScreenState createState() => _CameraScreenState();
 }
 
-class _CameraTestScreenState extends State<CameraTestScreen> {
+class _CameraScreenState extends State<CameraScreen> {
   CameraSelected _selectedCamera = CameraSelected.camera1;
   late VlcPlayerController _vlcPlayerController;
 

@@ -126,13 +126,13 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 height: MediaQuery.sizeOf(context).height * 0.75,
                 child: IndexedStack(
                   index: _itemsSelected,
-                  children: const [
+                  children:  [
                    GnssScreen(),
                    ApLucLoRongScreen(),
                    NghiengSauScreen(),
                    RaingaugeScreen(),
                    WaterLevelScreen(),
-                   CameraTestScreen(),
+                   CameraScreen(),
                   ],
                 ),
               ),

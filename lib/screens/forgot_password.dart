@@ -14,6 +14,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  bool _showClearButton = false;
   var _username = "";
   var _email = "";
   final _apiClient = ApiClient();
@@ -205,28 +206,29 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       color: Color(0xFFE43434),
                     ),
                   ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      LucideIcons.xCircle,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                    onPressed: () {
-                      _emailController.clear();
-                      setState(() {
-                        _email = "";
-                      });
-                    },
-                  ),
+                  suffixIcon: _showClearButton
+                      ? IconButton(
+                          icon: Icon(
+                            LucideIcons.xCircle,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                          onPressed: () {
+                            _emailController.clear();
+                            setState(() {
+                              _showClearButton = false;
+                            });
+                          },
+                        )
+                      : null,
                   prefixIcon: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SvgPicture.asset(
-                          "assets/icons/email.svg",
-                          // ignore: deprecated_member_use
+                        Icon(
+                          LucideIcons.mail,
                           color: Theme.of(context).iconTheme.color,
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -234,6 +236,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 onChanged: (value) {
                   setState(() {
                     _email = value;
+                    _showClearButton = value.isNotEmpty;
                   });
                 },
               ),
