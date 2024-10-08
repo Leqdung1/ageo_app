@@ -23,7 +23,10 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
       TextEditingController();
   final apiClient = ApiClient();
   final SecureStorage _ss = const SecureStorage();
-  var _passwordVisible = false;
+
+  bool _oldPasswordVisible = false;
+  bool _newPasswordVisible = false;
+  bool _confirmPasswordVisible = false;
 
   int? userId;
   String? displayName;
@@ -162,7 +165,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                 ),
                 TextFormField(
                   controller: _oldPasswordController,
-                  obscureText: !_passwordVisible,
+                  obscureText: !_oldPasswordVisible,
                   textInputAction: TextInputAction.done,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
@@ -199,7 +202,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                       ),
                     ),
                     suffixIcon: IconButton(
-                      icon: _passwordVisible
+                      icon: _oldPasswordVisible
                           ? Icon(
                               LucideIcons.eye,
                               color: Theme.of(context).iconTheme.color,
@@ -210,7 +213,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                             ),
                       onPressed: () {
                         setState(() {
-                          _passwordVisible = !_passwordVisible;
+                          _oldPasswordVisible = !_oldPasswordVisible;
                         });
                       },
                     ),
@@ -260,7 +263,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                 ),
                 TextFormField(
                   controller: _newPasswordController,
-                  obscureText: true,
+                  obscureText: !_newPasswordVisible,
                   textInputAction: TextInputAction.done,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
@@ -297,7 +300,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                       ),
                     ),
                     suffixIcon: IconButton(
-                      icon: _passwordVisible
+                      icon: _newPasswordVisible
                           ? Icon(
                               LucideIcons.eye,
                               color: Theme.of(context).iconTheme.color,
@@ -308,7 +311,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                             ),
                       onPressed: () {
                         setState(() {
-                          _passwordVisible = !_passwordVisible;
+                          _newPasswordVisible = !_newPasswordVisible;
                         });
                       },
                     ),
@@ -358,7 +361,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                 ),
                 TextFormField(
                   controller: _confirmPasswordController,
-                  obscureText: true,
+                  obscureText: !_confirmPasswordVisible,
                   textInputAction: TextInputAction.done,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
@@ -395,7 +398,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                       ),
                     ),
                     suffixIcon: IconButton(
-                      icon: _passwordVisible
+                      icon: _confirmPasswordVisible
                           ? Icon(
                               LucideIcons.eye,
                               color: Theme.of(context).iconTheme.color,
@@ -406,7 +409,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                             ),
                       onPressed: () {
                         setState(() {
-                          _passwordVisible = !_passwordVisible;
+                          _confirmPasswordVisible = !_confirmPasswordVisible;
                         });
                       },
                     ),
