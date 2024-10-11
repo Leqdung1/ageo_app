@@ -132,7 +132,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
       theme: ThemeData(
         colorScheme: ColorScheme.light(
           primary: const Color.fromRGBO(237, 146, 39, 1),
-          onPrimary: Colors.black,
+          onPrimary: Colors.white,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
               Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
@@ -163,10 +163,8 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             // pick date
             selectedDate(),
-
             Container(
               margin: const EdgeInsets.symmetric(
                 horizontal: 12,
@@ -180,201 +178,207 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: FutureBuilder(
-                future: _piezmometerBuilder,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator(  strokeWidth: 2,
-            color: Color.fromRGBO(237, 146, 39, 1),),);
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else {
-                    _chartData = snapshot.data!;
-                    return SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // drop down menu
-                          Container(
-                            margin: const EdgeInsets.only(
-                                left: 10, right: 15, bottom: 20),
-                            child: Expanded(
-                              child: DropdownMenu(
-                                textStyle: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                selectedTrailingIcon: Icon(
-                                  Icons.expand_less,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                trailingIcon: Icon(
-                                  Icons.expand_more,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                menuStyle: MenuStyle(
-                                  maximumSize: const WidgetStatePropertyAll(
-                                    Size.fromHeight(160),
-                                  ),
-                                  surfaceTintColor:
-                                      const WidgetStatePropertyAll(
-                                    Colors.white,
-                                  ),
-                                  shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                ),
-                                inputDecorationTheme: InputDecorationTheme(
-                                  fillColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  filled: true,
-                                  border: InputBorder.none,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 0,
-                                    ),
-                                  ),
-                                ),
-                                initialSelection: _dataSelected.label(context),
-                                onSelected: (value) {
-                                  setState(() {
-                                    _dataSelected = DataSelected.values
-                                        .firstWhere((e) =>
-                                            e.label(context) ==
-                                            value as String);
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // drop down menu
+                  Container(
+                    margin:
+                        const EdgeInsets.only(left: 10, right: 15, bottom: 20),
+                    child: Expanded(
+                      child: DropdownMenu(
+                        textStyle: TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        selectedTrailingIcon: Icon(
+                          Icons.expand_less,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
+                        trailingIcon: Icon(
+                          Icons.expand_more,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
+                        menuStyle: MenuStyle(
+                          maximumSize: const WidgetStatePropertyAll(
+                            Size.fromHeight(160),
+                          ),
+                          surfaceTintColor: const WidgetStatePropertyAll(
+                            Colors.white,
+                          ),
+                          shape: WidgetStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        inputDecorationTheme: InputDecorationTheme(
+                          fillColor: Theme.of(context).colorScheme.primary,
+                          filled: true,
+                          border: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                              width: 0,
+                            ),
+                          ),
+                        ),
+                        initialSelection: _dataSelected.label(context),
+                        onSelected: (value) {
+                          setState(() {
+                            _dataSelected = DataSelected.values.firstWhere(
+                                (e) => e.label(context) == value as String);
 
-                                    _piezmometerBuilder = fetchPiezometer(
-                                      startDate: _startDate,
-                                      endDate: _endDate,
-                                    );
-                                  });
-                                },
-                                dropdownMenuEntries: DataSelected.values
-                                    .map(
-                                      (e) => DropdownMenuEntry(
-                                        value: e.label(context),
-                                        labelWidget: Padding(
-                                          padding: const EdgeInsets.all(0),
-                                          child: Text(
-                                            e.label(context),
-                                            style: TextStyle(
+                            _piezmometerBuilder = fetchPiezometer(
+                              startDate: _startDate,
+                              endDate: _endDate,
+                            );
+                          });
+                        },
+                        dropdownMenuEntries: DataSelected.values
+                            .map(
+                              (e) => DropdownMenuEntry(
+                                value: e.label(context),
+                                labelWidget: Padding(
+                                  padding: const EdgeInsets.all(0),
+                                  child: Text(
+                                    e.label(context),
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.color,
+                                    ),
+                                  ),
+                                ),
+                                label: e.label(context),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                  FutureBuilder(
+                    future: _piezmometerBuilder,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Color.fromRGBO(237, 146, 39, 1),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else {
+                        _chartData = snapshot.data!;
+                        return SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              // draw chart
+                              Column(
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 15, top: 30),
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: SizedBox(
+                                        width: 1000,
+                                        child: SfCartesianChart(
+                                          plotAreaBorderWidth: 0,
+                                          primaryXAxis: CategoryAxis(
+                                            labelStyle: const TextStyle(
+                                              color: Color(0xFFA7ABC3),
+                                            ),
+                                            majorGridLines:
+                                                const MajorGridLines(width: 0),
+                                            majorTickLines:
+                                                const MajorTickLines(
+                                              width: 1,
+                                              color: Color(0xFFA7ABC3),
+                                              size: 5,
+                                            ),
+                                            isVisible: true,
+                                            axisLine: const AxisLine(
+                                              color: Color(0xFFA7ABC3),
+                                              width: 1,
+                                            ),
+                                            title: AxisTitle(
+                                              text: LocalData.time
+                                                  .getString(context),
+                                              textStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ),
+                                          primaryYAxis: NumericAxis(
+                                            majorGridLines:
+                                                const MajorGridLines(
+                                              width: 1,
+                                              dashArray: [3, 3],
+                                              color: Color(0xFFA7ABC3),
+                                            ),
+                                            labelStyle: const TextStyle(
+                                              color: Color(0xFFA7ABC3),
+                                            ),
+                                            majorTickLines:
+                                                const MajorTickLines(
+                                              width: 0,
+                                            ),
+                                            axisLine: const AxisLine(
+                                              color: Colors.transparent,
+                                              width: 0,
+                                            ),
+                                            title: AxisTitle(
+                                              text: LocalData.elevation
+                                                  .getString(context),
+                                              textStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ),
+                                          series: _getSeries(_chartData),
+                                          tooltipBehavior: TooltipBehavior(
+                                            enable: true,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .surface,
+                                            borderColor:
+                                                const Color(0xFFA7ABC3),
+                                            textStyle: TextStyle(
                                               color: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge
                                                   ?.color,
                                             ),
                                           ),
-                                        ),
-                                        label: e.label(context),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ),
-
-                          // draw chart
-                          Column(
-                            children: [
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(left: 15, top: 30),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: SizedBox(
-                                    width: 1000,
-                                    child: SfCartesianChart(
-                                      plotAreaBorderWidth: 0,
-                                      primaryXAxis: CategoryAxis(
-                                        labelStyle: const TextStyle(
-                                          color: Color(0xFFA7ABC3),
-                                        ),
-                                        majorGridLines:
-                                            const MajorGridLines(width: 0),
-                                        majorTickLines: const MajorTickLines(
-                                          width: 1,
-                                          color: Color(0xFFA7ABC3),
-                                          size: 5,
-                                        ),
-                                        isVisible: true,
-                                        axisLine: const AxisLine(
-                                          color: Color(0xFFA7ABC3),
-                                          width: 1,
-                                        ),
-                                        title: AxisTitle(
-                                          text:
-                                              LocalData.time.getString(context),
-                                          textStyle: const TextStyle(
-                                            color: Color(0xFFA7ABC3),
-                                            fontSize: 12,
-                                          ),
+                                          zoomPanBehavior: _zoomPanBehavior,
                                         ),
                                       ),
-                                      primaryYAxis: NumericAxis(
-                                        majorGridLines: const MajorGridLines(
-                                          width: 1,
-                                             dashArray: [3, 3],
-                                          color: Color(0xFFA7ABC3),
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          color: Color(0xFFA7ABC3),
-                                        ),
-                                        majorTickLines: const MajorTickLines(
-                                          width: 0,
-                                        ),
-                                        axisLine: const AxisLine(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                        title: AxisTitle(
-                                          text: LocalData.elevation
-                                              .getString(context),
-                                          textStyle: const TextStyle(
-                                            color: Color(0xFFA7ABC3),
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                      series: _getSeries(_chartData),
-                                      tooltipBehavior: TooltipBehavior(
-                                        enable: true,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        borderColor: Color(0xFFA7ABC3),
-                                        textStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color,
-                                        ),
-                                      ),
-                                      zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),
-                                ),
-                              ),
-                              SingleChildScrollView(
-                                padding: const EdgeInsets.only(
-                                    top: 15, left: 20, right: 20),
-                                scrollDirection: Axis.horizontal,
-                                child: _buildCustomLegend(),
+                                
+                                  SingleChildScrollView(
+                                    padding: const EdgeInsets.only(
+                                        top: 15, left: 20, right: 20),
+                                    scrollDirection: Axis.horizontal,
+                                    child: _buildCustomLegend(),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    );
-                  }
-                },
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -456,90 +460,6 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
     }
   }
 
-  List<CartesianSeries<PiezometerData, String>> _getHoursSeries(
-      List<PiezometerData> data) {
-    return [
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz1,
-        markerSettings: const MarkerSettings(
-           height: 2,
-          width: 2,
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-1',
-        color: const Color.fromRGBO(84, 112, 198, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz2,
-        markerSettings: const MarkerSettings(
-           height: 2,
-          width: 2,
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 1-2',
-        color: const Color.fromRGBO(145, 204, 117, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz3,
-        markerSettings: const MarkerSettings(
-           height: 2,
-          width: 2,
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-1',
-        color: const Color.fromRGBO(237, 146, 39, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz4,
-        markerSettings: const MarkerSettings(
-           height: 2,
-          width: 2,
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 2-2',
-        color: const Color.fromRGBO(238, 102, 102, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz5,
-        markerSettings: const MarkerSettings(
-           height: 2,
-          width: 2,
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-1',
-        color: const Color.fromRGBO(115, 192, 222, 1),
-      ),
-      LineSeries<PiezometerData, String>(
-        dataSource: data,
-        xValueMapper: (PiezometerData data, _) => data.logTime,
-        yValueMapper: (PiezometerData data, _) => data.pz6,
-        markerSettings: const MarkerSettings(
-           height: 2,
-          width: 2,
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
-        name: 'PZ 3-2',
-        color: const Color.fromRGBO(59, 162, 114, 1),
-      ),
-    ];
-  }
-
   List<CartesianSeries<PiezometerData, String>> _getDaySeries(
       List<PiezometerData> data) {
     return [
@@ -548,7 +468,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -561,7 +481,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -574,7 +494,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -587,7 +507,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -600,7 +520,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -613,7 +533,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -632,7 +552,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -645,7 +565,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -658,7 +578,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -671,7 +591,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -684,7 +604,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -697,7 +617,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -716,7 +636,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz1,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -729,7 +649,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz2,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -742,7 +662,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz3,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -755,7 +675,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz4,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -768,7 +688,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz5,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,
@@ -781,7 +701,7 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
         xValueMapper: (PiezometerData data, _) => data.logTime,
         yValueMapper: (PiezometerData data, _) => data.pz6,
         markerSettings: const MarkerSettings(
-           height: 2,
+          height: 2,
           width: 2,
           isVisible: true,
           shape: DataMarkerType.circle,

@@ -146,7 +146,7 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
       theme: ThemeData(
         colorScheme: ColorScheme.light(
           primary: const Color.fromRGBO(237, 146, 39, 1),
-          onPrimary: Colors.black,
+          onPrimary: Colors.white,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
               Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
@@ -207,25 +207,10 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                   color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: FutureBuilder<List<WaterLevelData>>(
-                    future: _waterLevelBuilder,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Color.fromRGBO(237, 146, 39, 1),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else {
-                        _chartData = snapshot.data!;
-                        return SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+Container(
                                 margin: const EdgeInsets.only(
                                     left: 10, right: 15, bottom: 20),
                                 child: Expanded(
@@ -314,7 +299,25 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                                   ),
                                 ),
                               ),
-
+ FutureBuilder<List<WaterLevelData>>(
+                    future: _waterLevelBuilder,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Color.fromRGBO(237, 146, 39, 1),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else {
+                        _chartData = snapshot.data!;
+                        return SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              
                               // draw chart
                               Column(
                                 children: [
@@ -412,7 +415,12 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                           ),
                         );
                       }
-                    })),
+                    },
+                    ),
+                  ],
+                )
+               
+                    ),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * 0.2,
             ),

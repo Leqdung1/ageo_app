@@ -90,13 +90,6 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onSurface,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.25),
-            offset: const Offset(0, 1),
-            blurRadius: 4,
-          ),
-        ],
       ),
       child: InteractiveViewer(
         boundaryMargin: const EdgeInsets.all(20),
@@ -133,13 +126,6 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
           color: Theme.of(context).colorScheme.surface,
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.25),
-              offset: const Offset(0, 1),
-              blurRadius: 4,
-            ),
-          ],
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -168,13 +154,6 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                     color: const Color.fromRGBO(255, 217, 157, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -219,18 +198,12 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 29),
                 decoration: BoxDecoration(
-                    color: const Color.fromRGBO(255, 241, 219, 1),
-                    border: Border.all(
-                      color: const Color.fromRGBO(255, 217, 157, 1),
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        offset: const Offset(0, 1),
-                        blurRadius: 8,
-                      )
-                    ]),
+                  color: const Color.fromRGBO(255, 241, 219, 1),
+                  border: Border.all(
+                    color: const Color.fromRGBO(255, 217, 157, 1),
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Column(
                   children: [
                     Column(
@@ -286,13 +259,6 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                     color: const Color.fromRGBO(255, 217, 157, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -344,13 +310,6 @@ class _ControlPanelHyScreenState extends State<ControlPanelHyScreen>
                     color: const Color.fromRGBO(255, 217, 157, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [

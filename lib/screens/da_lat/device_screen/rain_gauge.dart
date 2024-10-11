@@ -159,7 +159,7 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
       theme: ThemeData(
         colorScheme: ColorScheme.light(
           primary: const Color.fromRGBO(237, 146, 39, 1),
-          onPrimary: Colors.black,
+          onPrimary: Colors.white,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
               Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
@@ -204,25 +204,11 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-              
               ),
-              child: FutureBuilder<List<RainData>>(
-                future: _rainDataBuilder,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator(  strokeWidth: 2,
-            color: Color.fromRGBO(237, 146, 39, 1),),);
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
-                  } else {
-                    _chartData = snapshot.data!;
-                    return SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
                             margin: const EdgeInsets.only(
                                 left: 10, right: 15, bottom: 20),
                             child: Expanded(
@@ -308,7 +294,27 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                               ),
                             ),
                           ),
-
+FutureBuilder<List<RainData>>(
+                future: _rainDataBuilder,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Color.fromRGBO(237, 146, 39, 1),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else {
+                    _chartData = snapshot.data!;
+                    return SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          
                           // Draw chart
                           SfCartesianChart(
                             tooltipBehavior: TooltipBehavior(
@@ -385,6 +391,9 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
                   }
                 },
               ),
+                ],
+              )
+              
             ),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * 0.2,
@@ -486,7 +495,6 @@ class _RaingaugeScreenState extends State<RaingaugeScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

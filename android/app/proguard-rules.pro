@@ -1,1 +1,6 @@
 -keep class org.videolan.libvlc.** { *; }
+-keep class com.syncfusion.** { *; }
+-keep class io.flutter.** { *; }
+-keep class androidx.** { *; }
+-keep class com.mapbox.** { *; }
+-keep class com.mapbox.mapboxsdk.** { *; }

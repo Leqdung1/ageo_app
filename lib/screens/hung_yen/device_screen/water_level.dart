@@ -144,7 +144,7 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
       theme: ThemeData(
         colorScheme: ColorScheme.light(
           primary: const Color.fromRGBO(237, 146, 39, 1),
-          onPrimary: Colors.black,
+          onPrimary: Colors.white,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
               Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
@@ -179,218 +179,221 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
             selectedDate(),
 
             Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 15,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 15,
-              ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: FutureBuilder(
-                future: _commonBuilder,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Color.fromRGBO(237, 146, 39, 1),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else {
-                    _chartData = snapshot.data!;
-                    return SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // drop down menu
-                          Container(
-                            margin: const EdgeInsets.only(
-                                left: 10, right: 15, bottom: 20),
-                            child: Expanded(
-                              child: DropdownMenu(
-                                textStyle: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                selectedTrailingIcon: Icon(
-                                  Icons.expand_less,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                trailingIcon: Icon(
-                                  Icons.expand_more,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                menuStyle: MenuStyle(
-                                  maximumSize: const WidgetStatePropertyAll(
-                                    Size.fromHeight(160),
-                                  ),
-                                  surfaceTintColor:
-                                      const WidgetStatePropertyAll(
-                                    Colors.white,
-                                  ),
-                                  shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                ),
-                                inputDecorationTheme: InputDecorationTheme(
-                                  fillColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  filled: true,
-                                  border: InputBorder.none,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 0,
-                                    ),
-                                  ),
-                                ),
-                                initialSelection: _dataSelected.label(context),
-                                onSelected: (value) {
-                                  setState(() {
-                                    _dataSelected = DataSelected.values
-                                        .firstWhere((e) =>
-                                            e.label(context) ==
-                                            value as String);
-
-                                    _commonBuilder = fetchCommonData(
-                                      startDate: _startDate,
-                                      endDate: _endDate,
-                                    );
-                                  });
-                                },
-                                dropdownMenuEntries: DataSelected.values
-                                    .map(
-                                      (e) => DropdownMenuEntry(
-                                        value: e.label(context),
-                                        labelWidget: Padding(
-                                          padding: const EdgeInsets.all(0),
-                                          child: Text(
-                                            e.label(context),
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color,
-                                            ),
-                                          ),
-                                        ),
-                                        label: e.label(context),
-                                      ),
-                                    )
-                                    .toList(),
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 15,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 15,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+// drop down menu
+                    Container(
+                      margin: const EdgeInsets.only(
+                          left: 10, right: 15, bottom: 20),
+                      child: Expanded(
+                        child: DropdownMenu(
+                          textStyle: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          selectedTrailingIcon: Icon(
+                            Icons.expand_less,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                          trailingIcon: Icon(
+                            Icons.expand_more,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                          menuStyle: MenuStyle(
+                            maximumSize: const WidgetStatePropertyAll(
+                              Size.fromHeight(160),
+                            ),
+                            surfaceTintColor: const WidgetStatePropertyAll(
+                              Colors.white,
+                            ),
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
                             ),
                           ),
+                          inputDecorationTheme: InputDecorationTheme(
+                            fillColor: Theme.of(context).colorScheme.primary,
+                            filled: true,
+                            border: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                                width: 0,
+                              ),
+                            ),
+                          ),
+                          initialSelection: _dataSelected.label(context),
+                          onSelected: (value) {
+                            setState(() {
+                              _dataSelected = DataSelected.values.firstWhere(
+                                  (e) => e.label(context) == value as String);
 
-                          // draw chart
-                          Column(
-                            children: [
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(left: 15, top: 30),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: SizedBox(
-                                    width: 1000,
-                                    child: SfCartesianChart(
-                                      plotAreaBorderWidth: 0,
-                                      primaryXAxis: CategoryAxis(
-                                        labelStyle: const TextStyle(
-                                          color: Color(0xFFA7ABC3),
-                                        ),
-                                        majorGridLines:
-                                            const MajorGridLines(width: 0),
-                                        majorTickLines: const MajorTickLines(
-                                          width: 1,
-                                          color: Color(0xFFA7ABC3),
-                                          size: 5,
-                                        ),
-                                        isVisible: true,
-                                        axisLine: const AxisLine(
-                                          color: Color(0xFFA7ABC3),
-                                          width: 1,
-                                        ),
-                                        title: AxisTitle(
-                                          text:
-                                              LocalData.time.getString(context),
-                                          textStyle: const TextStyle(
-                                            color: Color(0xFFA7ABC3),
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                      primaryYAxis: NumericAxis(
-                                        majorGridLines: const MajorGridLines(
-                                          width: 1,
-                                          dashArray: [3, 3],
-                                          color: Color(0xFFA7ABC3),
-                                        ),
-                                        labelStyle: const TextStyle(
-                                          color: Color(0xFFA7ABC3),
-                                        ),
-                                        majorTickLines: const MajorTickLines(
-                                          width: 0,
-                                        ),
-                                        axisLine: const AxisLine(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                        title: AxisTitle(
-                                          text: LocalData.wL.getString(context),
-                                          textStyle: const TextStyle(
-                                            color: Color(0xFFA7ABC3),
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                      series: _getSeries(_chartData),
-                                      tooltipBehavior: TooltipBehavior(
-                                        enable: true,
+                              _commonBuilder = fetchCommonData(
+                                startDate: _startDate,
+                                endDate: _endDate,
+                              );
+                            });
+                          },
+                          dropdownMenuEntries: DataSelected.values
+                              .map(
+                                (e) => DropdownMenuEntry(
+                                  value: e.label(context),
+                                  labelWidget: Padding(
+                                    padding: const EdgeInsets.all(0),
+                                    child: Text(
+                                      e.label(context),
+                                      style: TextStyle(
                                         color: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        borderColor: Color(0xFFA7ABC3),
-                                        textStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color,
-                                        ),
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color,
                                       ),
-                                      zoomPanBehavior: _zoomPanBehavior,
                                     ),
                                   ),
+                                  label: e.label(context),
                                 ),
-                              ),
-                              SingleChildScrollView(
-                                padding: const EdgeInsets.only(
-                                    top: 15, left: 20, right: 20),
-                                scrollDirection: Axis.horizontal,
-                                child: _buildCustomLegend(),
-                              ),
-                            ],
-                          ),
-                        ],
+                              )
+                              .toList(),
+                        ),
                       ),
-                    );
-                  }
-                },
-              ),
-            ),
+                    ),
+                    FutureBuilder(
+                      future: _commonBuilder,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Color.fromRGBO(237, 146, 39, 1),
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else {
+                          _chartData = snapshot.data!;
+                          return SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                // draw chart
+                                Column(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 15, top: 30),
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: SizedBox(
+                                          width: 1000,
+                                          child: SfCartesianChart(
+                                            plotAreaBorderWidth: 0,
+                                            primaryXAxis: CategoryAxis(
+                                              labelStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                              ),
+                                              majorGridLines:
+                                                  const MajorGridLines(
+                                                      width: 0),
+                                              majorTickLines:
+                                                  const MajorTickLines(
+                                                width: 1,
+                                                color: Color(0xFFA7ABC3),
+                                                size: 5,
+                                              ),
+                                              isVisible: true,
+                                              axisLine: const AxisLine(
+                                                color: Color(0xFFA7ABC3),
+                                                width: 1,
+                                              ),
+                                              title: AxisTitle(
+                                                text: LocalData.time
+                                                    .getString(context),
+                                                textStyle: const TextStyle(
+                                                  color: Color(0xFFA7ABC3),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            primaryYAxis: NumericAxis(
+                                              majorGridLines:
+                                                  const MajorGridLines(
+                                                width: 1,
+                                                dashArray: [3, 3],
+                                                color: Color(0xFFA7ABC3),
+                                              ),
+                                              labelStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                              ),
+                                              majorTickLines:
+                                                  const MajorTickLines(
+                                                width: 0,
+                                              ),
+                                              axisLine: const AxisLine(
+                                                color: Colors.transparent,
+                                                width: 0,
+                                              ),
+                                              title: AxisTitle(
+                                                text: LocalData.wL
+                                                    .getString(context),
+                                                textStyle: const TextStyle(
+                                                  color: Color(0xFFA7ABC3),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            series: _getSeries(_chartData),
+                                            tooltipBehavior: TooltipBehavior(
+                                              enable: true,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surface,
+                                              borderColor: Color(0xFFA7ABC3),
+                                              textStyle: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
+                                              ),
+                                            ),
+                                            zoomPanBehavior: _zoomPanBehavior,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SingleChildScrollView(
+                                      padding: const EdgeInsets.only(
+                                          top: 15, left: 20, right: 20),
+                                      scrollDirection: Axis.horizontal,
+                                      child: _buildCustomLegend(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                )),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * 0.2,
             ),
@@ -525,13 +528,6 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.1),
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 1),
-        //   ),
-        // ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

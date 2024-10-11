@@ -241,7 +241,7 @@ class _GnssScreenState extends State<GnssScreen> {
       theme: ThemeData(
         colorScheme: ColorScheme.light(
           primary: const Color.fromRGBO(237, 146, 39, 1),
-          onPrimary: Colors.black,
+          onPrimary: Colors.white,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
               Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
@@ -290,112 +290,193 @@ class _GnssScreenState extends State<GnssScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(0.1),
-                //     offset: const Offset(0, 1),
-                //     blurRadius: 8,
-                //   ),
-                // ],
               ),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     // Segment slide
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          bottom: 20,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        top: 10,
+                        bottom: 20,
+                      ),
+                      child: CustomSlidingSegmentedControl<int>(
+                        initialValue: selectedSegment,
+                        children: {
+                          1: Text(
+                            'GNSS 01',
+                            style: TextStyle(
+                              fontWeight: selectedSegment == 1
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              color: selectedSegment == 1
+                                  ? Colors.white
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
+                            ),
+                          ),
+                          2: Text(
+                            'GNSS 02',
+                            style: TextStyle(
+                              fontWeight: selectedSegment == 2
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              color: selectedSegment == 2
+                                  ? Colors.white
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
+                            ),
+                          ),
+                          3: Text(
+                            'GNSS 03',
+                            style: TextStyle(
+                              fontWeight: selectedSegment == 3
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              color: selectedSegment == 3
+                                  ? Colors.white
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
+                            ),
+                          ),
+                        },
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        child: CustomSlidingSegmentedControl<int>(
-                          initialValue: selectedSegment,
-                          children: {
-                            1: Text(
-                              'GNSS 01',
-                              style: TextStyle(
-                                fontWeight: selectedSegment == 1
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                                color: selectedSegment == 1
-                                    ? Colors.white
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
+                        thumbDecoration: BoxDecoration(
+                          color: const Color.fromRGBO(237, 146, 39, 1),
+                          borderRadius: BorderRadius.circular(6),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(.15),
+                              blurRadius: 4.0,
+                              offset: const Offset(
+                                0.0,
+                                1.0,
                               ),
                             ),
-                            2: Text(
-                              'GNSS 02',
-                              style: TextStyle(
-                                fontWeight: selectedSegment == 2
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                                color: selectedSegment == 2
-                                    ? Colors.white
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
-                              ),
-                            ),
-                            3: Text(
-                              'GNSS 03',
-                              style: TextStyle(
-                                fontWeight: selectedSegment == 3
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                                color: selectedSegment == 3
-                                    ? Colors.white
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
-                              ),
-                            ),
-                          },
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
-                            borderRadius: BorderRadius.circular(8),
+                          ],
+                        ),
+                        duration: const Duration(milliseconds: 280),
+                        curve: Curves.linear,
+                        onValueChanged: (v) {
+                          setState(() {
+                            selectedSegment = v;
+                            _piezmometerBuilder = fetchGnss(
+                              startDate: _startDate,
+                              endDate: _endDate,
+                              selectedSegment: selectedSegment!,
+                            );
+                            getGnssChart();
+                          });
+                        },
+                      ),
+                    ),
+
+                    // drop down menu
+                    Container(
+                      margin: const EdgeInsets.only(
+                        left: 10,
+                        right: 15,
+                        bottom: 20,
+                      ),
+                      child: Expanded(
+                        child: DropdownMenu(
+                          textStyle: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
                           ),
-                          thumbDecoration: BoxDecoration(
-                            color: Color.fromRGBO(237, 146, 39, 1),
-                            borderRadius: BorderRadius.circular(6),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(.15),
-                                blurRadius: 4.0,
-                                offset: const Offset(
-                                  0.0,
-                                  1.0,
-                                ),
-                              ),
-                            ],
+                          selectedTrailingIcon: Icon(
+                            Icons.expand_less,
+                            color: Theme.of(context).iconTheme.color,
                           ),
-                          duration: const Duration(milliseconds: 280),
-                          curve: Curves.linear,
-                          onValueChanged: (v) {
+                          trailingIcon: Icon(
+                            Icons.expand_more,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                          menuStyle: MenuStyle(
+                            maximumSize: const WidgetStatePropertyAll(
+                              Size.fromHeight(160),
+                            ),
+                            surfaceTintColor: const WidgetStatePropertyAll(
+                              Colors.white,
+                            ),
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          inputDecorationTheme: InputDecorationTheme(
+                            fillColor: Theme.of(context).colorScheme.primary,
+                            filled: true,
+                            border: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                                width: 0,
+                              ),
+                            ),
+                          ),
+                          initialSelection: _dataSelected.label(context),
+                          onSelected: (value) {
                             setState(() {
-                              selectedSegment = v;
+                              _dataSelected = DataSelected.values.firstWhere(
+                                  (e) => e.label(context) == value as String);
+
                               _piezmometerBuilder = fetchGnss(
                                 startDate: _startDate,
                                 endDate: _endDate,
                                 selectedSegment: selectedSegment!,
                               );
-                              getGnssChart();
                             });
                           },
+                          dropdownMenuEntries: DataSelected.values
+                              .map(
+                                (e) => DropdownMenuEntry(
+                                  value: e.label(context),
+                                  labelWidget: Padding(
+                                    padding: const EdgeInsets.all(0),
+                                    child: Text(
+                                      e.label(context),
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color,
+                                      ),
+                                    ),
+                                  ),
+                                  label: e.label(context),
+                                ),
+                              )
+                              .toList(),
                         ),
                       ),
                     ),
+
                     FutureBuilder(
                         future: _piezmometerBuilder,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return const Center(
-                                child: CircularProgressIndicator());
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Color.fromRGBO(237, 146, 39, 1),
+                              ),
+                            );
                           } else if (snapshot.hasError) {
                             return Center(
                                 child: Text('Error: ${snapshot.error}'));
@@ -404,106 +485,6 @@ class _GnssScreenState extends State<GnssScreen> {
                             return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // drop down menu
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                      left: 10,
-                                      right: 15,
-                                      bottom: 20,
-                                    ),
-                                    child: Expanded(
-                                      child: DropdownMenu(
-                                        textStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        selectedTrailingIcon: Icon(
-                                          Icons.expand_less,
-                                          color:
-                                              Theme.of(context).iconTheme.color,
-                                        ),
-                                        trailingIcon: Icon(
-                                          Icons.expand_more,
-                                          color:
-                                              Theme.of(context).iconTheme.color,
-                                        ),
-                                        menuStyle: MenuStyle(
-                                          maximumSize:
-                                              const WidgetStatePropertyAll(
-                                            Size.fromHeight(160),
-                                          ),
-                                          surfaceTintColor:
-                                              const WidgetStatePropertyAll(
-                                            Colors.white,
-                                          ),
-                                          shape: WidgetStatePropertyAll(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                          ),
-                                        ),
-                                        inputDecorationTheme:
-                                            InputDecorationTheme(
-                                          fillColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          filled: true,
-                                          border: InputBorder.none,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            borderSide: const BorderSide(
-                                              color: Colors.transparent,
-                                              width: 0,
-                                            ),
-                                          ),
-                                        ),
-                                        initialSelection:
-                                            _dataSelected.label(context),
-                                        onSelected: (value) {
-                                          setState(() {
-                                            _dataSelected = DataSelected.values
-                                                .firstWhere((e) =>
-                                                    e.label(context) ==
-                                                    value as String);
-
-                                            _piezmometerBuilder = fetchGnss(
-                                              startDate: _startDate,
-                                              endDate: _endDate,
-                                              selectedSegment: selectedSegment!,
-                                            );
-                                          });
-                                        },
-                                        dropdownMenuEntries: DataSelected.values
-                                            .map(
-                                              (e) => DropdownMenuEntry(
-                                                value: e.label(context),
-                                                labelWidget: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(0),
-                                                  child: Text(
-                                                    e.label(context),
-                                                    style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyLarge
-                                                          ?.color,
-                                                    ),
-                                                  ),
-                                                ),
-                                                label: e.label(context),
-                                              ),
-                                            )
-                                            .toList(),
-                                      ),
-                                    ),
-                                  ),
-
                                   // Draw chart
                                   getGnssChart(),
                                 ]);
@@ -556,12 +537,12 @@ class _GnssScreenState extends State<GnssScreen> {
       dataSource: data,
       xValueMapper: (GnssData data, _) => data.logTime,
       yValueMapper: (GnssData data, _) => yValueMapper(data),
-       markerSettings: const MarkerSettings(
-           height: 2,
-          width: 2,
-          isVisible: true,
-          shape: DataMarkerType.circle,
-        ),
+      markerSettings: const MarkerSettings(
+        height: 2,
+        width: 2,
+        isVisible: true,
+        shape: DataMarkerType.circle,
+      ),
       name: name,
       color: _getColorForName(name),
     );
@@ -660,7 +641,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -731,7 +712,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -802,7 +783,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -883,7 +864,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -954,7 +935,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1025,7 +1006,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1106,7 +1087,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1177,7 +1158,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1248,7 +1229,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1509,7 +1490,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1580,7 +1561,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -1651,7 +1632,7 @@ class _GnssScreenState extends State<GnssScreen> {
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
                   color: Theme.of(context).colorScheme.surface,
-                  borderColor: Color(0xFFA7ABC3),
+                  borderColor: const Color(0xFFA7ABC3),
                   textStyle: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),

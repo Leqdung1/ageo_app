@@ -72,37 +72,12 @@ class MapHyScreen extends StatefulWidget {
 
 class _MapHyScreenState extends State<MapHyScreen> {
   MapSelected? _selectedMap;
-
   MapSelected? _clickedMarker;
   final MapController _mapController = MapController();
-  List<warnData> _items = [];
-  final apiClient = ApiClient();
 
   @override
   void initState() {
     super.initState();
-    fetchWarnData();
-  }
-
-  // fetch api
-  Future<void> fetchWarnData() async {
-    try {
-      final response = await apiClient.getDeviceData();
-
-      if (response['success']) {
-        List<warnData> data = (response['data'] as List)
-            .map((data) => warnData.fromJson(data))
-            .toList();
-
-        setState(() {
-          _items = data;
-        });
-      } else {
-        throw Exception('Failed to load data');
-      }
-    } catch (e) {
-      throw Exception('Failed to load data');
-    }
   }
 
   // Marker
@@ -160,21 +135,6 @@ class _MapHyScreenState extends State<MapHyScreen> {
   };
 
   void _showMarkerDetails(String name, LatLng value) {
-    final matchingItem = _items.firstWhere(
-      (item) => item.lat == value.latitude && item.lng == value.longitude,
-      orElse: () => warnData(
-        status: -1,
-        code: 'N/A',
-        title: 'No data available',
-        lat: value.latitude,
-        lng: value.longitude,
-        v1: 0.0,
-        v2: 0.0,
-        v3: 0.0,
-        time: DateTime.now().toLocal(),
-      ),
-    );
-
     showModalBottomSheet(
       barrierColor: Colors.transparent,
       backgroundColor: Colors.transparent,
@@ -198,7 +158,7 @@ class _MapHyScreenState extends State<MapHyScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                matchingItem.title,
+                name,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -209,81 +169,25 @@ class _MapHyScreenState extends State<MapHyScreen> {
               Row(children: [
                 Expanded(
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          LocalData.lastConnect.getString(context),
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                          ),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${LocalData.lat.getString(context)}: ${value.latitude}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
                         ),
-                        SizedBox(height: 5),
-                        Text(
-                          'V1',
-                          style: TextStyle(
-                              fontSize: 15,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge?.color),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        '${LocalData.lng.getString(context)}: ${value.longitude}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
                         ),
-                        SizedBox(height: 5),
-                        Text(
-                          'V2',
-                          style: TextStyle(
-                              fontSize: 15,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge?.color),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'V3',
-                          style: TextStyle(
-                              fontSize: 15,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge?.color),
-                        ),
-                      ]),
-                ),
-                Expanded(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          DateFormat('dd/MM/yyyy').format(matchingItem.time),
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          '${matchingItem.v1}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          '${matchingItem.v2}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          '${matchingItem.v3}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ]),
+                      ),
+                    ],
+                  ),
                 ),
               ]),
             ],
@@ -351,25 +255,12 @@ class _MapHyScreenState extends State<MapHyScreen> {
                     'id': 'mapbox/satellite-streets-v12',
                   },
                 ),
-                // CircleLayer(
-                //   circles: [
-                //     CircleMarker(
-                //       point: const LatLng(11.939445, 108.458775),
-                //       radius: 70,
-                //       useRadiusInMeter: true,
-                //       color: Colors.blue.withOpacity(0.3),
-                //       borderColor: Colors.blue,
-                //       borderStrokeWidth: 2,
-                //     ),
-                //   ],
-                // ),
                 MarkerLayer(
                   markers: _markerLocations.entries.map((entry) {
                     Widget iconWidget;
 
                     if (_clickedMarker == entry.key ||
                         (_selectedMap == entry.key && _clickedMarker == null)) {
-                      // When the marker is selected or matches the selected map
                       iconWidget = SvgPicture.asset('assets/icons/map_pin.svg');
                     } else {
                       switch (entry.key) {
@@ -421,7 +312,6 @@ class _MapHyScreenState extends State<MapHyScreen> {
                         onTap: () {
                           setState(() {
                             _clickedMarker = entry.key;
-                            print("Clicked Marker: $_clickedMarker");
                             _selectedMap = entry.key;
                           });
                           _mapController.move(entry.value, 18);

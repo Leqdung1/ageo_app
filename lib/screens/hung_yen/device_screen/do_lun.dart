@@ -144,7 +144,7 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
       theme: ThemeData(
         colorScheme: ColorScheme.light(
           primary: const Color.fromRGBO(237, 146, 39, 1),
-          onPrimary: Colors.black,
+          onPrimary: Colors.white,
           surface: Theme.of(context).colorScheme.primary,
           onSurface:
               Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
@@ -190,29 +190,11 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.1),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   ),
-                  // ],
                 ),
-                child: FutureBuilder(
-                    future: _commonBuilder,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator(  strokeWidth: 2,
-            color: Color.fromRGBO(237, 146, 39, 1),),);
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else {
-                        _chartData = snapshot.data!;
-                        return SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // drop down menu
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+ // drop down menu
                               Container(
                                 margin: const EdgeInsets.only(
                                     left: 10, right: 15, bottom: 20),
@@ -300,7 +282,21 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                                   ),
                                 ),
                               ),
-
+ FutureBuilder(
+                    future: _commonBuilder,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator(  strokeWidth: 2,
+            color: Color.fromRGBO(237, 146, 39, 1),),);
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else {
+                        _chartData = snapshot.data!;
+                        return SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                             
                               // draw chart
                               Column(
                                 children: [
@@ -472,7 +468,10 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
                           ),
                         );
                       }
-                    })),
+                    })
+                  ],
+                ),
+               ),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * 0.2,
             ),
@@ -925,13 +924,6 @@ class _DoLunHyScreenState extends State<DoLunHyScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.1),
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 1),
-        //   ),
-        // ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

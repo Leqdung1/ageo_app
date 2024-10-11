@@ -191,109 +191,106 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: FutureBuilder(
-                future: _piezmometerBuilder,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else {
-                    _chartData = snapshot.data!;
-                    return SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // drop down menu
-                          Container(
-                            margin: const EdgeInsets.only(
-                                left: 10, right: 15, bottom: 20),
-                            child: Expanded(
-                              child: DropdownMenu(
-                                textStyle: TextStyle(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                selectedTrailingIcon: Icon(
-                                  Icons.expand_less,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                trailingIcon: Icon(
-                                  Icons.expand_more,
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                menuStyle: MenuStyle(
-                                  maximumSize: const WidgetStatePropertyAll(
-                                    Size.fromHeight(160),
-                                  ),
-                                  surfaceTintColor:
-                                      const WidgetStatePropertyAll(
-                                    Colors.white,
-                                  ),
-                                  shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                ),
-                                inputDecorationTheme: InputDecorationTheme(
-                                  fillColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  filled: true,
-                                  border: InputBorder.none,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(
-                                      color: Colors.transparent,
-                                      width: 0,
-                                    ),
-                                  ),
-                                ),
-                                initialSelection: _dataSelected.label(context),
-                                onSelected: (value) {
-                                  setState(() {
-                                    _dataSelected = DataSelected.values
-                                        .firstWhere((e) =>
-                                            e.label(context) ==
-                                            value as String);
-
-                                    _piezmometerBuilder = fetchPiezometer(
-                                      startDate: _startDate,
-                                      endDate: _endDate,
-                                    );
-                                  });
-                                },
-                                dropdownMenuEntries: DataSelected.values
-                                    .map(
-                                      (e) => DropdownMenuEntry(
-                                        value: e.label(context),
-                                        labelWidget: Padding(
-                                          padding: const EdgeInsets.all(0),
-                                          child: Text(
-                                            e.label(context),
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color,
-                                            ),
-                                          ),
-                                        ),
-                                        label: e.label(context),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // drop down menu
+                  Container(
+                    margin:
+                        const EdgeInsets.only(left: 10, right: 15, bottom: 20),
+                    child: Expanded(
+                      child: DropdownMenu(
+                        textStyle: TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        selectedTrailingIcon: Icon(
+                          Icons.expand_less,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
+                        trailingIcon: Icon(
+                          Icons.expand_more,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
+                        menuStyle: MenuStyle(
+                          maximumSize: const WidgetStatePropertyAll(
+                            Size.fromHeight(160),
+                          ),
+                          surfaceTintColor: const WidgetStatePropertyAll(
+                            Colors.white,
+                          ),
+                          shape: WidgetStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
+                        ),
+                        inputDecorationTheme: InputDecorationTheme(
+                          fillColor: Theme.of(context).colorScheme.primary,
+                          filled: true,
+                          border: InputBorder.none,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                              width: 0,
+                            ),
+                          ),
+                        ),
+                        initialSelection: _dataSelected.label(context),
+                        onSelected: (value) {
+                          setState(() {
+                            _dataSelected = DataSelected.values.firstWhere(
+                                (e) => e.label(context) == value as String);
 
-                          // draw chart
-                          Column(
+                            _piezmometerBuilder = fetchPiezometer(
+                              startDate: _startDate,
+                              endDate: _endDate,
+                            );
+                          });
+                        },
+                        dropdownMenuEntries: DataSelected.values
+                            .map(
+                              (e) => DropdownMenuEntry(
+                                value: e.label(context),
+                                labelWidget: Padding(
+                                  padding: const EdgeInsets.all(0),
+                                  child: Text(
+                                    e.label(context),
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.color,
+                                    ),
+                                  ),
+                                ),
+                                label: e.label(context),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                  FutureBuilder(
+                    future: _piezmometerBuilder,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Color.fromRGBO(237, 146, 39, 1),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else {
+                        _chartData = snapshot.data!;
+                        return SingleChildScrollView(
+                          child: Column(
                             children: [
+                              // draw chart
                               Container(
                                 margin:
                                     const EdgeInsets.only(left: 15, top: 30),
@@ -372,6 +369,8 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                                   ),
                                 ),
                               ),
+
+                              // Legend for chart
                               SingleChildScrollView(
                                 padding: const EdgeInsets.only(
                                     top: 15, left: 20, right: 20),
@@ -380,11 +379,11 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    );
-                  }
-                },
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -897,86 +896,84 @@ class _ApLucLoRongScreenState extends State<ApLucLoRongScreen> {
             ),
           ),
           Expanded(
-              flex: 1,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    child: Text(
-                      LocalData.toDate.getString(context),
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Theme.of(context).textTheme.bodyLarge?.color,
-                        fontWeight: FontWeight.w500,
-                      ),
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  child: Text(
+                    LocalData.toDate.getString(context),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () => showDateTime(context, false),
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: const Color.fromRGBO(225, 225, 225, 1),
-                          )),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: DateFormat('dd/MM/yyyy')
-                                        .format(_endDate),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
+                ),
+                TextButton(
+                  onPressed: () => showDateTime(context, false),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.secondary,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: const Color.fromRGBO(225, 225, 225, 1),
+                        )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      DateFormat('dd/MM/yyyy').format(_endDate),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
                                   ),
-                                  TextSpan(
-                                    text: " - ",
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
+                                ),
+                                TextSpan(
+                                  text: " - ",
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
                                   ),
-                                  TextSpan(
-                                    text: DateFormat('hh:mm').format(_endTime),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
+                                ),
+                                TextSpan(
+                                  text: DateFormat('hh:mm').format(_endTime),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 }
-
-
