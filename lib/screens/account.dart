@@ -311,7 +311,12 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                 );
               } else {
-                return const Center(child: Text('No data available'));
+                return const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Color.fromRGBO(237, 146, 39, 1),
+                  ),
+                );
               }
             }),
       ),

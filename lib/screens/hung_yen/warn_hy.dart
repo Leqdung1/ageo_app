@@ -16,17 +16,18 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           title: Text(
             LocalData.bottomlabel5.getString(context),
             style: TextStyle(
-            color: Theme.of(context).textTheme.bodyLarge?.color,
-            fontSize: 22, 
-            fontWeight: FontWeight.bold,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        
           content: SingleChildScrollView(
             child: Column(
               children: [
@@ -34,7 +35,7 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
                   LocalData.confirmAlert.getString(context),
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
-                    fontSize: 18, 
+                    fontSize: 18,
                   ),
                 ),
                 const SizedBox(
@@ -45,39 +46,39 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
                     Navigator.of(context).pop();
                   },
                   child: Container(
-                 
                     width: MediaQuery.sizeOf(context).width * 1,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        color: const Color.fromRGBO(237, 146, 39, 1),
-                        borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromRGBO(237, 146, 39, 1),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
-                      child:  Text(
-                  LocalData.confirm.getString(context),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                                ),
+                      child: Text(
+                        LocalData.confirm.getString(context),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                
-            const SizedBox(
-              height: 8,
-            ),
-TextButton(
-              child:  Text(LocalData.cancel.getString(context),style: const TextStyle(
-                color: Color.fromRGBO(237, 146, 39, 1),
-                fontSize: 18, 
-              ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+                const SizedBox(
+                  height: 8,
+                ),
+                TextButton(
+                  child: Text(
+                    LocalData.cancel.getString(context),
+                    style: const TextStyle(
+                      color: Color.fromRGBO(237, 146, 39, 1),
+                      fontSize: 18,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ],
             ),
           ),

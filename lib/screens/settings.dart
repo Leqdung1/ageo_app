@@ -163,15 +163,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Thông báo"),
-          content: const Text(
-              "Thiết bị không hỗ trợ xác thực bằng vân tay hoặc FaceID"),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          title: Text(
+            "Thông báo",
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            "Thiết bị không hỗ trợ xác thực bằng vân tay hoặc FaceID",
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+              fontSize: 18,
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Đóng"),
+              child: const Text(
+                "Đóng",
+                style: const TextStyle(
+                  color: Color.fromRGBO(237, 146, 39, 1),
+                  fontSize: 18,
+                ),
+              ),
             ),
           ],
         );
@@ -395,7 +417,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return const Center(
-                                child: CircularProgressIndicator());
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Color.fromRGBO(237, 146, 39, 1),
+                              ),
+                            );
                           } else if (snapshot.hasError) {
                             return Center(
                               child: Text('Error: ${snapshot.error}'),
