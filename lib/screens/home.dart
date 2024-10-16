@@ -158,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
               navBarBuilder: (navBarConfig) => Style1BottomNavBar(
                 navBarDecoration: NavBarDecoration(
+                  padding: const EdgeInsets.all(15),
                   color: Theme.of(context).colorScheme.surface,
                 ),
                 navBarConfig: navBarConfig,
