@@ -5,6 +5,7 @@ import 'package:Ageo_solutions/models/user_data.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:intl/intl.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _AccountScreenState extends State<AccountScreen> {
   int? userId;
   Future<List<UserData>>? _userDataBuilder;
   late List<UserData> _userData = [];
-  final SecureStorage _ss = SecureStorage();
+  final SecureStorage _ss = const SecureStorage();
 
   @override
   void initState() {
@@ -29,10 +30,8 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Future<int?> _getUserIdFromToken() async {
-    final token = await _ss
-        .readSecureData("access_token"); // Read the token from secure storage
+    final token = await _ss.readSecureData("access_token");
     if (token != null && JwtDecoder.isExpired(token)) {
-      print("Token is expired");
       return null;
     }
     if (token != null) {
@@ -54,21 +53,11 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Future<List<UserData>> fetchUserData() async {
-    if (userId == null) {
-      print('Error: userId is null');
-      return [];
-    }
-
     try {
       final response = await apiClient.getUser(userId!);
-      print(response);
 
       if (response['success']) {
         UserData data = UserData.fromJson(response['data']);
-
-        print('UserData: $data');
-        print('Updated UserId: $userId');
-
         setState(() {
           _userData = [data];
         });
@@ -127,7 +116,12 @@ class _AccountScreenState extends State<AccountScreen> {
             future: _userDataBuilder,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Color.fromRGBO(237, 146, 39, 1),
+                  ),
+                );
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text('Error: ${snapshot.error}'),
@@ -141,6 +135,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      // Avatar
                       CachedNetworkImage(
                         imageUrl: userData.imageUrl as String,
                         placeholder: (context, url) =>
@@ -166,7 +161,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                       ),
 
-                      // SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                      // Username
                       Padding(
                         padding: const EdgeInsets.only(
                           left: 24,
@@ -201,6 +196,8 @@ class _AccountScreenState extends State<AccountScreen> {
                           style: subTitle,
                         ),
                       ),
+
+                      // Email
                       Padding(
                         padding: const EdgeInsets.only(
                           left: 24,
@@ -235,6 +232,8 @@ class _AccountScreenState extends State<AccountScreen> {
                           style: subTitle,
                         ),
                       ),
+
+                      // Phonenumber
                       Padding(
                         padding: const EdgeInsets.only(
                           left: 24,
@@ -243,6 +242,42 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         child: Text(
                           LocalData.phone.getString(context),
+                          style: title,
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.sizeOf(context).width * 1,
+                        margin: const EdgeInsets.only(
+                          left: 24,
+                          right: 24,
+                        ),
+                        padding: const EdgeInsets.only(
+                          top: 16,
+                          bottom: 16,
+                          left: 15,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          border: Border.all(
+                            color: const Color.fromRGBO(225, 225, 225, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          userData.phoneNumber ?? "N/A",
+                          style: subTitle,
+                        ),
+                      ),
+
+                      // Dob
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 24,
+                          bottom: 5,
+                          top: 24,
+                        ),
+                        child: Text(
+                          LocalData.dob.getString(context),
                           style: title,
                         ),
                       ),
@@ -266,7 +301,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          userData.phoneNumber ?? "N/A",
+                          DateFormat('dd/MM/yyyy').format(
+                            DateTime.parse(userData.dob ?? ''),
+                          ),
                           style: subTitle,
                         ),
                       ),

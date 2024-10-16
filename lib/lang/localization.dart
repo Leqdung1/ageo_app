@@ -118,6 +118,7 @@ mixin LocalData {
   static String confirmAlert = 'cA';
   static String mouthHeight1 = 'mH1';
   static String mouthHeight2 = 'mH2';
+  static String dob = 'dob';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -217,7 +218,7 @@ mixin LocalData {
     'wlM': 'Water level (m)',
     'chooseSensor': 'Choose sensors',
     'lC': 'Last connect',
-    'warnSystem': 'Warn system',
+    'warnSystem': 'Warning system',
     'wanrL1': 'Warning level 01',
     'wanrL2': 'Warning level 02',
     'wanrL3': 'Warning level 03',
@@ -235,6 +236,7 @@ mixin LocalData {
     'cA': 'Are you sure you want to enable system warnings?',
     'mH1': 'Mouth height 1484.24 mm',
     'mH2': 'Mouth height 1487.23 mm',
+    'dob': 'Date of birth'
   };
 
   // ignore: non_constant_identifier_names
@@ -353,5 +355,6 @@ mixin LocalData {
     'cA': 'Bạn có chắc chắn muốn bật cảnh báo hệ thống không?',
     'mH1': 'Cao độ miệng 1484.24 mm',
     'mH2': 'Cao độ miệng 1487.23 mm',
+    'dob': 'Sinh nhật'
   };
 }

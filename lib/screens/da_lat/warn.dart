@@ -216,14 +216,9 @@ class _WarningScreenState extends State<WarningScreen>
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.grey.withOpacity(0.25),
-              //     offset: const Offset(0, 1),
-              //     blurRadius: 4,
-              //   ),
-              // ],
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+              ),
             ),
             child: SingleChildScrollView(
               child: Column(
@@ -308,13 +303,6 @@ class _WarningScreenState extends State<WarningScreen>
                           color: const Color.fromRGBO(255, 217, 157, 1),
                         ),
                         borderRadius: BorderRadius.circular(12),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.black.withOpacity(0.1),
-                        //     offset: const Offset(0, 1),
-                        //     blurRadius: 8,
-                        //   )
-                        // ],
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -375,13 +363,6 @@ class _WarningScreenState extends State<WarningScreen>
                           color: const Color.fromRGBO(247, 187, 186, 1),
                         ),
                         borderRadius: BorderRadius.circular(12),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.black.withOpacity(0.1),
-                        //     offset: const Offset(0, 1),
-                        //     blurRadius: 8,
-                        //   )
-                        // ],
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -460,9 +441,9 @@ class _WarningScreenState extends State<WarningScreen>
       onRefresh: _refreshData,
       child: _items.isEmpty
           ? const Center(
-              child: Text(
-                'Không có dữ liệu',
-                style: TextStyle(color: Colors.black),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Color.fromRGBO(237, 146, 39, 1),
               ),
             )
           : ListView.builder(
@@ -489,7 +470,11 @@ class _WarningScreenState extends State<WarningScreen>
                         height: 15,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: item.status == 1 ? Colors.green : Colors.red,
+                          color: item.title == 'GNSS 01' ||
+                                  item.title == 'GNSS 02' ||
+                                  item.title == 'GNSS 03'
+                              ? Colors.red
+                              : Colors.green,
                         ),
                       ),
                       title: _buildTitle(item),

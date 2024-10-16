@@ -1,9 +1,10 @@
+// ignore: file_names
 import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/core/helpers.dart';
 import 'package:Ageo_solutions/screens/login.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -11,7 +12,10 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class ChangePWScreen extends StatefulWidget {
+  const ChangePWScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _ChangePWScreenState createState() => _ChangePWScreenState();
 }
 
@@ -31,6 +35,22 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
   int? userId;
   String? displayName;
   String? email;
+  String? confirmPassword;
+  String? dob;
+  String? gender;
+  int? id;
+  String? idOrganization;
+  String? idPosition;
+  String? newPassword;
+  String? oldPassword;
+  String? phoneNumber;
+  String? startPageId;
+  String? username;
+  int? typeId;
+  int? status;
+  int? branchId;
+  String? avatar;
+  bool isSuperUser = false;
 
   bool _isLoading = false;
 
@@ -44,17 +64,30 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
     final token = await _ss.readSecureData("access_token");
     if (token != null && !JwtDecoder.isExpired(token)) {
       final decodedToken = JwtDecoder.decode(token);
-
-      // Extract userId, displayName, and email from the token
       setState(() {
         userId = decodedToken['userid'] != null
             ? int.tryParse(decodedToken['userid'])
             : null;
         displayName = decodedToken['displayName'] ?? 'Unknown';
         email = decodedToken['email'] ?? 'Unknown';
+        username = decodedToken['username'] ?? 'Unknown';
+        idOrganization = decodedToken['idOrganization'] ?? 'Unknown';
+        idPosition = decodedToken['idPosition'] ?? 'Unknown';
+        startPageId = decodedToken['startPageId'] ?? 'Unknown';
+        id = decodedToken['id'] ?? 'Unknown';
+        dob = decodedToken['dateOfBirth'] ?? 'Unknown';
+        gender = decodedToken['gender'] ?? 'Unknown';
+        typeId = decodedToken['typeId'] ?? 'Unknown';
+        status = decodedToken['status'] ?? 'Unknown';
+        avatar = decodedToken['avatar'] ?? 'Unknown';
+        isSuperUser = decodedToken['isSuperUser'] ?? 'Unknown';
+        phoneNumber = decodedToken['phoneNumber'] ?? 'Unknown';
+        newPassword = decodedToken['newPassword'] ?? 'Unlnown';
       });
     } else {
-      print("Token is either null or expired.");
+      if (kDebugMode) {
+        print("Token is either null or expired.");
+      }
     }
   }
 
@@ -64,19 +97,28 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
         _isLoading = true;
       });
 
-      // Ensure that userId, displayName, and email are not null
       if (userId != null && displayName != null && email != null) {
         Map<String, dynamic> userData = {
           "userId": userId,
           "displayName": displayName,
           "email": email,
-          // Add other relevant fields as needed
+          "username": username,
+          "idOrganization": idOrganization,
+          "idPosition": idPosition,
+          "startPageId": startPageId,
+          "id": id,
+          'status': status,
+          'typeId': typeId,
+          'branchId': branchId,
+          'dateOfBirth': dob,
+          'avatar': avatar,
+          'isSuperUser': isSuperUser,
+          'phoneNumber': phoneNumber,
         };
 
         String oldPassword = _oldPasswordController.text;
         String newPassword = _newPasswordController.text;
 
-        // Call your changePassword function
         Map<String, dynamic> response =
             await apiClient.changePassWord(userData, oldPassword, newPassword);
 
@@ -86,11 +128,13 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
 
         // Handle the response (success or failure)
         if (response['status'] == 'success') {
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Password changed successfully!'),
             backgroundColor: Colors.green,
           ));
         } else {
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Password change failed: ${response['error'] ?? 'Unknown error'}'),
@@ -98,6 +142,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
           ));
         }
         pushWithoutNavBar(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
             builder: (context) => const LoginScreen(),

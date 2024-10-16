@@ -363,7 +363,6 @@ class _NghiengSauScreenState extends State<NghiengSauScreen> {
                                       ),
                                     ),
                                   ),
-                                
                                   SingleChildScrollView(
                                     padding: const EdgeInsets.only(
                                         top: 15, left: 20, right: 20),
