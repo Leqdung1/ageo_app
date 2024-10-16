@@ -577,8 +577,21 @@ class _GnssScreenState extends State<GnssScreen> {
   // gnss 01
   Widget gnss01() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // dX chart
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
+          child: Text(
+            'dX',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ),
         Container(
           margin: const EdgeInsets.only(
             left: 10,
@@ -652,6 +665,18 @@ class _GnssScreenState extends State<GnssScreen> {
           ),
         ),
 
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
+          child: Text(
+            'dY',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ),
         // dY chart
         Container(
           margin: const EdgeInsets.only(left: 15, top: 30),
@@ -722,7 +747,18 @@ class _GnssScreenState extends State<GnssScreen> {
             ),
           ),
         ),
-
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
+          child: Text(
+            'dH',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ),
         // dH chart
         Container(
           margin: const EdgeInsets.only(left: 15, top: 30),
@@ -800,7 +836,20 @@ class _GnssScreenState extends State<GnssScreen> {
   // gnss 02
   Widget gnss02() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
+          child: Text(
+            'dX',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ),
         // dX chart
         Container(
           margin: const EdgeInsets.only(
@@ -874,7 +923,18 @@ class _GnssScreenState extends State<GnssScreen> {
             ),
           ),
         ),
-
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
+          child: Text(
+            'dY',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ),
         // dY chart
         Container(
           margin: const EdgeInsets.only(left: 15, top: 30),
@@ -945,7 +1005,18 @@ class _GnssScreenState extends State<GnssScreen> {
             ),
           ),
         ),
-
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
+          child: Text(
+            'dH',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ),
         // dH chart
         Container(
           margin: const EdgeInsets.only(left: 15, top: 30),
@@ -1023,7 +1094,20 @@ class _GnssScreenState extends State<GnssScreen> {
   // gnss03
   Widget gnss03() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
+          child: Text(
+            'dX',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ),
         // dX chart
         Container(
           margin: const EdgeInsets.only(
@@ -1097,7 +1181,18 @@ class _GnssScreenState extends State<GnssScreen> {
             ),
           ),
         ),
-
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
+          child: Text(
+            'dY',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ),
         // dY chart
         Container(
           margin: const EdgeInsets.only(left: 15, top: 30),
@@ -1168,7 +1263,18 @@ class _GnssScreenState extends State<GnssScreen> {
             ),
           ),
         ),
-
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
+          child: Text(
+            'dH',
+            style: TextStyle(
+              fontSize: 20,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
+          ),
+        ),
         // dH chart
         Container(
           margin: const EdgeInsets.only(left: 15, top: 30),
@@ -1254,13 +1360,6 @@ class _GnssScreenState extends State<GnssScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withOpacity(0.1),
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 1),
-        //   ),
-        // ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
