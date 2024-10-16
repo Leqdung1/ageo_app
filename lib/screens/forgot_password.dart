@@ -248,7 +248,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Button pressed')),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         shadowColor: Colors.transparent,
                         backgroundColor: const Color.fromRGBO(237, 146, 39, 1),
@@ -258,7 +262,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 40,
-                          vertical: 13,
+                          vertical: 22,
                         ),
                       ),
                       child: Text(

@@ -629,10 +629,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             _password = value;
                           },
                         ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Expanded(
-                            child: TextButton(
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
                               onPressed: () => {
                                 Navigator.push(
                                   context,
@@ -651,11 +654,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: const TextStyle(
                                   color: Color.fromRGBO(237, 146, 39, 1),
                                   fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 24),
                         Row(
