@@ -116,6 +116,8 @@ mixin LocalData {
   static String cancel = 'cancel';
   static String confirm = 'confirm';
   static String confirmAlert = 'cA';
+  static String mouthHeight1 = 'mH1';
+  static String mouthHeight2 = 'mH2';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -230,7 +232,9 @@ mixin LocalData {
     'reNewPassword': 'Confirm new password',
     'cancel': 'Cancel',
     'confirm': 'Confrim',
-    'cA': 'Are you sure you want to enable system warnings?'
+    'cA': 'Are you sure you want to enable system warnings?',
+    'mH1': 'Mouth height 1484.24 mm',
+    'mH2': 'Mouth height 1487.23 mm',
   };
 
   // ignore: non_constant_identifier_names
@@ -346,6 +350,8 @@ mixin LocalData {
     'reNewPassword': 'Xác nhận mật khẩu mới',
     'cancel': 'Hủy',
     'confirm': 'Xác nhận',
-    'cA': 'Bạn có chắc chắn muốn bật cảnh báo hệ thống không?'
+    'cA': 'Bạn có chắc chắn muốn bật cảnh báo hệ thống không?',
+    'mH1': 'Cao độ miệng 1484.24 mm',
+    'mH2': 'Cao độ miệng 1487.23 mm',
   };
 }

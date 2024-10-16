@@ -459,7 +459,7 @@ class _ChangePWScreenState extends State<ChangePWScreen> {
                                 ),
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 40,
-                                  vertical: 13,
+                                  vertical: 22,
                                 ),
                               ),
                               child: Text(

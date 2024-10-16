@@ -210,217 +210,207 @@ class _WaterLevelScreenState extends State<WaterLevelScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-Container(
-                                margin: const EdgeInsets.only(
-                                    left: 10, right: 15, bottom: 20),
-                                child: Expanded(
-                                  // drop down menu
-                                  child: DropdownMenu(
-                                    textStyle: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    selectedTrailingIcon: Icon(
-                                      Icons.expand_less,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    trailingIcon: Icon(
-                                      Icons.expand_more,
-                                      color: Theme.of(context).iconTheme.color,
-                                    ),
-                                    menuStyle: MenuStyle(
-                                      maximumSize: const WidgetStatePropertyAll(
-                                        Size.fromHeight(160),
-                                      ),
-                                      surfaceTintColor:
-                                          const WidgetStatePropertyAll(
-                                        Colors.white,
-                                      ),
-                                      shape: WidgetStatePropertyAll(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                    ),
-                                    inputDecorationTheme: InputDecorationTheme(
-                                      fillColor:
-                                          Theme.of(context).colorScheme.primary,
-                                      filled: true,
-                                      border: InputBorder.none,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: const BorderSide(
-                                          color: Colors.transparent,
-                                          width: 0,
-                                        ),
-                                      ),
-                                    ),
-                                    initialSelection:
-                                        _dataSelected.label(context),
-                                    onSelected: (value) {
-                                      setState(() {
-                                        _dataSelected = DataSelected.values
-                                            .firstWhere((e) =>
-                                                e.label(context) ==
-                                                value as String);
+                    Container(
+                      margin: const EdgeInsets.only(
+                          left: 10, right: 15, bottom: 20),
+                      child: Expanded(
+                        // drop down menu
+                        child: DropdownMenu(
+                          textStyle: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          selectedTrailingIcon: Icon(
+                            Icons.expand_less,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                          trailingIcon: Icon(
+                            Icons.expand_more,
+                            color: Theme.of(context).iconTheme.color,
+                          ),
+                          menuStyle: MenuStyle(
+                            maximumSize: const WidgetStatePropertyAll(
+                              Size.fromHeight(160),
+                            ),
+                            surfaceTintColor: const WidgetStatePropertyAll(
+                              Colors.white,
+                            ),
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          inputDecorationTheme: InputDecorationTheme(
+                            fillColor: Theme.of(context).colorScheme.primary,
+                            filled: true,
+                            border: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                                width: 0,
+                              ),
+                            ),
+                          ),
+                          initialSelection: _dataSelected.label(context),
+                          onSelected: (value) {
+                            setState(() {
+                              _dataSelected = DataSelected.values.firstWhere(
+                                  (e) => e.label(context) == value as String);
 
-                                        _waterLevelBuilder =
-                                            fetchWaterLevelData(
-                                          startDate: _startDate,
-                                          endDate: _endDate,
-                                        );
-                                      });
-                                    },
-                                    dropdownMenuEntries: DataSelected.values
-                                        .map(
-                                          (e) => DropdownMenuEntry(
-                                            value: e.label(context),
-                                            labelWidget: Padding(
-                                              padding: const EdgeInsets.all(0),
-                                              child: Text(
-                                                e.label(context),
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
+                              _waterLevelBuilder = fetchWaterLevelData(
+                                startDate: _startDate,
+                                endDate: _endDate,
+                              );
+                            });
+                          },
+                          dropdownMenuEntries: DataSelected.values
+                              .map(
+                                (e) => DropdownMenuEntry(
+                                  value: e.label(context),
+                                  labelWidget: Padding(
+                                    padding: const EdgeInsets.all(0),
+                                    child: Text(
+                                      e.label(context),
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color,
+                                      ),
+                                    ),
+                                  ),
+                                  label: e.label(context),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                    FutureBuilder<List<WaterLevelData>>(
+                      future: _waterLevelBuilder,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Color.fromRGBO(237, 146, 39, 1),
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else {
+                          _chartData = snapshot.data!;
+                          return SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // draw chart
+                                Column(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 15, top: 30),
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: SizedBox(
+                                          width: 1000,
+                                          child: SfCartesianChart(
+                                            plotAreaBorderWidth: 0,
+                                            margin: const EdgeInsets.all(15),
+                                            enableAxisAnimation: true,
+                                            primaryXAxis: CategoryAxis(
+                                              labelStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                              ),
+                                              majorGridLines:
+                                                  const MajorGridLines(
+                                                      width: 0),
+                                              majorTickLines:
+                                                  const MajorTickLines(
+                                                      width: 1,
+                                                      color: Color(0xFFA7ABC3),
+                                                      size: 5),
+                                              isVisible: true,
+                                              axisLine: const AxisLine(
+                                                color: Color(0xFFA7ABC3),
+                                                width: 1,
+                                              ),
+                                              title: AxisTitle(
+                                                text: LocalData.time
+                                                    .getString(context),
+                                                textStyle: const TextStyle(
+                                                  color: Color(0xFFA7ABC3),
+                                                  fontSize: 12,
                                                 ),
                                               ),
                                             ),
-                                            label: e.label(context),
-                                          ),
-                                        )
-                                        .toList(),
-                                  ),
-                                ),
-                              ),
- FutureBuilder<List<WaterLevelData>>(
-                    future: _waterLevelBuilder,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Color.fromRGBO(237, 146, 39, 1),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else {
-                        _chartData = snapshot.data!;
-                        return SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              
-                              // draw chart
-                              Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 15, top: 30),
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: SizedBox(
-                                        width: 1000,
-                                        child: SfCartesianChart(
-                                          plotAreaBorderWidth: 0,
-                                          margin: const EdgeInsets.all(15),
-                                          enableAxisAnimation: true,
-                                          primaryXAxis: CategoryAxis(
-                                            labelStyle: const TextStyle(
-                                              color: Color(0xFFA7ABC3),
-                                            ),
-                                            majorGridLines:
-                                                const MajorGridLines(width: 0),
-                                            majorTickLines:
-                                                const MajorTickLines(
-                                                    width: 1,
-                                                    color: Color(0xFFA7ABC3),
-                                                    size: 5),
-                                            isVisible: true,
-                                            axisLine: const AxisLine(
-                                              color: Color(0xFFA7ABC3),
-                                              width: 1,
-                                            ),
-                                            title: AxisTitle(
-                                              text: LocalData.time
-                                                  .getString(context),
-                                              textStyle: const TextStyle(
+                                            primaryYAxis: NumericAxis(
+                                              majorGridLines:
+                                                  const MajorGridLines(
+                                                width: 1,
+                                                dashArray: [3, 3],
                                                 color: Color(0xFFA7ABC3),
-                                                fontSize: 12,
+                                              ),
+                                              majorTickLines:
+                                                  const MajorTickLines(
+                                                width: 0,
+                                              ),
+                                              axisLine: const AxisLine(
+                                                color: Colors.transparent,
+                                              ),
+                                              labelStyle: const TextStyle(
+                                                color: Color(0xFFA7ABC3),
+                                              ),
+                                              title: AxisTitle(
+                                                text: LocalData.elevate
+                                                    .getString(context),
+                                                textStyle: const TextStyle(
+                                                  color: Color(0xFFA7ABC3),
+                                                  fontSize: 12,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          primaryYAxis: NumericAxis(
-                                            majorGridLines:
-                                                const MajorGridLines(
-                                              width: 1,
-                                              dashArray: [3, 3],
-                                              color: Color(0xFFA7ABC3),
-                                            ),
-                                            majorTickLines:
-                                                const MajorTickLines(
-                                              width: 0,
-                                            ),
-                                            axisLine: const AxisLine(
-                                              color: Colors.transparent,
-                                            ),
-                                            labelStyle: const TextStyle(
-                                              color: Color(0xFFA7ABC3),
-                                            ),
-                                            title: AxisTitle(
-                                              text: LocalData.elevate
-                                                  .getString(context),
-                                              textStyle: const TextStyle(
-                                                color: Color(0xFFA7ABC3),
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ),
-                                          series: _getSeries(_chartData),
-                                          tooltipBehavior: TooltipBehavior(
-                                            enable: true,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .surface,
-                                            borderColor:
-                                                const Color(0xFFA7ABC3),
-                                            textStyle: TextStyle(
+                                            series: _getSeries(_chartData),
+                                            tooltipBehavior: TooltipBehavior(
+                                              enable: true,
                                               color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color,
+                                                  .colorScheme
+                                                  .surface,
+                                              borderColor:
+                                                  const Color(0xFFA7ABC3),
+                                              textStyle: TextStyle(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
+                                              ),
                                             ),
+                                            zoomPanBehavior: _zoomPanBehavior,
                                           ),
-                                          zoomPanBehavior: _zoomPanBehavior,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  SingleChildScrollView(
-                                    padding: const EdgeInsets.only(
-                                        top: 15, left: 20, right: 20),
-                                    scrollDirection: Axis.horizontal,
-                                    child: _buildCustomLegend(),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                    },
+                                    SingleChildScrollView(
+                                      padding: const EdgeInsets.only(
+                                          top: 15, left: 20, right: 20),
+                                      scrollDirection: Axis.horizontal,
+                                      child: _buildCustomLegend(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ],
-                )
-               
-                    ),
+                )),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * 0.2,
             ),
@@ -435,12 +425,12 @@ Container(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildLegendItem(
-          'W2 (Cao độ miệng 1484.24mm)',
+          LocalData.mouthHeight1.getString(context),
           const Color.fromRGBO(84, 112, 198, 1),
         ),
         const SizedBox(width: 20),
         _buildLegendItem(
-          'W2 (Cao độ miệng 1487.23mm)',
+          LocalData.mouthHeight2.getString(context),
           const Color.fromRGBO(145, 204, 117, 1),
         ),
       ],
@@ -504,7 +494,7 @@ Container(
         //   begin: Alignment.topCenter,
         //   end: Alignment.bottomCenter,
         // ),
-        name: 'W1 (Cao độ miệng 1484.24mm)',
+        name: LocalData.mouthHeight1.getString(context),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
@@ -525,7 +515,7 @@ Container(
         //   begin: Alignment.topCenter,
         //   end: Alignment.bottomCenter,
         // ),
-        name: 'W2 (Cao độ miệng 1487.23mm)',
+        name: LocalData.mouthHeight2.getString(context),
       ),
     ];
   }
@@ -552,7 +542,7 @@ Container(
         //   begin: Alignment.topCenter,
         //   end: Alignment.bottomCenter,
         // ),
-        name: 'W1 (Cao độ miệng 1484.24mm)',
+        name: LocalData.mouthHeight1.getString(context),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
@@ -573,7 +563,7 @@ Container(
         //   begin: Alignment.topCenter,
         //   end: Alignment.bottomCenter,
         // ),
-        name: 'W2 (Cao độ miệng 1487.23mm)',
+        name: LocalData.mouthHeight2.getString(context),
       ),
     ];
   }
@@ -600,7 +590,7 @@ Container(
         //   begin: Alignment.topCenter,
         //   end: Alignment.bottomCenter,
         // ),
-        name: 'W1 (Cao độ miệng 1484.24mm)',
+        name: LocalData.mouthHeight1.getString(context),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
@@ -621,7 +611,7 @@ Container(
         //   begin: Alignment.topCenter,
         //   end: Alignment.bottomCenter,
         // ),
-        name: 'W2 (Cao độ miệng 1487.23mm)',
+        name: LocalData.mouthHeight2.getString(context),
       ),
     ];
   }
@@ -648,7 +638,7 @@ Container(
         //   begin: Alignment.topCenter,
         //   end: Alignment.bottomCenter,
         // ),
-        name: 'W1 (Cao độ miệng 1484.24mm)',
+        name: LocalData.mouthHeight1.getString(context),
       ),
       LineSeries<WaterLevelData, String>(
         dataSource: data,
@@ -669,7 +659,7 @@ Container(
         //   begin: Alignment.topCenter,
         //   end: Alignment.bottomCenter,
         // ),
-        name: 'W2 (Cao độ miệng 1487.23mm)',
+        name: LocalData.mouthHeight2.getString(context),
       ),
     ];
   }

@@ -629,7 +629,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             _password = value;
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
