@@ -113,6 +113,9 @@ mixin LocalData {
   static String oldPassword = 'oldPassword';
   static String newPassword = 'newPassword';
   static String reNewPassword = 'reNewPassword';
+  static String cancel = 'cancel';
+  static String confirm = 'confirm';
+  static String confirmAlert = 'cA';
 
   // ignore: non_constant_identifier_names
   static Map<String, dynamic> EN = {
@@ -222,9 +225,12 @@ mixin LocalData {
     'emailMustWrite': 'Email cannot be blank.',
     'passwordForgot': 'Forgot Password',
     'loginBiometric': 'Login with Biometric',
-     'oldPassword': 'Old Password',
+    'oldPassword': 'Old Password',
     'newPassword': 'New Password',
     'reNewPassword': 'Confirm new password',
+    'cancel': 'Cancel',
+    'confirm': 'Confrim',
+    'cA': 'Are you sure you want to enable system warnings?'
   };
 
   // ignore: non_constant_identifier_names
@@ -338,5 +344,8 @@ mixin LocalData {
     'oldPassword': 'Mật khẩu cũ',
     'newPassword': 'Mật khẩu mới',
     'reNewPassword': 'Xác nhận mật khẩu mới',
+    'cancel': 'Hủy',
+    'confirm': 'Xác nhận',
+    'cA': 'Bạn có chắc chắn muốn bật cảnh báo hệ thống không?'
   };
 }

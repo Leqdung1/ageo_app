@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:Ageo_solutions/core/api_client.dart';
 import 'package:Ageo_solutions/models/warn_models.dart';
@@ -48,59 +47,76 @@ class _WarningScreenState extends State<WarningScreen>
 
   // show alert
   Future<void> _showMyDialog() async {
-    return showDialog<void>(
+    return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           title: Text(
-            'AlertDialog Title',
+            LocalData.bottomlabel5.getString(context),
             style: TextStyle(
               color: Theme.of(context).textTheme.bodyLarge?.color,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
           ),
           content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
+            child: Column(
+              children: [
                 Text(
-                  'This is a demo alert dialog.',
+                  LocalData.confirmAlert.getString(context),
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
+                    fontSize: 18,
                   ),
                 ),
-                Text(
-                  'Would you like to approve of this message?',
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                const SizedBox(
+                  height: 25,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    width: MediaQuery.sizeOf(context).width * 1,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(237, 146, 39, 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        LocalData.confirm.getString(context),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                TextButton(
+                  child: Text(
+                    LocalData.cancel.getString(context),
+                    style: const TextStyle(
+                      color: Color.fromRGBO(237, 146, 39, 1),
+                      fontSize: 18,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ],
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                'Cancel',
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(
-                'Ok',
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
         );
       },
     );
@@ -238,13 +254,6 @@ class _WarningScreenState extends State<WarningScreen>
                           color: const Color.fromRGBO(285, 235, 245, 1),
                         ),
                         borderRadius: BorderRadius.circular(12),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.black.withOpacity(0.1),
-                        //     offset: const Offset(0, 1),
-                        //     blurRadius: 8,
-                        //   )
-                        // ],
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

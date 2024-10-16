@@ -12,33 +12,75 @@ class WarningHyScreen extends StatefulWidget {
 class _WarningHyScreenState extends State<WarningHyScreen> {
   // show alert
   Future<void> _showMyDialog() async {
-    return showDialog<void>(
+    return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('AlertDialog Title'),
-          content: const SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          title: Text(
+            LocalData.bottomlabel5.getString(context),
+            style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+            fontSize: 22, 
+            fontWeight: FontWeight.bold,
+            ),
+          ),
+        
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  LocalData.confirmAlert.getString(context),
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                    fontSize: 18, 
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                 
+                    width: MediaQuery.sizeOf(context).width * 1,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: const Color.fromRGBO(237, 146, 39, 1),
+                        borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child:  Text(
+                  LocalData.confirm.getString(context),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                                ),
+                    ),
+                  ),
+                ),
+                
+            const SizedBox(
+              height: 8,
+            ),
+TextButton(
+              child:  Text(LocalData.cancel.getString(context),style: const TextStyle(
+                color: Color.fromRGBO(237, 146, 39, 1),
+                fontSize: 18, 
+              ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
               ],
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
         );
       },
     );
@@ -116,13 +158,6 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
                             color: const Color.fromRGBO(285, 235, 245, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              offset: const Offset(0, 1),
-                              blurRadius: 8,
-                            )
-                          ],
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,13 +212,6 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
                             color: const Color.fromRGBO(255, 217, 157, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              offset: const Offset(0, 1),
-                              blurRadius: 8,
-                            )
-                          ],
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -244,13 +272,6 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
                             color: const Color.fromRGBO(247, 187, 186, 1),
                           ),
                           borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              offset: const Offset(0, 1),
-                              blurRadius: 8,
-                            )
-                          ],
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
