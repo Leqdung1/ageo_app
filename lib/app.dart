@@ -26,22 +26,23 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
 
-        // theme mode
-        theme: Provider.of<ThemeProvider>(context).themeData,
-        localizationsDelegates: localization.localizationsDelegates,
-        supportedLocales: localization.supportedLocales,
-        locale: const Locale('vi', ''),
-        home: FutureBuilder(
-          future: secureStorage.readSecureData("logged_in"),
-          builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-            if (snapshot.hasData) {
-              return const HomeScreen();
-            }
-            return const LoginScreen();
-          },
-        ));
+      // theme mode
+      theme: Provider.of<ThemeProvider>(context).themeData,
+      localizationsDelegates: localization.localizationsDelegates,
+      supportedLocales: localization.supportedLocales,
+      locale: const Locale('vi', ''),
+      home: FutureBuilder(
+        future: secureStorage.readSecureData("logged_in"),
+        builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          }
+          return const LoginScreen();
+        },
+      ),
+    );
   }
 
   void configLocal() {

@@ -131,7 +131,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(),
+                    CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Color.fromRGBO(237, 146, 39, 1),
+                    ),
                   ],
                 ),
               ),

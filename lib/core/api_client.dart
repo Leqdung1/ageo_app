@@ -10,7 +10,7 @@ class ApiClient {
     receiveTimeout: const Duration(seconds: 5),
   ));
   final RetryOptions _r = const RetryOptions(maxAttempts: 4);
-  final SecureStorage _ss = SecureStorage();
+  final SecureStorage _ss = const SecureStorage();
   static const String _apiUrl = "http://api.ageo.vn";
 
   Future<Map<String, dynamic>> login(String username, String password) async {
@@ -130,39 +130,38 @@ class ApiClient {
   }
 
   // Change password
-  Future<Map<String, dynamic>> changePassWord(
-    Map<String, dynamic> userData, String oldPassword, String newPassword) async {
-  final apiToken = await _ss.readSecureData("access_token");
-  userData["oldPassword"] = oldPassword;
-  userData["newPassword"] = newPassword;
+  Future<Map<String, dynamic>> changePassWord(Map<String, dynamic> userData,
+      String oldPassword, String newPassword) async {
+    final apiToken = await _ss.readSecureData("access_token");
+    userData["oldPassword"] = oldPassword;
+    userData["newPassword"] = newPassword;
 
-  try {
-    final response = await _r.retry(
-      () async => await _dio.post(
-        "$_apiUrl/core/users/ChangePassword",
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $apiToken",
-          },
+    try {
+      final response = await _r.retry(
+        () async => await _dio.post(
+          "$_apiUrl/core/users/ChangePassword",
+          options: Options(
+            headers: {
+              "Authorization": "Bearer $apiToken",
+            },
+          ),
+          data: userData,
         ),
-        data: userData,
-      ),
-      retryIf: (e) {
-        if (e is DioException) {
-          return e.type == DioExceptionType.sendTimeout ||
-              e.type == DioExceptionType.receiveTimeout ||
-              e.type == DioExceptionType.connectionTimeout;
-        }
-        return false;
-      },
-    );
+        retryIf: (e) {
+          if (e is DioException) {
+            return e.type == DioExceptionType.sendTimeout ||
+                e.type == DioExceptionType.receiveTimeout ||
+                e.type == DioExceptionType.connectionTimeout;
+          }
+          return false;
+        },
+      );
 
-    return response.data;
-  } on DioException catch (e) {
-    return e.response?.data ?? {'error': 'Unknown error occurred'};
+      return response.data;
+    } on DioException catch (e) {
+      return e.response?.data ?? {'error': 'Unknown error occurred'};
+    }
   }
-}
-
 
   // Piezometer
   Future<Map<String, dynamic>> getPiezometerData(
@@ -439,29 +438,17 @@ class ApiClient {
 
   Future<Map<String, dynamic>> getGnssByDay(
       DateTime fromDate, String deviceId) async {
-    return await getGnss(
-      'yy/MM/dd',
-      fromDate,
-      deviceId
-    );
+    return await getGnss('yy/MM/dd', fromDate, deviceId);
   }
 
   Future<Map<String, dynamic>> getGnssByMonth(
       DateTime fromDate, String deviceId) async {
-    return await getGnss(
-      'yy/MM',
-      fromDate,
-      deviceId
-    );
+    return await getGnss('yy/MM', fromDate, deviceId);
   }
 
   Future<Map<String, dynamic>> getGnssByYear(
       DateTime fromDate, String deviceId) async {
-    return await getGnss(
-      'yyyy',
-      fromDate,
-      deviceId
-    );
+    return await getGnss('yyyy', fromDate, deviceId);
   }
 
   Future<Map<String, dynamic>> getGnssByRealtime(
@@ -502,9 +489,8 @@ class ApiClient {
     }
   }
 
-
-  // Common data logger 
-   Future<Map<String, dynamic>> getCommonData(
+  // Common data logger
+  Future<Map<String, dynamic>> getCommonData(
       timeFormat, DateTime fromDate) async {
     final apiToken = await _ss.readSecureData('access_token');
     final toDate = DateTime.now().toIso8601String();

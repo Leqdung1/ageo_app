@@ -18,10 +18,3 @@ class WaterLevelData {
         'w2': w2,
       };
 }
-
-double getMaxYAxisValue(List<WaterLevelData> dataSource) {
-  return dataSource.fold(
-    0,
-    (max, current) => max > current.w2 ? max : current.w2,
-  );
-}

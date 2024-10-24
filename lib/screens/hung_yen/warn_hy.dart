@@ -105,7 +105,6 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
       ),
       body: Column(
         children: [
-          // TODO: add api
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             height: size.height * 0.3,
@@ -122,7 +121,6 @@ class _WarningHyScreenState extends State<WarningHyScreen> {
               ),
             ),
           ),
-
           Expanded(
             child: Container(
               decoration: BoxDecoration(

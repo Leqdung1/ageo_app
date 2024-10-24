@@ -66,7 +66,6 @@ class _AccountScreenState extends State<AccountScreen> {
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      print('Error: $e');
       throw Exception('Failed to load UserData');
     }
   }

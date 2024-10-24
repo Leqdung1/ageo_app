@@ -10,10 +10,10 @@ import 'package:Ageo_solutions/screens/changePassword.dart';
 import 'package:Ageo_solutions/screens/login.dart';
 import 'package:Ageo_solutions/screens/multiple_language/multi_language.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -67,7 +67,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<int?> _getUserIdFromToken() async {
     final token = await _ss.readSecureData("access_token");
     if (token != null && JwtDecoder.isExpired(token)) {
-      print("Token is expired");
       return null;
     }
     if (token != null) {
@@ -89,20 +88,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<List<UserData>> fetchUserData() async {
-    if (userId == null) {
-      print('Error: userId is null');
-      return [];
-    }
-
     try {
       final response = await apiClient.getUser(userId!);
-      print(response);
 
       if (response['success']) {
         UserData data = UserData.fromJson(response['data']);
-
-        print('UserData: $data');
-        print('Updated UserId: $userId');
 
         setState(() {
           _userData = [data];
@@ -112,7 +102,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      print('Error: $e');
       throw Exception('Failed to load UserData');
     }
   }
@@ -152,6 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await const SecureStorage().deleteSecureData("access_token");
 
     pushScreenWithoutNavBar(
+      // ignore: use_build_context_synchronously
       context,
       const LoginScreen(),
     );
@@ -189,7 +179,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
               child: const Text(
                 "Đóng",
-                style: const TextStyle(
+                style: TextStyle(
                   color: Color.fromRGBO(237, 146, 39, 1),
                   fontSize: 18,
                 ),
@@ -212,7 +202,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       );
     } on PlatformException catch (e) {
-      print('Error: $e');
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -702,7 +694,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             pushWithoutNavBar(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ChangePWScreen(),
+                                builder: (context) => const ChangePWScreen(),
                               ),
                             );
                           },

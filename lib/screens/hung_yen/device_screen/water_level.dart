@@ -365,7 +365,8 @@ class _WaterLevelHyScreenState extends State<WaterLevelHyScreen> {
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .surface,
-                                              borderColor: Color(0xFFA7ABC3),
+                                              borderColor:
+                                                  const Color(0xFFA7ABC3),
                                               textStyle: TextStyle(
                                                 color: Theme.of(context)
                                                     .textTheme

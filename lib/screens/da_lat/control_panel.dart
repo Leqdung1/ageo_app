@@ -93,10 +93,10 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
         minScale: 0.5,
         maxScale: 2,
         child: Align(
-          alignment: Alignment.centerLeft, // Aligns the image to the left
+          alignment: Alignment.centerLeft,
           child: Image.asset(
             "assets/images/dalat.PNG",
-            fit: BoxFit.contain, // Keeps the image in its aspect ratio
+            fit: BoxFit.contain,
           ),
         ),
       ),
@@ -135,13 +135,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(255, 217, 157, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -191,13 +184,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(255, 217, 157, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -254,13 +240,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(255, 217, 157, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -303,13 +282,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(154, 232, 162, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -364,13 +336,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(154, 232, 162, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -418,13 +383,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(185, 235, 245, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -479,13 +437,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(185, 235, 245, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -540,13 +491,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(185, 235, 245, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -603,13 +547,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(185, 235, 245, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [
@@ -653,13 +590,6 @@ class _ControlPanelScreenState extends State<ControlPanelScreen>
                     color: const Color.fromRGBO(247, 187, 186, 1),
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(0.15),
-                  //     offset: const Offset(0, 1),
-                  //     blurRadius: 8,
-                  //   )
-                  // ],
                 ),
                 child: Column(
                   children: [

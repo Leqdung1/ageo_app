@@ -1,3 +1,4 @@
+// ignore: camel_case_types
 class warnData {
   final int status;
   final String code;

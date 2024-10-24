@@ -69,7 +69,7 @@ class _DeviceHyScreenState extends State<DeviceHyScreen> {
                     border: Border.all(
                       color: isSelected
                           ? const Color.fromRGBO(237, 146, 39, 1)
-                          : Color.fromRGBO(225, 225, 225, 1),
+                          : const Color.fromRGBO(225, 225, 225, 1),
                     ),
                     color: isSelected
                         ? const Color.fromRGBO(237, 146, 39, 1)

@@ -1,18 +1,15 @@
-import 'package:Ageo_solutions/core/api_client.dart';
-import 'package:Ageo_solutions/models/warn_models.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:Ageo_solutions/lang/localization.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:intl/intl.dart';
 
 const MAPBOX_ACCESS_TOKEN =
     'sk.eyJ1IjoiZHVuZzEyMyIsImEiOiJjbHpxc252eWMwd2ZwMm1zM2p6a3MyaDI0In0.VVgBTGJ0X1qSPwZwZuxmZg';
 
 enum MapSelected {
+  // ignore: constant_identifier_names
   D39H1,
   // ignore: constant_identifier_names
   D39H2,
@@ -325,8 +322,9 @@ class _MapHyScreenState extends State<MapHyScreen> {
                     // Sort so the clicked marker is always on top
                     ..sort((a, b) {
                       if (a.point == _markerLocations[_clickedMarker]) return 1;
-                      if (b.point == _markerLocations[_clickedMarker])
+                      if (b.point == _markerLocations[_clickedMarker]) {
                         return -1;
+                      }
                       if (a.point == _markerLocations[_selectedMap]) return 1;
                       if (b.point == _markerLocations[_selectedMap]) return -1;
                       return 0;

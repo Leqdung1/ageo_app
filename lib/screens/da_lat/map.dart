@@ -13,6 +13,7 @@ const MAPBOX_ACCESS_TOKEN =
     'sk.eyJ1IjoiZHVuZzEyMyIsImEiOiJjbHpxc252eWMwd2ZwMm1zM2p6a3MyaDI0In0.VVgBTGJ0X1qSPwZwZuxmZg';
 
 enum MapSelected {
+  // ignore: constant_identifier_names
   WaterLevel1,
   // ignore: constant_identifier_names
   WaterLevel2,
@@ -299,7 +300,7 @@ class _MapScreenState extends State<MapScreen> {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
                           'V1',
                           style: TextStyle(
@@ -307,7 +308,7 @@ class _MapScreenState extends State<MapScreen> {
                               color:
                                   Theme.of(context).textTheme.bodyLarge?.color),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
                           'V2',
                           style: TextStyle(
@@ -315,7 +316,7 @@ class _MapScreenState extends State<MapScreen> {
                               color:
                                   Theme.of(context).textTheme.bodyLarge?.color),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
                           'V3',
                           style: TextStyle(
@@ -337,7 +338,7 @@ class _MapScreenState extends State<MapScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
                           '${matchingItem.v1}',
                           style: TextStyle(
@@ -346,7 +347,7 @@ class _MapScreenState extends State<MapScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
                           '${matchingItem.v2}',
                           style: TextStyle(
@@ -355,7 +356,7 @@ class _MapScreenState extends State<MapScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
                           '${matchingItem.v3}',
                           style: TextStyle(
@@ -565,7 +566,6 @@ class _MapScreenState extends State<MapScreen> {
                         onTap: () {
                           setState(() {
                             _clickedMarker = entry.key;
-                            print("Clicked Marker: $_clickedMarker");
                             _selectedMap = entry.key;
                           });
                           _mapController.move(entry.value, 18);
@@ -579,8 +579,9 @@ class _MapScreenState extends State<MapScreen> {
                     // Sort so the clicked marker is always on top
                     ..sort((a, b) {
                       if (a.point == _markerLocations[_clickedMarker]) return 1;
-                      if (b.point == _markerLocations[_clickedMarker])
+                      if (b.point == _markerLocations[_clickedMarker]) {
                         return -1;
+                      }
                       if (a.point == _markerLocations[_selectedMap]) return 1;
                       if (b.point == _markerLocations[_selectedMap]) return -1;
                       return 0;
